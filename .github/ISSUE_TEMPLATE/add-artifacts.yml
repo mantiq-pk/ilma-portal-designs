@@ -1,0 +1,39 @@
+name: Add ILMA artifacts
+description: Ask for help placing new prototypes or documents in the library.
+title: "Add artifacts: "
+labels:
+  - content
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Tell us who the files are for, then drag the files into the final box below. No technical details are needed.
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Who is this for?
+      options:
+        - Admin or super admin
+        - Mantiq control center
+        - Finance manager
+        - Teacher
+        - Parent
+        - Student
+        - Navigation or technical reference
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: What should people call it?
+      placeholder: Student attendance overview
+    validations:
+      required: true
+  - type: textarea
+    id: files
+    attributes:
+      label: Files and notes
+      description: Drag the HTML, Word, PDF, ZIP, or image files into this box and add any notes.
+    validations:
+      required: true

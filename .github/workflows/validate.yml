@@ -1,0 +1,43 @@
+name: Validate library
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Verify preserved source files
+        run: sha256sum -c migration/source-files.sha256
+      - name: Run catalog tests
+        run: python3 -m unittest discover -s tests -v
+      - name: Build catalog
+        run: python3 scripts/build_site.py --output _site
+      - name: Check preview mappings
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          catalog = json.loads(Path("_site/catalog.json").read_text())
+          previews = [item["preview"] for item in catalog["items"] if item["kind"] == "prototype"]
+          assert len(previews) == catalog["stats"]["prototypes"]
+          assert len(previews) == len(set(previews))
+          assert all(path.startswith("previews/") and path.endswith(".webp") for path in previews)
+          print(f"Verified {len(previews)} unique preview mappings")
+          PY
+      - name: Check Node dependencies
+        run: npm ci && npm audit --audit-level=high

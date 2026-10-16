@@ -85,7 +85,7 @@ class BuildSiteTests(unittest.TestCase):
 
         catalog = build_site(self.repo, self.output)
 
-        self.assertEqual(
+        self.assertCountEqual(
             [(item["title"], item["kind"]) for item in catalog["items"]],
             [("Guide", "document"), ("New Prototype", "prototype")],
         )

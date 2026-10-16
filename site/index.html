@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1f33" />
+    <meta name="description" content="Browse ILMA portal designs, prototypes, and product references." />
+    <title>ILMA Design Library</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#library">Skip to library</a>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="ILMA Design Library home">
+        <span class="brand-mark" aria-hidden="true">i</span>
+        <span>
+          <strong>ILMA</strong>
+          <small>Design library</small>
+        </span>
+      </a>
+      <a class="github-link" href="https://github.com/mantiq-pk/ilma-portal-designs">View source</a>
+    </header>
+
+    <main id="library">
+      <section class="intro" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="context">One home for every portal concept</p>
+          <h1 id="page-title">Find the screen.<br />See the thinking.</h1>
+          <p class="lede">Browse Usman's original ILMA prototypes and reference documents, organized by the people who use them.</p>
+        </div>
+        <dl class="stats" aria-label="Library totals">
+          <div><dt id="prototype-count">—</dt><dd>live prototypes</dd></div>
+          <div><dt id="document-count">—</dt><dd>reference documents</dd></div>
+          <div><dt id="collection-count">—</dt><dd>collections</dd></div>
+        </dl>
+      </section>
+
+      <section class="library-panel" aria-label="Artifact library">
+        <div class="controls">
+          <label class="search">
+            <span class="visually-hidden">Search the library</span>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m21 21-4.6-4.6m2.1-5.15a7.25 7.25 0 1 1-14.5 0 7.25 7.25 0 0 1 14.5 0Z" /></svg>
+            <input id="search" type="search" placeholder="Search screens, roles, or modules" autocomplete="off" />
+          </label>
+          <div class="filters" role="group" aria-label="Filter by area">
+            <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">Everything</button>
+            <button type="button" class="filter" data-filter="portals" aria-pressed="false">Role portals</button>
+            <button type="button" class="filter" data-filter="admin" aria-pressed="false">Admin</button>
+            <button type="button" class="filter" data-filter="reference" aria-pressed="false">Reference</button>
+          </div>
+        </div>
+
+        <div class="results-line" aria-live="polite">
+          <p id="results-count">Loading the library…</p>
+          <button id="clear-search" type="button" hidden>Clear search</button>
+        </div>
+
+        <div id="artifact-grid" class="artifact-grid" aria-busy="true"></div>
+        <div id="empty-state" class="empty-state" hidden>
+          <p>No artifacts match that search.</p>
+          <button type="button">Show everything</button>
+        </div>
+      </section>
+    </main>
+
+    <template id="artifact-template">
+      <article class="artifact-card">
+        <a class="preview" target="_blank" rel="noopener">
+          <img alt="" loading="lazy" />
+          <span class="preview-placeholder" aria-hidden="true"><span>ILMA</span></span>
+        </a>
+        <div class="artifact-copy">
+          <p class="artifact-meta"><span class="kind"></span><span class="collection"></span></p>
+          <h2><a target="_blank" rel="noopener"></a></h2>
+          <p class="filename"></p>
+          <a class="open-link" target="_blank" rel="noopener"><span>Open preview</span><span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </template>
+  </body>
+</html>

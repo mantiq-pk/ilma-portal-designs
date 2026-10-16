@@ -128,6 +128,19 @@ class BuildSiteTests(unittest.TestCase):
             "previews/2d756147a6b54860.webp",
         )
 
+    def test_prototypes_appear_before_documents_in_visual_library(self):
+        (self.collection / "A Guide.docx").write_bytes(b"document")
+        (self.collection / "Z Prototype.html").write_text(
+            "<title>Z Prototype</title>", encoding="utf-8"
+        )
+
+        catalog = build_site(self.repo, self.output)
+
+        self.assertEqual(
+            [item["kind"] for item in catalog["items"]],
+            ["prototype", "document"],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

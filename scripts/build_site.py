@@ -85,7 +85,14 @@ def build_site(repo_root: Path, output_dir: Path) -> dict:
             count += 1
         collections.append({**collection, "artifactCount": count})
 
-    items.sort(key=lambda item: (item["title"].casefold(), item["url"]))
+    kind_order = {"prototype": 0, "image": 1, "document": 2}
+    items.sort(
+        key=lambda item: (
+            kind_order[item["kind"]],
+            item["title"].casefold(),
+            item["url"],
+        )
+    )
     catalog = {
         "schemaVersion": 1,
         "collections": collections,

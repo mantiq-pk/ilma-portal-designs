@@ -11,22 +11,21 @@ Never modify, archive, rename, transfer, or delete these protected repositories 
 - `mantiq-pk/past-papers`
 - `mantiq-pk/mantiq-website`
 
-## Source preservation
+## Simple repository layout
 
-Files already listed in `migration/source-files.sha256` are imported originals. Do not reformat, rename, deduplicate, or edit them unless the user explicitly supplies a replacement for that exact artifact. New artifacts may be added without changing the original checksum inventory.
+Keep everyday artifacts under `All Files`, using its seven obvious subfolders: `Super Admin`, `Control Center`, `Finance`, `Teacher`, `Parent`, `Student`, and `Documents`. Do not create deeper folders inside them.
 
-Place new work in the matching existing collection under `projects/`. Add a `sources.json` entry only for a genuinely new collection.
+`Old Dumb` is a browseable safety copy of all seven deleted repositories. Do not edit its contents. `Dev` contains build, test, migration, and deployment internals; nontechnical users should not need it.
 
 ## Validation
 
 After catalog or artifact changes, run:
 
 ```bash
-sha256sum -c migration/source-files.sha256
-python3 -m unittest discover -s tests -v
-python3 scripts/build_site.py --output _site
+python3 -m unittest discover -s Dev/tests -v
+python3 Dev/scripts/build_site.py --output _site
 ```
 
-When preview behavior changes, also run `npm ci` and `npm run capture-previews -- _site`. Use `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/google-chrome` on the configured Linux workstation.
+When preview behavior changes, also run `npm --prefix Dev ci` and `npm --prefix Dev run capture-previews -- "$PWD/_site"`. Use `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/usr/bin/google-chrome` on the configured Linux workstation.
 
 The generated `_site/` directory is not committed. GitHub Actions builds and deploys it.

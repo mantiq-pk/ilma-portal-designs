@@ -11,29 +11,27 @@ Preserve supplied files as source material while making them discoverable in the
 
 Use the artifact's intended audience and purpose:
 
-- school admin or super-admin workflow → `projects/admin/super-admin/`
-- Mantiq-wide control center, authentication, or platform operation → `projects/admin/control-center/`
-- finance manager → `projects/portals/finance/`
-- teacher → `projects/portals/teacher/`
-- parent → `projects/portals/parent/`
-- student → `projects/portals/student/`
-- navigation, architecture, product, or technical reference → `projects/reference/navigation/`
+- school admin or super-admin screen → `All Files/Super Admin/`
+- Mantiq-wide control center, authentication, or platform screen → `All Files/Control Center/`
+- finance screen → `All Files/Finance/`
+- teacher screen → `All Files/Teacher/`
+- parent screen → `All Files/Parent/`
+- student screen → `All Files/Student/`
+- any Word/PDF product or technical document → `All Files/Documents/`
 
-Keep meaningful folders supplied by the user. Preserve the original filename and bytes unless the user asks for a specific correction. Do not deduplicate similar files automatically; visual variants can be intentional.
+Do not create deeper subfolders. Preserve the original filename and bytes unless the user asks for a specific correction. Do not put new work in `Old Dumb` or `Dev`.
 
 ## Add and verify
 
 1. Copy the supplied artifact into the chosen collection.
-2. Do not add new files to `migration/source-files.sha256`; it is the immutable pre-consolidation inventory. If replacing an original by explicit request, update its one checksum entry and record the reason in the commit.
-3. Run `sha256sum -c migration/source-files.sha256` to prove all other originals remain intact.
-4. Run `python3 -m unittest discover -s tests -v`.
-5. Run `python3 scripts/build_site.py --output _site` and confirm the new artifact appears in `_site/catalog.json` with the expected collection and title.
-6. For HTML, run `npm ci` and `npm run capture-previews -- _site`; confirm its declared preview file exists and is non-empty.
+2. Run `python3 -m unittest discover -s Dev/tests -v`.
+3. Run `python3 Dev/scripts/build_site.py --output _site` and confirm the new artifact appears in `_site/catalog.json` with the expected collection and title.
+4. For HTML, run `npm --prefix Dev ci` and `npm --prefix Dev run capture-previews -- "$PWD/_site"`; confirm its declared preview file exists and is non-empty.
 
 The builder extracts an HTML `<title>` automatically and falls back to a cleaned filename. Improve the original title only when the user requests an edit to that source file.
 
 ## New collections
 
-Prefer an existing collection. For a genuinely new audience or product area, add one `sources.json` collection with a unique `path`, a plain display `title`, a short factual `description`, and source provenance when one exists. The path must stay under `projects/`.
+Prefer an existing collection. For a genuinely new audience or product area, add one `Dev/sources.json` collection with a unique path under `All Files`, a plain display title, and a short factual description.
 
 Do not create or delete GitHub repositories, publish private material, or change deployment visibility as an implied part of adding an artifact.

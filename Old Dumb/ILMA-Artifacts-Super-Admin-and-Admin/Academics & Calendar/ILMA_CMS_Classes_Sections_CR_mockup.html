@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA CMS · Classes & Sections</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f4f5fb;--card:#fff;--ink:#14162b;--mut:#6b7090;--line:#e8eaf3;--acc:#6c4cf1;--accs:#efeaff;--ok:#0f8a66;--oks:#e3f7ef;--warn:#a85a05;--warns:#fff3dc;--bad:#d9362b;--side:#14183a;--shadow:0 1px 2px rgba(20,22,43,.05),0 6px 20px rgba(20,22,43,.05);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1124;--card:#171b36;--ink:#eceefc;--mut:#9aa0c7;--line:#262b4d;--accs:#2a2458;--oks:#0f3a2e;--warns:#3d2a0c;--warn:#f4b25c;--ok:#4fd1a5;--shadow:none}}
+:root[data-theme="dark"]{--bg:#0e1124;--card:#171b36;--ink:#eceefc;--mut:#9aa0c7;--line:#262b4d;--accs:#2a2458;--oks:#0f3a2e;--warns:#3d2a0c;--warn:#f4b25c;--ok:#4fd1a5;--shadow:none}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+button{font:inherit;color:inherit;cursor:pointer}
+.app{display:flex;min-height:100vh}
+.side{width:230px;background:var(--side);color:#c9cdf0;padding:18px 14px;flex:none;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:22px;color:#fff;font-weight:700}
+.brand i{width:34px;height:34px;border-radius:10px;background:var(--acc);display:grid;place-items:center;font-style:normal}
+.brand small{display:block;font-weight:500;font-size:11px;color:#8c91c4}
+.side a{display:block;padding:10px 12px;border-radius:10px;color:#c9cdf0;text-decoration:none;margin-bottom:2px}
+.side a.on{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
+.side .grp{font-size:12px;color:#7f84b8;margin:16px 12px 6px}
+.me{margin-top:auto;padding:12px;border-top:1px solid rgba(255,255,255,.1);font-size:13px;color:#fff}
+.me small{display:block;color:#8c91c4}
+main{flex:1;min-width:0;padding:22px 28px 60px}
+.top{display:flex;gap:12px;align-items:center;margin-bottom:22px;flex-wrap:wrap}
+.top select,.top input{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;color:var(--ink);font:inherit}
+.top input{flex:1;min-width:180px;max-width:420px}
+.top .sp{flex:1}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 16px;font-weight:600}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}
+.sub{color:var(--mut);margin:2px 0 20px}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.tile{background:var(--card);border:1.5px solid transparent;border-radius:16px;padding:16px;text-align:left;box-shadow:var(--shadow)}
+.tile b{display:block;font-size:28px;letter-spacing:-.02em;line-height:1.1}
+.tile span{color:var(--mut);font-size:14px}
+.tile.on{border-color:var(--acc)}
+.tile.warn b{color:var(--warn)}
+.ai{display:flex;gap:14px;align-items:center;background:linear-gradient(100deg,var(--accs),var(--card));border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:18px}
+.ai .ic{width:38px;height:38px;border-radius:12px;background:var(--acc);color:#fff;display:grid;place-items:center;flex:none}
+.ai p{margin:0;flex:1}
+.ai p b{display:block}
+.ai p span{color:var(--mut);font-size:14px}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:7px 14px;font-weight:600;font-size:14px;color:var(--mut)}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.bar .sp{flex:1}
+.seg{display:flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+.seg button{border:0;background:none;padding:8px 14px;font-weight:600;color:var(--mut)}
+.seg button.on{background:var(--accs);color:var(--acc)}
+.bar select{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 12px;color:var(--ink);font:inherit}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.card{position:relative;background:var(--card);border-radius:18px;padding:18px;box-shadow:var(--shadow);border:1px solid var(--line);cursor:pointer;transition:transform .15s,border-color .15s}
+.card:hover{transform:translateY(-2px);border-color:var(--h)}
+.card:focus-visible,.tile:focus-visible,.chip:focus-visible,.btn:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.head{display:flex;gap:12px;align-items:center}
+.badge{width:46px;height:46px;border-radius:14px;background:var(--h);color:#fff;display:grid;place-items:center;font-weight:800;flex:none}
+.head h3{margin:0;font-size:17px}
+.head small{color:var(--mut)}
+.pill{margin-left:auto;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.pill.ok{background:var(--oks);color:var(--ok)}
+.pill.no{background:var(--warns);color:var(--warn)}
+.stats{display:grid;grid-template-columns:auto 1fr 1fr;gap:14px;align-items:center;margin:16px 0 14px}
+.ring{position:relative;width:58px;height:58px}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px}
+.stat b{display:block;font-size:20px;line-height:1.1}
+.stat span{font-size:12.5px;color:var(--mut)}
+.up{color:var(--ok);font-size:12.5px;font-weight:700}.dn{color:var(--bad);font-size:12.5px;font-weight:700}.fl{color:var(--mut);font-size:12.5px;font-weight:700}
+.foot{border-top:1px solid var(--line);padding-top:12px;display:flex;gap:10px;align-items:center;min-height:50px}
+.okline{color:var(--ok);font-weight:600;font-size:14px}
+.alert{display:flex;gap:10px;align-items:center;width:100%;background:var(--warns);color:var(--warn);border-radius:12px;padding:8px 10px;font-size:13.5px;font-weight:600}
+.alert span{flex:1}
+.alert button{background:var(--warn);color:var(--warns);border:0;border-radius:9px;padding:6px 12px;font-weight:700;white-space:nowrap}
+.qa{position:absolute;top:14px;right:14px;display:none;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:4px;box-shadow:var(--shadow)}
+.card:hover .qa,.card:focus-within .qa{display:flex}
+.qa button{border:0;background:none;border-radius:8px;padding:5px 8px;font-size:12.5px;font-weight:600;color:var(--mut)}
+.qa button:hover{background:var(--accs);color:var(--acc)}
+.card.listv{display:grid;grid-template-columns:2.2fr 1fr 1.2fr 1fr 1.6fr;gap:14px;align-items:center;padding:12px 18px}
+.mini{height:8px;border-radius:9px;background:var(--line);overflow:hidden}
+.mini i{display:block;height:100%;background:var(--h)}
+.empty{text-align:center;padding:50px 0;color:var(--mut)}
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);display:none;z-index:20}
+.scrim.on{display:block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);background:var(--card);z-index:21;padding:calc(22px + env(safe-area-inset-top,0px)) 22px 22px;overflow:auto;transform:translateX(105%);transition:transform .25s;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.drawer.on{transform:none}
+.drawer h4{margin:22px 0 8px;font-size:15px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.row span{color:var(--mut)}
+.x{float:right;border:0;background:var(--bg);width:34px;height:34px;border-radius:10px;font-size:18px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;opacity:0;transition:.25s;z-index:30;font-weight:600;max-width:90%}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.top .vas{display:flex;gap:8px;align-items:center;color:var(--mut);font-size:13px;font-weight:600}
+.nb{float:right;background:#e5484d;color:#fff;border-radius:99px;font-size:11px;padding:0 7px;font-weight:700}.nb:empty{display:none}
+.rolechip{display:inline-flex;gap:6px;align-items:center;font-size:12px;font-weight:700;border-radius:99px;padding:3px 10px;background:var(--accs);color:var(--acc)}
+.crc{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.crt{font-size:12px;font-weight:700;border-radius:99px;padding:3px 10px;border:1px solid var(--line);color:var(--mut);display:inline-flex;gap:5px;align-items:center}
+.crt.ok{background:var(--oks);color:var(--ok);border-color:transparent}.crt.pd{background:var(--warns);color:var(--warn);border-color:transparent}
+.slot{border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:10px}
+.slot.pd{border-color:var(--warn);background:var(--warns)}.slot.ok{border-color:var(--ok)}
+.slot .sh{display:flex;gap:10px;align-items:center}
+.slot .sh .av{width:38px;height:38px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;font-weight:800;font-size:13px;flex:none}
+.slot .sh b{display:block}.slot .sh small{color:var(--mut)}
+.slot .sh .sp{flex:1}
+.btn.sm{padding:6px 12px;font-size:13px;border-radius:10px}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.bd{color:var(--bad)}
+.pick{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px}
+.pick input,.pick textarea,.fld{width:100%;border:1.5px solid var(--line);background:var(--bg);border-radius:11px;padding:9px 11px;font:inherit;color:var(--ink);margin-bottom:8px}
+.pl{max-height:190px;overflow:auto;border:1px solid var(--line);border-radius:12px;margin-bottom:8px}
+.pl button{display:flex;width:100%;gap:10px;align-items:center;border:0;background:none;padding:8px 10px;text-align:left;border-bottom:1px solid var(--line)}
+.pl button:last-child{border:0}.pl button:hover,.pl button.on{background:var(--accs)}
+.pl .av{width:28px;height:28px;border-radius:50%;background:var(--h,#6c4cf1);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:800}
+.pl small{margin-left:auto;color:var(--mut)}
+.lock{font-size:12.5px;color:var(--mut);display:flex;gap:6px;align-items:center}
+.info{background:var(--accs);border-radius:12px;padding:10px 12px;font-size:13px;color:var(--ink);margin:8px 0}
+.rq{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow)}
+.rq .ty{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;background:var(--accs)}
+.rq h4{margin:0;font-size:15px}.rq p{margin:2px 0 0;color:var(--mut);font-size:13.5px}
+.rq .acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.rq .why{grid-column:2/4;display:flex;gap:8px}
+.rq .why input{flex:1;margin:0}
+.st{font-size:12px;font-weight:700;border-radius:99px;padding:3px 10px}
+.st.pd{background:var(--warns);color:var(--warn)}.st.ok{background:var(--oks);color:var(--ok)}.st.no{background:#fdebec;color:var(--bad)}
+@media(max-width:900px){.rq{grid-template-columns:auto 1fr}.rq .acts{grid-column:1/3;justify-content:flex-start}.rq .why{grid-column:1/3}}
+@media(max-width:900px){.side{display:none}main{padding:18px 16px 60px}.tiles{grid-template-columns:1fr 1fr}.card.listv{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+ <div class="brand"><i>📖</i><div>ILMA CMS<small id="portal">Super Admin Portal</small></div></div>
+ <div class="grp">Academics</div>
+ <a href="#">Students</a><a class="on" href="#" id="navCls">Classes &amp; Sections</a><a href="#">Timetable</a><a href="#">Attendance</a><a href="#">Exams &amp; Classwork</a>
+ <div class="grp">Workflow</div><a href="#" id="navAp"><span id="apLbl">Approval Requests</span> <b class="nb" id="nb"></b></a><div class="grp">Admissions</div><div class="grp">People</div><div class="grp">Finance</div>
+ <a href="#" style="margin-top:14px">✨ ILMA AI</a>
+ <div class="me"><span id="meN"></span><small id="meR"></small></div>
+</aside>
+<main>
+ <div class="top">
+  <select aria-label="Branch"><option>All branches</option><option>Main campus</option></select>
+  <input id="q" placeholder="Search classes, teachers or students" aria-label="Search">
+  <span class="sp"></span>
+  <label class="vas">View as <select id="role" aria-label="View as role"><option value="teacher">Teacher · Sarah Khan</option><option value="admin">Admin · Nadia Hussain</option><option value="super" selected>Super Admin · Hassan Malik</option></select></label>
+  <button class="btn p" id="add">+ Add section</button>
+ </div>
+ <div id="vCls">
+ <h1>Classes &amp; Sections</h1>
+ <p class="sub" id="sub"></p>
+ <section class="tiles" id="tiles"></section>
+ <section class="ai" id="ai">
+  <div class="ic">✨</div>
+  <p><b>ILMA AI insight</b><span>Grade 8-A attendance dropped 3% this week, and Urdu needs cover at 3:15. Want a substitute suggestion?</span></p>
+  <button class="btn p" id="fix">Suggest substitute</button><button class="btn" id="dis">Dismiss</button>
+ </section>
+ <div class="bar">
+  <div id="chips" style="display:flex;gap:8px;flex-wrap:wrap"></div>
+  <span class="sp"></span>
+  <select id="sort" aria-label="Sort"><option value="att">Sort: Needs attention first</option><option value="g">Sort: Grade</option><option value="a">Sort: Attendance, high to low</option></select>
+  <div class="seg"><button class="on" data-v="c">Cards</button><button data-v="l">List</button></div>
+ </div>
+ <section class="grid" id="grid"></section>
+ </div>
+ <div id="vAp" hidden></div>
+</main>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Class details"></aside>
+<div class="toast" id="toast" role="status"></div>
+<script>
+var D=[
+{id:'6A',g:6,n:'Grade 6-A',t:'Sarah Khan',s:32,sub:4,att:94,avg:81,tr:2,h:'#6c4cf1',al:null},
+{id:'7B',g:7,n:'Grade 7-B',t:'Ahmed Raza',s:34,sub:4,att:93,avg:80,tr:1,h:'#0ea5e9',al:{k:'pending',txt:'Mathematics: term results awaiting approval',btn:'Review'}},
+{id:'8A',g:8,n:'Grade 8-A',t:'Ayesha Malik',s:30,sub:4,att:91,avg:79,tr:-3,h:'#e8590c',al:{k:'cover',txt:'Urdu: needs cover at 03:15 today',btn:'Assign cover'}},
+{id:'9A',g:9,n:'Grade 9-A',t:'Ali Raza',s:32,sub:3,att:92,avg:82,tr:2,h:'#0f8a66',al:null},
+{id:'10A',g:10,n:'Grade 10-A',t:'Farah Naz',s:29,sub:3,att:92,avg:79,tr:0,h:'#c026d3',al:null}];
+var st={f:'all',sort:'att',v:'c',q:''};
+var $=function(i){return document.getElementById(i)};
+function toast(m){var t=$('toast');t.textContent=m;t.className='toast on';clearTimeout(toast.x);toast.x=setTimeout(function(){t.className='toast'},2600)}
+function ini(n){return n.split(' ').map(function(w){return w[0]}).join('')}
+function trend(x){return x>0?'<span class="up">↑ '+x+'% vs last term</span>':x<0?'<span class="dn">↓ '+(-x)+'% vs last term</span>':'<span class="fl">→ no change</span>'}
+function ring(a){var c=94.25,col=a>=92?'var(--ok)':'var(--warn)';return '<div class="ring"><svg width="58" height="58" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="'+col+'" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+(a/100*c)+' '+c+'"/></svg><b>'+a+'%</b></div>'}
+function list(){
+ var r=D.filter(function(d){
+  if(st.q&&(d.n+d.t).toLowerCase().indexOf(st.q)<0)return false;
+  if(st.f==='attention')return !!d.al;
+  if(st.f==='pending')return d.al&&d.al.k==='pending';
+  if(st.f==='g68')return d.g<=8;
+  if(st.f==='g910')return d.g>=9;
+  return true});
+ r.sort(function(a,b){
+  if(st.sort==='att')return (b.al?1:0)-(a.al?1:0)||a.g-b.g;
+  if(st.sort==='a')return b.att-a.att;
+  return a.g-b.g});
+ return r}
+function render(){
+ var tot=D.reduce(function(s,d){return s+d.s},0),av=Math.round(D.reduce(function(s,d){return s+d.att},0)/D.length),na=D.filter(function(d){return d.al}).length,np=D.filter(function(d){return d.al&&d.al.k==='pending'}).length;
+ $('sub').textContent=D.length+' sections · '+tot+' students';
+ var T=[['all',tot,'Total students',''],['all',av+'%','Average attendance today',''],['attention',na,'Classes needing attention',na?' warn':''],['pending',np,'Results awaiting approval',np?' warn':'']];
+ $('tiles').innerHTML=T.map(function(t,i){return '<button class="tile'+t[3]+((i===2&&st.f==='attention')||(i===3&&st.f==='pending')||(i===0&&st.f==='all')?' on':'')+'" data-t="'+i+'"><b>'+t[1]+'</b><span>'+t[2]+'</span></button>'}).join('');
+ var C=[['all','All'],['attention','Needs attention'],['g68','Grades 6–8'],['g910','Grades 9–10']];
+ $('chips').innerHTML=C.map(function(c){return '<button class="chip'+(st.f===c[0]?' on':'')+'" data-f="'+c[0]+'">'+c[1]+'</button>'}).join('');
+ var r=list(),g=$('grid');
+ if(!r.length){g.innerHTML='<div class="empty"><div style="font-size:34px">🎉</div><b>Nothing needs attention</b><br>Every class is on track.</div>';return}
+ g.innerHTML=r.map(function(d){
+  var pill=d.al?'<span class="pill no">Needs attention</span>':'<span class="pill ok">✔ On track</span>';
+  var foot=d.al?'<div class="alert"><span>⚠ '+d.al.txt+'</span><button data-a="'+d.id+'">'+d.al.btn+'</button></div>':'<span class="okline">✔ Attendance marked · all on track</span>';
+  if(st.v==='l')return '<article class="card listv" tabindex="0" data-id="'+d.id+'" style="--h:'+d.h+'"><div class="head"><div class="badge">'+d.id+'</div><div><h3>'+d.n+'</h3><small>'+d.t+'</small></div></div><div><b>'+d.s+'</b> <span style="color:var(--mut)">students</span></div><div><div class="mini"><i style="width:'+d.att+'%"></i></div><small style="color:var(--mut)">'+d.att+'% attendance</small></div><div><b>'+d.avg+'%</b> '+(d.tr>0?'<span class="up">↑'+d.tr+'%</span>':d.tr<0?'<span class="dn">↓'+(-d.tr)+'%</span>':'')+'</div><div>'+pill+'</div></article>';
+  return '<article class="card" tabindex="0" data-id="'+d.id+'" style="--h:'+d.h+'"><div class="qa"><button data-q="Attendance">Attendance</button><button data-q="Timetable">Timetable</button><button data-q="Message">Message</button></div><div class="head"><div class="badge">'+d.id+'</div><div><h3>'+d.n+'</h3><small>Class teacher · '+d.t+'</small></div></div><div style="margin-top:12px">'+pill+'</div>'+crChips(d)+'<div class="stats">'+ring(d.att)+'<div class="stat"><b>'+d.avg+'%</b><span>avg. marks</span><br>'+trend(d.tr)+'</div><div class="stat"><b>'+d.s+'</b><span>students</span><br><span>'+d.sub+' subjects</span></div></div><div class="foot">'+foot+'</div></article>'}).join('')}
+function drawer(id){
+ CUR=id;var d=D.filter(function(x){return x.id===id})[0];
+ $('drawer').innerHTML='<button class="x" id="cl" aria-label="Close">×</button><div class="head"><div class="badge" style="--h:'+d.h+'">'+d.id+'</div><div><h3 style="margin:0">'+d.n+'</h3><small style="color:var(--mut)">Class teacher · '+d.t+'</small></div></div>'+
+ '<div class="stats" style="margin-top:20px">'+ring(d.att)+'<div class="stat"><b>'+d.avg+'%</b><span>avg. marks</span></div><div class="stat"><b>'+d.s+'</b><span>students</span></div></div>'+crSection(d)+
+ '<h4>Today’s timetable</h4><div class="row"><b>08:00</b>Mathematics<span>Mr. Ahmed</span></div><div class="row"><b>09:00</b>English<span>Ms. Sana</span></div><div class="row"><b>10:30</b>Urdu<span>Ms. Ayesha</span></div><div class="row"><b>11:30</b>Science<span>Mr. Bilal</span></div>'+
+ '<h4>Top performers</h4><div class="row">Hira Shah<span>94%</span></div><div class="row">Usman Tariq<span>92%</span></div><div class="row">Maryam Noor<span>91%</span></div>'+
+ '<h4>Students to watch</h4><div class="row">Zain Ali<span>Attendance 71%</span></div><div class="row">Areeba Khan<span>Marks down 9%</span></div>'+
+ (d.al?'<h4>Needs attention</h4><div class="alert"><span>⚠ '+d.al.txt+'</span><button data-a="'+d.id+'">'+d.al.btn+'</button></div>':'')+
+ '<p style="color:var(--mut);font-size:12.5px;margin-top:22px">Sample data for design preview.</p>';
+ $('drawer').className='drawer on';$('scrim').className='scrim on'}
+function close(){$('drawer').className='drawer';$('scrim').className='scrim'}
+function resolve(id){var d=D.filter(function(x){return x.id===id})[0];if(!d||!d.al)return;if(d.al.k==='pending'){close();setView('ap');return}toast(d.al.k==='cover'?'Cover assigned for Urdu · Ms. Hina':'Results approved for Mathematics');d.al=null;if(d.id==='8A'&&!$('ai').hidden){$('ai').hidden=true}close();render()}
+document.addEventListener('click',function(e){
+ var t=e.target.closest('[data-t]');if(t){var i=+t.dataset.t;st.f=i===2?'attention':i===3?'pending':'all';st.sort=i===1?'a':st.sort;$('sort').value=st.sort;render();return}
+ var c=e.target.closest('[data-f]');if(c){st.f=c.dataset.f;render();return}
+ var a=e.target.closest('[data-a]');if(a){e.stopPropagation();resolve(a.dataset.a);return}
+ var q=e.target.closest('[data-q]');if(q){e.stopPropagation();toast('Opening '+q.dataset.q.toLowerCase()+'…');return}
+ var s=e.target.closest('.seg button');if(s){st.v=s.dataset.v;document.querySelectorAll('.seg button').forEach(function(b){b.className=b===s?'on':''});$('grid').style.gridTemplateColumns=st.v==='l'?'1fr':'';render();return}
+ var k=e.target.closest('.card');if(k){drawer(k.dataset.id);return}
+ if(e.target.id==='scrim'||e.target.id==='cl')close()});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close();if(e.key==='Enter'&&e.target.classList.contains('card'))drawer(e.target.dataset.id)});
+$('sort').onchange=function(){st.sort=this.value;render()};
+$('q').oninput=function(){st.q=this.value.toLowerCase();render()};
+$('fix').onclick=function(){toast('Suggested substitute for Urdu: Ms. Hina (free at 03:15)')};
+$('dis').onclick=function(){$('ai').hidden=true};
+$('add').onclick=function(){toast('Add section form would open here')};
+/* ===== Class Representatives + Approval Requests ===== */
+var CUR=null,ROLE='super',VIEW='cls',PK=null,REJ=null,APF='all',RID=10;
+var ME={teacher:['Sarah Khan','Class Teacher · Grade 6-A','Teacher Portal'],admin:['Nadia Hussain','Branch Admin','Admin Portal'],super:['Hassan Malik','Institution Owner','Super Admin Portal']};
+var ROSTER={'6A':['Hira Shah','Usman Tariq','Maryam Noor','Zain Ali','Areeba Khan','Daniyal Ahmed','Sara Qureshi','Bilal Hussain'],
+'7B':['Hamza Iqbal','Anaya Siddiqui','Rayyan Malik','Noor Fatima','Taha Sheikh','Mehwish Ali','Saad Rauf','Iqra Aslam'],
+'8A':['Fatima Noor','Ahsan Raza','Laiba Khan','Omar Farooq','Hania Javed','Zohaib Ali','Minahil Zafar','Talha Mehmood'],
+'9A':['Ayaan Khan','Sara Ahmed','Ali Raza','Zainab Sheikh','Hamza Ali','Hassan Tariq','Amna Bashir','Rohan Dar'],
+'10A':['Mustafa Ali','Eman Tariq','Shahzaib Khan','Alishba Rana','Rehan Javed','Kainat Ali','Arham Sheikh','Dua Fatima']};
+var REQ=[
+{id:1,type:'cr',cls:'6A',role:'Vice-CR',nom:'Maryam Noor',by:'Sarah Khan',at:'Today · 9:10',note:'Top 3 in class and always volunteers for events.',st:'pending'},
+{id:2,type:'results',cls:'7B',title:'Term results · Mathematics',by:'Ahmed Raza',at:'Today · 8:40',note:'34 students · class average 80%',st:'pending'},
+{id:3,type:'cr',cls:'6A',role:'CR',nom:'Zain Ali',by:'Sarah Khan',at:'Yesterday',note:'Confident speaker.',st:'rejected',reason:'Attendance is below 80%. Please suggest another student.',who:'Nadia Hussain'},
+{id:4,type:'cr',cls:'9A',role:'CR',nom:'Ayaan Khan',by:'Ali Raza',at:'Mon',note:'',st:'approved',who:'Nadia Hussain'}];
+D.forEach(function(d){d.cr={CR:null,VCR:null}});
+function byId(id){return D.filter(function(x){return x.id===id})[0]}
+byId('9A').cr.CR={n:'Ayaan Khan',st:'approved',req:4};
+byId('6A').cr.VCR={n:'Maryam Noor',st:'pending',req:1};
+byId('6A').cr.CR={n:'Zain Ali',st:'rej',req:3,reason:'Attendance is below 80%. Please suggest another student.'};
+function isT(){return ROLE==='teacher'}
+function canEdit(d){return !isT()||d.t==='Sarah Khan'}
+function sn(n){var p=n.split(' ');return p[0]+(p[1]?' '+p[1][0]+'.':'')}
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function crChips(d){
+ var out='';[['CR','CR'],['VCR','Vice-CR']].forEach(function(p){var s=d.cr[p[0]];if(s&&s.st!=='rej')out+='<span class="crt '+(s.st==='approved'?'ok':'pd')+'">⭐ '+p[1]+' · '+esc(sn(s.n))+(s.st==='pending'?' · pending':'')+'</span>'});
+ return '<div class="crc">'+(out||'<span class="crt">⭐ No Class Rep selected</span>')+'</div>'}
+function used(d){var u=[];['CR','VCR'].forEach(function(k){var s=d.cr[k];if(s&&s.st!=='rej')u.push(s.n)});return u}
+function pickList(d){
+ var q=(PK.q||'').toLowerCase(),u=used(d);
+ return ROSTER[d.id].filter(function(n){return u.indexOf(n)<0&&n.toLowerCase().indexOf(q)>=0}).map(function(n){
+  return '<button data-cr="sel" data-n="'+esc(n)+'" class="'+(PK.sel===n?'on':'')+'"><span class="av" style="--h:hsl('+(n.length*37%360)+' 50% 45%)">'+esc(n.split(' ').map(function(w){return w[0]}).join(''))+'</span>'+esc(n)+'<small>'+(PK.sel===n?'✓ Selected':'Grade '+d.g)+'</small></button>'}).join('')||'<div class="lock" style="padding:10px">No matching students</div>'}
+function pickUI(d){
+ var t=isT();
+ return '<div class="pick"><input id="pkq" placeholder="Search students in '+d.n+'" value="'+esc(PK.q||'')+'" aria-label="Search students"><div class="pl" id="pkl">'+pickList(d)+'</div>'+
+ '<textarea id="pkn" rows="2" placeholder="Why this student? (optional)" aria-label="Reason">'+esc(PK.note||'')+'</textarea>'+
+ '<label class="lock" style="margin-bottom:6px">Term ends <input type="date" class="fld" style="width:auto;margin:0 0 0 8px" value="2027-03-31"></label>'+
+ '<div class="info">'+(t?'📨 Goes to <b>Approval Requests</b>. Admin approves before the role starts.':'✅ Takes effect immediately. No approval needed for '+(ROLE==='super'?'Super Admin':'Admin')+'.')+'</div>'+
+ '<div style="display:flex;gap:8px"><button class="btn" data-cr="cancel">Cancel</button><button class="btn p" data-cr="submit" '+(PK.sel?'style="margin-left:auto"':'style="margin-left:auto;opacity:.5" disabled')+'>'+(t?'Send for approval':'Assign now')+'</button></div></div>'}
+function slot(d,k){
+ var lab=k==='CR'?'Class Representative':'Vice-CR',s=d.cr[k],ed=canEdit(d),pk=PK&&PK.k===k&&PK.id===d.id;
+ var ini=function(n){return n.split(' ').map(function(w){return w[0]}).join('')};
+ if(!s||s.st==='rej'){
+  return '<div class="slot"><div class="sh"><span class="av" style="background:var(--line);color:var(--mut)">+</span><div><b>'+lab+'</b><small>'+(s?'<span style="color:var(--bad)">'+esc(s.n)+' was rejected</span>':'Not selected')+'</small></div><span class="sp"></span>'+(ed&&!pk?'<button class="btn sm p" data-cr="pick" data-k="'+k+'">'+(s?'Select another':'Select student')+'</button>':'')+'</div>'+
+   (s&&s.reason?'<div class="info" style="background:#fdebec;color:#8a1f17">❌ '+esc(s.reason)+'</div>':'')+(ed?'':'<div class="lock" style="margin-top:8px">🔒 Only the class teacher, Admin or Super Admin can select</div>')+(pk?pickUI(d):'')+'</div>'}
+ var ch=s.st==='approved'?'<span class="st ok">Approved</span>':'<span class="st pd">Awaiting Admin</span>';
+ var acts='';
+ if(s.st==='pending')acts=isT()?(ed?'<button class="btn sm bd" data-cr="cancelreq" data-k="'+k+'">Cancel request</button>':''):'<button class="btn sm" data-cr="goap">Review in Approval Requests</button>';
+ else acts=isT()?'':'<button class="btn sm bd" data-cr="revoke" data-k="'+k+'">Revoke</button>';
+ return '<div class="slot '+(s.st==='approved'?'ok':'pd')+'"><div class="sh"><span class="av">'+esc(ini(s.n))+'</span><div><b>'+esc(s.n)+'</b><small>'+lab+'</small></div><span class="sp"></span>'+ch+'</div>'+
+  (acts?'<div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end">'+acts+'</div>':'')+(s.st==='approved'&&isT()?'<div class="lock" style="margin-top:6px">To change this role, ask Admin.</div>':'')+'</div>'}
+function crSection(d){
+ return '<h4>⭐ Class Representatives <span class="rolechip">Max 2</span></h4><p style="margin:0 0 10px;color:var(--mut);font-size:13px">Can broadcast to their own section’s students and create polls in Messages.</p>'+slot(d,'CR')+slot(d,'VCR')+
+  '<p style="color:var(--mut);font-size:12.5px;margin:4px 0 0">Also available from Students → profile → Class roles.</p>'}
+function refreshDrawer(){if(CUR)drawer(CUR)}
+function logReq(o){o.id=RID++;REQ.unshift(o);return o}
+function submitPick(){
+ var d=byId(PK.id),k=PK.k,role=k==='CR'?'CR':'Vice-CR',who=ME[ROLE][0];
+ if(isT()){var r=logReq({type:'cr',cls:d.id,role:role,nom:PK.sel,by:who,at:'Just now',note:PK.note||'',st:'pending'});d.cr[k]={n:PK.sel,st:'pending',req:r.id};toast('Nomination sent to Admin · see Approval Requests')}
+ else{var r2=logReq({type:'cr',cls:d.id,role:role,nom:PK.sel,by:who,at:'Just now',note:PK.note||'',st:'approved',who:who,direct:true});d.cr[k]={n:PK.sel,st:'approved',req:r2.id};toast(PK.sel+' is now '+role+' of '+d.n)}
+ PK=null;refreshDrawer();render();updateChrome()}
+function approveReq(id){
+ var r=REQ.filter(function(x){return x.id===id})[0];r.st='approved';r.who=ME[ROLE][0];
+ if(r.type==='cr'){var d=byId(r.cls);d.cr[r.role==='CR'?'CR':'VCR']={n:r.nom,st:'approved',req:id};toast(r.nom+' approved as '+r.role+' · can now broadcast to '+d.n+' students')}
+ else{var c=byId(r.cls);if(c)c.al=null;toast('Results approved · '+r.title)}
+ REJ=null;render();renderAp();updateChrome()}
+function rejectReq(id,why){
+ var r=REQ.filter(function(x){return x.id===id})[0];r.st='rejected';r.reason=why||'Not approved.';r.who=ME[ROLE][0];
+ if(r.type==='cr'){byId(r.cls).cr[r.role==='CR'?'CR':'VCR']={n:r.nom,st:'rej',req:id,reason:r.reason}}
+ REJ=null;toast('Rejected · '+r.by+' is notified');render();renderAp();updateChrome()}
+function mine(r){return !isT()||r.by==='Sarah Khan'}
+function pendCount(){return REQ.filter(function(r){return r.st==='pending'&&mine(r)}).length}
+function updateChrome(){
+ var m=ME[ROLE];$('meN').textContent=m[0];$('meR').textContent=m[1];$('portal').textContent=m[2];
+ $('apLbl').textContent=isT()?'My Requests':'Approval Requests';var n=pendCount();$('nb').textContent=n||''}
+function setView(v){VIEW=v;$('vCls').hidden=v!=='cls';$('vAp').hidden=v!=='ap';$('add').style.visibility=v==='ap'?'hidden':'';$('navCls').className=v==='cls'?'on':'';$('navAp').className=v==='ap'?'on':'';close();if(v==='ap')renderAp()}
+function renderAp(){
+ var all=REQ.filter(mine),cnt=function(s){return all.filter(function(r){return r.st===s}).length};
+ var rows=all.filter(function(r){return APF==='all'||r.st===APF}).sort(function(a,b){return (a.st==='pending'?0:1)-(b.st==='pending'?0:1)});
+ var h='<h1>'+(isT()?'My Requests':'Approval Requests')+'</h1><p class="sub">'+(isT()?'Nominations you sent to Admin and their status':'Nominations and results waiting for a decision')+'</p>'+
+ '<section class="tiles" style="grid-template-columns:repeat(3,1fr)"><div class="tile warn"><b>'+cnt('pending')+'</b><span>Pending</span></div><div class="tile"><b>'+cnt('approved')+'</b><span>Approved</span></div><div class="tile"><b>'+cnt('rejected')+'</b><span>Rejected</span></div></section>'+
+ '<div class="bar">'+[['all','All'],['pending','Pending'],['approved','Approved'],['rejected','Rejected']].map(function(c){return '<button class="chip'+(APF===c[0]?' on':'')+'" data-apf="'+c[0]+'">'+c[1]+'</button>'}).join('')+'</div>';
+ h+=rows.map(function(r){
+  var d=byId(r.cls),cn=d?d.n:r.cls,ttl=r.type==='cr'?r.role+' nomination · '+cn:r.title+' · '+cn;
+  var desc=r.type==='cr'?'<b>'+esc(r.nom)+'</b> · '+(r.direct?'assigned by ':'nominated by ')+esc(r.by)+' · '+esc(r.at):esc(r.by)+' · '+esc(r.at);
+  var st=r.st==='pending'?'<span class="st pd">Pending</span>':r.st==='approved'?'<span class="st ok">'+(r.direct?'Assigned':'Approved'+(r.who?' by '+esc(r.who):''))+'</span>':'<span class="st no">Rejected</span>';
+  var acts=st;
+  if(r.st==='pending'&&!isT())acts='<button class="btn sm bd" data-rj="'+r.id+'">Reject</button><button class="btn sm ok" data-ap="'+r.id+'">✓ Approve</button>';
+  var extra=(r.note?'<p>“'+esc(r.note)+'”</p>':'')+(r.st==='rejected'&&r.reason?'<p style="color:var(--bad)">Reason: '+esc(r.reason)+'</p>':'')+(r.type==='cr'&&r.st==='pending'&&!isT()?'<p>On approval: broadcast to own section and polls in Messages (files off).</p>':'');
+  return '<div class="rq"><div class="ty">'+(r.type==='cr'?'⭐':'📝')+'</div><div><h4>'+esc(ttl)+'</h4><p>'+desc+'</p>'+extra+'</div><div class="acts">'+acts+'</div>'+
+   (REJ===r.id?'<div class="why"><input class="fld" id="why" placeholder="Reason for rejecting (the teacher will see this)" aria-label="Reason"><button class="btn sm bd" data-rjc="'+r.id+'">Confirm reject</button></div>':'')+'</div>'}).join('')||'<div class="empty"><div style="font-size:34px">📭</div><b>No requests here</b></div>';
+ $('vAp').innerHTML=h}
+document.addEventListener('click',function(e){
+ var c=e.target.closest('[data-cr]');
+ if(c){e.stopPropagation();var a=c.dataset.cr,d=byId(CUR);
+  if(a==='pick'){PK={id:CUR,k:c.dataset.k,sel:null,q:'',note:''};refreshDrawer()}
+  else if(a==='sel'){PK.sel=c.dataset.n;refreshDrawer()}
+  else if(a==='cancel'){PK=null;refreshDrawer()}
+  else if(a==='submit'){submitPick()}
+  else if(a==='cancelreq'){var s=d.cr[c.dataset.k];REQ=REQ.filter(function(r){return r.id!==s.req});d.cr[c.dataset.k]=null;toast('Request cancelled');refreshDrawer();render();updateChrome()}
+  else if(a==='revoke'){d.cr[c.dataset.k]=null;toast('Role revoked');refreshDrawer();render()}
+  else if(a==='goap'){setView('ap')}
+  return}
+ var f=e.target.closest('[data-apf]');if(f){APF=f.dataset.apf;renderAp();return}
+ var ap=e.target.closest('[data-ap]');if(ap){approveReq(+ap.dataset.ap);return}
+ var rj=e.target.closest('[data-rj]');if(rj){REJ=+rj.dataset.rj;renderAp();var w=$('why');if(w)w.focus();return}
+ var rc=e.target.closest('[data-rjc]');if(rc){rejectReq(+rc.dataset.rjc,($('why').value||'').trim());return}
+},true);
+document.addEventListener('input',function(e){
+ if(e.target.id==='pkq'&&PK){PK.q=e.target.value;$('pkl').innerHTML=pickList(byId(PK.id))}
+ if(e.target.id==='pkn'&&PK)PK.note=e.target.value});
+$('role').onchange=function(){ROLE=this.value;PK=null;REJ=null;APF='all';close();updateChrome();render();if(VIEW==='ap')renderAp()};
+$('navCls').onclick=function(e){e.preventDefault();setView('cls')};
+$('navAp').onclick=function(e){e.preventDefault();setView('ap')};
+updateChrome();
+render();
+</script>
+</body>
+</html>

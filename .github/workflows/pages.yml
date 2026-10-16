@@ -26,14 +26,15 @@ jobs:
         with:
           node-version: "22"
           cache: npm
+          cache-dependency-path: Dev/package-lock.json
       - name: Install preview tools
         run: |
-          npm ci
-          npx playwright install --with-deps chromium
+          npm --prefix Dev ci
+          npx --prefix Dev playwright install --with-deps chromium
       - name: Build library
-        run: python3 scripts/build_site.py --output _site
+        run: python3 Dev/scripts/build_site.py --output _site
       - name: Capture prototype previews
-        run: npm run capture-previews -- _site
+        run: npm --prefix Dev run capture-previews -- "$GITHUB_WORKSPACE/_site"
       - name: Verify complete preview set
         run: |
           python3 - <<'PY'

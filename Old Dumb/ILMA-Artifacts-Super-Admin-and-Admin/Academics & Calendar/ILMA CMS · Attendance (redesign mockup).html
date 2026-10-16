@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA CMS · Attendance</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f4f5fb;--card:#fff;--ink:#14162b;--mut:#6b7090;--line:#e8eaf3;--acc:#6c4cf1;--accs:#efeaff;--ok:#0f8a66;--warn:#b45309;--bad:#d9362b;--side:#14183a;--hov:#f7f7fd;--shadow:0 1px 2px rgba(20,22,43,.05),0 6px 20px rgba(20,22,43,.05);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1124;--card:#171b36;--ink:#eceefc;--mut:#9aa0c7;--line:#262b4d;--accs:#2a2458;--hov:#1c2142;--ok:#4fd1a5;--warn:#f4b25c;--bad:#ff7a70;--shadow:none}}
+:root[data-theme="dark"]{--bg:#0e1124;--card:#171b36;--ink:#eceefc;--mut:#9aa0c7;--line:#262b4d;--accs:#2a2458;--hov:#1c2142;--ok:#4fd1a5;--warn:#f4b25c;--bad:#ff7a70;--shadow:none}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+button,select,input{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.app{display:flex;min-height:100vh}
+.side{width:230px;background:var(--side);color:#c9cdf0;padding:18px 14px;flex:none;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:22px;color:#fff;font-weight:700}
+.brand i{width:34px;height:34px;border-radius:10px;background:var(--acc);display:grid;place-items:center;font-style:normal}
+.brand small{display:block;font-weight:500;font-size:11px;color:#8c91c4}
+.side a{display:block;padding:10px 12px;border-radius:10px;color:#c9cdf0;text-decoration:none;margin-bottom:2px}
+.side a.on{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
+.side .grp{font-size:12px;color:#7f84b8;margin:16px 12px 6px}
+.me{margin-top:auto;padding:12px;border-top:1px solid rgba(255,255,255,.1);font-size:13px;color:#fff}
+.me small{display:block;color:#8c91c4}
+main{flex:1;min-width:0;padding:22px 28px 60px}
+@media(max-width:900px){.side{display:none}main{padding:18px 16px 60px}}
+.hd{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px}
+.hd>div:first-child{flex:1;min-width:240px}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}h3{margin:0;font-size:16px}
+.sub{color:var(--mut);margin:2px 0 0;font-size:14px}
+.cls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+select{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 14px;font-weight:600}
+.tch{display:inline-flex;gap:8px;align-items:center;font-size:13.5px;color:var(--mut);margin-top:8px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 15px;font-weight:600;font-size:14px}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.sq{padding:8px 12px}.btn.sm{padding:6px 11px;font-size:13px}
+.bar1{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px}
+.seg button{border:0;background:none;padding:7px 15px;border-radius:10px;font-weight:600;color:var(--mut)}
+.seg button.on{background:var(--accs);color:var(--acc)}
+.sp{flex:1}
+.badge{display:inline-grid;place-items:center;min-width:20px;height:20px;border-radius:99px;background:var(--bad);color:#fff;font-size:12px;font-weight:700;margin-left:6px;padding:0 6px}
+.dd{position:relative}
+.menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;min-width:210px;display:none;z-index:8}
+.menu.on{display:block}
+.menu button{display:block;width:100%;text-align:left;border:0;background:none;padding:9px 12px;border-radius:8px;font-weight:600;font-size:14px}
+.menu button:hover{background:var(--accs)}
+.c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);min-width:0}
+.td{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px;border-left:5px solid var(--ok)}
+.td.pe{border-left-color:var(--warn)}
+.td>div:first-child{flex:1;min-width:230px}
+.td b.t{font-size:17px}
+.cn{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.cn span{font-size:13px;font-weight:700;padding:4px 11px;border-radius:99px;background:color-mix(in srgb,currentColor 13%,transparent)}
+.stt{display:flex;gap:10px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px}
+.sec{flex:1;min-width:128px;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:10px 12px}
+.sec.on{border-color:var(--acc)}
+.sec b{display:block;font-size:15px}.sec span{font-size:12.5px;font-weight:700}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+@media(max-width:800px){.kp{grid-template-columns:1fr 1fr}}
+.kp div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 14px}
+.kp small{color:var(--mut);display:block;font-size:12.5px}
+.kp b{font-size:22px;letter-spacing:-.02em;display:block;line-height:1.2}
+.up{color:var(--ok);font-size:12.5px;font-weight:700}.dn{color:var(--bad);font-size:12.5px;font-weight:700}
+.ai{display:flex;gap:12px;align-items:center;background:linear-gradient(100deg,var(--accs),var(--card));border:1px solid var(--line);border-radius:14px;padding:11px 14px;margin-bottom:14px;flex-wrap:wrap}
+.ai .ic{width:34px;height:34px;border-radius:11px;background:var(--acc);color:#fff;display:grid;place-items:center;flex:none}
+.ai p{margin:0;flex:1;min-width:200px}
+.g2{display:grid;grid-template-columns:2.2fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:1000px){.g2{grid-template-columns:1fr}}
+.ch{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.lg{display:flex;gap:14px;font-size:12.5px;color:var(--mut);margin:4px 0;flex-wrap:wrap}
+.lg i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+svg text{fill:var(--mut);font:11px 'Plus Jakarta Sans',system-ui,sans-serif}
+.pat div{display:flex;align-items:center;gap:10px;margin:11px 0;font-size:14px}
+.pat em{font-style:normal;width:34px;color:var(--mut)}
+.pat span{flex:1;height:10px;background:var(--line);border-radius:9px;overflow:hidden}
+.pat i{display:block;height:100%;border-radius:9px;background:var(--acc)}
+.pat i.lo{background:var(--bad)}
+.pat b{width:46px;text-align:right}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;font-size:12.5px}
+.cal span.h{text-align:center;color:var(--mut);font-weight:700}
+.cal button{border:0;border-radius:10px;min-height:46px;color:#fff;font-weight:700;font-size:12px}
+.cal button b{display:block;font-size:14px}
+.cal .off{background:var(--line);color:var(--mut);cursor:default}
+.cal .sel{outline:3px solid var(--ink);outline-offset:1px}
+.cd{margin-top:12px;background:var(--bg);border-radius:12px;padding:12px 14px;font-size:14px}
+.tb{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.fc{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 13px;font-weight:600;font-size:13.5px;color:var(--mut)}
+.fc.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tb input[type=search]{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 14px;min-width:170px}
+.bulk{display:none;align-items:center;gap:10px;flex-wrap:wrap;background:var(--accs);border:1px solid var(--acc);border-radius:14px;padding:9px 14px;margin-bottom:12px}
+.bulk.on{display:flex}.bulk b{margin-right:auto}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:820px}
+th{font-size:12.5px;color:var(--mut);text-align:left;padding:12px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line);font-size:14.5px}
+tr.r{cursor:pointer}tr.r:hover td{background:var(--hov)}tr.r:last-child td{border-bottom:0}
+.who{display:flex;align-items:center;gap:10px;font-weight:600}
+.av{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;flex:none;background:hsl(var(--hu) 50% 42%)}
+.pb{display:inline-block;width:90px;height:8px;background:var(--line);border-radius:9px;overflow:hidden;vertical-align:middle;margin-right:8px}
+.pb i{display:block;height:100%;border-radius:9px}
+.dots{display:inline-flex;gap:3px}
+.dots i{width:14px;height:14px;border-radius:50%;font-style:normal;font-size:8.5px;font-weight:700;color:#fff;display:grid;place-items:center}
+.stp{display:inline-flex;gap:5px;font-size:12.5px;font-weight:700;padding:4px 11px;border-radius:99px;background:color-mix(in srgb,currentColor 14%,transparent);white-space:nowrap}
+.g{color:var(--ok)}.w{color:var(--warn)}.b{color:var(--bad)}
+.act{opacity:0;white-space:nowrap;text-align:right}tr.r:hover .act,tr.r:focus-within .act{opacity:1}
+.act button{border:0;background:none;border-radius:8px;padding:5px 7px;font-size:15px}.act button:hover{background:var(--accs)}
+input[type=checkbox]{width:17px;height:17px;accent-color:var(--acc)}
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);display:none;z-index:20}.scrim.on{display:block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(430px,100%);background:var(--card);z-index:21;padding:calc(22px + env(safe-area-inset-top,0px)) 22px 22px;overflow:auto;transform:translateX(105%);transition:transform .25s;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.drawer.on{transform:none}
+.x{float:right;border:0;background:var(--bg);width:34px;height:34px;border-radius:10px;font-size:18px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:center}
+.row span{color:var(--mut)}
+.pa{display:flex;gap:4px}
+.pa button{border:1px solid var(--line);background:var(--card);border-radius:9px;min-width:36px;height:34px;font-weight:700;font-size:13px}
+.pa button.P.on{background:var(--ok);border-color:var(--ok);color:#fff}.pa button.A.on{background:var(--bad);border-color:var(--bad);color:#fff}.pa button.L.on{background:#d98b06;border-color:#d98b06;color:#fff}.pa button.V.on{background:#3b4cca;border-color:#3b4cca;color:#fff}
+.dhd{position:sticky;top:-22px;background:var(--card);padding:10px 0;z-index:2;border-bottom:1px solid var(--line)}
+.msg{background:var(--bg);border-radius:12px;padding:12px;font-size:13.5px;margin:12px 0}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;opacity:0;transition:.25s;z-index:30;font-weight:600;max-width:90%}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+ <div class="brand"><i>📖</i><div>ILMA CMS<small>Super Admin Portal</small></div></div>
+ <div class="grp">Academics</div>
+ <a href="#">Students</a><a href="#">Classes &amp; Sections</a><a href="#">Timetable</a><a class="on" href="#">Attendance</a><a href="#">Exams &amp; Classwork</a>
+ <div class="grp">Branch control</div><div class="grp">Admissions</div><div class="grp">People</div><div class="grp">Finance</div>
+ <a href="#" style="margin-top:14px">✨ ILMA AI</a>
+ <div class="me">Hassan Malik<small>Institution Owner</small></div>
+</aside>
+<main>
+ <div class="hd">
+  <div><h1>Attendance</h1><p class="sub">Taken once a day for each section by its class teacher</p></div>
+  <div><div class="cls" id="cls"><button class="btn sq" data-ar="-1" aria-label="Previous section">‹</button><select id="gs" aria-label="Grade"></select><select id="ss" aria-label="Section"></select><button class="btn sq" data-ar="1" aria-label="Next section">›</button></div><div class="tch" id="tch"></div></div>
+ </div>
+ <div class="bar1">
+  <div class="seg" id="tabs"><button data-tab="s" class="on">Students</button><button data-tab="f">Staff</button></div>
+  <button class="btn" data-lv="1">Leave requests<span class="badge" id="lvb">2</span></button>
+  <span class="sp"></span>
+  <div class="dd"><button class="btn" id="ex">⬇ Export ▾</button><div class="menu" id="em"><button data-x="CSV">CSV</button><button data-x="PDF register">PDF register</button><button data-x="Print">Print</button><button data-x="Monthly">Send monthly report to parents</button></div></div>
+ </div>
+ <section class="c td" id="td"></section>
+ <section class="stt" id="stt"></section>
+ <section class="kp" id="kp"></section>
+ <section class="ai" id="ai"></section>
+ <section class="g2">
+  <div class="c"><div class="ch"><h3>Class attendance by working day</h3><span class="sp"></span><div class="seg" id="rg"><button data-rg="w">Week</button><button data-rg="m">Month</button><button data-rg="t" class="on">Term</button></div><div class="seg" id="vw"><button data-vw="c" class="on">Chart</button><button data-vw="k">Calendar</button></div></div><div id="cv"></div></div>
+  <div class="c pat"><h3>Weekday pattern</h3><p class="sub">Average attendance this term</p><div id="pt"></div></div>
+ </section>
+ <section class="c"><div class="tb"><h3 id="tt">Students</h3><span class="sp"></span><input type="search" id="q" placeholder="Search" aria-label="Search"><div id="fl" style="display:flex;gap:6px;flex-wrap:wrap"></div></div>
+  <div class="bulk" id="bk"><b id="bn"></b><button class="btn sm" data-bk="Message parents">✉ Message parents</button><button class="btn sm" data-bk="Warning letters">Send warning letter</button><button class="btn sm" data-bk="Export">Export</button><button class="btn sm" data-bk="clear">Clear</button></div>
+  <div class="wrap"><table><thead id="th"></thead><tbody id="tbd"></tbody></table></div></section>
+</main>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="dr" aria-label="Details"></aside>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $=i=>document.getElementById(i),MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],WN=['Mon','Tue','Wed','Thu','Fri'];
+const h=(a,b)=>{const x=Math.sin(a*12.9898+b*78.233)*43758.5453;return x-Math.floor(x)};
+const FN=['Ayaan','Sara','Ali','Fatima','Hamza','Zainab','Usman','Areej','Hira','Bilal','Maryam','Zain','Noor','Danish','Iqra','Hassan','Amna','Taha','Laiba','Saad','Mahnoor','Omar','Esha','Rayyan','Anaya'],LN=['Khan','Ahmed','Raza','Noor','Ali','Sheikh','Tariq','Fatima','Malik','Hussain','Siddiqui','Butt','Qureshi','Javed','Mirza'];
+const days=[];for(let d=new Date(2026,7,4);d<=new Date(2026,8,28);d.setDate(d.getDate()+1)){const w=(d.getDay()+6)%7;if(w<5&&!(d.getMonth()===7&&d.getDate()===14))days.push({d:new Date(d),w})}
+const TOD=new Date(2026,8,29);
+const mk=(n,sd,nm)=>Array.from({length:n},(_,i)=>{const r=.01+h(i+sd,99)**2*.2;return{i,r,n:nm(i),hs:days.map((dd,j)=>{const x=h(i+sd,j),m=dd.w===4?1.8:dd.w===0?1.2:.85;return x<r*m?'A':x>.97?'L':'P'})}});
+const tdy=(S,sd)=>S.map(s=>{const x=h(s.i+sd,500);return x<s.r*1.5?'A':x>.96?'L':'P'});
+const SECS=[[6,'A',32,'Sarah Khan','8:05 AM'],[7,'B',34,'Ahmed Raza','8:12 AM'],[8,'A',30,'Ayesha Malik',null],[9,'A',32,'Ali Raza','8:02 AM'],[10,'A',29,'Farah Naz','8:20 AM']].map(x=>{const sd=x[0]*50,S=mk(x[2],sd,i=>FN[(i*7+x[0]*3)%25]+' '+LN[(i*11+x[0])%15]);return{g:x[0],s:x[1],n:x[2],t:x[3],m:x[4],S,td:x[4]?tdy(S,sd):null,sd}});
+const STN=[['Sarah Khan','Teacher'],['Ahmed Raza','Teacher'],['Ayesha Malik','Teacher'],['Ali Raza','Teacher'],['Farah Naz','Teacher'],['Hina Tariq','Teacher'],['Bilal Ahmed','Teacher'],['Sana Iqbal','Teacher'],['Muhammad Ali','Teacher'],['Rabia Khan','Admin'],['Imran Shah','Accountant'],['Nadia Hussain','Librarian'],['Tariq Mehmood','Security'],['Sidra Aslam','Teacher']];
+const STF=mk(14,900,i=>STN[i][0]);const STT=STF.map((s,i)=>i===5?'V':h(i+900,500)>.9?'L':'P');
+const st={tab:'s',si:0,rg:'t',vw:'c',cm:8,cd:null,f:'all',q:'',ai:0,sel:{},lv:[['Hira Shah','Tue 30 Sep','Fever, doctor’s note attached'],['Taha Khan','Thu 2 Oct','Family event']],dr:null};
+let tk=null;
+const toast=m=>{const t=$('toast');t.textContent=m;t.className='toast on';clearTimeout(toast.x);toast.x=setTimeout(()=>t.className='toast',2800)};
+const cur=()=>SECS[st.si],fs=()=>st.tab==='f',DS=()=>fs()?STF:cur().S,TD=()=>fs()?STT:cur().td;
+const fm=d=>d.getDate()+' '+MN[d.getMonth()],ini=n=>n.split(' ').map(w=>w[0]).join(''),hu=i=>(i*47+23)%360;
+const pct=s=>100*(1-s.hs.filter(x=>x==='A').length/days.length),sum=a=>a.reduce((x,y)=>x+y,0);
+function series(){const S=DS(),t=TD(),a=days.map((_,j)=>100*(1-S.filter(s=>s.hs[j]==='A').length/S.length));if(t)a.push(100*(1-t.filter(x=>x==='A'||x==='V').length/t.length));return a}
+const alld=()=>days.concat([{d:TOD,w:1}]);
+function wavg(sr){return[0,1,2,3,4].map(w=>{const v=sr.filter((_,j)=>j<days.length&&days[j].w===w);return sum(v)/v.length})}
+function tstrip(){const t=TD();if(!t&&!fs())return;const c={P:0,A:0,L:0,V:0};t.forEach(x=>c[x]++);return c}
+function renderTop(){
+ const c=tstrip(),s=cur(),f=fs();
+ $('tch').innerHTML=f?'<span>All departments · 14 staff</span>':'<span class="av" style="--hu:'+hu(s.g)+';width:26px;height:26px;font-size:10px">'+ini(s.t)+'</span>Class teacher · '+s.t;
+ $('gs').innerHTML=SECS.map((x,i)=>'<option value="'+i+'"'+(i===st.si?' selected':'')+'>Grade '+x.g+'</option>').join('');
+ $('ss').innerHTML='<option>Section '+s.s+'</option>';$('cls').style.display=f?'none':'';
+ document.querySelectorAll('#tabs button').forEach(b=>b.className=b.dataset.tab===st.tab?'on':'');
+ $('lvb').textContent=st.lv.length;$('lvb').hidden=!st.lv.length;
+ const td=$('td');
+ if(f){td.className='c td';td.innerHTML='<div><b class="t">✓ Staff check-in is automatic</b><div class="sub">Via QR and biometric devices</div><div class="cn"><span class="g">Checked in '+(c.P)+'</span><span class="w">Late '+c.L+'</span><span style="color:#3b4cca">On leave '+c.V+'</span></div></div><button class="btn p" data-lg="1">View check-in log</button>'}
+ else if(c){td.className='c td';td.innerHTML='<div><b class="t">✓ '+(s.m==='just now'?'Marked just now':'Marked by '+s.t+' at '+s.m)+'</b><div class="cn"><span class="g">Present '+c.P+'</span><span class="b">Absent '+c.A+'</span><span class="w">Late '+c.L+'</span><span style="color:#3b4cca">On leave '+c.V+'</span></div></div><button class="btn p" data-take="1">Edit today’s attendance</button>'}
+ else{td.className='c td pe';td.innerHTML='<div><b class="t">⏳ Not marked yet</b><div class="sub">Grade '+s.g+'-'+s.s+' · '+s.n+' students · due by 9:00 AM</div></div><button class="btn" data-rm="1">Remind teacher</button><button class="btn p" data-take="1">Take attendance</button>'}
+ $('stt').hidden=f;$('stt').innerHTML=SECS.map((x,i)=>'<button class="sec'+(i===st.si?' on':'')+'" data-sec="'+i+'"><b>'+x.g+x.s+'</b>'+(x.td?'<span class="g">✓ Marked · '+Math.round(100*x.td.filter(v=>v!=='A').length/x.n)+'%</span>':'<span class="w">⏳ Pending</span>')+'</button>').join('')}
+function renderKpi(){
+ const S=DS(),sr=series().slice(0,days.length),wa=wavg(sr),avg=sum(sr)/sr.length,a=sr.filter((_,j)=>days[j].d.getMonth()===7),b=sr.filter((_,j)=>days[j].d.getMonth()===8),dl=sum(b)/b.length-sum(a)/a.length;
+ const bi=wa.indexOf(Math.max(...wa)),wi=wa.indexOf(Math.min(...wa)),low=S.filter(s=>pct(s)<85).length,perf=S.filter(s=>!s.hs.includes('A')).length,t=TD();
+ const k=fs()?[['Term average',avg.toFixed(1)+'%',dl],['Late today',t.filter(x=>x==='L').length],['On leave today',t.filter(x=>x==='V').length],['Perfect attendance',perf+' staff']]:[['Term average',avg.toFixed(1)+'%',dl],['Best and weakest day',WN[bi]+' '+wa[bi].toFixed(0)+'% · '+WN[wi]+' '+wa[wi].toFixed(0)+'%'],['Students below 85%',low],['Perfect attendance',perf+' students']];
+ $('kp').innerHTML=k.map(x=>'<div><small>'+x[0]+'</small><b style="'+(String(x[1]).length>9?'font-size:16px;padding:4px 0':'')+'">'+x[1]+'</b>'+(x[2]!==undefined?'<span class="'+(x[2]>=0?'up':'dn')+'">'+(x[2]>=0?'↑ ':'↓ ')+Math.abs(x[2]).toFixed(1)+' pts vs August</span>':'')+'</div>').join('');
+ $('pt').innerHTML=wa.map((v,i)=>'<div><em>'+WN[i]+'</em><span><i class="'+(i===wi?'lo':'')+'" style="width:'+((v-75)/25*100)+'%"></i></span><b>'+v.toFixed(1)+'%</b></div>').join('')}
+function insights(){
+ const S=DS();if(fs())return[['Two staff members arrived after 8:15 AM on three days this week.','Message staff']];
+ const fr=days.map((d,j)=>d.w===4?j:-1).filter(j=>j>=0).slice(-5),top=S.map(s=>({s,c:fr.filter(j=>s.hs[j]==='A').length})).sort((a,b)=>b.c-a.c)[0],wa=wavg(series()),oth=(wa[0]+wa[1]+wa[2]+wa[3])/4;
+ return[[top.c>=2?top.s.n+' has missed '+top.c+' of the last 5 Fridays.':top.s.n+' has the most absences this term.','Message parent'],['Grade '+cur().g+' attendance drops '+(oth-wa[4]).toFixed(1)+'% on Fridays compared with other days.','Flag for early alert'],[S.filter(s=>pct(s)<85).length+' students are below 85% this term.','Schedule meeting']]}
+function renderAi(){const I=insights();st.ai=st.ai%I.length;$('ai').innerHTML='<div class="ic">✨</div><p><b>ILMA AI</b> · '+I[st.ai][0]+'</p><button class="btn sq" data-ia="-1" aria-label="Previous">‹</button><button class="btn sq" data-ia="1" aria-label="Next">›</button><button class="btn p" data-aa="'+I[st.ai][1]+'">'+I[st.ai][1]+'</button>'}
+function chart(){
+ const sr=series(),D=alld().slice(0,sr.length),n0={w:5,m:22,t:999}[st.rg],from=Math.max(0,sr.length-n0),v=sr.slice(from),dd=D.slice(from),N=DS().length,W=640,H=250,l=40,r=10,t=14,b=28,mn=75,mx=100,x=i=>l+i*(W-l-r)/Math.max(v.length-1,1),y=p=>t+(H-t-b)*(1-(Math.max(p,mn)-mn)/(mx-mn));
+ const av=v.map((_,i)=>{const a=sr.slice(Math.max(0,from+i-6),from+i+1);return sum(a)/a.length});
+ let s='<div class="lg"><span><i style="background:#6c4cf1;opacity:.5"></i>Daily</span><span><i style="background:#0f8a66;height:4px"></i>7-day average</span><span><i style="background:#d9362b"></i>90% target</span></div><svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto" role="img">';
+ for(let k=75;k<=100;k+=5)s+='<line x1="'+l+'" x2="'+(W-r)+'" y1="'+y(k)+'" y2="'+y(k)+'" stroke="var(--line)"/><text x="'+(l-6)+'" y="'+(y(k)+4)+'" text-anchor="end">'+k+'%</text>';
+ s+='<line x1="'+l+'" x2="'+(W-r)+'" y1="'+y(90)+'" y2="'+y(90)+'" stroke="#d9362b" stroke-dasharray="5 4" stroke-width="1.5"/>';
+ const lab=Math.min(8,v.length);for(let k=0;k<lab;k++){const i=Math.round(k*(v.length-1)/Math.max(lab-1,1));s+='<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle">'+fm(dd[i].d)+'</text>'}
+ const fl=(dt,tx)=>{const i=dd.findIndex(q=>q.d>=dt);if(i>0){const xx=(x(i)+x(i-1))/2;s+='<line x1="'+xx+'" x2="'+xx+'" y1="'+t+'" y2="'+(H-b)+'" stroke="var(--mut)" stroke-dasharray="2 3"/><text x="'+(xx+4)+'" y="'+(t+10)+'">'+tx+'</text>'}};
+ fl(new Date(2026,7,14),'🏳 Independence Day');fl(new Date(2026,8,14),'📝 Mid-terms');
+ s+='<polygon points="'+x(0)+','+y(mn)+' '+v.map((p,i)=>x(i)+','+y(p)).join(' ')+' '+x(v.length-1)+','+y(mn)+'" fill="#6c4cf1" opacity=".1"/><polyline points="'+v.map((p,i)=>x(i)+','+y(p)).join(' ')+'" fill="none" stroke="#6c4cf1" stroke-width="1.6" opacity=".55"/>';
+ v.forEach((p,i)=>s+='<circle cx="'+x(i)+'" cy="'+y(p)+'" r="3.4" fill="var(--card)" stroke="#6c4cf1" stroke-width="2"><title>'+fm(dd[i].d)+' · '+Math.round(p/100*N)+' of '+N+' present ('+p.toFixed(1)+'%)</title></circle>');
+ s+='<polyline points="'+av.map((p,i)=>x(i)+','+y(p)).join(' ')+'" fill="none" stroke="#0f8a66" stroke-width="3.2" stroke-linejoin="round"/></svg>';return s}
+function calendar(){
+ const m=st.cm,first=(new Date(2026,m,1).getDay()+6)%7,dim=new Date(2026,m+1,0).getDate(),S=DS(),sr=series();
+ let s='<div class="ch" style="margin-bottom:10px"><button class="btn sq sm" data-cm="-1"'+(m<=7?' disabled':'')+'>‹</button><b>'+['August','September'][m-7]+' 2026</b><button class="btn sq sm" data-cm="1"'+(m>=8?' disabled':'')+'>›</button><span class="sp"></span><span class="sub">Click a day to see who was absent</span></div><div class="cal">'+WN.concat(['Sat','Sun']).map(w=>'<span class="h">'+w+'</span>').join('');
+ for(let i=0;i<first;i++)s+='<span></span>';
+ for(let d=1;d<=dim;d++){const dt=new Date(2026,m,d),j=days.findIndex(q=>q.d.getTime()===dt.getTime()),isT=dt.getTime()===TOD.getTime();
+  if(j<0&&!(isT&&TD()))s+='<button class="off" tabindex="-1">'+d+'</button>';else{const p=sr[j<0?sr.length-1:j],c=p>=92?'#0f8a66':p>=88?'#d98b06':'#d9362b';s+='<button class="'+(st.cd===m+'-'+d?'sel':'')+'" data-day="'+m+'-'+d+'" style="background:'+c+'"><b>'+d+'</b>'+Math.round(p)+'%</button>'}}
+ s+='</div>';
+ if(st.cd){const[mm,dd]=st.cd.split('-').map(Number),dt=new Date(2026,mm,dd),j=days.findIndex(q=>q.d.getTime()===dt.getTime()),ab=j<0?S.filter((s,i)=>TD()[i]==='A'):S.filter(s=>s.hs[j]==='A');s+='<div class="cd"><b>'+fm(dt)+'</b> · '+(S.length-ab.length)+' of '+S.length+' present<br>'+(ab.length?'Absent: '+ab.map(s=>s.n).join(', '):'No absences 🎉')+'</div>'}
+ return s}
+function renderChart(){
+ document.querySelectorAll('#rg button').forEach(b=>b.className=b.dataset.rg===st.rg?'on':'');document.querySelectorAll('#vw button').forEach(b=>b.className=b.dataset.vw===st.vw?'on':'');
+ $('rg').style.display=st.vw==='c'?'':'none';$('cv').innerHTML=st.vw==='c'?chart():calendar()}
+const stat=p=>p>=90?['g','✓','Good']:p>=85?['w','👁','Watch']:['b','⚠','At risk'];
+function renderTable(){
+ const f=fs(),S=DS(),t=TD();$('tt').textContent=f?'Staff':'Students';
+ const rows=S.map(s=>{const p=pct(s),ab=s.hs.filter(x=>x==='A').length+(t&&t[s.i]==='A'?1:0),lt=s.hs.filter(x=>x==='L').length;return{s,p,ab,lt}}).filter(o=>(!st.q||o.s.n.toLowerCase().includes(st.q))&&(st.f==='all'||(st.f==='risk'&&o.p<85)||(st.f==='freq'&&o.ab>=8)||(st.f==='late'&&o.lt>=3))).sort((a,b)=>a.p-b.p);
+ $('fl').innerHTML=[['all','All'],['risk','At risk'],['freq','Frequently absent'],['late','Often late']].map(c=>'<button class="fc'+(st.f===c[0]?' on':'')+'" data-f="'+c[0]+'">'+c[1]+'</button>').join('');
+ $('th').innerHTML='<tr><th style="width:40px"></th><th>'+(f?'STAFF':'STUDENT')+'</th><th>THIS TERM</th>'+(f?'<th>CHECK-IN TODAY</th><th>SOURCE</th>':'<th>LAST 10 DAYS</th><th>ABSENCES</th>')+'<th>STATUS</th><th></th></tr>';
+ const dot=x=>'<i style="background:'+({P:'#0f8a66',A:'#d9362b',L:'#d98b06',V:'#3b4cca',_:'#c9cde0'}[x])+'" title="'+({P:'Present',A:'Absent',L:'Late',V:'On leave',_:'Not marked'}[x])+'">'+(x==='P'?'✓':x==='A'?'✕':x==='_'?'':x)+'</i>';
+ $('tbd').innerHTML=rows.length?rows.map(o=>{const s=o.s,c=o.p>=90?'#0f8a66':o.p>=85?'#d98b06':'#d9362b';let m;
+  if(f){const tx=t[s.i],ci=tx==='V'?'On leave':tx==='L'?'8:'+(20+Math.floor(h(s.i,7)*20))+' AM':'7:'+(40+Math.floor(h(s.i,7)*19))+' AM';m='<td>'+ci+'</td><td>'+(s.i%3?'QR':'Biometric')+'</td>';const ss=tx==='V'?['g','🏖','On leave']:tx==='L'?['w','⏱','Late']:['g','✓','Present'];m+='<td><span class="stp '+ss[0]+'">'+ss[1]+' '+ss[2]+'</span></td>'}
+  else{const hist=s.hs.slice(-9).concat([t?t[s.i]:'_']),ss=stat(o.p);m='<td><span class="dots">'+hist.map(dot).join('')+'</span></td><td>'+o.ab+'</td><td><span class="stp '+ss[0]+'">'+ss[1]+' '+ss[2]+'</span></td>'}
+  return '<tr class="r" tabindex="0" data-stu="'+s.i+'"><td><input type="checkbox" data-c="'+s.i+'"'+(st.sel[s.i]?' checked':'')+' aria-label="Select '+s.n+'"></td><td><span class="who"><span class="av" style="--hu:'+hu(s.i)+'">'+ini(s.n)+'</span>'+s.n+(f?'<small style="color:var(--mut);font-weight:500"> · '+STN[s.i][1]+'</small>':'')+'</span></td><td><span class="pb"><i style="width:'+o.p+'%;background:'+c+'"></i></span><b>'+Math.round(o.p)+'%</b></td>'+m+'<td class="act"><button data-act="Calling guardian" title="Call">📞</button><button data-act="Opening WhatsApp" title="WhatsApp">💬</button>'+(f?'':'<button data-act="Absence excused" title="Excuse absence">📝</button>')+'</td></tr>'}).join(''):'<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--mut)">No one matches. Try a different filter.</td></tr>';
+ const n=Object.keys(st.sel).length;$('bk').className='bulk'+(n?' on':'');$('bn').textContent=n+' selected'}
+function render(){renderTop();renderKpi();renderAi();renderChart();renderTable()}
+const close=()=>{$('dr').className='drawer';$('scrim').className='scrim'};
+const open=hh=>{$('dr').innerHTML='<button class="x" id="cx" aria-label="Close">×</button>'+hh;$('dr').className='drawer on';$('scrim').className='scrim on'};
+function takeUI(keep){
+ const s=cur(),c={P:0,A:0,L:0,V:0};tk.forEach(x=>c[x]++);const y=$('dr').scrollTop;
+ open('<h3 style="font-size:20px;margin:4px 0">Take attendance</h3><p class="sub">Grade '+s.g+'-'+s.s+' · '+s.t+' · everyone starts as present</p><div class="dhd"><div class="cn" style="margin:0"><span class="g">Present '+c.P+'</span><span class="b">Absent '+c.A+'</span><span class="w">Late '+c.L+'</span><span style="color:#3b4cca">Leave '+c.V+'</span></div><div class="acts" style="margin-top:10px"><button class="btn sm" data-allp="1">Mark all present</button><button class="btn p sm" data-save="1">Save attendance</button></div></div>'+s.S.map((q,i)=>'<div class="row"><span class="who" style="color:var(--ink)"><span class="av" style="--hu:'+hu(q.i)+';width:28px;height:28px;font-size:10px">'+ini(q.n)+'</span>'+q.n+'</span><span class="pa">'+['P','A','L','V'].map(k=>'<button class="'+k+(tk[i]===k?' on':'')+'" data-tp="'+i+'|'+k+'" aria-label="'+k+'">'+k+'</button>').join('')+'</span></div>').join(''));
+ if(keep)$('dr').scrollTop=y}
+function notifyUI(){
+ const s=cur(),n=tk.filter(x=>x==='A'||x==='L').length,ab=tk.includes('A'),q=s.S[tk.indexOf(ab?'A':'L')];
+ open('<h3 style="font-size:20px;margin:4px 0">Notify parents?</h3><p class="sub">'+n+' parent'+(n>1?'s':'')+' will get a WhatsApp message.</p><div class="msg">Assalam o Alaikum. '+q.n.split(' ')[0]+' was marked '+(ab?'absent':'late')+' today in Grade '+s.g+'-'+s.s+'. Please contact the school if this is a mistake.</div><div class="acts"><button class="btn p" data-nt="1">Send and finish</button><button class="btn" data-nt="0">Skip</button></div>')}
+const sv=(msg)=>{const s=cur();s.td=tk.slice();s.m='just now';close();toast(msg);tk=null;render()};
+function stuUI(i){
+ const s=DS()[i],f=fs(),p=pct(s),rs={Sick:0,Family:0,Unexcused:0};s.hs.forEach((x,j)=>{if(x==='A')rs[['Sick','Family','Unexcused'][Math.floor(h(i,j+300)*3)]]++});
+ open('<div class="who" style="margin:4px 0 14px"><span class="av" style="--hu:'+hu(i)+';width:54px;height:54px;font-size:18px">'+ini(s.n)+'</span><div><h3 style="font-size:20px">'+s.n+'</h3><span class="sub">'+(f?STN[i][1]:'Grade '+cur().g+'-'+cur().s)+' · '+Math.round(p)+'% this term</span></div></div>'+
+ '<h3>Last 20 working days</h3><div class="dots" style="margin:10px 0 16px;flex-wrap:wrap">'+s.hs.slice(-20).map(x=>'<i style="width:18px;height:18px;background:'+({P:'#0f8a66',A:'#d9362b',L:'#d98b06'}[x])+'">'+(x==='P'?'✓':x==='A'?'✕':'L')+'</i>').join('')+'</div>'+
+ '<div class="row">Absence reasons<b>Sick '+rs.Sick+' · Family '+rs.Family+' · Unexcused '+rs.Unexcused+'</b></div><div class="row">Late arrivals<b>'+s.hs.filter(x=>x==='L').length+'</b></div><div class="row">'+(f?'Phone':'Guardian')+'<b>+92 30'+(i%10)+' '+String(1000000+((i*7919)%9000000))+'</b></div>'+
+ '<div class="acts"><button class="btn p" data-act="Calling guardian">📞 Call</button><button class="btn" data-act="Opening WhatsApp">💬 WhatsApp</button>'+(f?'':'<button class="btn" data-act="Absence excused">📝 Excuse absence</button>')+'</div>')}
+function lvUI(){open('<h3 style="font-size:20px;margin:4px 0 12px">Leave requests</h3>'+(st.lv.length?st.lv.map((q,i)=>'<div class="row" style="display:block"><b>'+q[0]+'</b> · '+q[1]+'<br><span>'+q[2]+'</span><div class="acts" style="margin-top:8px"><button class="btn p sm" data-la="a|'+i+'">Approve</button><button class="btn sm" data-la="d|'+i+'">Decline</button></div></div>').join(''):'<p class="sub">No pending requests 🎉</p>'))}
+document.addEventListener('click',e=>{
+ const g=q=>e.target.closest(q);let o;
+ if(!g('.dd'))$('em').className='menu';
+ if(o=g('[data-tab]')){st.tab=o.dataset.tab;st.sel={};st.f='all';render();return}
+ if(o=g('[data-sec]')){st.si=+o.dataset.sec;st.sel={};render();return}
+ if(o=g('[data-ar]')){st.si=(st.si+ +o.dataset.ar+SECS.length)%SECS.length;st.sel={};render();return}
+ if(o=g('[data-rg]')){st.rg=o.dataset.rg;renderChart();return}
+ if(o=g('[data-vw]')){st.vw=o.dataset.vw;renderChart();return}
+ if(o=g('[data-cm]')){st.cm+= +o.dataset.cm;st.cd=null;renderChart();return}
+ if(o=g('[data-day]')){st.cd=o.dataset.day;renderChart();return}
+ if(o=g('[data-ia]')){st.ai+= +o.dataset.ia+99;renderAi();return}
+ if(o=g('[data-aa]')){toast(o.dataset.aa+': drafted for review');return}
+ if(o=g('[data-f]')){st.f=o.dataset.f;renderTable();return}
+ if(o=g('[data-rm]')){toast('Reminder sent to '+cur().t);return}
+ if(g('[data-lg]')){toast('Opening check-in log…');return}
+ if(g('[data-take]')){tk=cur().td?cur().td.slice():cur().S.map(()=>'P');takeUI();return}
+ if(o=g('[data-tp]')){const a=o.dataset.tp.split('|');tk[+a[0]]=a[1];takeUI(1);return}
+ if(g('[data-allp]')){tk=tk.map(()=>'P');takeUI(1);return}
+ if(g('[data-save]')){tk.some(x=>x==='A'||x==='L')?notifyUI():sv('Attendance saved');return}
+ if(o=g('[data-nt]')){sv(o.dataset.nt==='1'?'Attendance saved. Parents notified on WhatsApp.':'Attendance saved');return}
+ if(g('[data-lv]')){lvUI();return}
+ if(o=g('[data-la]')){const a=o.dataset.la.split('|'),q=st.lv.splice(+a[1],1)[0];toast(q[0]+'’s leave '+(a[0]==='a'?'approved':'declined'));renderTop();lvUI();return}
+ if(o=g('[data-act]')){toast(o.dataset.act);return}
+ if(o=g('[data-x]')){$('em').className='menu';toast(o.dataset.x==='Monthly'?'Monthly report ready to send to parents (preview)':'Preparing '+o.dataset.x+'…');return}
+ if(o=g('[data-bk]')){if(o.dataset.bk==='clear')st.sel={};else toast(o.dataset.bk+' for '+Object.keys(st.sel).length+' selected');renderTable();return}
+ if(o=g('[data-c]')){o.checked?st.sel[o.dataset.c]=1:delete st.sel[o.dataset.c];renderTable();return}
+ if(o=g('[data-stu]')){stuUI(+o.dataset.stu);return}
+ if(e.target.id==='scrim'||e.target.id==='cx'){tk=null;close()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){tk=null;close()}if(e.key==='Enter'&&e.target.dataset&&e.target.dataset.stu)stuUI(+e.target.dataset.stu)});
+$('gs').onchange=function(){st.si=+this.value;st.sel={};render()};
+$('q').oninput=function(){st.q=this.value.toLowerCase();renderTable()};
+$('ex').onclick=e=>{e.stopPropagation();$('em').className='menu on'};
+render();
+</script>
+</body>
+</html>

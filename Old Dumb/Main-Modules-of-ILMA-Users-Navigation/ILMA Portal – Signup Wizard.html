@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA Portal – Institute Setup</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--brand:#0e6b5c;--bg:#f6f8f7;--card:#fff;--ink:#12201d;--mute:#5c6d69;--line:#d6dfdc;--err:#c0392b;--ok:#1d8a5b;--gold:#e0a526;--side:#0b3b34;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1514;--card:#142120;--ink:#e8f1ee;--mute:#93a8a3;--line:#2a3d3a;--side:#071f1b}}
+:root[data-theme="dark"]{--bg:#0d1514;--card:#142120;--ink:#e8f1ee;--mute:#93a8a3;--line:#2a3d3a;--side:#071f1b}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Figtree,system-ui,sans-serif}
+h1,h2,h3{font-family:'Bricolage Grotesque',Georgia,sans-serif;margin:0}
+.app{display:grid;grid-template-columns:minmax(280px,38%) 1fr;min-height:100vh}
+aside{background:var(--side);color:#fff;padding:40px 36px;display:flex;flex-direction:column;gap:28px;position:sticky;top:0;height:100vh;overflow:hidden}
+.logo{display:flex;align-items:center;gap:12px;font:700 22px 'Bricolage Grotesque',sans-serif}
+.mark{width:42px;height:42px;border-radius:12px;background:var(--brand);display:grid;place-items:center;overflow:hidden;border:2px solid rgba(255,255,255,.25);font-size:18px}
+.mark img{width:100%;height:100%;object-fit:cover}
+aside h2{font-size:32px;line-height:1.15}
+aside p{color:#b9d3cd;margin:0}
+.trust{margin-top:auto;font-size:14px;color:#9cc0b8;border-top:1px solid rgba(255,255,255,.15);padding-top:16px}
+main{padding:32px clamp(20px,5vw,64px);max-width:820px;width:100%}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.btn-ghost{background:none;border:1px solid var(--line);color:var(--mute);border-radius:20px;padding:5px 12px;cursor:pointer;font:inherit;font-size:14px}
+.prog{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin:10px 0 6px}
+.prog i{display:block;height:100%;background:var(--brand);width:0;transition:width .4s}
+.meta{display:flex;justify-content:space-between;color:var(--mute);font-size:14px;margin-bottom:24px}
+.step{display:none}.step.on{display:block}
+.step h1{font-size:30px;margin-bottom:4px}.sub{color:var(--mute);margin:0 0 22px}
+fieldset{border:0;padding:0;margin:0 0 26px}
+legend{font:700 18px 'Bricolage Grotesque',sans-serif;margin-bottom:12px;padding:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px}
+.full{grid-column:1/-1}
+label{display:block;font-weight:600;font-size:14px;margin-bottom:5px}
+.opt{font-weight:400;color:var(--mute)}
+input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font:inherit}
+input:focus,select:focus,button:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 35%,transparent);border-color:var(--brand)}
+.f.bad input,.f.bad select{border-color:var(--err)}
+.f.good input,.f.good select{border-color:var(--ok)}
+.msg{font-size:13px;color:var(--err);min-height:0;margin-top:4px;display:none}
+.f.bad .msg{display:block}
+.hint{font-size:13px;color:var(--mute);margin-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);border-radius:20px;padding:6px 14px;cursor:pointer;background:var(--card);font:inherit;font-size:14px;color:var(--ink)}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.logo-row{display:flex;gap:14px;align-items:center}
+.logo-drop{width:64px;height:64px;border-radius:14px;border:2px dashed var(--line);display:grid;place-items:center;overflow:hidden;background:var(--card);flex:none}
+.logo-drop img{width:100%;height:100%;object-fit:cover}
+input[type=color]{padding:2px;height:44px;width:70px}
+.btn{background:var(--brand);color:#fff;border:0;border-radius:12px;padding:13px 26px;font:600 16px Figtree,sans-serif;cursor:pointer}
+.btn:hover{filter:brightness(1.1)}.btn.sec{background:none;color:var(--ink);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.nav{display:flex;justify-content:space-between;gap:12px;margin-top:8px}
+.meter{display:flex;gap:4px;margin-top:6px}.meter i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:14px;margin:8px 0}
+.check input{width:auto;margin-top:4px}
+.gate{max-width:440px}
+.demo{background:color-mix(in srgb,var(--gold) 18%,var(--card));border:1px solid var(--gold);border-radius:10px;padding:10px 14px;font-size:14px;margin:14px 0}
+.demo b{font-family:ui-monospace,monospace;letter-spacing:.06em}
+.otp{display:flex;gap:10px;margin:18px 0}
+.otp input{width:100%;max-width:56px;height:64px;text-align:center;font-size:26px;font-weight:700;padding:0}
+.chan{display:flex;gap:8px;margin:14px 0}
+.chan button{flex:1;padding:10px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit}
+.chan .on{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 12%,var(--card));font-weight:600}
+.chan button:disabled{opacity:.55}
+.soon{font-size:11px;background:var(--gold);color:#222;border-radius:8px;padding:1px 6px;margin-left:4px}
+.link{background:none;border:0;color:var(--brand);font:inherit;cursor:pointer;padding:0;text-decoration:underline}
+.done{text-align:center}
+.done .ring{width:130px;height:130px;margin:10px auto}
+.cl{list-style:none;padding:0;margin:20px auto;max-width:420px;text-align:left}
+.cl li{display:flex;gap:12px;align-items:center;padding:11px 14px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:var(--card)}
+.cl li span{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:13px;flex:none}
+.cl li.d span{background:var(--ok);border-color:var(--ok);color:#fff}
+.cred{display:inline-flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:6px 0}
+.badge{background:var(--gold);color:#222;font-weight:700;font-size:12px;padding:2px 8px;border-radius:6px}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:9}
+.confetti i{position:absolute;top:-12px;width:9px;height:14px;animation:fall 2.8s ease-in forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+.step.on{animation:sl .3s ease}
+@keyframes sl{from{opacity:0;transform:translateX(14px)}}
+.wa{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));background:#25d366;color:#04361a;border-radius:24px;padding:9px 16px;font-weight:600;font-size:14px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.25);border:0;cursor:pointer}
+@media(max-width:820px){.app{grid-template-columns:1fr}aside{position:static;height:auto;padding:22px 20px}aside h2,aside p,.trust{display:none}.grid{grid-template-columns:1fr}.otp{gap:6px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+ <div class="logo"><div class="mark" id="mark">🎓</div><span id="brandName">ILMA Portal</span></div>
+ <h2 id="sideH">Set up your institute in about 3 minutes.</h2>
+ <p id="sideP">One Super Admin account. Then add teachers, finance staff and students from inside the portal.</p>
+ <div class="trust">🔒 We never share your institute's data. Your progress is saved automatically on this device.</div>
+</aside>
+<main>
+ <div class="top"><b id="stepName">Invite key</b><button class="btn-ghost" id="theme" type="button">Dark / Light</button></div>
+ <div class="prog"><i id="bar"></i></div>
+ <div class="meta"><span id="stepNo">Step 1 of 4</span><span id="eta">About 3 minutes</span></div>
+
+ <!-- 1 GATE -->
+ <section class="step on gate" data-n="0">
+  <h1>Welcome to ILMA</h1>
+  <p class="sub">Sign-up is by invitation. Enter the Setup Invite Key sent to you by the ILMA team.</p>
+  <div class="f" id="f-key"><label for="key">Setup Invite Key</label><input id="key" placeholder="ILMA-XXXX-XXXX" autocomplete="off"><div class="msg"></div></div>
+  <div class="demo">Prototype key: <b>ILMA-DEMO-2026</b> <button class="link" type="button" id="fillKey">Use it</button></div>
+  <div class="nav"><span></span><button class="btn" data-next>Continue</button></div>
+ </section>
+
+ <!-- 2 INSTITUTE -->
+ <section class="step" data-n="1">
+  <h1>Tell us about your institute</h1>
+  <p class="sub">Fields marked optional can be added later in Settings.</p>
+  <fieldset><legend>Basics</legend><div class="grid">
+   <div class="f full" id="f-iname"><label for="iname">Institute name</label><input id="iname" placeholder="e.g. Sunrise Grammar School"><div class="msg"></div></div>
+   <div class="f" id="f-icode"><label for="icode">Short code <span class="opt">(used in usernames)</span></label><input id="icode" maxlength="5" placeholder="SUN"><div class="msg"></div></div>
+   <div class="f" id="f-itype"><label for="itype">Institute type</label><select id="itype"><option value="">Select…</option><option>School</option><option>College</option><option>Academy</option><option>Madrassa</option><option>Coaching Center</option><option>University</option></select><div class="msg"></div></div>
+   <div class="f"><label for="board">Board <span class="opt">(optional)</span></label><select id="board"><option value="">Select…</option><option>Punjab Board (BISE)</option><option>FBISE</option><option>Cambridge</option><option>Aga Khan Board</option><option>Other</option></select></div>
+   <div class="f"><label for="reg">Registration / affiliation no. <span class="opt">(optional)</span></label><input id="reg"></div>
+   <div class="full"><label>Logo and brand color <span class="opt">(optional, previews live)</span></label>
+    <div class="logo-row"><div class="logo-drop" id="drop">🏫</div><input type="file" id="logo" accept="image/*" style="max-width:240px"><input type="color" id="color" value="#0e6b5c" aria-label="Brand color"></div></div>
+  </div></fieldset>
+  <fieldset><legend>Contact and location</legend><div class="grid">
+   <div class="f" id="f-iemail"><label for="iemail">Official email</label><input id="iemail" type="email" placeholder="office@school.edu.pk"><div class="msg"></div></div>
+   <div class="f" id="f-iphone"><label for="iphone">Phone / WhatsApp</label><input id="iphone" inputmode="tel" placeholder="03XX XXXXXXX"><div class="msg"></div></div>
+   <div class="f full"><label for="web">Website <span class="opt">(optional)</span></label><input id="web" placeholder="https://"></div>
+   <div class="f full" id="f-addr"><label for="addr">Address</label><input id="addr"><div class="msg"></div></div>
+   <div class="f" id="f-city"><label for="city">City</label><input id="city" list="cities" placeholder="Lahore"><datalist id="cities"><option>Lahore<option>Karachi<option>Islamabad<option>Rawalpindi<option>Faisalabad<option>Multan<option>Peshawar<option>Quetta<option>Gujranwala<option>Sialkot</datalist><div class="msg"></div></div>
+   <div class="f"><label for="prov">Province</label><select id="prov"><option>Punjab<option>Sindh<option>Khyber Pakhtunkhwa<option>Balochistan<option>Islamabad Capital Territory<option>Gilgit-Baltistan<option>Azad Kashmir</select></div>
+   <div class="f"><label for="postal">Postal code <span class="opt">(optional)</span></label><input id="postal" inputmode="numeric"></div>
+   <div class="f"><label for="camp">Campuses / branches</label><input id="camp" type="number" min="1" value="1"></div>
+  </div></fieldset>
+  <fieldset><legend>Academic setup</legend><div class="grid">
+   <div class="f"><label for="ss">Session starts</label><input id="ss" type="date" value="2026-04-01"></div>
+   <div class="f"><label for="se">Session ends</label><input id="se" type="date" value="2027-03-31"></div>
+   <div class="full f" id="f-lv"><label>Levels offered</label><div class="chips" id="levels"></div><div class="msg">Pick at least one level.</div></div>
+   <div class="f"><label for="med">Medium</label><select id="med"><option>English<option>Urdu<option>English and Urdu</select></div>
+   <div class="f"><label for="stu">Approx. students <span class="opt">(optional)</span></label><input id="stu" type="number" min="0"></div>
+   <div class="f"><label for="cur">Currency</label><select id="cur"><option>PKR<option>USD<option>AED<option>GBP</select></div>
+   <div class="f"><label for="tz">Time zone</label><select id="tz"><option>Asia/Karachi<option>Asia/Dubai<option>Europe/London</select></div>
+  </div></fieldset>
+  <div class="nav"><button class="btn sec" data-back>Back</button><button class="btn" data-next>Continue</button></div>
+ </section>
+
+ <!-- 3 ADMIN -->
+ <section class="step" data-n="2">
+  <h1>Create your Super Admin account</h1>
+  <p class="sub">You will manage all teachers, finance staff and students from here. Only one Super Admin can be created at sign-up.</p>
+  <div class="grid">
+   <div class="f" id="f-aname"><label for="aname">Full name</label><input id="aname" autocomplete="name"><div class="msg"></div></div>
+   <div class="f"><label for="desig">Designation</label><select id="desig"><option>Owner<option>Principal<option>Director<option>Administrator</select></div>
+   <div class="f" id="f-amob"><label for="amob">Mobile</label><input id="amob" inputmode="tel" placeholder="03XX XXXXXXX"><div class="msg"></div></div>
+   <div class="f" id="f-aemail"><label for="aemail">Email <span class="opt">(your code is sent here)</span></label><input id="aemail" type="email"><div class="msg"></div></div>
+   <div class="f full"><label for="cnic">CNIC <span class="opt">(optional)</span></label><input id="cnic" inputmode="numeric" placeholder="XXXXX-XXXXXXX-X" maxlength="15"></div>
+   <div class="f" id="f-pw"><label for="pw">Password</label><input id="pw" type="password" autocomplete="new-password"><div class="meter" id="meter"><i></i><i></i><i></i><i></i></div><div class="hint" id="pwh">Use 8+ characters with upper, lower case, a number and a symbol.</div><div class="msg"></div></div>
+   <div class="f" id="f-pw2"><label for="pw2">Confirm password</label><input id="pw2" type="password" autocomplete="new-password"><div class="msg">Passwords don't match.</div></div>
+  </div>
+  <div class="f" id="f-terms"><label class="check"><input type="checkbox" id="terms"><span>I agree to the Terms of Service and Privacy Policy.</span></label><div class="msg">Please accept to continue.</div></div>
+  <div class="nav"><button class="btn sec" data-back>Back</button><button class="btn" data-next>Send verification code</button></div>
+ </section>
+
+ <!-- 4 VERIFY -->
+ <section class="step" data-n="3">
+  <h1>Verify it's you</h1>
+  <p class="sub">We sent a 6-digit code to <b id="sentTo"></b>. <button class="link" type="button" id="chg">Change email</button></p>
+  <div class="chan"><button type="button" class="on">✉️ Email</button><button type="button" disabled>💬 WhatsApp<span class="soon">soon</span></button></div>
+  <div class="otp" id="otp"></div>
+  <div class="f" id="f-otp"><div class="msg" id="otpMsg"></div></div>
+  <div class="demo" id="demoCode">Prototype only: your code is <b id="codeShow"></b>. In production it arrives by email and is never shown here.</div>
+  <p class="hint"><span id="rs">Resend available in 60s</span> · <button class="link" id="resend" type="button" disabled>Resend code</button></p>
+  <div class="nav"><button class="btn sec" data-back>Back</button><button class="btn" id="verify">Verify and open dashboard</button></div>
+ </section>
+
+ <!-- 5 DONE -->
+ <section class="step done" data-n="4">
+  <h1 id="welcome">Welcome to ILMA!</h1>
+  <p class="sub">Your institute is ready. Here is your Super Admin login:</p>
+  <div class="cred"><span class="badge">SA</span><b id="uname"></b></div>
+  <svg class="ring" viewBox="0 0 42 42"><circle cx="21" cy="21" r="16" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="21" cy="21" r="16" fill="none" stroke="var(--brand)" stroke-width="4" stroke-dasharray="20.1 100.5" stroke-linecap="round" transform="rotate(-90 21 21)"/><text x="21" y="24" text-anchor="middle" font-size="9" font-weight="700" fill="var(--ink)">20%</text></svg>
+  <b>20% ready. Finish your setup:</b>
+  <ul class="cl"><li class="d"><span>✓</span>Institute created</li><li><span></span>Add classes and sections</li><li><span></span>Add your first teacher (TCH)</li><li><span></span>Add Finance Manager (FIN)</li><li><span></span>Import students in bulk (STU)</li></ul>
+  <button class="btn sec" id="restart">Restart prototype</button>
+ </section>
+</main>
+</div>
+<button class="wa" type="button" onclick="alert('Prototype: this opens ILMA support chat.')">💬 Need help?</button>
+<script>
+const $=id=>document.getElementById(id);
+const names=['Invite key','Institute details','Super Admin account','Verify'];
+const etas=['About 3 minutes','About 2 minutes left','About 1 minute left','Almost done'];
+let cur=0,code='',tries=0,timer=null,lv=new Set();
+const KEY='ilma_signup_draft';
+const levels=['Pre-school','Primary','Middle','Matric','O Level','A Level','Intermediate','Undergraduate','Hifz / Nazra'];
+levels.forEach(l=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=l;b.onclick=()=>{lv.has(l)?lv.delete(l):lv.add(l);b.classList.toggle('on');ok('f-lv',lv.size>0);save()};$('levels').appendChild(b)});
+function ok(id,good,m){const f=$(id);f.classList.toggle('bad',!good);f.classList.toggle('good',good);if(m&&!good)f.querySelector('.msg').textContent=m;return good}
+const val=(id)=>$(id).value.trim();
+const phoneOK=v=>/^(\+92|0)?3\d{9}$/.test(v.replace(/[\s-]/g,''))||/^(\+92|0)\d{9,10}$/.test(v.replace(/[\s-]/g,''));
+const mailOK=v=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
+function show(n){cur=n;document.querySelectorAll('.step').forEach(s=>s.classList.toggle('on',+s.dataset.n===n));
+ $('bar').style.width=Math.min(n,4)/4*100+'%';
+ if(n<4){$('stepName').textContent=names[n];$('stepNo').textContent='Step '+(n+1)+' of 4';$('eta').textContent=etas[n]}else{$('stepName').textContent='All done';$('stepNo').textContent='Step 4 of 4';$('eta').textContent=''}
+ window.scrollTo({top:0,behavior:'smooth'});save()}
+function validate(n){let g=true;const c=(id,cond,m)=>{if(!ok(id,cond,m))g=false};
+ if(n===0){c('f-key',/^ILMA-DEMO-2026$/i.test(val('key')),'That key isn\'t valid. Check the key in your invite email or ask ILMA support.')}
+ if(n===1){c('f-iname',val('iname').length>2,'Enter your institute\'s full name.');c('f-icode',/^[A-Za-z]{2,5}$/.test(val('icode')),'Use 2 to 5 letters, for example SUN.');c('f-itype',!!val('itype'),'Choose a type.');
+  c('f-iemail',mailOK(val('iemail')),'Enter a valid email like office@school.edu.pk.');c('f-iphone',phoneOK(val('iphone')),'Enter a valid number such as 0300 1234567.');c('f-addr',val('addr').length>4,'Enter the street address.');c('f-city',val('city').length>1,'Enter your city.');c('f-lv',lv.size>0)}
+ if(n===2){c('f-aname',val('aname').length>2,'Enter your full name.');c('f-amob',phoneOK(val('amob')),'Enter a valid mobile such as 0300 1234567.');c('f-aemail',mailOK(val('aemail')),'Enter a valid email.');
+  c('f-pw',score($('pw').value)>=3,'Make it stronger: 8+ characters, mixed case, a number and a symbol.');c('f-pw2',$('pw').value===$('pw2').value&&$('pw2').value!=='');c('f-terms',$('terms').checked)}
+ if(!g){const b=document.querySelector('.step.on .bad');b&&b.scrollIntoView({block:'center',behavior:'smooth'})}
+ return g}
+function score(p){let s=0;if(p.length>=8)s++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))s++;if(/\d/.test(p))s++;if(/[^A-Za-z0-9]/.test(p))s++;return s}
+$('pw').oninput=()=>{const s=score($('pw').value),cs=['','#c0392b','#e08a1e','#9aa826','#1d8a5b'];[...$('meter').children].forEach((e,i)=>e.style.background=i<s?cs[s]:'var(--line)');$('pwh').textContent=['Use 8+ characters with upper, lower case, a number and a symbol.','Weak','Fair','Good','Strong'][s]};
+document.querySelectorAll('[data-next]').forEach(b=>b.onclick=()=>{if(!validate(cur))return;if(cur===2)startVerify();else show(cur+1)});
+document.querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>show(cur-1));
+$('fillKey').onclick=()=>{$('key').value='ILMA-DEMO-2026'};
+$('iname').oninput=()=>{const n=val('iname');$('brandName').textContent=n||'ILMA Portal';if(!$('icode').dataset.m){$('icode').value=n.split(/\s+/).filter(Boolean).map(w=>w[0]).join('').slice(0,3).toUpperCase()}if(n)$('sideH').textContent='Welcome, '+n+'.'};
+$('icode').oninput=()=>{$('icode').dataset.m=1;$('icode').value=$('icode').value.toUpperCase().replace(/[^A-Z]/g,'')};
+$('color').oninput=()=>document.documentElement.style.setProperty('--brand',$('color').value);
+$('logo').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('drop').innerHTML='<img alt="" src="'+r.result+'">';$('mark').innerHTML='<img alt="" src="'+r.result+'">'};r.readAsDataURL(f)};
+$('cnic').oninput=()=>{let d=$('cnic').value.replace(/\D/g,'').slice(0,13);$('cnic').value=d.length>12?d.slice(0,5)+'-'+d.slice(5,12)+'-'+d.slice(12):d.length>5?d.slice(0,5)+'-'+d.slice(5):d};
+document.querySelectorAll('input,select').forEach(e=>{e.addEventListener('blur',()=>{const f=e.closest('.f');if(f&&f.id&&e.value&&cur===1||cur===2&&f&&f.id&&e.value)validateSoft(f.id)});e.addEventListener('input',save)});
+function validateSoft(id){const m={'f-iemail':()=>mailOK(val('iemail')),'f-iphone':()=>phoneOK(val('iphone')),'f-aemail':()=>mailOK(val('aemail')),'f-amob':()=>phoneOK(val('amob')),'f-icode':()=>/^[A-Za-z]{2,5}$/.test(val('icode'))};if(m[id])ok(id,m[id](),id.includes('mail')?'Enter a valid email.':id==='f-icode'?'Use 2 to 5 letters.':'Enter a valid number such as 0300 1234567.')}
+// OTP
+for(let i=0;i<6;i++){const e=document.createElement('input');e.maxLength=1;e.inputMode='numeric';e.autocomplete=i?'off':'one-time-code';e.setAttribute('aria-label','Digit '+(i+1));$('otp').appendChild(e)}
+const boxes=[...$('otp').children];
+boxes.forEach((b,i)=>{b.oninput=()=>{b.value=b.value.replace(/\D/g,'');if(b.value&&i<5)boxes[i+1].focus();if(boxes.every(x=>x.value))checkCode()};b.onkeydown=e=>{if(e.key==='Backspace'&&!b.value&&i>0)boxes[i-1].focus()};b.onpaste=e=>{e.preventDefault();const t=(e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6);[...t].forEach((c,j)=>boxes[j].value=c);(boxes[Math.min(t.length,5)]).focus();if(t.length===6)checkCode()}});
+function startVerify(){code=String(Math.floor(100000+Math.random()*900000));tries=0;$('codeShow').textContent=code;$('sentTo').textContent=val('aemail');boxes.forEach(b=>b.value='');$('f-otp').classList.remove('bad');show(3);setTimeout(()=>boxes[0].focus(),100);cd(60)}
+function cd(s){clearInterval(timer);$('resend').disabled=true;$('rs').textContent='Resend available in '+s+'s';timer=setInterval(()=>{s--;if(s<=0){clearInterval(timer);$('rs').textContent='Didn\'t get it?';$('resend').disabled=false}else $('rs').textContent='Resend available in '+s+'s'},1000)}
+$('resend').onclick=()=>startVerify();
+$('chg').onclick=()=>{clearInterval(timer);show(2);$('aemail').focus()};
+function checkCode(){const v=boxes.map(b=>b.value).join('');if(v.length<6){$('f-otp').classList.add('bad');$('otpMsg').textContent='Enter all 6 digits.';return}
+ if(v===code){clearInterval(timer);finish()}else{tries++;const left=5-tries;$('f-otp').classList.add('bad');$('otpMsg').textContent=left>0?'That code is incorrect. '+left+' attempt'+(left>1?'s':'')+' left.':'Too many attempts. Request a new code.';boxes.forEach(b=>b.value='');boxes[0].focus();if(left<=0){$('verify').disabled=true;$('resend').disabled=false;setTimeout(()=>$('verify').disabled=false,0)}}}
+$('verify').onclick=checkCode;
+function finish(){try{localStorage.removeItem(KEY)}catch(e){}
+ $('welcome').textContent='Welcome to ILMA, '+val('iname')+'!';$('uname').textContent='SA-'+val('icode').toUpperCase()+'-001';
+ $('sideH').textContent='You\'re in.';$('sideP').textContent='Next: add classes, teachers, finance staff and students.';show(4);$('bar').style.width='100%';
+ const c=document.createElement('div');c.className='confetti';const cols=['#e0a526',getComputedStyle(document.documentElement).getPropertyValue('--brand'),'#2a9d8f','#f4a261','#e76f51'];
+ for(let i=0;i<70;i++){const p=document.createElement('i');p.style.left=Math.random()*100+'%';p.style.background=cols[i%5];p.style.animationDelay=Math.random()*.8+'s';p.style.transform='rotate('+Math.random()*90+'deg)';c.appendChild(p)}
+ document.body.appendChild(c);setTimeout(()=>c.remove(),4200)}
+$('restart').onclick=()=>{try{localStorage.removeItem(KEY)}catch(e){}location.reload()};
+// theme
+$('theme').onclick=()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=dark?'light':'dark'};
+// autosave
+function save(){try{const d={};document.querySelectorAll('main input:not([type=file]):not([type=password]):not([type=checkbox]),main select').forEach(e=>{if(e.id&&!e.closest('#otp'))d[e.id]=e.value});d._lv=[...lv];d._step=cur>=3?2:cur;localStorage.setItem(KEY,JSON.stringify(d))}catch(e){}}
+function restore(){try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(!d)return;Object.keys(d).forEach(k=>{if($(k)&&k[0]!=='_')$(k).value=d[k]});(d._lv||[]).forEach(l=>{lv.add(l)});document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',lv.has(c.textContent)));if(d.iname)$('iname').oninput();$('icode').dataset.m=d.icode?1:'';$('color').oninput();if(d._step>0){show(d._step);const t=document.createElement('div');t.className='demo';t.textContent='Welcome back. We restored your saved progress.';document.querySelector('.step.on').prepend(t)}}catch(e){}}
+// token link
+const tk=new URLSearchParams(location.search).get('token');if(tk)$('key').value=tk;
+restore();
+</script>
+</body>
+</html>

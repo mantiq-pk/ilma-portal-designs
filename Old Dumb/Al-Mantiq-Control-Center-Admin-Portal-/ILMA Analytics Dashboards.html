@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA Analytics Dashboards</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F3F5FB;--ink:#12163A;--mut:#5A6080;--card:#fff;--line:#E1E4EF;--grid:#E6E9F3;--g:#1F9D8A;--a:#F5B301;--r:#D6336C;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0D1021;--ink:#ECEEF9;--mut:#9AA1C7;--card:#171B34;--line:#272C4E;--grid:#262B4B}}
+:root[data-theme="dark"]{--bg:#0D1021;--ink:#ECEEF9;--mut:#9AA1C7;--card:#171B34;--line:#272C4E;--grid:#262B4B}
+html{scroll-padding-top:calc(70px + env(safe-area-inset-top,0px))}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Instrument Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",sans-serif;margin:0;line-height:1.15}
+.w{max-width:1200px;margin:0 auto;padding:0 18px}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.hb{display:flex;align-items:center;gap:14px;min-height:60px;flex-wrap:wrap;padding-block:8px}
+.logo{font:800 22px "Bricolage Grotesque",sans-serif}.logo i{color:var(--a);font-style:normal}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-left:auto}
+.tabs button{font:600 14px "Instrument Sans",sans-serif;border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:8px 14px;border-radius:99px;cursor:pointer}
+.tabs button[aria-selected=true]{background:#3B4CCA;border-color:#3B4CCA;color:#fff}
+:focus-visible{outline:3px solid var(--a);outline-offset:2px}
+.top{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:22px 0 16px}
+.top h1{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-.02em}.top p{margin:4px 0 0;color:var(--mut)}
+.pill{font-size:13px;font-weight:600;padding:4px 12px;border-radius:99px;background:color-mix(in srgb,var(--a) 22%,transparent)}
+.live{display:inline-flex;gap:8px;align-items:center;font-weight:600;color:var(--g)}
+.live:before{content:"";width:10px;height:10px;border-radius:50%;background:var(--g);animation:p 1.4s infinite}
+@keyframes p{50%{opacity:.25}}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
+.s3{grid-column:span 3}.s4{grid-column:span 4}.s5{grid-column:span 5}.s6{grid-column:span 6}.s7{grid-column:span 7}.s8{grid-column:span 8}.s12{grid-column:span 12}
+@media(max-width:900px){.s3,.s4,.s5,.s6,.s7,.s8{grid-column:span 6}}
+@media(max-width:600px){.s3,.s4,.s5,.s6,.s7,.s8{grid-column:span 12}}
+.c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;min-width:0}
+.c h3{font-size:16px;margin-bottom:2px}.c .sub{color:var(--mut);font-size:13px;margin-bottom:10px}
+.kpi{border-top:4px solid var(--k)}
+.kpi .l{color:var(--mut);font-size:13px;font-weight:500}
+.kpi .v{font:800 28px "Bricolage Grotesque",sans-serif;letter-spacing:-.02em;margin:2px 0}
+.kpi .d{font-size:13px;font-weight:600}.up{color:var(--g)}.dn{color:var(--r)}
+.kpi svg{width:100%;height:30px;margin-top:6px}
+svg text{fill:var(--mut);font:11px "Instrument Sans",sans-serif}
+.lg{display:flex;flex-wrap:wrap;gap:6px 12px;margin-bottom:6px}
+.lg button{display:flex;align-items:center;gap:6px;background:none;border:0;color:var(--ink);font:500 13px "Instrument Sans",sans-serif;cursor:pointer;padding:2px}
+.lg i{width:10px;height:10px;border-radius:3px;background:var(--k)}.lg button.off{opacity:.35}
+.ch svg{width:100%;height:auto;display:block}
+.ch circle.pt:hover,.ch rect.b:hover{filter:brightness(1.2)}
+.dn-wrap{display:flex;gap:16px;align-items:center;flex-wrap:wrap}.dn-wrap svg{width:150px;flex:none}
+.dl{display:grid;gap:6px;font-size:13.5px;flex:1;min-width:150px}.dl div{display:flex;gap:8px;align-items:center}.dl i{width:10px;height:10px;border-radius:3px;flex:none}.dl b{margin-left:auto}
+.fn{margin:6px auto 0;padding:9px 12px;border-radius:8px;color:#fff;font-weight:600;font-size:13.5px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cv{text-align:center;font-size:12px;color:var(--mut)}
+.hm{display:grid;grid-template-columns:50px repeat(5,1fr);gap:4px;font-size:12.5px;align-items:center}
+.hm span{text-align:center;color:var(--mut)}.hm b{padding:7px 0;border-radius:6px;color:#fff;text-align:center;font-weight:600}
+.pg{margin:10px 0}.pg div:first-child{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:4px}
+.bar{height:9px;background:var(--grid);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;border-radius:9px;background:var(--k)}
+.hl{display:grid;gap:10px}.hl div{display:flex;align-items:center;gap:10px;font-size:13.5px}.hl .bar{flex:1}.hl em{font-style:normal;color:var(--mut);min-width:78px;text-align:right}
+.dot{width:10px;height:10px;border-radius:50%;flex:none;background:var(--k)}
+.feed{list-style:none;margin:0;padding:0;max-height:250px;overflow:auto;display:grid;gap:8px;font-size:13.5px}
+.feed li{display:flex;gap:10px;border-left:3px solid var(--k);padding-left:10px}.feed time{color:var(--mut);min-width:54px}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th{text-align:left;color:var(--mut);font-weight:500;padding:6px 4px;border-bottom:1px solid var(--line)}td{padding:8px 4px;border-bottom:1px solid var(--line)}
+.chip{padding:2px 10px;border-radius:99px;font-size:12px;font-weight:700;color:#fff;background:var(--k)}
+.panel{display:none;padding-bottom:50px}.panel.on{display:block}
+.wp{display:grid;grid-template-columns:170px 1fr;border-radius:14px;overflow:hidden;border:1px solid var(--line);background:#F0F0F1;color:#1d2327}
+.wp nav{background:#1d2327;color:#c3c4c7;padding:12px 0;font-size:13.5px}.wp nav div{padding:8px 16px}.wp nav .on{background:#2271b1;color:#fff}
+.wp main{padding:16px}.wp h2{font:400 22px system-ui,sans-serif;margin-bottom:12px}
+.wb{background:#fff;border:1px solid #c3c4c7;border-radius:3px}.wb h4{margin:0;padding:9px 12px;border-bottom:1px solid #dcdcde;font:600 14px system-ui,sans-serif}.wb>div{padding:12px}
+.wb svg text{fill:#50575e}
+.wb>div>svg{width:100%;height:30px;margin-top:6px}.wb .big{font:700 30px system-ui,sans-serif;color:#2271b1}
+@media(max-width:700px){.wp{grid-template-columns:1fr}.wp nav{display:none}}
+</style>
+</head>
+<body>
+<header><div class="w hb"><div class="logo">ILMA<i>.</i> Analytics</div>
+<div class="tabs" role="tablist">
+<button role="tab" data-t="op" aria-selected="true">Operational</button><button role="tab" data-t="tac" aria-selected="false">Tactical</button><button role="tab" data-t="st" aria-selected="false">Strategic</button><button role="tab" data-t="em" aria-selected="false">Embedded widgets</button></div></div></header>
+<div class="w">
+
+<section class="panel on" id="op"><div class="top"><div><h1>Operational dashboard</h1><p>Real-time, hourly view of frontline activity and system health.</p></div><div><span class="live">Live</span> <span class="pill" id="clk"></span></div></div>
+<div class="grid" id="opk"></div>
+<div class="grid" style="margin-top:14px">
+<div class="c s8"><h3>Attendance marked per hour</h3><div class="sub">Students marked present vs. absence alerts sent, today</div><div class="ch" id="chOp1"></div></div>
+<div class="c s4"><h3>System health</h3><div class="sub">Live service status</div><div class="hl" id="health"></div></div>
+<div class="c s7"><h3>API latency (ms)</h3><div class="sub">Last 12 intervals, 5 minutes each</div><div class="ch" id="chOp2"></div></div>
+<div class="c s5"><h3>Live activity feed</h3><div class="sub">Updates every few seconds</div><ul class="feed" id="feed"></ul></div>
+</div></section>
+
+<section class="panel" id="tac"><div class="top"><div><h1>Tactical dashboard</h1><p>Weekly and daily progress for departments and projects.</p></div><span class="pill">Week 40 · Sample data</span></div>
+<div class="grid" id="tck"></div>
+<div class="grid" style="margin-top:14px">
+<div class="c s7"><h3>Attendance by weekday (%)</h3><div class="sub">This week vs. last week</div><div class="ch" id="chT1"></div></div>
+<div class="c s5"><h3>Assignment submissions</h3><div class="sub">All classes, this week</div><div class="dn-wrap" id="dnT"></div></div>
+<div class="c s5"><h3>Class attendance heatmap (%)</h3><div class="sub">Green is strong, red needs follow-up</div><div class="hm" id="hm"></div></div>
+<div class="c s7"><h3>Department task progress</h3><div class="sub">Completion this week</div><div id="prog"></div></div>
+<div class="c s12"><h3>At-risk students needing follow-up</h3><div class="sub">AI early-warning flags. Teachers review before any action.</div><table id="risk"></table></div>
+</div></section>
+
+<section class="panel" id="st"><div class="top"><div><h1>Strategic dashboard</h1><p>Executive view of monthly and quarterly trends and KPIs.</p></div><span class="pill">Jan–Oct 2026 · Sample data</span></div>
+<div class="grid" id="stk"></div>
+<div class="grid" style="margin-top:14px">
+<div class="c s8"><h3>Revenue vs. target (PKR millions)</h3><div class="sub">Monthly, 2026</div><div class="ch" id="chS1"></div></div>
+<div class="c s4"><h3>Revenue mix by module</h3><div class="sub">Share of recurring revenue</div><div class="dn-wrap" id="dnS"></div></div>
+<div class="c s7"><h3>Enrollment by product</h3><div class="sub">Students per quarter</div><div class="ch" id="chS2"></div></div>
+<div class="c s5"><h3>Admissions funnel</h3><div class="sub">Inquiry to enrolment, this intake</div><div id="fun"></div></div>
+</div></section>
+
+<section class="panel" id="em"><div class="top"><div><h1>Embedded widgets</h1><p>Compact components that sit inside a CMS dashboard such as WordPress.</p></div><span class="pill">Example layout</span></div>
+<div class="wp"><nav><div>Dashboard</div><div>Posts</div><div>Media</div><div>Pages</div><div class="on">ILMA Analytics</div><div>Users</div><div>Settings</div></nav>
+<main><h2>Dashboard</h2><div class="grid" id="wg"></div></main></div></section>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),P=["#3B4CCA","#1F9D8A","#F5B301","#D6336C","#1C9BD6","#7B4BD8"],f0=v=>Math.round(v).toLocaleString("en-US");
+const spark=(d,c)=>{const mx=Math.max(...d),mn=Math.min(...d),p=d.map((v,i)=>`${i*100/(d.length-1)},${26-(v-mn)/(mx-mn||1)*22}`).join(" ");return `<svg viewBox="0 0 100 28" preserveAspectRatio="none"><polyline points="${p}" fill="none" stroke="${c}" stroke-width="2" vector-effect="non-scaling-stroke"/></svg>`};
+const kpi=(l,v,d,c,s,up=1)=>`<div class="c kpi s3" style="--k:${c}"><div class="l">${l}</div><div class="v">${v}</div><div class="d ${up?"up":"dn"}">${d}</div>${s?spark(s,c):""}</div>`;
+function leg(el,ss){return `<div class="lg">${ss.map((s,i)=>`<button data-n="${i}" class="${el._h[i]?"off":""}" style="--k:${s.c}"><i></i>${s.n}</button>`).join("")}</div>`}
+function chart(id,type,labels,ss,o={}){const el=$(id);el._h={};const W=600,H=240,l=44,r=12,t=12,b=26,f=o.f||f0;
+ el._d=()=>{const vis=ss.map((s,i)=>el._h[i]?null:s).filter(Boolean),all=vis.flatMap(s=>s.d.filter(v=>v!=null)),mx=(Math.max(...all,1))*1.12,mn=o.min||0,n=labels.length,y=v=>t+(H-t-b)*(1-(v-mn)/(mx-mn)),x=i=>type=="line"?l+i*(W-l-r)/(n-1):l+(i+.5)*(W-l-r)/n;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img">`;
+  for(let k=0;k<=4;k++){const v=mn+(mx-mn)*k/4;s+=`<line x1="${l}" x2="${W-r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${l-6}" y="${y(v)+4}" text-anchor="end">${f(v)}</text>`}
+  labels.forEach((a,i)=>s+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${a}</text>`);
+  if(type=="line")ss.forEach((q,si)=>{if(el._h[si])return;const pts=q.d.map((v,i)=>v==null?null:[x(i),y(v)]).filter(Boolean),pl=pts.map(p=>p.join(",")).join(" ");
+   if(q.area)s+=`<polygon points="${pts[0][0]},${y(mn)} ${pl} ${pts.at(-1)[0]},${y(mn)}" fill="${q.c}" opacity=".16"/>`;
+   s+=`<polyline points="${pl}" fill="none" stroke="${q.c}" stroke-width="${q.dash?2:3}" ${q.dash?'stroke-dasharray="6 5"':""} stroke-linejoin="round"/>`;
+   q.d.forEach((v,i)=>{if(v!=null&&!q.dash)s+=`<circle class="pt" cx="${x(i)}" cy="${y(v)}" r="4.5" fill="var(--card)" stroke="${q.c}" stroke-width="2.5"><title>${q.n}, ${labels[i]}: ${f(v)}</title></circle>`})});
+  else{const gw=(W-l-r)/n*.72,bw=gw/vis.length;ss.forEach((q,si)=>{if(el._h[si])return;const vi=vis.indexOf(q);q.d.forEach((v,i)=>{const bx=x(i)-gw/2+vi*bw;s+=`<rect class="b" x="${bx}" y="${y(v)}" width="${bw-3}" height="${y(mn)-y(v)}" rx="4" fill="${q.c}"><title>${q.n}, ${labels[i]}: ${f(v)}</title></rect>`})})}
+  el.innerHTML=leg(el,ss)+s+"</svg>"};
+ el.onclick=e=>{const b=e.target.closest("button[data-n]");if(b){el._h[b.dataset.n]=!el._h[b.dataset.n];el._d()}};el._d()}
+function donut(id,items,ctr){const T=items.reduce((a,b)=>a+b.v,0),R=50,C=2*Math.PI*R;let acc=0,s=`<svg viewBox="0 0 140 140" role="img">`;
+ items.forEach(it=>{const L=it.v/T*C;s+=`<circle cx="70" cy="70" r="${R}" fill="none" stroke="${it.c}" stroke-width="22" stroke-dasharray="${L-1.5} ${C-L+1.5}" stroke-dashoffset="${-acc}" transform="rotate(-90 70 70)"><title>${it.l}: ${it.v}%</title></circle>`;acc+=L});
+ s+=`<text x="70" y="68" text-anchor="middle" style="font:800 20px 'Bricolage Grotesque',sans-serif;fill:var(--ink)">${ctr[0]}</text><text x="70" y="84" text-anchor="middle">${ctr[1]}</text></svg>`;
+ $(id).innerHTML=s+`<div class="dl">${items.map(i=>`<div><i style="background:${i.c}"></i>${i.l}<b>${i.v}%</b></div>`).join("")}</div>`}
+const row=(l,v,c,t)=>`<div><span class="dot" style="--k:${c}"></span><span style="min-width:110px">${l}</span><div class="bar" style="--k:${c}"><i style="width:${v}%"></i></div><em>${t}</em></div>`;
+
+/* Operational */
+$("#opk").innerHTML=kpi("Present today","94.2%","▲ 1.1 pts vs. yesterday","#3B4CCA",[88,90,93,92,94,95,94])+kpi("Classes marked","38 / 42","4 classes pending","#1F9D8A",[10,18,24,30,34,36,38])+kpi("Fees collected today","PKR 412,500","▲ 8% vs. last Sunday","#F5B301",[40,90,120,210,260,330,412])+kpi("Open alerts","7","▼ 3 since 8am","#D6336C",[14,12,12,10,9,8,7],0);
+chart("#chOp1","line",["7am","8am","9am","10am","11am","12pm","1pm","2pm","3pm"],[{n:"Marked present",c:P[0],area:1,d:[120,860,1140,310,140,420,260,90,40]},{n:"Absence alerts",c:P[3],d:[4,38,64,22,9,12,8,3,2]}]);
+chart("#chOp2","line",["-55","-50","-45","-40","-35","-30","-25","-20","-15","-10","-5","now"],[{n:"Latency (ms)",c:P[4],area:1,d:[120,118,131,125,160,142,128,119,122,135,127,121]},{n:"Alert threshold",c:P[3],dash:1,d:Array(12).fill(200)}],{min:0});
+$("#health").innerHTML=[["API latency","121 ms",85,"#1F9D8A"],["WhatsApp delivery","98.6%",98,"#1F9D8A"],["Job queue","12 pending",30,"#1F9D8A"],["Database CPU","71%",71,"#F5B301"],["Offline sync","2 retrying",60,"#F5B301"]].map(h=>row(h[0],h[2],h[3],h[1])).join("");
+const EV=[["Class 8B attendance marked","#3B4CCA"],["3 parents alerted on WhatsApp","#1F9D8A"],["Fee PKR 18,500 received","#F5B301"],["AI report remarks drafted","#7B4BD8"],["Offline sync completed, Campus 2","#1C9BD6"],["Low-attendance flag raised","#D6336C"]];
+function ev(){const e=EV[Math.floor(Math.random()*EV.length)],li=document.createElement("li");li.style.setProperty("--k",e[1]);li.innerHTML=`<time>${new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit",second:"2-digit"})}</time>${e[0]}`;$("#feed").prepend(li);if($("#feed").children.length>30)$("#feed").lastChild.remove()}
+for(let i=0;i<5;i++)ev();setInterval(ev,3500);
+setInterval(()=>$("#clk").textContent=new Date().toLocaleString([],{weekday:"short",hour:"2-digit",minute:"2-digit",second:"2-digit"}),1000);
+
+/* Tactical */
+$("#tck").innerHTML=kpi("Avg attendance","92.8%","▲ 0.9 pts vs. last week","#3B4CCA",[91,92,93,92,93])+kpi("Assignments graded","1,284","▲ 14% vs. last week","#1F9D8A",[800,900,1000,1150,1284])+kpi("Fee reminders sent","642","▼ 6% vs. last week","#F5B301",[720,700,690,660,642],0)+kpi("At-risk students","23","▲ 4 new this week","#D6336C",[17,18,19,19,23],0);
+chart("#chT1","bar",["Mon","Tue","Wed","Thu","Fri"],[{n:"This week",c:P[0],d:[95,93,94,91,88]},{n:"Last week",c:P[5],d:[93,92,92,90,90]}],{min:70,f:v=>Math.round(v)+"%"});
+donut("#dnT",[{l:"On time",v:68,c:P[1]},{l:"Late",v:19,c:P[2]},{l:"Missing",v:13,c:P[3]}],["68%","on time"]);
+const cls=["6A","7B","8A","9A","10B"],M=[[97,95,96,94,92],[94,93,90,88,85],[96,96,95,93,91],[91,89,92,86,82],[93,94,90,91,89]],col=v=>`hsl(${Math.max(0,Math.min(125,(v-82)/18*125))} 62% 40%)`;
+$("#hm").innerHTML=`<span></span>${["Mon","Tue","Wed","Thu","Fri"].map(d=>`<span>${d}</span>`).join("")}`+cls.map((c,i)=>`<span>${c}</span>`+M[i].map(v=>`<b style="background:${col(v)}" title="${c}: ${v}%">${v}</b>`).join("")).join("");
+$("#prog").innerHTML=[["Report cards drafted",78,P[0]],["Exam papers generated",64,P[4]],["Timetable published",100,P[1]],["Result approvals",55,P[5]],["Fee reminders",42,P[2]]].map(p=>`<div class="pg"><div><span>${p[0]}</span><b>${p[1]}%</b></div><div class="bar" style="--k:${p[2]}"><i style="width:${p[1]}%"></i></div></div>`).join("");
+$("#risk").innerHTML=`<tr><th>Student</th><th>Class</th><th>Attendance</th><th>Avg. grade</th><th>Risk</th></tr>`+[["Ayesha K.","9A","78%","54%","High","#D6336C"],["Hamza R.","10B","84%","61%","Medium","#F5B301"],["Sana M.","7B","81%","66%","Medium","#F5B301"],["Bilal A.","8A","90%","58%","Watch","#1C9BD6"]].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td><span class="chip" style="--k:${r[5]}">${r[4]}</span></td></tr>`).join("");
+
+/* Strategic */
+$("#stk").innerHTML=kpi("Enrolled students","3,840","▲ 12.4% vs. last quarter","#3B4CCA",[2900,3100,3300,3500,3840])+kpi("Monthly revenue","PKR 6.8M","▲ 4.6% above target","#1F9D8A",[3.1,3.9,4.8,5.0,6.2,6.8])+kpi("Fee collection rate","91.3%","▲ 2.1 pts YoY","#F5B301",[86,88,87,90,91.3])+kpi("Churn","1.8%","▼ 0.4 pts, improving","#D6336C",[2.6,2.4,2.2,2.0,1.8],0);
+chart("#chS1","line",["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct"],[{n:"Actual",c:P[0],area:1,d:[3.1,3.4,3.9,4.2,4.8,5.1,5.0,5.6,6.2,6.8]},{n:"Target",c:P[2],dash:1,d:[3.0,3.5,4.0,4.5,4.8,5.2,5.4,5.8,6.1,6.5]}],{f:v=>v.toFixed(1)});
+donut("#dnS",[{l:"Core SIS",v:34,c:P[0]},{l:"Fees & finance",v:22,c:P[1]},{l:"Exams & LMS",v:18,c:P[2]},{l:"AI Suite",v:16,c:P[3]},{l:"Comms",v:10,c:P[4]}],["PKR 6.8M","this month"]);
+chart("#chS2","bar",["Q1","Q2","Q3"],[{n:"Schools",c:P[0],d:[820,910,1040]},{n:"Colleges",c:P[1],d:[610,650,720]},{n:"Academies",c:P[3],d:[340,420,510]},{n:"Tech",c:P[4],d:[190,240,310]}]);
+const FN=[["Inquiries",2400],["Applications",1480],["Entrance test",930],["Offers",640],["Enrolled",512]];
+$("#fun").innerHTML=FN.map((s,i)=>`<div class="fn" style="width:${Math.max(30,s[1]/2400*100)}%;background:${[P[0],P[4],P[1],P[2],P[3]][i]};${i==3?"color:#1b1500":""}">${s[0]} · ${s[1].toLocaleString()}</div>${i<4?`<div class="cv">▼ ${Math.round(FN[i+1][1]/s[1]*100)}% continue</div>`:""}`).join("");
+
+/* Embedded widgets */
+const wb=(t,s,b)=>`<div class="wb ${s}"><h4>${t}</h4><div>${b}</div></div>`;
+$("#wg").innerHTML=
+`<div class="s4">${wb("ILMA · Attendance today","",`<div class="big">94.2%</div><small>38 of 42 classes marked</small>${spark([88,90,93,92,94,95,94],"#2271b1")}`)}</div>
+<div class="s4">${wb("ILMA · Fees this week","",`<div class="big" style="color:#1F9D8A">PKR 2.1M</div><small>91% of target</small><div class="bar" style="--k:#1F9D8A;margin-top:10px"><i style="width:91%"></i></div>`)}</div>
+<div class="s4">${wb("ILMA · Alerts","",`<div class="big" style="color:#D6336C">7</div><small>3 high, 4 medium</small><div class="bar" style="--k:#D6336C;margin-top:10px"><i style="width:43%"></i></div>`)}</div>
+<div class="s6">${wb("ILMA · Weekly attendance","",`<div class="ch" id="chW"></div>`)}</div>
+<div class="s6">${wb("ILMA · Assignments","",`<div class="dn-wrap" id="dnW"></div>`)}</div>`;
+chart("#chW","bar",["Mon","Tue","Wed","Thu","Fri"],[{n:"This week",c:"#2271b1",d:[95,93,94,91,88]}],{min:70,f:v=>Math.round(v)+"%"});
+donut("#dnW",[{l:"On time",v:68,c:P[1]},{l:"Late",v:19,c:P[2]},{l:"Missing",v:13,c:P[3]}],["68%","on time"]);
+
+document.querySelector(".tabs").onclick=e=>{const b=e.target.closest("button");if(!b)return;document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",x==b));document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("on",p.id==b.dataset.t))};
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "collections": [
+    {
+      "path": "All Files/Super Admin",
+      "category": "screens",
+      "title": "Super Admin",
+      "description": "Administration, academics, people, finance, reporting, platform settings, and WorkHub mockups."
+    },
+    {
+      "path": "All Files/Control Center",
+      "category": "screens",
+      "title": "Control Center",
+      "description": "Control-center, authentication, analytics, and multi-tenant platform concepts."
+    },
+    {
+      "path": "All Files/Finance",
+      "category": "screens",
+      "title": "Finance",
+      "description": "Accounting, fees, expenses, payroll, salary, and loan mockups."
+    },
+    {
+      "path": "All Files/Teacher",
+      "category": "screens",
+      "title": "Teacher",
+      "description": "Interactive teacher workspace prototype."
+    },
+    {
+      "path": "All Files/Parent",
+      "category": "screens",
+      "title": "Parent",
+      "description": "Interactive parent experience prototype."
+    },
+    {
+      "path": "All Files/Student",
+      "category": "screens",
+      "title": "Student",
+      "description": "Interactive student learning and school-life prototype."
+    },
+    {
+      "path": "All Files/Documents",
+      "category": "documents",
+      "title": "Documents",
+      "description": "Product requirements, QA, navigation, architecture, and technical reference documents."
+    }
+  ]
+}

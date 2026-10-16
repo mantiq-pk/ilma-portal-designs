@@ -20,12 +20,15 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-      - name: Verify preserved source files
-        run: sha256sum -c migration/source-files.sha256
+          cache-dependency-path: Dev/package-lock.json
+      - name: Verify old repository backup
+        run: |
+          test "$(find 'Old Dumb' -type f ! -name README.md | wc -l)" -eq 99
+          test -z "$(find 'Old Dumb' -name .git -print -quit)"
       - name: Run catalog tests
-        run: python3 -m unittest discover -s tests -v
+        run: python3 -m unittest discover -s Dev/tests -v
       - name: Build catalog
-        run: python3 scripts/build_site.py --output _site
+        run: python3 Dev/scripts/build_site.py --output _site
       - name: Check preview mappings
         run: |
           python3 - <<'PY'
@@ -40,4 +43,4 @@ jobs:
           print(f"Verified {len(previews)} unique preview mappings")
           PY
       - name: Check Node dependencies
-        run: npm ci && npm audit --audit-level=high
+        run: npm --prefix Dev ci && npm --prefix Dev audit --audit-level=high

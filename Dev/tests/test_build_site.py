@@ -1,4 +1,5 @@
 import json
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -140,6 +141,15 @@ class BuildSiteTests(unittest.TestCase):
             [item["kind"] for item in catalog["items"]],
             ["prototype", "document"],
         )
+
+    def test_live_filter_buttons_match_configured_categories(self):
+        repo_root = Path(__file__).resolve().parents[2]
+        sources = json.loads((repo_root / "Dev" / "sources.json").read_text())
+        categories = {item["category"] for item in sources["collections"]}
+        shell = (repo_root / "Dev" / "site" / "index.html").read_text()
+        filters = set(re.findall(r'data-filter="([^"]+)"', shell))
+
+        self.assertEqual(filters, {"all", *categories})
 
 
 if __name__ == "__main__":

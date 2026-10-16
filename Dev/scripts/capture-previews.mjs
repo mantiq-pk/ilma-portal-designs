@@ -29,6 +29,9 @@ async function captureNext() {
     try {
       await page.goto(sourceUrl.href, { waitUntil: "domcontentloaded", timeout: 30_000 });
       await page.waitForTimeout(800);
+      const themeToggle = page.locator("#ilma-theme-toggle");
+      await themeToggle.waitFor({ state: "visible", timeout: 2_000 });
+      await themeToggle.evaluate((button) => { button.style.display = "none"; });
       const screenshot = await page.screenshot({ type: "jpeg", quality: 86 });
       await sharp(screenshot).webp({ quality: 82 }).toFile(outputPath);
       const details = await stat(outputPath);

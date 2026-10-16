@@ -2,9 +2,21 @@ import json
 import re
 import tempfile
 import unittest
+from html.parser import HTMLParser
 from pathlib import Path
 
 from Dev.scripts.build_site import build_site
+
+
+class ThemeMarkupParser(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.html_attributes = {}
+
+    def handle_starttag(self, tag, attrs):
+        attributes = dict(attrs)
+        if tag == "html":
+            self.html_attributes = attributes
 
 
 class BuildSiteTests(unittest.TestCase):
@@ -12,7 +24,9 @@ class BuildSiteTests(unittest.TestCase):
         self.temp_dir = tempfile.TemporaryDirectory()
         self.repo = Path(self.temp_dir.name)
         (self.repo / "Dev" / "site").mkdir(parents=True)
-        (self.repo / "Dev" / "site" / "index.html").write_text("master", encoding="utf-8")
+        (self.repo / "Dev" / "site" / "index.html").write_text(
+            "<html><head></head><body>master</body></html>", encoding="utf-8"
+        )
         (self.repo / "Dev" / "site" / "styles.css").write_text("styles", encoding="utf-8")
         (self.repo / "Dev" / "site" / "app.js").write_text("app", encoding="utf-8")
         self.collection = self.repo / "All Files" / "Finance"
@@ -111,7 +125,7 @@ class BuildSiteTests(unittest.TestCase):
 
         build_site(self.repo, self.output)
 
-        self.assertEqual((self.output / "index.html").read_text(), "master")
+        self.assertIn("master", (self.output / "index.html").read_text())
         written_catalog = json.loads(
             (self.output / "catalog.json").read_text(encoding="utf-8")
         )
@@ -150,6 +164,23 @@ class BuildSiteTests(unittest.TestCase):
         filters = set(re.findall(r'data-filter="([^"]+)"', shell))
 
         self.assertEqual(filters, {"all", *categories})
+
+    def test_build_gives_library_and_prototypes_a_light_default_without_editing_sources(self):
+        source = self.collection / "Prototype.html"
+        original = "<html><head><title>Prototype</title></head><body><main>Demo</main></body></html>"
+        source.write_text(original, encoding="utf-8")
+
+        build_site(self.repo, self.output)
+
+        for generated in [
+            self.output / "index.html",
+            self.output / "All Files" / "Finance" / "Prototype.html",
+        ]:
+            parser = ThemeMarkupParser()
+            parser.feed(generated.read_text(encoding="utf-8"))
+            self.assertEqual(parser.html_attributes["data-ilma-theme"], "light")
+
+        self.assertEqual(source.read_text(encoding="utf-8"), original)
 
 
 if __name__ == "__main__":

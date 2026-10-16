@@ -1,0 +1,64 @@
+name: Deploy preview library
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install preview tools
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+      - name: Build library
+        run: python3 scripts/build_site.py --output _site
+      - name: Capture prototype previews
+        run: npm run capture-previews -- _site
+      - name: Verify complete preview set
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("_site")
+          catalog = json.loads((root / "catalog.json").read_text())
+          prototypes = [item for item in catalog["items"] if item["kind"] == "prototype"]
+          missing = [item["url"] for item in prototypes if not (root / item["preview"]).is_file()]
+          assert not missing, f"Missing previews: {missing}"
+          print(f"Verified {len(prototypes)} prototype previews")
+          PY
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-24.04
+    needs: build
+    steps:
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

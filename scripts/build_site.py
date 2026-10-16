@@ -68,8 +68,7 @@ def build_site(repo_root: Path, output_dir: Path) -> dict:
                 continue
             relative_path = artifact.relative_to(repo_root)
             title = html_title(artifact) if kind == "prototype" else humanize_filename(artifact)
-            items.append(
-                {
+            item = {
                     "id": artifact_id(relative_path),
                     "title": title,
                     "kind": kind,
@@ -80,7 +79,9 @@ def build_site(repo_root: Path, output_dir: Path) -> dict:
                     "filename": artifact.name,
                     "url": quote(relative_path.as_posix(), safe="/"),
                 }
-            )
+            if kind == "prototype":
+                item["preview"] = f"previews/{item['id']}.webp"
+            items.append(item)
             count += 1
         collections.append({**collection, "artifactCount": count})
 

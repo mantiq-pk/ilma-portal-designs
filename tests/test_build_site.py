@@ -116,6 +116,18 @@ class BuildSiteTests(unittest.TestCase):
         )
         self.assertEqual(written_catalog["stats"]["prototypes"], 1)
 
+    def test_prototype_has_stable_path_based_preview_filename(self):
+        (self.collection / "Prototype.html").write_text(
+            "<title>Prototype</title>", encoding="utf-8"
+        )
+
+        catalog = build_site(self.repo, self.output)
+
+        self.assertEqual(
+            catalog["items"][0]["preview"],
+            "previews/2d756147a6b54860.webp",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

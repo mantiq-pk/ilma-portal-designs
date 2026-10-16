@@ -1,0 +1,6 @@
+_site/
+.superpowers/
+__pycache__/
+*.py[cod]
+node_modules/
+.DS_Store

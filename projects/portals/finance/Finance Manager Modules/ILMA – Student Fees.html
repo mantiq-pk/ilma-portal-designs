@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA – Student Fees</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F5FB;--card:#fff;--ink:#1B1D3A;--mute:#4A4F6E;--line:#E3E5F2;--line2:#D5D8EA;--head:#F8F8FC;--hover:#F8F8FD;--acc:#5B4BD6;--side:#1B1740;--seg:#E8EAF4;--good:#1F8F5F;--bad:#B02A1F;--warn:#B4701A;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1024;--card:#171A3A;--ink:#ECEEFA;--mute:#9EA4C8;--line:#2A2E5A;--line2:#353A6B;--head:#1B1F44;--hover:#1D2149;--acc:#8174F2;--seg:#1F2350;--good:#37C48B;--bad:#F0776B;--warn:#E3A24A}}
+:root[data-theme="dark"]{--bg:#0E1024;--card:#171A3A;--ink:#ECEEFA;--mute:#9EA4C8;--line:#2A2E5A;--line2:#353A6B;--head:#1B1F44;--hover:#1D2149;--acc:#8174F2;--seg:#1F2350;--good:#37C48B;--bad:#F0776B;--warn:#E3A24A}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:14px}
+button{font-family:inherit;cursor:pointer;border:0;background:none;padding:0;color:inherit;text-align:left}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app{display:flex;min-height:100vh}
+nav{flex:0 0 232px;background:var(--side);color:#C9C6EE;padding:22px 14px;display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+.logo{display:flex;align-items:center;gap:10px;padding:0 10px 18px;color:#fff;font-weight:800;font-size:18px}
+.logo b{width:34px;height:34px;border-radius:10px;background:#5B4BD6;display:grid;place-items:center}
+.ni{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;font-weight:500;width:100%}
+.ni:hover{background:rgba(255,255,255,.07)}.ni.on{background:rgba(255,255,255,.12);color:#fff;font-weight:700}
+.ng{font-size:11px;letter-spacing:.08em;font-weight:700;color:#8A8FAE;padding:14px 12px 4px}
+.me{margin-top:auto;display:flex;gap:10px;align-items:center;padding:12px 10px;border-top:1px solid rgba(255,255,255,.1);color:#fff;font-weight:700}
+.me small{display:block;font-weight:400;color:#A9A4D8;font-size:12px}
+main{flex:1;min-width:0;padding:28px;display:flex;flex-direction:column;gap:18px}
+header.pg{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px}
+.crumb{font-size:13px;color:var(--mute);font-weight:500}
+h1{margin:4px 0 0;font-size:28px;font-weight:800;letter-spacing:-.4px}
+.sub{margin-top:4px;color:var(--mute)}
+.hb{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{padding:11px 16px;border-radius:10px;background:var(--card);border:1px solid var(--line2);font-weight:600;display:inline-flex;gap:8px;align-items:center}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:9px}
+.btn.d{color:var(--bad)}
+.today{display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:10px;background:color-mix(in srgb,var(--good) 14%,var(--card));color:var(--good);font-weight:700}
+.strip{display:grid;grid-template-columns:repeat(4,1fr) 1.25fr;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px}
+.tile{padding:16px 18px}
+.tile span.l{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--mute);text-transform:uppercase}
+.tile b{display:block;font-size:24px;margin:6px 0 2px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.tr{font-size:12px;font-weight:700}.tr.g{color:var(--good)}.tr.b{color:var(--bad)}.tr i{font-style:normal;color:var(--mute);font-weight:500}
+.ringc{padding:14px 18px;display:flex;gap:14px;align-items:center}
+.ringc b{font-size:14px;display:block}.ringc small{color:var(--mute)}
+.an{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.an .card{padding:16px 18px}
+.an h3{margin:0 0 12px;font-size:14px;display:flex;justify-content:space-between}
+.an h3 small{font-weight:500;color:var(--mute)}
+.age{display:flex;height:34px;border-radius:9px;overflow:hidden;gap:2px}
+.age button{display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px;min-width:0;transition:.15s}
+.age button:hover,.age button.on{filter:brightness(1.15);box-shadow:inset 0 0 0 2px #fff}
+.agel{display:flex;gap:10px;margin-top:8px;font-size:12px;color:var(--mute);flex-wrap:wrap}.agel b{color:var(--ink);font-variant-numeric:tabular-nums}
+.cw{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 18px}
+.cw button{display:grid;grid-template-columns:62px 1fr 36px;gap:8px;align-items:center;font-size:12px;font-weight:600;border-radius:6px;padding:2px}
+.cw button.on{background:var(--seg)}
+.bar{height:7px;border-radius:4px;background:var(--seg);overflow:hidden}.bar i{display:block;height:100%;border-radius:4px}
+.warn{display:flex;flex-wrap:wrap;align-items:center;gap:12px;background:#FDF3DC;border:1px solid #F0D79A;border-radius:12px;padding:12px 16px;color:#5A3A00}
+.warn span{flex:1 1 240px}
+.warn .btn{border-color:#E5C47A;background:#fff;color:#5A3A00}
+.trow{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.seg{display:flex;background:var(--seg);border-radius:12px;padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{padding:8px 14px;border-radius:9px;font-weight:600;color:var(--mute);display:flex;gap:6px;align-items:center}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(20,16,60,.12);font-weight:700}
+.cnt{font-size:11px;font-weight:800;border-radius:10px;padding:1px 7px;background:var(--line);color:var(--mute)}
+.cnt.a{background:#F4B73F;color:#4A2E00}
+.fb{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.mn{display:flex;align-items:center;background:var(--card);border:1px solid var(--line2);border-radius:10px;height:40px}
+.mn button{width:34px;height:38px;display:grid;place-items:center}.mn span{padding:0 6px;font-weight:700;min-width:118px;text-align:center}
+.sr{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line2);border-radius:10px;padding:0 12px;height:40px;flex:1 1 240px;max-width:420px;color:var(--mute)}
+.sr input{border:0;outline:0;background:none;font:inherit;flex:1;min-width:0;color:var(--ink)}
+select{height:40px;border:1px solid var(--line2);background:var(--card);color:var(--ink);border-radius:10px;padding:0 10px;font:inherit;font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:7px 14px;border-radius:20px;border:1px solid var(--line2);background:var(--card);font-weight:600;display:flex;gap:6px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.bulk{display:none;flex-wrap:wrap;align-items:center;gap:10px;background:var(--side);color:#fff;border-radius:12px;padding:10px 14px}.bulk.on{display:flex}
+.bulk b{flex:1 1 140px}.bulk button{padding:8px 12px;border-radius:9px;background:rgba(255,255,255,.14);font-weight:700;font-size:13px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1020px}
+th{text-align:left;color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.5px;background:var(--head);padding:14px 8px;font-weight:700}
+td{padding:12px 8px;border-top:1px solid var(--line);vertical-align:middle}
+tr.row{cursor:pointer}tr.row:hover{background:var(--hover)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.who{display:flex;gap:12px;align-items:center}
+.av{width:38px;height:38px;border-radius:50%;color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center;flex:none}
+.who b{display:block}.who small{color:var(--mute);font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;color:color-mix(in srgb,var(--c) 78%,var(--ink));background:color-mix(in srgb,var(--c) 15%,var(--card));white-space:nowrap}
+.mini{font-size:11px;font-weight:700;color:var(--mute);background:var(--seg);border-radius:6px;padding:2px 7px}
+.vw{font-size:11px;font-weight:700;color:var(--acc);margin-left:6px}
+.pb{height:5px;border-radius:3px;background:var(--seg);margin:5px 0 2px;width:110px;margin-left:auto;overflow:hidden}.pb i{display:block;height:100%;background:var(--warn)}
+.dm{color:var(--mute)}.db{color:var(--bad);font-weight:700}
+.ib{width:34px;height:34px;border-radius:9px;display:grid;place-items:center}.ib:hover{background:var(--seg)}
+.foot{padding:14px 18px;border-top:1px solid var(--line);color:var(--mute)}
+.cards{display:none}
+.rv{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:16px}
+.rvc{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:14px;border:1px solid var(--line);border-radius:14px;background:var(--card)}
+.proof{border-radius:10px;background:var(--head);border:1px dashed var(--line2);padding:12px;font-size:11px;color:var(--mute);line-height:1.6;display:flex;flex-direction:column;gap:4px}
+.proof b{color:var(--good);font-size:13px}
+.proof i{height:6px;background:var(--seg);border-radius:3px;display:block}
+.rvc textarea,.fm input,.fm select{width:100%;font:inherit;border:1px solid var(--line2);border-radius:10px;padding:10px 12px;background:var(--card);color:var(--ink)}
+.err{color:var(--bad);font-size:12px;font-weight:600;margin-top:4px}
+.ov{position:fixed;inset:0;background:rgba(20,16,60,.4);z-index:30;display:none}.ov.on{display:block}
+.dr{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--card);z-index:31;display:none;flex-direction:column;box-shadow:-12px 0 40px rgba(20,16,60,.25)}.dr.on{display:flex}
+.dr .hd{padding:20px 22px;display:flex;gap:14px;align-items:center}
+.dr .bd{flex:1;overflow:auto;padding:4px 22px 22px;display:flex;flex-direction:column;gap:18px}
+.dr h4{margin:0 0 8px;font-size:13px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+.li.t{font-weight:800;border:0;font-size:16px}
+.tl{list-style:none;margin:0;padding:0 0 0 16px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 12px 12px}.tl li::before{content:"";position:absolute;left:-23px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--acc);border:2px solid var(--card)}
+.tl small{display:block;color:var(--mute)}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ag .btn{justify-content:flex-start;padding:10px 12px}
+.fm{display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--head);border-radius:12px;border:1px solid var(--line)}
+.sib{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:10px}
+.wz{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(560px,94vw);max-height:90vh;overflow:auto;background:var(--card);border-radius:18px;z-index:32;padding:24px;display:none}.wz.on{display:block}
+.stp{display:flex;gap:6px;margin:14px 0}.stp i{flex:1;height:5px;border-radius:3px;background:var(--line)}.stp i.on{background:var(--acc)}
+.pv{padding:16px;border-radius:12px;background:color-mix(in srgb,var(--acc) 12%,var(--card));text-align:center;margin-top:12px}
+.pv b{font-size:22px;display:block}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));background:var(--side);color:#fff;border-radius:14px;padding:12px 16px;display:none;gap:14px;align-items:center;z-index:50;box-shadow:0 12px 30px rgba(0,0,0,.35);max-width:94vw}
+.toast.on{display:flex}.toast button{color:#C9C2FF;font-weight:700}
+.menu{position:fixed;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(20,16,60,.2);padding:6px;z-index:40;display:none;min-width:190px}.menu.on{display:block}
+.menu button{display:flex;gap:10px;align-items:center;width:100%;padding:9px 12px;border-radius:8px;font-weight:500}.menu button:hover{background:var(--seg)}
+.fab{display:none}
+@media(max-width:1180px){.strip{grid-template-columns:repeat(2,1fr)}.ringc{grid-column:1/-1}.an,.rv{grid-template-columns:1fr}}
+@media(max-width:820px){nav{display:none}main{padding:16px 16px 90px}.tw{display:none}.cards{display:flex;flex-direction:column}
+.cards>div{padding:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.fab{display:flex;position:fixed;left:16px;right:16px;bottom:calc(14px + env(safe-area-inset-bottom,0px));justify-content:center;z-index:25;box-shadow:0 8px 24px rgba(91,75,214,.45)}
+.toast{bottom:calc(80px + env(safe-area-inset-bottom,0px))}.hb .btn.p{display:none}.rvc{grid-template-columns:1fr}.cw{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav aria-label="Main">
+ <div class="logo"><b>I</b>ILMA</div>
+ <button class="ni" data-ic="grid">Dashboard</button>
+ <button class="ni" data-ic="userplus">Admissions</button>
+ <button class="ni" data-ic="cal">Calendar and Events</button>
+ <button class="ni" data-ic="people">People</button>
+ <div class="ng">FINANCE</div>
+ <button class="ni on" aria-current="page" data-ic="wallet">Student Fees</button>
+ <button class="ni" data-ic="receipt">Expenses</button>
+ <button class="ni" data-ic="chart">Reports</button>
+ <div class="me"><span class="av" style="background:#5B4BD6">HM</span><div>Hassan Malik<small>Super Admin</small></div></div>
+</nav>
+<main>
+ <header class="pg">
+  <div><div class="crumb">Super Admin / Finance / Student Fees</div><h1>Student Fees</h1><div class="sub">Invoices, payments and collection across all campuses</div></div>
+  <div class="hb">
+   <div class="today" id="today"></div>
+   <button class="btn" id="theme">Theme</button>
+   <button class="btn" data-a="export" data-ic="download">Export</button>
+   <button class="btn p" data-a="wiz" data-ic="plus">Generate invoices</button>
+  </div>
+ </header>
+
+ <section class="strip" id="strip" aria-label="Money summary"></section>
+ <section class="an" id="an"></section>
+ <div class="warn" id="warn"></div>
+
+ <section class="trow">
+  <div class="seg" id="tabs" role="tablist"></div>
+  <button class="btn sm" data-a="adm">Admission fees <span class="cnt">0</span></button>
+ </section>
+
+ <section class="fb">
+  <div class="mn"><button data-a="mp" aria-label="Previous month" data-ic="l"></button><span id="mon"></span><button data-a="mn" aria-label="Next month" data-ic="r"></button></div>
+  <label class="sr" data-ic="search"><input id="q" placeholder="Name, roll no, guardian phone, invoice" aria-label="Search"></label>
+  <select id="fc" aria-label="Class"><option value="">All classes</option></select>
+  <select id="fs" aria-label="Section"><option value="">All sections</option><option>A</option><option>B</option><option>C</option></select>
+  <select id="fp" aria-label="Campus"><option value="">All campuses</option><option>Main Campus</option><option>Girls Campus</option></select>
+ </section>
+ <div class="chips" id="chips" role="group" aria-label="Status"></div>
+ <div class="bulk" id="bulk"><b id="bc"></b><button data-a="bRem">Send reminders</button><button data-a="bExp">Export</button><button data-a="bPrint">Print vouchers</button><button data-a="bClr">Clear</button></div>
+
+ <section class="card" style="overflow:hidden" aria-label="Invoices"><div id="list"></div><div class="foot" id="foot"></div></section>
+</main>
+</div>
+<button class="btn p fab" data-a="wiz" data-ic="plus">Create invoice</button>
+
+<div class="ov" id="ov"></div>
+<aside class="dr" id="dr" role="dialog" aria-modal="true" aria-label="Invoice details"></aside>
+<div class="wz" id="wz" role="dialog" aria-modal="true" aria-label="Generate invoices"></div>
+<div class="menu" id="menu"></div>
+<div class="toast" id="toast"><span id="tm"></span><button id="tl"></button><button id="tu">Undo</button></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const P={grid:'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z',userplus:'M9 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M19 8v6M16 11h6',cal:'M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 10h18M8 3v4M16 3v4',people:'M9 4.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zM2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M17 5a3 3 0 0 1 0 6M21.5 20c0-2.6-1.5-4.6-3.5-5.4',wallet:'M3 7a2 2 0 0 1 2-2h13v4M3 7v11a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2zM16 14.5h.01',receipt:'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6',chart:'M4 20V10M10 20V4M16 20v-8M22 20H2',eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',dots:'M5 12h.01M12 12h.01M19 12h.01',search:'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.3-4.3',l:'M15 18l-6-6 6-6',r:'M9 18l6-6-6-6',x:'M6 6l12 12M18 6L6 18',plus:'M12 5v14M5 12h14',send:'M22 2L11 13M22 2l-7 20-4-9-9-4z',check:'M5 12l5 5 10-10',link:'M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1',print:'M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2M6 14h12v7H6z',download:'M12 3v12M7 10l5 5 5-5M4 21h16',ban:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM5.6 5.6l12.8 12.8'};
+const ic=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="${P[n]}"/></svg>`;
+document.querySelectorAll('[data-ic]').forEach(e=>e.insertAdjacentHTML('afterbegin',ic(e.dataset.ic)));
+const TODAY=new Date(2026,9,12);
+const fd=o=>{const d=new Date(TODAY);d.setDate(d.getDate()+o);return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})};
+const R=n=>'PKR '+Math.round(n).toLocaleString('en-US');
+const K=n=>n>=1e6?'PKR '+(n/1e6).toFixed(2)+'M':'PKR '+Math.round(n/1e3)+'k';
+const AVC=['#5B4BD6','#2B7BD6','#1F8F5F','#B4701A','#8A4FD0','#B02A1F'];
+const ST={paid:['Paid','#1F8F5F'],issued:['Issued','#2B7BD6'],partial:['Partial','#B4701A'],overdue:['Overdue','#B02A1F'],review:['Needs review','#A1580A'],waived:['Waived','#8A8FAE']};
+const MET={cash:'💵 Cash',raast:'Raast',onebill:'1BILL',bank:'🏦 Bank'};
+const mk=(id,n,c,roll,ph,d,amt,paid,m,v,camp,sib,disc,extra)=>({id,n,c,roll,ph,inv:'INV-26-10'+(40+id),d,amt,paid,m,v,camp,sib:sib||[],disc:disc||0,pay:paid?[{a:paid,m,w:fd(-1-id%4)}]:[],...(extra||{})});
+let S=[mk(1,'Ayaan Raza','Grade 8-B',14,'0300-1112233',3,18500,0,null,1,'Main Campus',[2],925),
+mk(2,'Hira Raza','Grade 5-A',22,'0300-1112233',3,16200,16200,'raast',1,'Girls Campus',[1],810),
+mk(3,'Zainab Malik','Grade 6-A',7,'0321-4455667',-2,17400,0,null,1,'Girls Campus'),
+mk(4,'Bilal Ahmed','Grade 9-C',31,'0333-7788990',-9,21000,0,null,0,'Main Campus'),
+mk(5,'Maryam Siddiqui','Grade 10-A',5,'0345-2200113',5,24500,12000,'bank',1,'Girls Campus'),
+mk(6,'Hamza Tariq','Grade 8-B',19,'0301-5566778',-35,18500,0,null,0,'Main Campus'),
+mk(7,'Sana Iqbal','Grade 3-B',11,'0312-9900112',0,14800,14800,'cash',1,'Girls Campus'),
+mk(8,'Usman Farooq','Grade 7-A',28,'0302-1234890',8,19200,0,null,1,'Main Campus'),
+mk(9,'Ayesha Noor','Grade 9-C',3,'0322-6677889',-5,21000,8000,'cash',1,'Girls Campus'),
+mk(10,'Dawood Khan','Grade 6-A',16,'0314-3322110',2,17400,17400,'onebill',1,'Main Campus'),
+mk(11,'Fatima Zahra','Grade 10-A',12,'0306-8899001',6,24500,0,'raast',1,'Girls Campus',[],0,{st:'review',ref:'RST-884102'}),
+mk(12,'Hassan Javed','Grade 5-A',9,'0333-1029384',-14,16200,0,null,0,'Main Campus'),
+mk(13,'Mehwish Ali','Grade 9-C',20,'0345-5544332',4,21000,0,'bank',1,'Girls Campus',[],0,{st:'review',ref:'HBL-30918'})];
+let M={billed:1912000,coll:1300000,out:612000,over:214000,today:142500,oc:14};
+let F={tab:'inv',chip:'all',cls:'',sec:'',camp:'',q:'',ag:null,mo:0,chk:new Set(),sel:null,rec:0,waive:0,rej:null},W={step:1,cls:new Set(['Grade 3','Grade 5','Grade 6','Grade 7','Grade 8','Grade 9','Grade 10']),plan:0,due:'2026-11-05'};
+const bal=s=>s.waived?0:s.amt-s.paid;
+const stat=s=>s.waived?'waived':s.st==='review'?'review':s.paid>=s.amt?'paid':s.paid>0?'partial':s.d<0?'overdue':'issued';
+const isOver=s=>s.d<0&&bal(s)>0&&s.st!=='review';
+const inAge=(s,k)=>k==='cur'?(!isOver(s)&&bal(s)>0):isOver(s)&&(k==='1-7'?-s.d<=7:k==='8-30'?(-s.d>7&&-s.d<=30):-s.d>30);
+const CLS=[['Grade 3',12,14800,92],['Grade 5',18,16200,88],['Grade 6',20,17400,74],['Grade 7',16,19200,69],['Grade 8',24,18500,61],['Grade 9',14,21000,52],['Grade 10',8,24500,79]];
+CLS.forEach(c=>$('fc').insertAdjacentHTML('beforeend',`<option>${c[0]}</option>`));
+const MN=['September 2026','October 2026','November 2026'];
+function rows(){const q=F.q.toLowerCase().replace(/[\s-]/g,'');return S.filter(s=>{const t=stat(s);
+ if(F.tab==='review'&&t!=='review')return false;if(F.tab==='rec'&&t!=='paid')return false;if(F.tab==='over'&&!isOver(s))return false;
+ if(F.tab==='inv'&&F.chip!=='all'&&(F.chip==='overdue'?!isOver(s):t!==F.chip))return false;
+ if(F.cls&&!s.c.startsWith(F.cls+'-'))return false;if(F.sec&&!s.c.endsWith('-'+F.sec))return false;if(F.camp&&s.camp!==F.camp)return false;
+ if(F.ag&&!inAge(s,F.ag))return false;
+ if(q&&!(s.n+s.inv+s.roll+s.ph).toLowerCase().replace(/[\s-]/g,'').includes(q))return false;return true})}
+const dueT=s=>{const t=stat(s);if(t==='paid')return`<span class="dm">Paid ${s.pay.length?s.pay[s.pay.length-1].w:fd(0)}</span>`;if(t==='waived')return'<span class="dm">Waived</span>';if(t==='review')return'<span class="dm">Proof uploaded</span>';
+ return s.d>1?`<span class="dm">due in ${s.d} days</span>`:s.d===1?'<span class="dm">due tomorrow</span>':s.d===0?'<span class="dm">due today</span>':`<span class="db">${-s.d} days overdue</span>`};
+const pill=t=>`<span class="pill" style="--c:${ST[t][1]}">${ST[t][0]}</span>`;
+const act=s=>{const t=stat(s);return t==='paid'?['rc','Receipt']:t==='issued'?['rm','Send reminder']:t==='overdue'?['rm','Remind']:t==='partial'?['pay','Collect balance']:t==='review'?['rv','Review']:null};
+const avt=s=>`<span class="av" style="background:${AVC[s.id%6]}">${s.n.split(' ').map(w=>w[0]).join('').slice(0,2)}</span>`;
+const amt=s=>`<b>${R(s.amt)}</b>`+(stat(s)==='partial'?`<div class="pb"><i style="width:${s.paid/s.amt*100}%"></i></div><small class="dm">Balance ${R(bal(s))}</small>`:'');
+function render(){
+ $('today').innerHTML=`↗ Collected today <b>${R(M.today)}</b>`;
+ const pct=M.coll/M.billed*100,C=2*Math.PI*40,tg=M.billed*.9-M.coll;
+ $('strip').innerHTML=[['Billed',M.billed,'▲ 4.2%','g'],['Collected',M.coll,'▲ 6.1%','g'],['Outstanding',M.out,'▼ 3.4%','g'],['Overdue',M.over,'▲ 12%','b']].map(x=>`<div class="card tile"><span class="l">${x[0]}</span><b>${R(x[1])}</b><span class="tr ${x[3]}">${x[2]} <i>vs September</i></span></div>`).join('')+
+ `<div class="card ringc"><svg width="96" height="96" viewBox="0 0 100 100" role="img" aria-label="${pct.toFixed(0)}% collected"><circle cx="50" cy="50" r="40" fill="none" stroke="var(--seg)" stroke-width="10"/><circle cx="50" cy="50" r="40" fill="none" stroke="var(--acc)" stroke-width="10" stroke-linecap="round" stroke-dasharray="${C*pct/100} ${C}" transform="rotate(-90 50 50)"/><line x1="50" y1="6" x2="50" y2="16" stroke="var(--good)" stroke-width="3" transform="rotate(${.9*360} 50 50)"/><text x="50" y="56" text-anchor="middle" font-size="20" font-weight="800" fill="var(--ink)">${pct.toFixed(0)}%</text></svg><div><b>${pct.toFixed(0)}% collected</b><small>Target 90%${tg>0?' · '+K(tg)+' to go':' · reached 🎉'}</small></div></div>`;
+ const A=[['cur','Current',M.out-M.over,'#2B7BD6'],['1-7','1–7 days',96000,'#E3A24A'],['8-30','8–30 days',71000,'#E0714A'],['30+','30+ days',47000,'#B02A1F']];
+ const tot=A.reduce((a,x)=>a+x[2],0)||1;
+ $('an').innerHTML=`<div class="card"><h3>Ageing <small>Click a bucket to filter</small></h3><div class="age">${A.map(x=>`<button data-a="ag" data-k="${x[0]}" class="${F.ag===x[0]?'on':''}" style="background:${x[3]};flex:${Math.max(x[2],1)}" aria-label="${x[1]} ${R(x[2])}">${x[2]/tot>.07?K(x[2]).replace('PKR ',''):''}</button>`).join('')}</div><div class="agel">${A.map(x=>`<span><span style="color:${x[3]}">●</span> ${x[1]} <b>${K(x[2]).replace('PKR ','')}</b></span>`).join('')}</div></div>
+ <div class="card"><h3>Class-wise collection <small>Weakest first</small></h3><div class="cw">${[...CLS].sort((a,b)=>a[3]-b[3]).map(c=>`<button data-a="cc" data-k="${c[0]}" class="${F.cls===c[0]?'on':''}"><span>${c[0]}</span><div class="bar"><i style="width:${c[3]}%;background:${c[3]<65?'var(--bad)':c[3]<80?'var(--warn)':'var(--good)'}"></i></div><span>${c[3]}%</span></button>`).join('')}</div></div>`;
+ $('warn').style.display=M.oc>0?'flex':'none';
+ $('warn').innerHTML=`<span><strong>${M.oc} invoices are overdue.</strong> Send a WhatsApp reminder to their guardians in one click.</span><button class="btn sm" data-a="remAll">${ic('send')}Send reminders</button>`;
+ const nr=S.filter(s=>stat(s)==='review').length;
+ $('tabs').innerHTML=[['inv','Invoices',M.oc?112:112],['review','Needs review',nr],['rec','Receipts',S.filter(s=>stat(s)==='paid').length+66],['over','Overdue',M.oc]].map(t=>`<button role="tab" aria-selected="${F.tab===t[0]}" class="${F.tab===t[0]?'on':''}" data-a="tab" data-k="${t[0]}">${t[1]} <span class="cnt ${t[0]==='review'&&t[2]?'a':''}">${t[2]}</span></button>`).join('');
+ $('mon').textContent=MN[F.mo];
+ const cc=k=>k==='all'?S.length:k==='overdue'?S.filter(isOver).length:S.filter(s=>stat(s)===k).length;
+ $('chips').style.display=F.tab==='inv'?'flex':'none';
+ $('chips').innerHTML=['all','paid','issued','partial','overdue'].map(k=>`<button class="chip ${F.chip===k?'on':''}" aria-pressed="${F.chip===k}" data-a="chip" data-k="${k}">${k==='all'?'All':ST[k][0]} <b>${cc(k)}</b></button>`).join('');
+ $('bulk').classList.toggle('on',F.chk.size>0);$('bc').textContent=F.chk.size+' selected';
+ const L=rows();
+ if(F.tab==='review'){$('list').innerHTML=L.length?`<div class="rv">${L.map(s=>`<div class="rvc"><div class="proof"><b>${R(s.amt)}</b>${MET[s.m]} transfer<i></i><i style="width:70%"></i>Ref ${s.ref}<span>${fd(-1)}, 4:12 pm</span></div><div><div class="who">${avt(s)}<div><b>${s.n}</b><small>${s.c} · ${s.inv}</small></div></div><p class="dm" style="margin:10px 0">Guardian uploaded proof for ${R(s.amt)}. Invoice due ${fd(s.d)}.</p>${F.rej===s.id?`<textarea id="rj" rows="2" placeholder="Reason for rejection (required)" aria-label="Rejection reason"></textarea><div class="err" id="rje" style="display:none">A reason is required.</div><div class="hb" style="margin-top:8px"><button class="btn sm d" data-a="rjOk" data-id="${s.id}">Confirm reject</button><button class="btn sm" data-a="rjX">Cancel</button></div>`:`<div class="hb"><button class="btn sm p" data-a="apv" data-id="${s.id}">${ic('check')}Approve</button><button class="btn sm d" data-a="rjS" data-id="${s.id}">Reject</button></div>`}</div></div>`).join('')}</div>`:`<div style="padding:50px;text-align:center" class="dm"><div style="font-size:36px">🎉</div><b style="display:block;color:var(--ink)">Review queue is empty</b>No payment proofs are waiting.</div>`;
+  $('foot').textContent=L.length+' proofs waiting';renderDr();return}
+ const row=s=>{const a=act(s),t=stat(s);return`<tr class="row" data-a="open" data-id="${s.id}"><td style="padding-left:18px;width:28px"><input type="checkbox" data-a="ck" data-id="${s.id}" aria-label="Select ${s.n}" ${F.chk.has(s.id)?'checked':''}></td>
+ <td><div class="who">${avt(s)}<div><b>${s.n}</b><small>${s.c} · Roll ${s.roll}</small></div></div></td>
+ <td><span style="font-family:ui-monospace,Menlo,monospace;font-size:13px;font-weight:600">${s.inv}</span>${s.v&&t!=='paid'?'<span class="vw">👁 Viewed</span>':''}</td>
+ <td>${dueT(s)}</td><td class="num">${amt(s)}</td><td>${s.m&&s.paid?`<span class="mini">${MET[s.m]}</span>`:'<span class="dm">—</span>'}</td><td>${pill(t)}</td>
+ <td style="white-space:nowrap">${a?`<button class="btn sm" data-a="${a[0]}" data-id="${s.id}">${a[1]}</button>`:''}</td>
+ <td style="padding-right:18px"><button class="ib" data-a="menu" data-id="${s.id}" aria-label="More actions for ${s.n}">${ic('dots')}</button></td></tr>`};
+ const card=s=>{const a=act(s);return`<div data-a="open" data-id="${s.id}"><div style="display:flex;justify-content:space-between;align-items:center"><div class="who">${avt(s)}<div><b>${s.n}</b><small>${s.c} · Roll ${s.roll}</small></div></div>${pill(stat(s))}</div><div style="display:flex;justify-content:space-between"><span class="num">${amt(s)}</span><span>${dueT(s)}</span></div>${a?`<button class="btn sm" style="justify-content:center" data-a="${a[0]}" data-id="${s.id}">${a[1]}</button>`:''}</div>`};
+ $('list').innerHTML=L.length?`<div class="tw"><table><thead><tr><th style="padding-left:18px"><input type="checkbox" data-a="all" aria-label="Select all" ${L.length&&L.every(s=>F.chk.has(s.id))?'checked':''}></th><th>Student</th><th>Invoice</th><th>Due</th><th class="num">Amount</th><th>Method</th><th>Status</th><th>Action</th><th></th></tr></thead><tbody>${L.map(row).join('')}</tbody></table></div><div class="cards">${L.map(card).join('')}</div>`:`<div style="padding:50px;text-align:center" class="dm"><b style="display:block;color:var(--ink)">No invoices match</b>Try clearing a filter.</div>`;
+ $('foot').textContent=`Showing ${L.length} of 112 invoices`;
+ renderDr();
+}
+function renderDr(){const s=S.find(x=>x.id===F.sel);$('ov').classList.toggle('on',!!s||$('wz').classList.contains('on'));$('dr').classList.toggle('on',!!s);if(!s)return;
+ const gross=s.amt+s.disc,t=stat(s),sub=Math.round(gross*.72),tr=Math.round(gross*.14),lab=gross-sub-tr,a=act(s);
+ const ev=[['Invoice generated',fd(-24)],['Sent to guardian on WhatsApp',fd(-24)],...(s.v?[['Viewed by parent',fd(-22)]]:[]),...s.pay.map(p=>['Payment '+R(p.a)+' · '+MET[p.m],p.w])];
+ if(s.waived)ev.push(['Waived: '+s.waived,fd(0)]);
+ $('dr').innerHTML=`<div class="hd">${avt(s)}<div style="flex:1;min-width:0"><div style="font-size:20px;font-weight:800">${s.n}</div><div class="dm">${s.c} · Roll ${s.roll} · ${s.ph}</div><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${pill(t)}<span class="mini">${s.inv}</span></div></div><button class="ib" style="border:1px solid var(--line2)" data-a="close" aria-label="Close">${ic('x')}</button></div>
+ <div class="bd"><div><h4>Line items</h4><div class="li"><span>Tuition</span><span>${R(sub)}</span></div><div class="li"><span>Transport</span><span>${R(tr)}</span></div><div class="li"><span>Lab and activities</span><span>${R(lab)}</span></div>${s.disc?`<div class="li" style="color:var(--good)"><span>Sibling discount (5%)</span><span>− ${R(s.disc)}</span></div>`:''}<div class="li t"><span>Total</span><span>${R(s.amt)}</span></div><div class="li"><span>Paid</span><span>${R(s.paid)}</span></div><div class="li t" style="color:${bal(s)?'var(--bad)':'var(--good)'}"><span>Balance</span><span>${R(bal(s))}</span></div></div>
+ ${F.rec?`<div class="fm"><b>Record payment</b><input id="ra" type="number" value="${bal(s)}" aria-label="Amount"><select id="rm" aria-label="Method"><option value="cash">Cash</option><option value="raast">Raast</option><option value="onebill">1BILL</option><option value="bank">Bank</option></select><div class="hb"><button class="btn sm p" data-a="recOk" data-id="${s.id}">Save and issue receipt</button><button class="btn sm" data-a="recX">Cancel</button></div></div>`:''}
+ ${F.waive?`<div class="fm"><b>Waive balance</b><input id="wr" placeholder="Reason (required)" aria-label="Waive reason"><div class="err" id="wre" style="display:none">A reason is required.</div><div class="hb"><button class="btn sm d" data-a="wvOk" data-id="${s.id}">Confirm waive</button><button class="btn sm" data-a="wvX">Cancel</button></div></div>`:''}
+ <div class="ag"><button class="btn p" data-a="recS" ${bal(s)?'':'disabled'}>${ic('wallet')}Record payment</button><button class="btn" data-a="cp" data-id="${s.id}">${ic('link')}Copy pay link</button><button class="btn" data-a="rm" data-id="${s.id}">${ic('send')}WhatsApp reminder</button><button class="btn" data-a="pr" data-id="${s.id}">${ic('print')}Print voucher</button><button class="btn d" data-a="wvS" ${bal(s)?'':'disabled'}>${ic('ban')}Waive with reason</button></div>
+ <div><h4>Payment timeline</h4><ul class="tl">${ev.map(e=>`<li>${e[0]}<small>${e[1]}</small></li>`).join('')}</ul></div>
+ ${s.sib.length?`<div><h4>Siblings</h4>${s.sib.map(i=>{const o=S.find(x=>x.id===i);return`<div class="sib"><div class="who">${avt(o)}<div><b>${o.n}</b><small>${o.c} · ${o.inv}</small></div></div><div style="display:flex;gap:10px;align-items:center">${pill(stat(o))}<button class="ib" data-a="open" data-id="${o.id}" aria-label="Open ${o.n}">${ic('eye')}</button></div></div>`}).join('')}</div>`:''}</div>`}
+let snapT=null;
+const snap=()=>JSON.stringify([S,M]);
+function toast(m,o){$('tm').textContent=m;$('tl').style.display=o&&o.link?'':'none';$('tl').textContent=o&&o.link||'';$('tu').style.display=o&&o.undo?'':'none';$('tu').onclick=()=>{const[a,b]=JSON.parse(o.undo);S=a;M=b;$('toast').classList.remove('on');render()};$('tl').onclick=()=>toast('Receipt opened in a new tab (demo)');$('toast').classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').classList.remove('on'),6000)}
+function pay(s,a,m){const w=isOver(s);s.paid=Math.min(s.amt,s.paid+a);s.m=m;s.pay.push({a,m,w:fd(0)});M.coll+=a;M.out-=a;M.today+=a;if(w){M.over-=a;if(bal(s)<=0)M.oc--}}
+function openW(){const n=CLS.filter(c=>W.cls.has(c[0]));const f=[1,1.18,.8][W.plan];const cnt=n.reduce((a,c)=>a+c[1],0),sum=n.reduce((a,c)=>a+c[1]*c[2]*f,0);
+ $('wz').innerHTML=`<div style="display:flex;justify-content:space-between"><h2 style="margin:0">Generate invoices</h2><button class="ib" data-a="wzX" aria-label="Close">${ic('x')}</button></div><div class="stp">${[1,2,3].map(i=>`<i class="${W.step>=i?'on':''}"></i>`).join('')}</div>
+ ${W.step===1?`<b>1. Choose classes</b><div class="chips" style="margin-top:10px">${CLS.map(c=>`<button class="chip ${W.cls.has(c[0])?'on':''}" data-a="wc" data-k="${c[0]}">${c[0]}</button>`).join('')}</div>`:W.step===2?`<b>2. Fee structure</b><div class="fm" style="margin-top:10px">${['Standard fee plan','Standard + Transport','Scholarship plan (−20%)'].map((p,i)=>`<label style="display:flex;gap:10px;align-items:center"><input type="radio" name="pl" data-a="wp" data-k="${i}" ${W.plan===i?'checked':''} style="width:auto"> ${p}</label>`).join('')}</div>`:`<b>3. Due date</b><div class="fm" style="margin-top:10px"><input type="date" id="wd" value="${W.due}" aria-label="Due date"></div>`}
+ <div class="pv"><b>${cnt} invoices · ${K(sum)}</b><span class="dm">Billing month: November 2026</span></div>
+ <div class="hb" style="justify-content:space-between;margin-top:16px"><button class="btn" data-a="wb" ${W.step===1?'disabled':''}>Back</button>${W.step<3?`<button class="btn p" data-a="wn" ${cnt?'':'disabled'}>Next</button>`:`<button class="btn p" data-a="wg">Generate ${cnt} invoices</button>`}</div>`;
+ $('wz').classList.add('on');$('ov').classList.add('on')}
+function closeAll(){F.sel=null;F.rec=F.waive=0;$('wz').classList.remove('on');$('menu').classList.remove('on');render()}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!e.target.closest('.menu')&&!(t&&t.dataset.a==='menu'))$('menu').classList.remove('on');if(e.target===$('ov')){closeAll();return}if(!t)return;
+ const a=t.dataset.a,id=+t.dataset.id,s=S.find(x=>x.id===id),k=t.dataset.k;
+ if(a==='ck'){e.stopPropagation();t.checked?F.chk.add(id):F.chk.delete(id);render();return}
+ if(a==='all'){e.stopPropagation();const L=rows();t.checked?L.forEach(x=>F.chk.add(x.id)):F.chk.clear();render();return}
+ if(['rm','rc','pay','rv','menu'].includes(a))e.stopPropagation();
+ switch(a){
+ case'open':F.sel=id;F.rec=F.waive=0;render();break;
+ case'close':closeAll();break;
+ case'tab':F.tab=k;F.ag=null;render();break;
+ case'chip':F.chip=k;render();break;
+ case'ag':F.ag=F.ag===k?null:k;F.tab='inv';render();break;
+ case'cc':F.cls=F.cls===k?'':k;$('fc').value=F.cls;render();break;
+ case'mp':F.mo=Math.max(0,F.mo-1);render();break;case'mn':F.mo=Math.min(2,F.mo+1);render();break;
+ case'rm':toast(`WhatsApp reminder sent to guardian of ${s.n}`);break;
+ case'rc':toast(`Receipt for ${s.inv} ready`,{link:'Open'});break;
+ case'rv':F.tab='review';render();break;
+ case'pay':F.sel=id;F.rec=1;render();break;
+ case'recS':F.rec=1;F.waive=0;render();break;case'recX':F.rec=0;render();break;
+ case'recOk':{const v=Math.min(+$('ra').value||0,bal(s));if(v<=0)return;const u=snap();pay(s,v,$('rm').value);F.rec=0;render();toast('Cash payment recorded and receipt issued',{link:'View receipt',undo:u});break}
+ case'wvS':F.waive=1;F.rec=0;render();break;case'wvX':F.waive=0;render();break;
+ case'wvOk':{const r=$('wr').value.trim();if(r.length<3){$('wre').style.display='block';return}const u=snap();if(isOver(s)){M.over-=bal(s);M.oc--}M.out-=bal(s);s.waived=r;F.waive=0;render();toast('Balance waived',{undo:u});break}
+ case'cp':navigator.clipboard&&navigator.clipboard.writeText('https://pay.ilma.pk/'+s.inv).catch(()=>{});toast('Pay link copied');break;
+ case'pr':toast('Voucher sent to printer (demo)');break;
+ case'menu':{const m=$('menu');m.innerHTML=`<button data-a="open" data-id="${id}">${ic('eye')}View details</button><button data-a="pay" data-id="${id}">${ic('wallet')}Record payment</button><button data-a="cp" data-id="${id}">${ic('link')}Copy pay link</button><button data-a="pr" data-id="${id}">${ic('print')}Print voucher</button><button data-a="wvM" data-id="${id}" style="color:var(--bad)">${ic('ban')}Waive</button>`;const r=t.getBoundingClientRect();m.style.top=Math.min(r.bottom+4,innerHeight-230)+'px';m.style.left=Math.max(8,r.right-190)+'px';m.classList.add('on');break}
+ case'wvM':F.sel=id;F.waive=1;$('menu').classList.remove('on');render();break;
+ case'apv':{const u=snap();pay(s,s.amt-s.paid,s.m);s.st=null;render();toast(`Approved ${s.n}'s payment and issued receipt`,{link:'View receipt',undo:u});break}
+ case'rjS':F.rej=id;render();break;case'rjX':F.rej=null;render();break;
+ case'rjOk':{if($('rj').value.trim().length<3){$('rje').style.display='block';return}const u=snap();s.st=null;F.rej=null;render();toast('Proof rejected. Guardian notified with your reason.',{undo:u});break}
+ case'remAll':toast(`WhatsApp reminders queued for ${M.oc} guardians`);break;
+ case'bRem':toast(`Reminders sent to ${F.chk.size} guardians`);F.chk.clear();render();break;
+ case'bExp':case'export':toast(a==='export'?'Exporting invoices to Excel…':`Exporting ${F.chk.size} invoices…`);break;
+ case'bPrint':toast(`Printing ${F.chk.size} vouchers…`);break;case'bClr':F.chk.clear();render();break;
+ case'adm':toast('No admission fees yet. They will appear here when applicants pay.');break;
+ case'wiz':W.step=1;openW();break;case'wzX':closeAll();break;
+ case'wc':W.cls.has(k)?W.cls.delete(k):W.cls.add(k);openW();break;case'wp':W.plan=+k;openW();break;
+ case'wn':W.step++;openW();break;case'wb':W.step--;openW();break;
+ case'wg':{const n=CLS.filter(c=>W.cls.has(c[0])).reduce((x,c)=>x+c[1],0);closeAll();toast(`${n} invoices created for November. Guardians will be notified on WhatsApp.`);break}
+ }});
+$('q').oninput=e=>{F.q=e.target.value;render()};$('fc').onchange=e=>{F.cls=e.target.value;render()};$('fs').onchange=e=>{F.sec=e.target.value;render()};$('fp').onchange=e=>{F.camp=e.target.value;render()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+$('theme').onclick=()=>{const r=document.documentElement;const d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
+render();
+</script>
+</body>
+</html>

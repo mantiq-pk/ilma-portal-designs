@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA CMS · Assessments</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f4f5fb;--card:#fff;--ink:#14162b;--mut:#6b7090;--line:#e8eaf3;--acc:#6c4cf1;--accs:#efeaff;--ok:#0f8a66;--warn:#b45309;--bad:#d9362b;--side:#14183a;--hov:#f7f7fd;--tint:#f6f4ff;--shadow:0 1px 2px rgba(20,22,43,.05),0 6px 20px rgba(20,22,43,.05);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1124;--card:#171b36;--ink:#eceefc;--mut:#9aa0c7;--line:#262b4d;--accs:#2a2458;--hov:#1c2142;--tint:#1d1f45;--ok:#4fd1a5;--warn:#f4b25c;--bad:#ff7a70;--shadow:none}}
+:root[data-theme="dark"]{--bg:#0e1124;--card:#171b36;--ink:#eceefc;--mut:#9aa0c7;--line:#262b4d;--accs:#2a2458;--hov:#1c2142;--tint:#1d1f45;--ok:#4fd1a5;--warn:#f4b25c;--bad:#ff7a70;--shadow:none}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+button,select,input{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.app{display:flex;min-height:100vh}
+.side{width:230px;background:var(--side);color:#c9cdf0;padding:18px 14px;flex:none;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:22px;color:#fff;font-weight:700}
+.brand i{width:34px;height:34px;border-radius:10px;background:var(--acc);display:grid;place-items:center;font-style:normal}
+.brand small{display:block;font-weight:500;font-size:11px;color:#8c91c4}
+.side a{display:block;padding:10px 12px;border-radius:10px;color:#c9cdf0;text-decoration:none;margin-bottom:2px}
+.side a.on{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
+.side .grp{font-size:12px;color:#7f84b8;margin:16px 12px 6px}
+.me{margin-top:auto;padding:12px;border-top:1px solid rgba(255,255,255,.1);font-size:13px;color:#fff}
+.me small{display:block;color:#8c91c4}
+main{flex:1;min-width:0;padding:22px 28px 60px}
+@media(max-width:900px){.side{display:none}main{padding:18px 16px 60px}}
+.hd{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:14px}
+.hd>div{flex:1;min-width:240px}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}h3{margin:0;font-size:16px}
+.sub{color:var(--mut);margin:2px 0 0;font-size:14px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 15px;font-weight:600;font-size:14px}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.sq{padding:8px 12px}.btn.sm{padding:6px 11px;font-size:13px}.btn:disabled{opacity:.4;cursor:default}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px;overflow-x:auto}
+.seg button{border:0;background:none;padding:8px 16px;border-radius:10px;font-weight:600;color:var(--mut);white-space:nowrap}
+.seg button.on{background:var(--accs);color:var(--acc)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--bad);margin-left:6px}
+.att{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+.att button,.att span.ok{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:9px 14px;font-size:14px;font-weight:600;flex:1;min-width:230px;text-align:left}
+.att button b{margin-left:auto;color:var(--acc);white-space:nowrap}
+.att i{font-style:normal}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+@media(max-width:800px){.kp{grid-template-columns:1fr 1fr}}
+.kp div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 14px}
+.kp small{color:var(--mut);display:block;font-size:12.5px}
+.kp b{font-size:24px;letter-spacing:-.02em;display:block;line-height:1.2}
+.up{color:var(--ok);font-size:12.5px;font-weight:700}
+.c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);min-width:0}
+.g2{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1.9fr 1fr;gap:14px}
+@media(max-width:1050px){.g2,.g3{grid-template-columns:1fr}}
+.gc{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.xg{border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;background:var(--card)}
+.xg:hover{border-color:var(--acc)}
+.xg h4{margin:6px 0 2px;font-size:15px}
+.tag{display:inline-flex;gap:5px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;color:var(--k);background:color-mix(in srgb,var(--k) 14%,transparent);white-space:nowrap}
+.pipe{display:flex;gap:3px;margin:12px 0 6px}
+.pipe i{flex:1;height:6px;border-radius:4px;background:var(--line)}.pipe i.on{background:var(--acc)}
+.pl{display:flex;justify-content:space-between;font-size:11.5px;color:var(--mut)}
+.lst .it{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;cursor:pointer}
+.lst .it:last-child{border-bottom:0}
+.lst .it span{color:var(--mut);font-size:12.5px;display:block}
+.lst .it em{margin-left:auto;font-style:normal;font-size:12.5px;font-weight:700;color:var(--acc);white-space:nowrap}
+.sp{flex:1}
+.fb{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0}
+select,input[type=date],input[type=text],input[type=number]{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-weight:600;max-width:100%}
+.fc{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 13px;font-weight:600;font-size:13.5px;color:var(--mut)}
+.fc.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.nb{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:linear-gradient(100deg,var(--accs),var(--card));border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:12px;font-size:14px}
+.ct{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.ct h3{font-size:20px}
+.lg{display:flex;gap:14px;font-size:12.5px;color:var(--mut);flex-wrap:wrap;margin-bottom:8px}
+.lg b{color:var(--k)}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.cal>div{border-right:1px solid var(--line);border-bottom:1px solid var(--line);min-height:96px;padding:5px;cursor:pointer;background:var(--card);min-width:0}
+.cal>div:nth-child(7n){border-right:0}
+.cal>.hd2{min-height:0;text-align:center;font-size:12.5px;color:var(--mut);font-weight:700;cursor:default;background:var(--hov);padding:8px}
+.cal>.om{background:var(--hov);color:var(--mut)}
+.cal>.su{background:color-mix(in srgb,var(--line) 35%,var(--card))}
+.cal>.bd{background:color-mix(in srgb,#e8590c 9%,var(--card))}
+.cal>.sl{box-shadow:inset 0 0 0 2px var(--acc)}
+.cal>.over{background:var(--accs)}
+.dn{font-size:13px;font-weight:700;display:inline-grid;place-items:center;min-width:24px;height:24px;border-radius:50%;margin-bottom:3px}
+.dn.td{background:var(--acc);color:#fff}
+.ch{display:block;width:100%;text-align:left;border:0;border-left:3px solid var(--k);background:color-mix(in srgb,var(--k) 15%,var(--card));border-radius:6px;padding:2px 6px;font-size:11.5px;font-weight:600;margin-bottom:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink)}
+.ch.cf{outline:2px solid var(--bad)}
+.mo{font-size:11.5px;color:var(--mut);font-weight:700;padding-left:4px}
+.wk{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.wk>div{background:var(--hov);border-radius:12px;padding:8px;min-height:180px;cursor:pointer}
+.wk>div.sl{box-shadow:inset 0 0 0 2px var(--acc)}
+.wk h5{margin:0 0 6px;font-size:13px}
+.dp .big{background:var(--acc);color:#fff;border-radius:14px;padding:12px 16px;display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.dp .big b{font-size:34px;line-height:1}
+.pe{border:1px solid var(--line);border-left:4px solid var(--k);border-radius:12px;padding:12px;margin-bottom:10px}
+.pe b{font-size:15px}
+.pe div{font-size:13px;color:var(--mut);margin:2px 0}
+.pill{display:inline-flex;gap:5px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.pill.b{color:#3b4cca;background:#3b4cca22}.pill.w{color:var(--warn);background:color-mix(in srgb,var(--warn) 16%,transparent)}.pill.p{color:var(--acc);background:var(--accs)}.pill.g{color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.kb{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media(max-width:1000px){.kb{grid-template-columns:1fr 1fr}}@media(max-width:600px){.kb{grid-template-columns:1fr}}
+.kb>div{background:var(--hov);border-radius:14px;padding:10px}
+.kb h4{margin:2px 4px 10px;font-size:14px}
+.cw{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:13.5px}
+.cw b{display:block}
+.pb{height:7px;background:var(--line);border-radius:9px;overflow:hidden;margin:8px 0 3px}
+.pb i{display:block;height:100%;background:var(--acc);border-radius:9px}
+.bars{display:flex;gap:10px;align-items:flex-end;height:150px;margin-top:10px}
+.bars div{flex:1;text-align:center;font-size:12.5px;color:var(--mut)}
+.bars i{display:block;border-radius:8px 8px 0 0;background:var(--acc);margin-bottom:5px}
+.bars b{display:block;color:var(--ink)}
+.hm{display:grid;grid-template-columns:130px 1fr 1fr;gap:6px;font-size:13.5px;align-items:center}
+.hm span{text-align:center;color:var(--mut);font-size:12.5px}
+.hm b{border-radius:8px;color:#fff;text-align:center;padding:9px 0}
+.rg{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:center}
+.row span{color:var(--mut)}
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);display:none;z-index:20}.scrim.on{display:block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:var(--card);z-index:21;padding:calc(22px + env(safe-area-inset-top,0px)) 22px 22px;overflow:auto;transform:translateX(105%);transition:transform .25s;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.drawer.on{transform:none}
+.x{float:right;border:0;background:var(--bg);width:34px;height:34px;border-radius:10px;font-size:18px}
+.stp{display:flex;gap:4px;margin:12px 0 16px}
+.stp i{flex:1;height:5px;border-radius:4px;background:var(--line)}.stp i.on{background:var(--acc)}
+.fl{display:grid;gap:12px}.fl label{display:grid;gap:5px;font-size:13px;font-weight:700;color:var(--mut)}
+.fl label.ck{display:flex;gap:8px;align-items:center;color:var(--ink);font-size:14px}
+.cl{display:flex;gap:8px;flex-wrap:wrap}.cl label{display:flex!important;gap:6px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:6px 10px;color:var(--ink)!important}
+.wn{background:color-mix(in srgb,var(--bad) 12%,transparent);color:var(--bad);border-radius:12px;padding:10px 12px;font-weight:600;font-size:13.5px}
+.okm{background:color-mix(in srgb,var(--ok) 12%,transparent);color:var(--ok);border-radius:12px;padding:10px 12px;font-weight:600;font-size:13.5px}
+.msg{background:var(--bg);border-radius:12px;padding:12px;font-size:13.5px;margin:12px 0}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;opacity:0;transition:.25s;z-index:30;font-weight:600;max-width:90%}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+.rb{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px;font-size:13px;color:var(--mut);font-weight:700}
+.pill.r{color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}.pill.n{color:var(--mut);background:var(--line)}
+.side a.sub2{display:flex;justify-content:space-between;align-items:center}
+.side a .bd2{background:var(--bad);color:#fff;border-radius:99px;font-size:11px;padding:1px 8px;font-weight:700}
+.hc{border:1px solid var(--line);border-left:5px solid var(--k);border-radius:14px;padding:13px 15px;background:var(--card);display:grid;gap:6px;cursor:pointer}
+.hc:hover{border-color:var(--k)}
+.hc h4{margin:0;font-size:15.5px}.hc .mt{font-size:13px;color:var(--mut)}
+.hl{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.chs{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.hi{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:14px;padding:13px 15px;background:var(--card);margin-bottom:10px;cursor:pointer}
+.hi:hover{border-color:var(--k)}
+.si{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-weight:800;font-size:18px;color:#fff;background:var(--k);flex:none}
+.hi .mid{flex:1;min-width:0}.hi h4{margin:0;font-size:15.5px}.hi .mt{font-size:13px;color:var(--mut);margin:2px 0 6px}
+.hi .ex{font-size:13.5px;margin:0 0 6px;color:var(--ink);opacity:.85}
+.ws{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.ws>div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;min-height:96px}
+.ws>div.tdy{box-shadow:inset 0 0 0 2px var(--acc)}
+.ws h5{margin:0 0 6px;font-size:12.5px;color:var(--mut)}
+.ws .w{display:block;border-left:3px solid var(--k);background:color-mix(in srgb,var(--k) 15%,var(--card));border-radius:6px;padding:2px 6px;font-size:11.5px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:700px){.ws{grid-template-columns:repeat(2,1fr)}}
+.st{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--card);cursor:pointer;display:grid;gap:3px;border-top:4px solid var(--k)}
+.st.on{background:color-mix(in srgb,var(--k) 10%,var(--card));box-shadow:0 0 0 2px var(--k)}
+.st b{font-size:15px}.st span{font-size:12.5px;color:var(--mut)}
+.tl{border-left:2px solid var(--line);margin:8px 0 8px 6px;padding-left:14px;display:grid;gap:10px}
+.tl div{position:relative;font-size:13.5px}.tl div:before{content:"";position:absolute;left:-21px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--acc)}
+.tl div.off{color:var(--mut)}.tl div.off:before{background:var(--line)}
+.ro{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.ro .a{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.ro input[type=number]{width:70px;padding:5px 8px}
+.hm2{display:grid;grid-template-columns:90px repeat(6,1fr);gap:5px;font-size:13px;align-items:center}
+.hm2 span{text-align:center;color:var(--mut);font-size:12px}
+.hm2 b{border-radius:8px;text-align:center;padding:9px 0;cursor:default}
+.tb{width:100%;border-collapse:collapse;font-size:14px}.tb th{text-align:left;font-size:12px;color:var(--mut);padding:8px 6px;border-bottom:1px solid var(--line)}.tb td{padding:9px 6px;border-bottom:1px solid var(--line)}
+.fl textarea{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;min-height:90px;font:inherit;color:inherit;resize:vertical}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:800px){.cmp{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side" id="side"></aside>
+<main>
+ <div class="rb"><span>Preview as</span><div class="seg" id="rseg"><button data-role="teacher">Teacher</button><button data-role="admin">Admin / Super Admin</button><button data-role="parent">Parent</button><button data-role="student">Student</button></div></div>
+<div id="asm">
+ <div class="hd"><div><h1 id="ttl">Assessments</h1><p class="sub" id="stl">Schedule assessments, track classwork, and publish results and report cards.</p></div><button class="btn p" id="hbtn" data-wz="">+ Schedule exam</button></div>
+ <div class="seg" id="tabs"><button data-tab="sch">Schedule</button><button data-tab="cw">Classwork</button><button data-tab="hw">Homework</button><button data-tab="rs">Results<span class="dot" id="rd"></span></button><button data-tab="rc">Report Cards</button></div>
+ <section class="att" id="att"></section>
+ <section class="kp" id="kp"></section>
+ <div id="body"></div>
+</div>
+<div id="hwm" hidden></div>
+</main>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="dr" aria-label="Details"></aside>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $=i=>document.getElementById(i),TODAY='2026-10-10';
+const MN=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],MF=['January','February','March','April','May','June','July','August','September','October','November','December'],WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const P=n=>String(n).padStart(2,'0'),key=d=>d.getFullYear()+'-'+P(d.getMonth()+1)+'-'+P(d.getDate()),pd=k=>{const a=k.split('-');return new Date(+a[0],+a[1]-1,+a[2])};
+const ds=k=>{const d=pd(k);return WD[d.getDay()]+' '+d.getDate()+' '+MN[d.getMonth()]},dshort=k=>{const d=pd(k);return d.getDate()+' '+MN[d.getMonth()]};
+const diff=k=>Math.round((pd(k)-pd(TODAY))/864e5);
+const TY={Quiz:{c:'#0e9f8a',i:'●'},Test:{c:'#3b4cca',i:'■'},'Mid-term':{c:'#e8590c',i:'◆'},Final:{c:'#d9362b',i:'★'},Practical:{c:'#8b46d4',i:'▲'}};
+const PIPE=['Scheduled','Held','Marking','Review','Published'],SI={Scheduled:'📅',Held:'✔',Marking:'✍',Review:'👁',Published:'✓'},SC={Scheduled:'b',Held:'w',Marking:'w',Review:'p',Published:'g'};
+const SY={Maths:'Chapters 1–6',English:'Units 1–4',Urdu:'Nazm and grammar','General Science':'Chapters 1–5',Chemistry:'Bonding and reactions',Physics:'Motion and forces'};
+let G=[{id:'ut',t:'Unit Test 3',ty:'Test'},{id:'mid',t:'Mid Term Examination 2026',ty:'Mid-term'},{id:'qz',t:'September Class Quiz',ty:'Quiz'}],X=[],nid=1;
+const NS={'6-B':31,'7-C':33,'8-A':30,'9-A':32,'10-A':29};
+const ax=(g,sub,cl,d,tm,du,rm,iv,s,ty)=>X.push({id:nid++,g,sub,cl,d,tm,du,rm,iv,s,ty:ty||null});
+ax('qz','Maths','6-B','2026-09-10','9:00 AM','30 min','Room 302','Sana Iqbal','Published');ax('qz','Maths','7-C','2026-09-10','10:00 AM','30 min','Room 302','Sana Iqbal','Published');
+ax('mid','Maths','6-B','2026-09-20','9:00 AM','120 min','Hall A','Bilal Ahmed','Review');ax('mid','Maths','7-C','2026-09-20','9:00 AM','120 min','Hall B','Hina Tariq','Review');
+ax('mid','English','6-B','2026-09-21','9:00 AM','90 min','Hall A','Farah Naz','Review');ax('mid','English','7-C','2026-09-21','9:00 AM','90 min','Hall B','Muhammad Ali','Held');
+ax('mid','General Science','6-B','2026-09-22','9:00 AM','90 min','Hall A','Bilal Ahmed','Marking');ax('mid','Urdu','6-B','2026-09-23','9:00 AM','90 min','Hall A','Muhammad Ali','Published');
+ax('ut','Chemistry','10-A','2026-10-14','10:00 AM','60 min','Lab 1','Farah Naz','Scheduled','Practical');ax('ut','Maths','6-B','2026-10-15','9:00 AM','45 min','Room 302','Sana Iqbal','Scheduled');ax('ut','Maths','7-C','2026-10-15','10:00 AM','45 min','Room 302','Sana Iqbal','Scheduled');
+ax('ut','Urdu','8-A','2026-10-21','9:00 AM','45 min','Room 305','Muhammad Ali','Scheduled','Quiz');ax('ut','Physics','9-A','2026-10-22','9:00 AM','60 min','Lab 1','Bilal Ahmed','Scheduled');
+const gt=e=>e.ty||G.filter(g=>g.id===e.g)[0].ty,gg=e=>G.filter(g=>g.id===e.g)[0];
+const CW=[['Quadratic worksheet','Maths','7-C','Tue 13 Oct',20,33,0,'up'],['Photosynthesis diagram','General Science','6-B','Mon 12 Oct',26,31,0,'due'],['Essay: My hero','English','6-B','Fri 9 Oct',31,31,12,'grade'],['Urdu comprehension','Urdu','8-A','Thu 8 Oct',30,30,30,'done'],['Circuit lab report','Physics','9-A','Wed 14 Oct',9,32,0,'up'],['Algebra homework','Maths','6-B','Sat 10 Oct',27,31,0,'due'],['Chemical equations','Chemistry','10-A','Thu 8 Oct',29,29,8,'grade'],['Grammar quiz','English','7-C','Tue 6 Oct',33,33,33,'done']];
+const RC=[{c:'6-B',n:31,r:28,pub:0},{c:'7-C',n:33,r:33,pub:0},{c:'8-A',n:30,r:0,pub:0},{c:'9-A',n:32,r:30,pub:0},{c:'10-A',n:29,r:27,pub:0}];
+const RS={mid:{d:[3,9,14,12,5,2],pass:91,avg:77,top:[['Hira Shah','6-B',96],['Usman Tariq','7-C',94],['Maryam Noor','6-B',93]],heat:[['Maths',78,71],['English',82,80],['General Science',76,null],['Urdu',84,null]],ins:'Maths 7-C average dropped 8 points versus the September quiz (79 → 71).'},qz:{d:[2,8,15,11,4,1],pass:94,avg:79,top:[['Zain Ali','6-B',20],['Areeba Khan','7-C',19],['Taha Khan','7-C',19]],heat:[['Maths',80,79]],ins:'Quiz scores were steady across both classes.'}};
+const st={tab:'hw',cm:[2026,9],sel:TODAY,vw:'m',ty:'all',su:'all',ss:'all',qc:'all',rt:'mid',cws:'all',wz:null,dr:null};
+const toast=m=>{const t=$('toast');t.textContent=m;t.className='toast on';clearTimeout(toast.x);toast.x=setTimeout(()=>t.className='toast',2800)};
+const tag=t=>'<span class="tag" style="--k:'+TY[t].c+'">'+TY[t].i+' '+t+'</span>',pill=s=>'<span class="pill '+SC[s]+'">'+SI[s]+' '+s+'</span>';
+const lab=e=>e.sub.replace('General Science','Gen. Science')+' · '+e.cl;
+function clash(e){return X.find(o=>o!==e&&o.d===e.d&&((o.tm===e.tm&&(o.rm===e.rm||o.iv===e.iv))||(o.cl===e.cl&&o.tm===e.tm)))}
+const needMk=()=>X.filter(e=>e.s==='Held'||e.s==='Marking'),rev=()=>X.filter(e=>e.s==='Review'),rcr=()=>RC.filter(r=>r.r===r.n&&!r.pub).length;
+function head(){
+ const a=[['👁',rev().length+' results awaiting approval','Review','rev',rev().length],['✍',needMk().length+' papers with no marks entered','Enter marks','mk',needMk().length],['📄',rcr()+' report card'+(rcr()>1?'s':'')+' ready to publish','Publish','rc',rcr()]].filter(x=>x[4]);
+ $('att').innerHTML=a.length?a.map(x=>'<button data-at="'+x[3]+'"><i>'+x[0]+'</i>'+x[1]+'<b>'+x[2]+' →</b></button>').join(''):'<span class="ok">✓ All caught up. Nothing needs your attention.</span>';
+ $('rd').hidden=!rev().length;
+ const mo=X.filter(e=>e.d.slice(0,7)==='2026-10').length;
+ $('kp').innerHTML=[['Exams this month',mo],['Papers pending marking',needMk().length],['Results awaiting approval',rev().length],['Average pass rate','91%','↑ 2 pts vs last term']].map(k=>'<div><small>'+k[0]+'</small><b>'+k[1]+'</b>'+(k[2]?'<span class="up">'+k[2]+'</span>':'')+'</div>').join('');
+ document.querySelectorAll('#tabs button').forEach(b=>b.className=b.dataset.tab===st.tab?'on':'')}
+const fx=()=>X.filter(e=>(st.ty==='all'||gt(e)===st.ty)&&(st.su==='all'||e.sub===st.su)&&(st.ss==='all'||e.s===st.ss)&&(st.qc==='all'||(st.qc==='up'&&e.d>=TODAY)||(st.qc==='mk'&&(e.s==='Held'||e.s==='Marking'))||(st.qc==='pub'&&e.s==='Published'))).sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+function chip(e){return '<button class="ch'+(clash(e)?' cf':'')+'" draggable="true" data-ex="'+e.id+'" style="--k:'+TY[gt(e)].c+'" title="'+lab(e)+' · '+e.tm+'">'+TY[gt(e)].i+' '+(clash(e)?'⚠ ':'')+lab(e)+'</button>'}
+function sched(){
+ const nx=X.filter(e=>e.d>=TODAY).sort((a,b)=>a.d<b.d?-1:1)[0],F=fx();
+ const gc=G.map(g=>{const p=X.filter(e=>e.g===g.id);if(!p.length)return'';const ds2=p.map(e=>e.d).sort(),mn=Math.min(...p.map(e=>PIPE.indexOf(e.s))),avg=p.reduce((s,e)=>s+PIPE.indexOf(e.s),0)/p.length/4;
+  return '<div class="xg" data-g="'+g.id+'" tabindex="0">'+tag(g.ty)+'<h4>'+g.t+'</h4><div class="sub">'+(ds2[0]===ds2[ds2.length-1]?dshort(ds2[0]):dshort(ds2[0])+' – '+dshort(ds2[ds2.length-1]))+' · '+p.length+' paper'+(p.length>1?'s':'')+'</div><div class="pipe">'+PIPE.map((s,i)=>'<i class="'+(i<=mn?'on':'')+'"></i>').join('')+'</div><div class="pl"><span>'+PIPE[mn]+'</span><span>'+p.filter(e=>e.s==='Published').length+' of '+p.length+' published</span></div></div>'}).join('');
+ const up=X.filter(e=>e.d>=TODAY).sort((a,b)=>a.d<b.d?-1:1).slice(0,3),held=X.filter(e=>e.d<TODAY).sort((a,b)=>a.d<b.d?1:-1).slice(0,3);
+ const li=(e,r)=>'<div class="it" data-ex="'+e.id+'"><div>'+lab(e)+'<span>'+ds(e.d)+' · '+e.tm+'</span></div><em>'+r+'</em></div>';
+ const sy=pd(st.sel),dayX=F.filter(e=>e.d===st.sel);
+ const subs=[...new Set(X.map(e=>e.sub))];
+ let h='<div class="g2"><div class="c"><h3>Exams</h3><p class="sub">'+X.length+' papers · click one to open its papers</p><div class="gc" style="margin-top:12px">'+gc+'</div></div><div class="c lst"><h3>Upcoming</h3>'+up.map(e=>li(e,diff(e.d)===0?'today':'in '+diff(e.d)+' days')).join('')+'<h3 style="margin-top:16px">Recently held</h3>'+held.map(e=>li(e,SI[e.s]+' '+e.s)).join('')+'</div></div>';
+ h+='<div class="fb"><select data-fl="ty" aria-label="Type"><option value="all">All types</option>'+Object.keys(TY).map(t=>'<option'+(st.ty===t?' selected':'')+'>'+t+'</option>').join('')+'</select><select data-fl="su" aria-label="Subject"><option value="all">All subjects</option>'+subs.map(t=>'<option'+(st.su===t?' selected':'')+'>'+t+'</option>').join('')+'</select><select data-fl="ss" aria-label="Status"><option value="all">All statuses</option>'+PIPE.map(t=>'<option'+(st.ss===t?' selected':'')+'>'+t+'</option>').join('')+'</select><span class="sp"></span>'+[['all','All'],['up','Upcoming'],['mk','Needs marking'],['pub','Published']].map(c=>'<button class="fc'+(st.qc===c[0]?' on':'')+'" data-qc="'+c[0]+'">'+c[1]+'</button>').join('')+'</div>';
+ h+='<div class="g3"><div class="c">'+(nx?'<div class="nb">⏱ <b>Next exam:</b> '+lab(nx)+' · '+ds(nx.d)+' · in '+diff(nx.d)+' days<span class="sp"></span><button class="btn sm" data-go="'+nx.d+'">View</button></div>':'');
+ h+='<div class="ct"><h3 id="cl">'+(st.vw==='w'?'Week of '+dshort(wk0())+'':MF[st.cm[1]]+' '+st.cm[0])+'</h3><span class="sp"></span><div class="seg" id="vw"><button data-vw="m" class="'+(st.vw==='m'?'on':'')+'">Month</button><button data-vw="w" class="'+(st.vw==='w'?'on':'')+'">Week</button><button data-vw="a" class="'+(st.vw==='a'?'on':'')+'">Agenda</button></div><button class="btn sm" data-go="'+TODAY+'">Today</button><button class="btn sq sm" data-nv="-1" aria-label="Previous">‹</button><button class="btn sq sm" data-nv="1" aria-label="Next">›</button></div>';
+ h+='<div class="lg">'+Object.keys(TY).map(t=>'<span><b style="--k:'+TY[t].c+'">'+TY[t].i+'</b> '+t+'</span>').join('')+'<span>🟧 Exam week</span></div>';
+ h+=st.vw==='m'?month(F):st.vw==='w'?week(F):agenda(F);
+ h+='</div><div class="c dp"><div class="big"><b>'+sy.getDate()+'</b><div>'+WD[sy.getDay()]+'<br>'+MN[sy.getMonth()]+'</div></div><div class="row" style="border:0"><b>Selected day</b><span>'+dayX.length+' event'+(dayX.length!==1?'s':'')+'</span></div>';
+ h+=dayX.length?dayX.map(e=>'<div class="pe" style="--k:'+TY[gt(e)].c+'"><b>'+e.sub+' · Grade '+e.cl+'</b><div>'+tag(gt(e))+' '+pill(e.s)+'</div><div>🕘 '+e.tm+' · '+e.du+' · 📍 '+e.rm+'</div><div>👤 '+e.iv+' · '+NS[e.cl]+' students</div><div>📘 '+SY[e.sub]+'</div><div class="acts"><button class="btn sm" data-mk="'+e.id+'">Enter marks</button><button class="btn sm" data-ed="'+e.id+'">Edit</button><button class="btn sm" data-pr="1">Print datesheet</button></div></div>').join(''):'<div class="msg">Nothing scheduled on this day.</div><button class="btn p" data-wz="'+st.sel+'">+ Schedule exam on this date</button>';
+ return h+'</div></div>'}
+const wk0=()=>{const d=pd(st.sel);d.setDate(d.getDate()-((d.getDay()+6)%7));return key(d)};
+function month(F){
+ const f=new Date(st.cm[0],st.cm[1],1),s=new Date(f);s.setDate(1-((f.getDay()+6)%7));
+ const band=G.filter(g=>g.ty==='Mid-term'||g.ty==='Final').map(g=>{const d=X.filter(e=>e.g===g.id).map(e=>e.d).sort();return[d[0],d[d.length-1]]});
+ let h='<div class="cal">'+['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].map(d=>'<div class="hd2">'+d+'</div>').join('');
+ for(let i=0;i<42;i++){const d=new Date(s);d.setDate(s.getDate()+i);const k=key(d),es=F.filter(e=>e.d===k),om=d.getMonth()!==st.cm[1],inb=band.some(b=>k>=b[0]&&k<=b[1]);
+  h+='<div data-cell="'+k+'" class="'+(om?'om ':'')+(d.getDay()===0?'su ':'')+(inb?'bd ':'')+(k===st.sel?'sl':'')+'"><span class="dn'+(k===TODAY?' td':'')+'">'+d.getDate()+'</span>'+es.slice(0,2).map(chip).join('')+(es.length>2?'<span class="mo">+'+(es.length-2)+' more</span>':'')+'</div>'}
+ return h+'</div>'}
+function week(F){const s=pd(wk0());let h='<div class="wk">';for(let i=0;i<6;i++){const d=new Date(s);d.setDate(s.getDate()+i);const k=key(d);h+='<div data-cell="'+k+'" class="'+(k===st.sel?'sl':'')+'"><h5>'+WD[d.getDay()]+' '+d.getDate()+(k===TODAY?' ●':'')+'</h5>'+F.filter(e=>e.d===k).map(chip).join('')+'</div>'}return h+'</div>'}
+function agenda(F){const m=st.cm[0]+'-'+P(st.cm[1]+1),es=F.filter(e=>e.d.slice(0,7)===m);return es.length?'<div class="lst">'+es.map(e=>'<div class="it" data-ex="'+e.id+'"><span style="color:'+TY[gt(e)].c+';font-size:18px">'+TY[gt(e)].i+'</span><div>'+lab(e)+'<span>'+ds(e.d)+' · '+e.tm+' · '+e.rm+'</span></div><em>'+pill(e.s)+'</em></div>').join('')+'</div>':'<div class="msg">No exams match this month.</div>'}
+function cw0(){
+ const subs=[...new Set(CW.map(c=>c[1]))],L=[['up','Upcoming'],['due','Due'],['grade','Needs grading'],['done','Graded']];
+ return '<div class="fb"><select data-cws="1" aria-label="Subject"><option value="all">All subjects</option>'+subs.map(s=>'<option'+(st.cws===s?' selected':'')+'>'+s+'</option>').join('')+'</select><span class="sp"></span><span class="sub">'+CW.length+' assignments</span></div><div class="kb">'+L.map(l=>'<div><h4>'+l[1]+' ('+CW.filter(c=>c[7]===l[0]&&(st.cws==='all'||c[1]===st.cws)).length+')</h4>'+CW.filter(c=>c[7]===l[0]&&(st.cws==='all'||c[1]===st.cws)).map(c=>'<div class="cw"><b>'+c[0]+'</b>'+c[1]+' · '+c[2]+' · due '+c[3]+'<div class="pb"><i style="width:'+(c[4]/c[5]*100)+'%"></i></div><small style="color:var(--mut)">'+c[4]+' of '+c[5]+' submitted'+(c[6]?' · '+c[6]+' graded':'')+'</small>'+(l[0]==='grade'?'<div class="acts"><button class="btn sm" data-t="Opening grading for '+c[0]+'">Grade now</button></div>':'')+'</div>').join('')+'</div>').join('')+'</div>'}
+function rs(){
+ const D=RS[st.rt],mx=Math.max(...D.d),gl=['A+','A','B','C','D','F'],col=v=>'hsl('+Math.max(0,Math.min(125,(v-60)/30*125))+' 55% 40%)',g=G.filter(x=>x.id===st.rt)[0],p=X.filter(e=>e.g===st.rt),pub=p.filter(e=>e.s==='Published').length,sub=p.filter(e=>e.s==='Review').length,aw=p.length-pub-sub;
+ return '<div class="fb"><select data-rt="1" aria-label="Exam"><option value="mid"'+(st.rt==='mid'?' selected':'')+'>Mid Term Examination 2026</option><option value="qz"'+(st.rt==='qz'?' selected':'')+'>September Class Quiz</option></select><span class="sp"></span><span class="pill g">Pass rate '+D.pass+'%</span><span class="pill p">Class average '+D.avg+'%</span></div>'+
+ '<div class="c" style="margin-bottom:14px"><h3>Approval flow</h3><div class="pipe" style="margin-top:10px">'+['Draft','Submitted','Reviewed','Published'].map((s,i)=>'<i class="'+(i<=(pub===p.length?3:sub?1:0)?'on':'')+'"></i>').join('')+'</div><div class="pl"><span>Awaiting marks '+aw+'</span><span>Submitted '+sub+'</span><span>Published '+pub+'</span></div><div class="acts"><button class="btn p" data-ap="1"'+(sub?'':' disabled')+'>Approve all submitted ('+sub+')</button></div></div>'+
+ '<div class="g2"><div class="c"><h3>Grade distribution</h3><div class="bars">'+D.d.map((v,i)=>'<div><b>'+v+'</b><i style="height:'+(v/mx*110)+'px"></i>'+gl[i]+'</div>').join('')+'</div></div><div class="c"><h3>Top performers</h3>'+D.top.map(t=>'<div class="row"><b>'+t[0]+'</b><span>'+t[1]+' · '+t[2]+(st.rt==='qz'?'/20':'%')+'</span></div>').join('')+'</div></div>'+
+ '<div class="g2"><div class="c"><h3>Subject averages</h3><p class="sub">Green is strong, red needs follow-up</p><div class="hm"><span></span><span>6-B</span><span>7-C</span>'+D.heat.map(r=>'<div>'+r[0]+'</div>'+[r[1],r[2]].map(v=>v==null?'<b style="background:var(--line);color:var(--mut)">–</b>':'<b style="background:'+col(v)+'">'+v+'</b>').join('')).join('')+'</div></div><div class="c"><h3>✨ ILMA AI insight</h3><p style="margin:10px 0">'+D.ins+'</p><button class="btn sm" data-t="Drafted a note to the Maths teacher">Message Maths teacher</button></div></div>'}
+function rc(){return '<div class="rg">'+RC.map(r=>{const rd=r.r===r.n;return '<div class="c"><h3>Grade '+r.c+'</h3><p class="sub">'+(r.pub?'✓ Published to parents':r.r+' of '+r.n+' ready'+(rd?'':' · '+(r.n-r.r)+(r.r?' missing marks':' not started')))+'</p><div class="pb"><i style="width:'+(r.r/r.n*100)+'%;'+(rd?'background:var(--ok)':'')+'"></i></div><div class="fl" style="margin-top:12px"><select data-t="Template changed" aria-label="Language"><option>English template</option><option>Urdu template</option></select></div><div class="acts"><button class="btn sm" data-t="ILMA AI drafted remarks for '+r.c+'">✨ AI-draft remarks</button><button class="btn sm" data-pv="'+r.c+'">Preview PDF</button><button class="btn p sm" data-rcp="'+r.c+'"'+(rd&&!r.pub?'':' disabled')+'>'+(r.pub?'Published':'Publish to parents')+'</button></div></div>'}).join('')+'</div>'}
+function renderOld(){head();$('body').innerHTML={sch:sched,cw:cw,rs:rs,rc:rc}[st.tab]()}
+const close=()=>{$('dr').className='drawer';$('scrim').className='scrim';st.wz=null};
+const open=h=>{$('dr').innerHTML='<button class="x" id="cx" aria-label="Close">×</button>'+h;$('dr').className='drawer on';$('scrim').className='scrim on'};
+function listUI(t,es,btn,key2){open('<h3 style="font-size:20px;margin:4px 0 12px">'+t+'</h3>'+(es.length?es.map(e=>'<div class="row" style="display:block"><b>'+lab(e)+'</b> · '+ds(e.d)+'<br>'+pill(e.s)+'<div class="acts"><button class="btn p sm" data-'+key2+'="'+e.id+'">'+btn+'</button></div></div>').join(''):'<div class="okm">✓ All done here.</div>'))}
+function grpUI(id){const g=G.filter(x=>x.id===id)[0];open('<div style="margin-top:6px">'+tag(g.ty)+'</div><h3 style="font-size:20px;margin:6px 0 12px">'+g.t+'</h3>'+X.filter(e=>e.g===id).map(e=>'<div class="row" data-go="'+e.d+'" style="cursor:pointer"><div>'+lab(e)+'<br><span>'+ds(e.d)+' · '+e.tm+'</span></div>'+pill(e.s)+'</div>').join(''))}
+function wzUI(){
+ const w=st.wz,steps=['Type and name','Classes and subject','Date, time and room','Marks','Publish'],cls=Object.keys(NS);
+ const cf=w.cl.map(c=>({id:0,d:w.d,tm:w.tm,rm:w.rm,iv:w.iv,cl:c})).map(clash).filter(Boolean);
+ let b;
+ if(w.s===0)b='<label>Type<select data-w="ty">'+Object.keys(TY).map(t=>'<option'+(w.ty===t?' selected':'')+'>'+t+'</option>').join('')+'</select></label><label>Name<input type="text" data-wi="t" value="'+w.t+'" placeholder="e.g. Unit Test 4"></label>';
+ else if(w.s===1)b='<label>Classes<div class="cl">'+cls.map(c=>'<label><input type="checkbox" data-wc="'+c+'"'+(w.cl.includes(c)?' checked':'')+'> '+c+'</label>').join('')+'</div></label><label>Subject<select data-w="sub">'+Object.keys(SY).map(t=>'<option'+(w.sub===t?' selected':'')+'>'+t+'</option>').join('')+'</select></label>';
+ else if(w.s===2)b='<button class="btn" data-wai="1">✨ Generate datesheet with ILMA AI</button><label>Date<input type="date" data-w="d" value="'+w.d+'"></label><label>Time<select data-w="tm">'+['8:00 AM','9:00 AM','10:00 AM','11:00 AM'].map(t=>'<option'+(w.tm===t?' selected':'')+'>'+t+'</option>').join('')+'</select></label><label>Room<select data-w="rm">'+['Room 301','Room 302','Room 305','Lab 1','Hall A','Hall B'].map(t=>'<option'+(w.rm===t?' selected':'')+'>'+t+'</option>').join('')+'</select></label><label>Invigilator<select data-w="iv">'+['Sana Iqbal','Bilal Ahmed','Farah Naz','Hina Tariq','Muhammad Ali'].map(t=>'<option'+(w.iv===t?' selected':'')+'>'+t+'</option>').join('')+'</select></label>'+(cf.length?'<div class="wn">⚠ Clash: '+cf[0].sub+' '+cf[0].cl+' already uses this slot ('+(cf[0].rm===w.rm?cf[0].rm:cf[0].iv)+').</div>':'<div class="okm">✓ No clashes found for this slot.</div>');
+ else if(w.s===3)b='<label>Total marks<input type="number" data-wi="m" value="'+w.m+'"></label><label>Duration<select data-w="du"><option>45 min</option><option>60 min</option><option>90 min</option><option>120 min</option></select></label>';
+ else b='<div class="msg"><b>'+(w.t||'New assessment')+'</b><br>'+w.cl.length+' paper'+(w.cl.length>1?'s':'')+' · '+w.sub+' · '+ds(w.d)+' · '+w.tm+'</div><label class="ck"><input type="checkbox" data-wn="1"'+(w.nt?' checked':'')+'> Notify parents on WhatsApp</label>';
+ open('<h3 style="font-size:20px;margin:4px 0">Schedule exam</h3><div class="sub">Step '+(w.s+1)+' of 5 · '+steps[w.s]+'</div><div class="stp">'+steps.map((x,i)=>'<i class="'+(i<=w.s?'on':'')+'"></i>').join('')+'</div><div class="fl">'+b+'</div><div class="acts" style="margin-top:20px">'+(w.s?'<button class="btn" data-wb="-1">Back</button>':'')+(w.s<4?'<button class="btn p" data-wb="1"'+(w.s===1&&!w.cl.length?' disabled':'')+'>Next</button>':'<button class="btn p" data-wf="1">Schedule and publish</button>')+'</div>')}
+function wzFinish(){const w=st.wz,gid='n'+nid;G.push({id:gid,t:w.t||'New assessment',ty:w.ty});w.cl.forEach(c=>ax(gid,w.sub,c,w.d,w.tm,w.du,w.rm,w.iv,'Scheduled'));toast('Scheduled '+w.cl.length+' paper'+(w.cl.length>1?'s':'')+(w.nt?' · parents notified on WhatsApp':''));const d=pd(w.d);st.cm=[d.getFullYear(),d.getMonth()];st.sel=w.d;st.tab='sch';close();render()}
+const setS=(id,s)=>{X.filter(e=>e.id===+id)[0].s=s};
+function notifyUI(){open('<h3 style="font-size:20px;margin:4px 0">Publish and notify parents?</h3><p class="sub">Results for '+rev().length+' papers will go live in the parent app.</p><div class="msg">Assalam o Alaikum. Mid Term results for your child are now available in the ILMA parent app. Please check the report and contact the class teacher with any questions.</div><div class="acts"><button class="btn p" data-ay="1">Publish and notify</button><button class="btn" data-ay="0">Publish only</button></div>')}
+function pvUI(c){open('<h3 style="font-size:20px;margin:4px 0 12px">Report card preview · Grade '+c+'</h3><div class="c" style="box-shadow:none"><b>Hira Shah</b><div class="sub">Mid Term Examination 2026</div>'+[['Maths',78],['English',82],['General Science',76],['Urdu',84]].map(r=>'<div class="row"><span>'+r[0]+'</span><b>'+r[1]+'%</b></div>').join('')+'<div class="msg">✨ Hira shows strong understanding in English and Urdu. A little more practice in Maths problem-solving will help her next term.</div></div>')}
+document.addEventListener('click',e=>{
+ const g=q=>e.target.closest(q);let o;
+ if(o=g('[data-tab]')){st.tab=o.dataset.tab;render();return}
+ if(o=g('[data-at]')){const k=o.dataset.at;if(k==='rev')listUI('Results awaiting approval',rev(),'Approve','ap1');else if(k==='mk')listUI('Papers needing marks',needMk(),'Mark entered','mk1');else{st.tab='rc';render()}return}
+ if(o=g('[data-ap1]')){setS(o.dataset.ap1,'Published');toast('Approved and published');listUI('Results awaiting approval',rev(),'Approve','ap1');render();return}
+ if(o=g('[data-mk1]')){setS(o.dataset.mk1,'Review');toast('Marks entered · sent for review');listUI('Papers needing marks',needMk(),'Mark entered','mk1');render();return}
+ if(o=g('[data-mk]')){const x=X.filter(q=>q.id===+o.dataset.mk)[0];if(x.s==='Held'||x.s==='Marking'){setS(x.id,'Review');toast('Marks entered · sent for review');render()}else toast(x.s==='Scheduled'?'Marks can be entered after the exam is held':'Marks already entered');return}
+ if(o=g('[data-ed]')){toast('Edit form would open here');return}
+ if(g('[data-pr]')){toast('Preparing datesheet…');return}
+ if(o=g('[data-wz]')){const d=o.dataset.wz;st.wz={s:0,ty:'Test',t:'',cl:['6-B'],sub:'Maths',d:d||'2026-10-24',tm:'9:00 AM',rm:'Room 302',iv:'Sana Iqbal',m:50,du:'45 min',nt:true};wzUI();return}
+ if(o=g('[data-wb]')){st.wz.s+= +o.dataset.wb;wzUI();return}
+ if(g('[data-wf]')){wzFinish();return}
+ if(g('[data-wai]')){const d=pd(X.map(q=>q.d).sort().pop());do d.setDate(d.getDate()+1);while(d.getDay()===0);st.wz.d=key(d);st.wz.tm='9:00 AM';toast('✨ ILMA AI picked '+ds(st.wz.d)+': no clashes, rest day respected');wzUI();return}
+ if(o=g('[data-g]')){grpUI(o.dataset.g);return}
+ if(o=g('[data-ex]')){const x=X.filter(q=>q.id===+o.dataset.ex)[0];st.sel=x.d;const d=pd(x.d);st.cm=[d.getFullYear(),d.getMonth()];if(st.tab==='sch')render();return}
+ if(o=g('[data-go]')){const k=o.dataset.go,d=pd(k);st.sel=k;st.cm=[d.getFullYear(),d.getMonth()];close();render();return}
+ if(o=g('[data-cell]')){st.sel=o.dataset.cell;render();return}
+ if(o=g('[data-vw]')){st.vw=o.dataset.vw;render();return}
+ if(o=g('[data-nv]')){const n=+o.dataset.nv;if(st.vw==='w'){const d=pd(st.sel);d.setDate(d.getDate()+7*n);st.sel=key(d);st.cm=[d.getFullYear(),d.getMonth()]}else{const d=new Date(st.cm[0],st.cm[1]+n,1);st.cm=[d.getFullYear(),d.getMonth()]}render();return}
+ if(o=g('[data-qc]')){st.qc=o.dataset.qc;render();return}
+ if(g('[data-ap]')){notifyUI();return}
+ if(o=g('[data-ay]')){rev().forEach(x=>x.s='Published');close();toast(o.dataset.ay==='1'?'Results published · parents notified on WhatsApp':'Results published');render();return}
+ if(o=g('[data-pv]')){pvUI(o.dataset.pv);return}
+ if(o=g('[data-rcp]')){RC.filter(r=>r.c===o.dataset.rcp)[0].pub=1;toast('Report cards published to parents');render();return}
+ if(o=g('[data-t]')){toast(o.dataset.t);return}
+ if(e.target.id==='scrim'||e.target.id==='cx')close()});
+document.addEventListener('change',e=>{const t=e.target;
+ if(t.dataset.fl){st[t.dataset.fl]=t.value;render();return}
+ if(t.dataset.cws){st.cws=t.value;render();return}
+ if(t.dataset.rt){st.rt=t.value;render();return}
+ if(t.dataset.w){st.wz[t.dataset.w]=t.value;wzUI();return}
+ if(t.dataset.wc){const a=st.wz.cl,c=t.dataset.wc;st.wz.cl=t.checked?a.concat(c):a.filter(x=>x!==c);wzUI();return}
+ if(t.dataset.wn){st.wz.nt=t.checked}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.wi)st.wz[t.dataset.wi]=t.value});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='Enter'&&e.target.dataset&&e.target.dataset.g)grpUI(e.target.dataset.g)});
+let dg=null;
+document.addEventListener('dragstart',e=>{const c=e.target.closest&&e.target.closest('[data-ex]');if(c&&c.classList.contains('ch')){dg=+c.dataset.ex;e.dataTransfer.setData('text/plain',dg)}});
+document.addEventListener('dragover',e=>{const c=e.target.closest&&e.target.closest('[data-cell]');if(c&&dg){e.preventDefault();c.classList.add('over')}});
+document.addEventListener('dragleave',e=>{const c=e.target.closest&&e.target.closest('[data-cell]');if(c)c.classList.remove('over')});
+document.addEventListener('drop',e=>{const c=e.target.closest&&e.target.closest('[data-cell]');if(!c||dg===null)return;e.preventDefault();const x=X.filter(q=>q.id===dg)[0];dg=null;if(!x||x.d===c.dataset.cell){render();return}x.d=c.dataset.cell;st.sel=x.d;const cf=clash(x);toast(cf?'⚠ Clash with '+lab(cf)+' on '+ds(x.d):'Rescheduled to '+ds(x.d));render()});
+/* ================= HOMEWORK MODULE ================= */
+let R='teacher',LIMIT=3,POL={wk:12,weekend:false,late:'Allowed, flagged',instant:true},kid='hira',ps={tab:'todo',sub:'all'},hf={t:'active',cl:'all'},hform=null,subFiles=[],hdet=null;
+const TEACHER={n:'Sana Iqbal',cls:['6-B','7-C'],sub:['Maths']};
+const SUBC={Maths:'#3b4cca',English:'#0e9f8a',Urdu:'#8b46d4','General Science':'#e8590c',Chemistry:'#d9362b',Physics:'#0891b2'};
+const SUBI={Maths:'∑',English:'Aa',Urdu:'ا','General Science':'🔬',Chemistry:'⚗',Physics:'⚛'};
+const ROS={'6-B':['Hira Shah','Zain Ali','Maryam Noor','Areeba Khan','Taha Khan','Usman Tariq','Ayaan Khan','Sara Ahmed','Bilal Raza','Noor Fatima','Daniyal Aslam','Iqra Javed'],
+'7-C':['Rayyan Ali','Hania Malik','Zoya Khan','Faizan Ahmed','Mahnoor Shah','Hamza Qureshi','Anaya Butt','Saad Mir','Laiba Noor','Ibrahim Raza','Dua Fatima','Owais Khan'],
+'8-A':['Eman Siddiqui','Haris Javed','Rida Aslam','Talha Mir','Alina Shah','Kabir Ali','Sehrish Noor','Moiz Khan','Fatima Zahra','Danish Raza','Minahil Butt','Arham Qureshi'],
+'9-A':['Ahmed Shah','Ali Hassan','Zara Malik','Hassan Raza','Ayesha Noor','Omar Farooq','Mehwish Ali','Saim Khan','Nimra Butt','Waleed Mir','Anum Fatima','Shahzaib Ali'],
+'10-A':['Abdullah Khan','Rabia Noor','Junaid Ali','Hira Aslam','Bilal Mir','Sidra Shah','Taimoor Raza','Alishba Khan','Usama Butt','Kinza Ali','Zohaib Malik','Aiza Noor']};
+const CHILD={hira:{n:'Hira Shah',c:'6-B'},ahmed:{n:'Ahmed Shah',c:'9-A'}};
+const HS={pend:['To do','b'],sub:['Submitted','p'],late:['Submitted late','w'],miss:['Missing','r'],gr:['Graded','g'],exc:['Excused','n']};
+const eh=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const stf=(h,n)=>{const r=h.st[n];return r.s==='pend'&&h.due<TODAY?'miss':r.s};
+let HW=[],hid=1;
+function mk(o){const h=Object.assign({id:hid++,status:'active',files:[],late:true,marks:10,ty:'Written',nw:0,asg:'2026-10-08',by:'Sana Iqbal'},o);h.st={};ROS[h.cl].forEach((n,i)=>{let s;if(i===0&&o.f)s=o.f;else if(h.status==='draft')s='pend';else if(h.due<TODAY)s=i%6===2?'miss':i%6===4?'late':'gr';else s=i%3===1?'sub':'pend';h.st[n]={s,m:s==='gr'?(i===0?o.fm:Math.max(4,h.marks-(i%4))):null,fb:i===0?(o.fb||''):'',seen:i===0?!!o.seen:(h.status==='active'&&i%2===0)};});HW.push(h);return h}
+mk({sub:'Maths',cl:'6-B',t:'Fractions worksheet (Q1 to 12)',d:'Complete Exercise 3.2, questions 1 to 12, in your copy. Show every step. Write the answer in a box.',asg:'2026-10-08',due:'2026-10-12',ty:'Written',marks:10,files:['Worksheet_3.2.pdf'],f:'pend',seen:true});
+mk({sub:'Maths',cl:'6-B',t:'Decimals practice quiz',d:'Online quiz of 10 questions on the ILMA student app. Open Quizzes to start.',asg:'2026-10-05',due:'2026-10-09',ty:'Online',marks:10,f:'miss'});
+mk({sub:'Maths',cl:'7-C',t:'Quadratic equations, Q1 to 10',d:'Solve by factorisation. Check each answer by substituting.',asg:'2026-10-09',due:'2026-10-13',ty:'Written',marks:10});
+mk({sub:'Maths',cl:'6-B',t:'Chapter 4 mixed problems',d:'Draft: choose 8 problems from the Chapter 4 review set.',asg:'2026-10-10',due:'2026-10-15',status:'draft'});
+mk({sub:'English',cl:'6-B',t:'Read Chapter 4 and list 5 new words',d:'Read Chapter 4 of the reader. Write five new words with meaning and one sentence each.',asg:'2026-10-08',due:'2026-10-12',ty:'Reading',marks:5,by:'Farah Naz',f:'sub',seen:true});
+mk({sub:'English',cl:'6-B',t:'Essay: My hero (150 words)',d:'Write a 150 word essay about a person you admire.',asg:'2026-10-02',due:'2026-10-08',ty:'Written',marks:20,by:'Farah Naz',f:'gr',fm:17,fb:'Excellent vocabulary! Watch your paragraphs.',seen:true});
+mk({sub:'General Science',cl:'6-B',t:'Draw and label a plant cell',d:'Draw a large, neat plant cell and label 8 parts. Colour it.',asg:'2026-10-09',due:'2026-10-13',ty:'Project',marks:15,by:'Bilal Ahmed',files:['Plant_cell_guide.pdf'],f:'pend'});
+mk({sub:'Urdu',cl:'6-B',t:'سبق نمبر 5 کے سوالات',d:'سبق نمبر 5 کے سوالات 1 تا 6 کاپی میں لکھیں۔',asg:'2026-10-09',due:'2026-10-14',ty:'Written',marks:10,by:'Muhammad Ali',f:'pend'});
+mk({sub:'Urdu',cl:'6-B',t:'Handwriting practice, page 12',d:'Complete page 12 of the handwriting book.',asg:'2026-10-08',due:'2026-10-12',ty:'Written',marks:5,by:'Muhammad Ali',f:'pend'});
+mk({sub:'Physics',cl:'9-A',t:'Numericals on speed and velocity',d:'Solve questions 5 to 12 from the exercise.',asg:'2026-10-09',due:'2026-10-13',ty:'Written',marks:10,by:'Bilal Ahmed',f:'pend'});
+mk({sub:'Chemistry',cl:'9-A',t:'Balance 10 equations',d:'Balance the chemical equations from the worksheet.',asg:'2026-10-08',due:'2026-10-12',ty:'Written',marks:10,by:'Farah Naz',files:['Equations.pdf'],f:'sub',seen:true});
+mk({sub:'Maths',cl:'9-A',t:'Algebra revision set',d:'Complete revision set B.',asg:'2026-10-09',due:'2026-10-13',ty:'Written',marks:10,by:'Hina Tariq',f:'pend'});
+mk({sub:'Maths',cl:'8-A',t:'Linear equations worksheet',d:'Worksheet 7, both sides.',asg:'2026-10-09',due:'2026-10-14',ty:'Written',marks:10,by:'Kamran Ali'});
+const cnt=h=>{const r=ROS[h.cl],c={pend:0,sub:0,late:0,miss:0,gr:0,exc:0};r.forEach(n=>c[stf(h,n)]++);const f=NS[h.cl]/r.length,o={};for(const k in c)o[k]=Math.round(c[k]*f);o.done=o.sub+o.late+o.gr;o.ns=NS[h.cl];return o};
+const dueTxt=h=>{const d=diff(h.due);return d===0?'today':d===1?'tomorrow':d<0?'overdue by '+(-d)+' d':ds(h.due)};
+const sc=s=>SUBC[s]||'#6c4cf1';
+const hpill=s=>'<span class="pill '+HS[s][1]+'">'+HS[s][0]+'</span>';
+/* ---------- chrome ---------- */
+const NAVS={teacher:['Dashboard','My classes','Timetable','Attendance','*Assessments','Messages'],admin:['Students','Classes & Sections','Timetable','Attendance','*Assessments'],parent:['Dashboard','Attendance','*Homework','Results','Fees','Leave','Messages'],student:['Dashboard','Timetable','*Homework','Results','Messages']};
+const WHO={teacher:['Teacher Portal','Sana Iqbal','Maths teacher'],admin:['Admin / Super Admin Portal','Hassan Malik','Institution Owner'],parent:['Parent Portal','Mr. Imran Shah','Parent of Hira and Ahmed'],student:['Student Portal','Hira Shah','Grade 6-B']};
+function side(){const w=WHO[R];$('side').innerHTML='<div class="brand"><i>📖</i><div>ILMA CMS<small>'+w[0]+'</small></div></div><div class="grp">'+(R==='parent'||R==='student'?'My school':'Academics')+'</div>'+NAVS[R].map(n=>{const on=n[0]==='*',t=on?n.slice(1):n,b=(t==='Homework'&&on)?pendN():0;return '<a href="#" class="sub2'+(on?' on':'')+'">'+t+(b?'<span class="bd2">'+b+'</span>':'')+'</a>'}).join('')+'<a href="#" style="margin-top:14px">✨ ILMA AI</a><div class="me">'+w[1]+'<small>'+w[2]+'</small></div>'}
+const rbar=()=>document.querySelectorAll('#rseg button').forEach(b=>b.className=b.dataset.role===R?'on':'');
+const kidRec=()=>R==='student'?CHILD.hira:CHILD[kid];
+const pendN=()=>{const k=kidRec();return HW.filter(h=>h.status==='active'&&h.cl===k.c&&['pend','miss'].includes(stf(h,k.n))).length};
+function hdr(){const T={teacher:['Assessments','Schedule exams, set homework, track classwork and publish results for your classes.'],admin:['Assessments','Schedule assessments, track classwork and homework, and publish results and report cards.']}[R];$('ttl').textContent=T[0];$('stl').textContent=T[1];const b=$('hbtn');
+ if(st.tab==='hw'&&R==='teacher'){b.textContent='+ Assign homework';b.removeAttribute('data-wz');b.setAttribute('data-hwnew','1');b.hidden=false}
+ else if(st.tab==='hw'){b.hidden=true}
+ else{b.textContent='+ Schedule exam';b.removeAttribute('data-hwnew');b.setAttribute('data-wz','');b.hidden=false}}
+function render(){side();rbar();const pm=R==='parent'||R==='student';$('asm').hidden=pm;$('hwm').hidden=!pm;if(pm){pmod();return}
+ hdr();head();$('body').innerHTML={sch:sched,cw:cw,hw:hwTab,rs:rs,rc:rc}[st.tab]();if(st.tab==='hw')hwHead()}
+function cw(){return '<div class="nb">🏫 <b>Classwork vs Homework:</b> Classwork is done in the lesson and recorded by the teacher for continuous assessment. Homework is sent home with a due date and shows to parents and students in their own Homework menu.<span class="sp"></span><button class="btn sm" data-tab="hw">Go to Homework →</button></div>'+cw0()}
+/* ---------- teacher / admin tab ---------- */
+const hwAll=()=>HW.filter(h=>R==='admin'?h.status==='active':h.by===TEACHER.n);
+function loadMap(){const days=[0,2,3,4,5,6].map(n=>{const d=pd(TODAY);d.setDate(d.getDate()+n);return key(d)});return{days,rows:Object.keys(ROS).map(c=>[c,days.map(d=>HW.filter(h=>h.status==='active'&&h.cl===c&&h.due===d))])}}
+const overLimit=()=>{let n=0;loadMap().rows.forEach(r=>r[1].forEach(c=>{if(c.length>LIMIT)n++}));return n};
+function hwHead(){const L=hwAll(),act=L.filter(h=>h.status==='active'&&h.due>=TODAY),tg=L.reduce((s,h)=>{const c=cnt(h);return s+c.sub+c.late},0);
+ if(R==='teacher'){const avg=act.length?Math.round(act.reduce((s,h)=>{const c=cnt(h);return s+c.done/c.ns},0)/act.length*100):0;
+  $('kp').innerHTML=[['Active homework',act.length],['Due in 2 days',act.filter(h=>diff(h.due)<=2).length],['To grade',tg],['Submission rate',avg+'%']].map(k=>'<div><small>'+k[0]+'</small><b>'+k[1]+'</b></div>').join('');
+  $('att').innerHTML=(tg?'<button data-hwf="grade"><i>✍</i>'+tg+' submissions waiting to be graded<b>Review →</b></button>':'<span class="ok">✓ Nothing to grade.</span>')+'<button data-role="parent"><i>👁</i>See what parents and students see<b>Preview →</b></button>'}
+ else{const all=HW.filter(h=>h.status==='active'),od=overLimit(),wk=all.filter(h=>h.asg>='2026-10-05').length,rate=Math.round(all.reduce((s,h)=>{const c=cnt(h);return s+(c.done+c.exc)/c.ns},0)/all.length*100);
+  $('kp').innerHTML=[['Assigned this week',wk],['Average submission rate',rate+'%'],['Class-days over limit',od],['Teachers with none this week',TCH().filter(t=>!t.n).length]].map(k=>'<div><small>'+k[0]+'</small><b>'+k[1]+'</b></div>').join('');
+  $('att').innerHTML=(od?'<button data-hwpol="1"><i>⚠</i>'+od+' class-day'+(od>1?'s':'')+' above the daily limit of '+LIMIT+'<b>See load →</b></button>':'<span class="ok">✓ No class is over the daily homework limit.</span>')}}
+const TCH=()=>['Sana Iqbal','Farah Naz','Bilal Ahmed','Muhammad Ali','Hina Tariq','Kamran Ali'].map(n=>({t:n,n:HW.filter(h=>h.by===n&&h.status==='active'&&h.asg>='2026-10-05').length,c:HW.filter(h=>h.by===n&&h.status==='active')})).map(r=>{const rate=r.c.length?Math.round(r.c.reduce((s,h)=>{const c=cnt(h);return s+(c.done+c.exc)/c.ns},0)/r.c.length*100):null;const tg=r.c.reduce((s,h)=>{const c=cnt(h);return s+c.sub+c.late},0);return{t:r.t,n:r.n,rate,tg,last:r.c.length?ds(r.c.map(h=>h.asg).sort().pop()):'Never'}});
+function hcard(h){const c=cnt(h),k=sc(h.sub);return '<div class="hc" style="--k:'+k+'" data-hwo="'+h.id+'"><div class="chs"><span class="tag" style="--k:'+k+'">'+(SUBI[h.sub]||'')+' '+h.sub+'</span><span class="pill p">Grade '+h.cl+'</span><span class="pill n">'+h.ty+'</span>'+(h.status==='draft'?'<span class="pill w">Draft</span>':'')+(h.nw?'<span class="pill g">New</span>':'')+'</div><h4>'+eh(h.t)+'</h4><div class="mt">Assigned '+dshort(h.asg)+' · Due '+ds(h.due)+' ('+dueTxt(h)+') · '+h.marks+' marks</div>'+(h.status==='draft'?'<div class="mt">Not visible to parents or students yet.</div>':'<div class="pb"><i style="width:'+Math.round(c.done/c.ns*100)+'%"></i></div><div class="chs"><span class="mt">'+c.done+' of '+c.ns+' handed in</span>'+(c.miss?'<span class="pill r">'+c.miss+' missing</span>':'')+((c.sub+c.late)?'<span class="pill w">'+(c.sub+c.late)+' to grade</span>':'')+'</div>')+'<div class="acts">'+(h.status==='draft'?'<button class="btn p sm" data-hwpub="'+h.id+'">Assign now</button>':R==='teacher'&&c.pend+c.miss?'<button class="btn sm" data-hwrem="'+h.id+'">Remind '+(c.pend+c.miss)+' pending</button>':'')+'<button class="btn sm" data-hwo="'+h.id+'">Open</button></div></div>'}
+function hwList(){const cls=[...new Set(hwAll().map(h=>h.cl))];let L=hwAll().filter(h=>hf.cl==='all'||h.cl===hf.cl);
+ L=L.filter(h=>hf.t==='draft'?h.status==='draft':h.status!=='draft'&&(hf.t==='active'?h.due>=TODAY:hf.t==='past'?h.due<TODAY:(cnt(h).sub+cnt(h).late)>0)).sort((a,b)=>a.due<b.due?-1:1);
+ const tabs=[['active','Active'],['grade','Needs grading'],['past','Past']].concat(R==='teacher'?[['draft','Drafts']]:[]);
+ return '<div class="fb">'+tabs.map(t=>'<button class="fc'+(hf.t===t[0]?' on':'')+'" data-hwf="'+t[0]+'">'+t[1]+'</button>').join('')+'<span class="sp"></span><select data-hwcl="1" aria-label="Class"><option value="all">All classes</option>'+cls.map(c=>'<option'+(hf.cl===c?' selected':'')+'>'+c+'</option>').join('')+'</select></div>'+(L.length?'<div class="hl">'+L.map(hcard).join('')+'</div>':'<div class="msg">Nothing here yet.'+(R==='teacher'?' Press <b>+ Assign homework</b> to add one.':'')+'</div>')}
+function hwTab(){if(R==='teacher')return '<div class="nb">📚 <b>Homework</b> is sent home with a due date. It appears instantly in the Parent and Student <b>Homework</b> menu, subject by subject. Classwork stays in the classroom.</div>'+hwList();
+ const m=loadMap(),col=n=>n===0?'background:var(--hov);color:var(--mut)':n>LIMIT?'background:var(--bad);color:#fff':n===LIMIT?'background:#e0a020;color:#fff':'background:color-mix(in srgb,var(--ok) 22%,var(--card));color:var(--ink)';
+ const classes=Object.keys(ROS).map(c=>{const L=HW.filter(h=>h.cl===c&&h.status==='active'),r=L.length?Math.round(L.reduce((s,h)=>{const q=cnt(h);return s+(q.done+q.exc)/q.ns},0)/L.length*100):0;return[c,L.length,r]});
+ return '<div class="nb">ℹ️ <b>Admins monitor homework, they don\'t assign it.</b> Teachers set it. You set the limits, see the load on students, and nudge teachers.</div>'+
+ '<div class="g2"><div class="c"><h3>Homework load by class and day</h3><p class="sub">Number of homework due. Red means above your daily limit of '+LIMIT+'.</p><div class="hm2" style="margin-top:12px"><span></span>'+m.days.map(d=>'<span>'+ds(d)+'</span>').join('')+m.rows.map(r=>'<div>'+r[0]+'</div>'+r[1].map(c=>'<b style="'+col(c.length)+'" title="'+c.map(h=>h.sub).join(', ')+'">'+c.length+'</b>').join('')).join('')+'</div></div>'+
+ '<div class="c" id="pol"><h3>Homework policy</h3><p class="sub">Applies to every teacher.</p><div class="fl" style="margin-top:10px"><label>Max homework per class per day<select data-pol="lim">'+[2,3,4,5].map(n=>'<option'+(LIMIT===n?' selected':'')+'>'+n+'</option>').join('')+'</select></label><label>Max per class per week<select data-pol="wk">'+[8,12,15,20].map(n=>'<option'+(POL.wk===n?' selected':'')+'>'+n+'</option>').join('')+'</select></label><label>Late submissions<select data-pol="late">'+['Allowed, flagged','Allowed with marks cut','Not allowed'].map(n=>'<option'+(POL.late===n?' selected':'')+'>'+n+'</option>').join('')+'</select></label><label class="ck"><input type="checkbox" data-pol="weekend"'+(POL.weekend?' checked':'')+'> Allow homework due on Sundays</label><label class="ck"><input type="checkbox" data-pol="instant"'+(POL.instant?' checked':'')+'> Show to parents and students as soon as assigned</label></div></div></div>'+
+ '<div class="cmp"><div class="c"><h3>Completion by class</h3>'+classes.map(c=>'<div class="row" style="display:block"><div style="display:flex;justify-content:space-between"><b>Grade '+c[0]+'</b><span>'+c[1]+' active · '+c[2]+'% handed in</span></div><div class="pb"><i style="width:'+c[2]+'%"></i></div></div>').join('')+'</div>'+
+ '<div class="c"><h3>Teacher activity</h3><table class="tb"><tr><th>Teacher</th><th>This week</th><th>Hand-in</th><th>To grade</th><th></th></tr>'+TCH().map(t=>'<tr><td><b>'+t.t+'</b><br><span class="sub">last: '+t.last+'</span></td><td>'+(t.n||'<span class="pill r">None</span>')+'</td><td>'+(t.rate==null?'–':t.rate+'%')+'</td><td>'+t.tg+'</td><td><button class="btn sm" data-t="Nudge sent to '+t.t+'">Nudge</button></td></tr>').join('')+'</table></div></div>'+
+ '<div class="c" style="margin-top:14px"><h3>All homework (read only)</h3>'+hwList()+'</div>'}
+/* ---------- teacher / admin detail drawer ---------- */
+function hwDet(id){const h=HW.find(x=>x.id===+id);hdet=id;const c=cnt(h),k=sc(h.sub),ro=R!=='teacher',r=ROS[h.cl];
+ const row=n=>{const s=stf(h,n),rc=h.st[n];let a='';if(!ro){if(s==='pend'||s==='miss')a='<button class="btn sm" data-hwa="recv" data-h="'+h.id+'" data-n="'+eh(n)+'">Received</button><button class="btn sm" data-hwa="exc" data-h="'+h.id+'" data-n="'+eh(n)+'">Excuse</button>';else if(s==='sub'||s==='late')a='<input type="number" min="0" max="'+h.marks+'" placeholder="/'+h.marks+'" id="m_'+eh(n).replace(/ /g,'_')+'"><button class="btn p sm" data-hwa="grade" data-h="'+h.id+'" data-n="'+eh(n)+'">Grade</button>';else if(s==='gr')a='<b>'+rc.m+'/'+h.marks+'</b><button class="btn sm" data-hwa="reopen" data-h="'+h.id+'" data-n="'+eh(n)+'">Edit</button>'}else if(s==='gr')a='<b>'+rc.m+'/'+h.marks+'</b>';
+  return '<div class="ro"><div><b>'+n+'</b><div class="sub">'+(rc.seen?'👁 Parent seen':'Parent not seen yet')+'</div></div><div class="a">'+hpill(s)+a+'</div></div>'};
+ open('<div class="chs" style="margin-top:6px"><span class="tag" style="--k:'+k+'">'+(SUBI[h.sub]||'')+' '+h.sub+'</span><span class="pill p">Grade '+h.cl+'</span>'+(h.status==='draft'?'<span class="pill w">Draft</span>':'')+'</div><h3 style="font-size:20px;margin:8px 0 4px">'+eh(h.t)+'</h3><div class="sub">By '+h.by+' · Due '+ds(h.due)+' · '+h.marks+' marks · '+h.ty+'</div><div class="msg">'+eh(h.d)+(h.files.length?'<div class="acts">'+h.files.map(f=>'<button class="btn sm" data-t="Downloading '+f+'">📎 '+f+'</button>').join('')+'</div>':'')+'</div>'+
+  (h.status==='draft'?'<div class="acts"><button class="btn p" data-hwpub="'+h.id+'">Assign now</button><button class="btn dn2" data-hwdel="'+h.id+'">Delete draft</button></div>':
+  '<div class="chs"><span class="pill g">'+c.done+' handed in</span><span class="pill r">'+c.miss+' missing</span><span class="pill b">'+c.pend+' to do</span><span class="pill w">'+(c.sub+c.late)+' to grade</span></div><h3 style="margin:14px 0 2px;font-size:15px">Students <span class="sub" style="font-weight:500">(first '+r.length+' of '+c.ns+')</span></h3>'+r.map(row).join('')+
+  (ro?'<div class="acts"><button class="btn" data-t="Nudge sent to '+h.by+'">Nudge '+h.by+'</button></div>':'<div class="acts" style="margin-top:14px"><button class="btn p" data-hwrem="'+h.id+'"'+(c.pend+c.miss?'':' disabled')+'>Remind pending ('+(c.pend+c.miss)+')</button><button class="btn" data-t="Message sent to parents of missing students"'+(c.miss?'':' disabled')+'>Message parents of missing</button><button class="btn" data-hwdel="'+h.id+'">Delete</button></div>')))}
+/* ---------- assign drawer ---------- */
+function nextWd(){const d=pd(TODAY);do d.setDate(d.getDate()+1);while(d.getDay()===0);return key(d)}
+function newForm(){hform={cl:['6-B'],sub:'Maths',t:'',d:'',ty:'Written',due:nextWd(),gr:true,marks:10,late:true,wa:false,files:[]}}
+function loadWarn(){const f=hform,out=[];if(!POL.weekend&&pd(f.due).getDay()===0)out.push('<div class="wn">⚠ '+ds(f.due)+' is a Sunday. Your school does not allow homework due on rest days.</div>');
+ f.cl.forEach(c=>{const o=HW.filter(h=>h.status==='active'&&h.cl===c&&h.due===f.due);if(o.length>=LIMIT)out.push('<div class="wn">⚠ Grade '+c+' already has '+o.length+' homework due '+ds(f.due)+' ('+o.map(h=>h.sub).join(', ')+'). The daily limit is '+LIMIT+'. Consider another day.</div>');else if(o.length)out.push('<div class="msg">Grade '+c+' has '+o.length+' other homework due that day: '+o.map(h=>h.sub).join(', ')+'.</div>')});
+ return out.length?out.join(''):'<div class="okm">✓ Light day for the selected classes.</div>'}
+function formUI(){const f=hform;open('<h3 style="font-size:20px;margin:4px 0">Assign homework</h3><div class="sub">Parents and students see it in their Homework menu straight away.</div><div class="fl" style="margin-top:14px"><label>Classes<div class="cl">'+TEACHER.cls.map(c=>'<label><input type="checkbox" data-hfc="'+c+'"'+(f.cl.includes(c)?' checked':'')+'> '+c+'</label>').join('')+'</div></label><label>Subject<select data-hf="sub">'+TEACHER.sub.map(s=>'<option'+(f.sub===s?' selected':'')+'>'+s+'</option>').join('')+'</select></label><label>Title<input type="text" data-hfi="t" value="'+eh(f.t)+'" placeholder="e.g. Fractions worksheet"></label><label>Instructions<textarea data-hfi="d" placeholder="What should students do? Mention page and question numbers.">'+eh(f.d)+'</textarea></label><label>Type<select data-hf="ty">'+['Written','Reading','Online','Project'].map(t=>'<option'+(f.ty===t?' selected':'')+'>'+t+'</option>').join('')+'</select></label><label>Due date<input type="date" data-hf="due" value="'+f.due+'"></label>'+loadWarn()+
+  '<label class="ck"><input type="checkbox" data-hfk="gr"'+(f.gr?' checked':'')+'> Graded</label>'+(f.gr?'<label>Total marks<input type="number" data-hfi="marks" value="'+f.marks+'"></label>':'')+'<label class="ck"><input type="checkbox" data-hfk="late"'+(f.late?' checked':'')+'> Accept late hand-in ('+POL.late.toLowerCase()+')</label><label class="ck"><input type="checkbox" data-hfk="wa"'+(f.wa?' checked':'')+'> Also notify parents on WhatsApp (app push is always sent)</label><div><button class="btn sm" data-hwfile="1">📎 Add file</button> <span class="sub">'+(f.files.length?f.files.map(x=>'📎 '+x).join(' · '):'No files')+'</span></div></div><div class="acts" style="margin-top:18px"><button class="btn" data-hwsave="draft">Save as draft</button><button class="btn p" data-hwsave="go">Assign to '+f.cl.length+' class'+(f.cl.length!==1?'es':'')+'</button></div>')}
+function saveHW(mode){const f=hform;if(!f.t.trim()){toast('Add a title first');return}if(!f.cl.length){toast('Pick at least one class');return}
+ f.cl.forEach(c=>mk({sub:f.sub,cl:c,t:f.t.trim(),d:f.d||'See your copy.',asg:TODAY,due:f.due,ty:f.ty,marks:f.gr?+f.marks||10:0,late:f.late,files:f.files.slice(),by:TEACHER.n,nw:1,status:mode==='draft'?'draft':'active'}));
+ hf.t=mode==='draft'?'draft':'active';close();toast(mode==='draft'?'Saved as draft. Not visible to parents yet':'✓ Assigned to '+f.cl.join(', ')+' · parents and students notified'+(f.wa?' (app + WhatsApp)':''));render()}
+/* ---------- parent / student module ---------- */
+function mine(){const k=kidRec();return HW.filter(h=>h.status==='active'&&h.cl===k.c)}
+const bucket=h=>{const s=stf(h,kidRec().n);return['pend','miss'].includes(s)?'todo':['sub','late'].includes(s)?'sub':'gr'};
+function pmod(){const k=kidRec(),L=mine(),isP=R==='parent',cnts={todo:0,sub:0,gr:0};L.forEach(h=>cnts[bucket(h)]++);
+ const subs=[...new Set(L.map(h=>h.sub))],od=L.filter(h=>stf(h,k.n)==='miss').length,soon=L.filter(h=>stf(h,k.n)==='pend'&&diff(h.due)<=2).length;
+ const days=[0,2,3,4,5,6].map(n=>{const d=pd(TODAY);d.setDate(d.getDate()+n);return key(d)});
+ let F=L.filter(h=>(ps.sub==='all'||h.sub===ps.sub)&&(ps.tab==='all'||bucket(h)===ps.tab)).sort((a,b)=>(stf(a,k.n)==='miss'?-1:0)-(stf(b,k.n)==='miss'?-1:0)||(a.due<b.due?-1:1));
+ const card=h=>{const s=stf(h,k.n),r=h.st[k.n],c=sc(h.sub);return '<div class="hi" style="--k:'+c+'" data-hwv="'+h.id+'"><div class="si">'+(SUBI[h.sub]||'•')+'</div><div class="mid"><h4>'+eh(h.t)+(h.nw?' <span class="pill g">New</span>':'')+'</h4><div class="mt">'+h.sub+' · '+h.by+' · Due '+ds(h.due)+' ('+dueTxt(h)+')</div><p class="ex">'+eh(h.d.length>90?h.d.slice(0,90)+'…':h.d)+'</p><div class="chs">'+hpill(s)+(s==='gr'?'<span class="pill g">'+r.m+'/'+h.marks+'</span>':h.marks?'<span class="pill n">'+h.marks+' marks</span>':'')+(h.files.length?'<span class="pill n">📎 '+h.files.length+'</span>':'')+(isP&&r.seen?'<span class="pill n">👁 Seen</span>':'')+'</div></div><div class="a">'+(isP?(r.seen?'':'<button class="btn sm" data-hwseen="'+h.id+'">Mark seen</button>'):(s==='pend'||s==='miss'?'<button class="btn p sm" data-hwv="'+h.id+'">Submit</button>':''))+'</div></div>'};
+ $('hwm').innerHTML='<div class="hd"><div><h1>Homework</h1><p class="sub">'+(isP?'Everything your child needs to do, subject by subject.':'Your homework, subject by subject. Hand it in here.')+'</p></div>'+(isP?'<div class="seg">'+Object.keys(CHILD).map(x=>'<button data-kid="'+x+'" class="'+(kid===x?'on':'')+'">'+CHILD[x].n+' · '+CHILD[x].c+'</button>').join('')+'</div>':'<span class="pill p">'+k.n+' · Grade '+k.c+'</span>')+'</div>'+
+ '<section class="kp"><div><small>Overdue</small><b'+(od?' style="color:var(--bad)"':'')+'>'+od+'</b></div><div><small>Due in 2 days</small><b>'+soon+'</b></div><div><small>To do</small><b>'+cnts.todo+'</b></div><div><small>Handed in or graded</small><b>'+(cnts.sub+cnts.gr)+'</b></div></section>'+
+ '<h3 style="margin:6px 0 8px">This week</h3><div class="ws">'+days.map(d=>'<div class="'+(d===TODAY?'tdy':'')+'"><h5>'+ds(d)+(d===TODAY?' · today':'')+'</h5>'+L.filter(h=>h.due===d).map(h=>'<span class="w" style="--k:'+sc(h.sub)+'">'+h.sub.replace('General Science','Science')+'</span>').join('')+'</div>').join('')+'</div>'+
+ '<h3 style="margin:6px 0 8px">By subject</h3><div class="gc" style="margin-bottom:14px"><div class="st'+(ps.sub==='all'?' on':'')+'" style="--k:var(--acc)" data-hwsub="all"><b>All subjects</b><span>'+(cnts.todo)+' to do</span></div>'+subs.map(s=>{const q=L.filter(h=>h.sub===s),t=q.filter(h=>bucket(h)==='todo'),nx=t.sort((a,b)=>a.due<b.due?-1:1)[0];return '<div class="st'+(ps.sub===s?' on':'')+'" style="--k:'+sc(s)+'" data-hwsub="'+s+'"><b>'+(SUBI[s]||'')+' '+s+'</b><span>'+q[0].by+'</span><span>'+(t.length?'<b style="color:'+(t.some(h=>stf(h,k.n)==='miss')?'var(--bad)':'var(--ink)')+'">'+t.length+' to do</b> · next '+dshort(nx.due):'✓ All done')+'</span></div>'}).join('')+'</div>'+
+ '<div class="fb">'+[['todo','To do'],['sub','Submitted'],['gr','Graded'],['all','All']].map(t=>'<button class="fc'+(ps.tab===t[0]?' on':'')+'" data-hwt="'+t[0]+'">'+t[1]+(t[0]!=='all'?' ('+L.filter(h=>(ps.sub==='all'||h.sub===ps.sub)&&bucket(h)===t[0]).length+')':'')+'</button>').join('')+'</div>'+(F.length?F.map(card).join(''):'<div class="msg">✓ Nothing here. '+(ps.tab==='todo'?'You are all caught up.':'')+'</div>')}
+function pdet(id){const h=HW.find(x=>x.id===+id),k=kidRec(),s=stf(h,k.n),r=h.st[k.n],isP=R==='parent',c=sc(h.sub);subFiles=[];
+ const tl=[['Assigned by '+h.by+' · '+ds(h.asg),1],['Parent saw it',r.seen],[(s==='late'?'Handed in late':'Handed in'),['sub','late','gr'].includes(s)],['Graded'+(s==='gr'?' · '+r.m+' / '+h.marks:''),s==='gr']];
+ open('<div class="chs" style="margin-top:6px"><span class="tag" style="--k:'+c+'">'+(SUBI[h.sub]||'')+' '+h.sub+'</span>'+hpill(s)+'</div><h3 style="font-size:20px;margin:8px 0 4px">'+eh(h.t)+'</h3><div class="sub">Due '+ds(h.due)+' ('+dueTxt(h)+') · '+(h.marks?h.marks+' marks':'Not graded')+' · '+h.ty+'</div><div class="msg">'+eh(h.d)+(h.files.length?'<div class="acts">'+h.files.map(f=>'<button class="btn sm" data-t="Downloading '+f+'">📎 '+f+'</button>').join('')+'</div>':'')+'</div>'+
+ (r.fb?'<div class="okm">💬 '+h.by+': '+eh(r.fb)+'</div>':'')+'<div class="tl">'+tl.map(x=>'<div class="'+(x[1]?'':'off')+'">'+x[0]+'</div>').join('')+'</div>'+
+ (isP?'<div class="acts">'+(r.seen?'':'<button class="btn p" data-hwseen="'+h.id+'">Mark as seen</button>')+'<button class="btn" data-t="Message sent to '+h.by+'">Message teacher</button>'+(s==='pend'||s==='miss'?'<button class="btn" data-t="Extension request sent to '+h.by+'">Ask for more time</button>':'')+'</div>':
+ (s==='pend'||(s==='miss'&&h.late)?'<div class="fl" style="margin-top:12px"><label>Your answer or note<textarea id="ans" placeholder="Type here or attach a photo of your copy"></textarea></label><div><button class="btn sm" data-hwatt="1">📷 Attach photo of copy</button> <span class="sub" id="afs">No file</span></div></div><div class="acts"><button class="btn p" data-hwhand="'+h.id+'">'+(s==='miss'?'Hand in late':'Hand in')+'</button><button class="btn" data-t="Message sent to '+h.by+'">Ask a question</button></div>':s==='miss'?'<div class="wn">This homework no longer accepts late hand-ins. Talk to '+h.by+'.</div>':'<div class="acts"><button class="btn" data-t="Message sent to '+h.by+'">Ask a question</button></div>')))}
+/* ---------- events ---------- */
+function setRole(r){R=r;close();if(r==='teacher'){st.tab='hw';hf={t:'active',cl:'all'}}if(r==='admin'){st.tab='hw';hf={t:'active',cl:'all'}}ps={tab:'todo',sub:'all'};render();window.scrollTo(0,0)}
+document.addEventListener('click',e=>{const g=q=>e.target.closest(q);let o;
+ if(o=g('[data-role]')){setRole(o.dataset.role);return}
+ if(g('[data-hwnew]')){newForm();formUI();return}
+ if(o=g('[data-hwsave]')){saveHW(o.dataset.hwsave);return}
+ if(g('[data-hwfile]')){hform.files.push(['Page_'+(hform.files.length+1)+'.pdf','Worksheet.pdf','Notes.jpg'][hform.files.length%3]);formUI();return}
+ if(o=g('[data-hwf]')){hf.t=o.dataset.hwf;close();render();return}
+ if(g('[data-hwpol]')){document.getElementById('pol')?.scrollIntoView({behavior:'smooth'});return}
+ if(o=g('[data-hwpub]')){const h=HW.find(x=>x.id===+o.dataset.hwpub);h.status='active';h.nw=1;h.asg=TODAY;hf.t='active';close();toast('✓ Assigned · parents and students notified');render();return}
+ if(o=g('[data-hwdel]')){HW=HW.filter(x=>x.id!==+o.dataset.hwdel);close();toast('Homework deleted');render();return}
+ if(o=g('[data-hwrem]')){const h=HW.find(x=>x.id===+o.dataset.hwrem),c=cnt(h);toast('Reminder sent to '+(c.pend+c.miss)+' students and their parents');return}
+ if(o=g('[data-hwa]')){const h=HW.find(x=>x.id===+o.dataset.h),n=o.dataset.n,r=h.st[n],a=o.dataset.hwa;
+  if(a==='recv')r.s='sub';else if(a==='exc')r.s='exc';else if(a==='reopen'){r.s='sub';r.m=null}
+  else if(a==='grade'){const i=document.getElementById('m_'+n.replace(/ /g,'_')),v=i?+i.value:NaN;if(isNaN(v)||v<0||v>h.marks){toast('Enter marks between 0 and '+h.marks);return}r.s='gr';r.m=v;r.fb=r.fb||''}
+  hwDet(h.id);hwHead();$('body').innerHTML={sch:sched,cw:cw,hw:hwTab,rs:rs,rc:rc}[st.tab]();return}
+ if(o=g('[data-hwo]')){hwDet(o.dataset.hwo);return}
+ if(o=g('[data-kid]')){kid=o.dataset.kid;ps={tab:'todo',sub:'all'};render();return}
+ if(o=g('[data-hwsub]')){ps.sub=o.dataset.hwsub;render();return}
+ if(o=g('[data-hwt]')){ps.tab=o.dataset.hwt;render();return}
+ if(o=g('[data-hwseen]')){const h=HW.find(x=>x.id===+o.dataset.hwseen);h.st[kidRec().n].seen=true;toast('Marked as seen. Teacher can see this');close();render();return}
+ if(g('[data-hwatt]')){subFiles.push('Photo_of_copy.jpg');document.getElementById('afs').textContent='📷 '+subFiles.join(', ');return}
+ if(o=g('[data-hwhand]')){const h=HW.find(x=>x.id===+o.dataset.hwhand),r=h.st[kidRec().n],late=h.due<TODAY;r.s=late?'late':'sub';close();toast(late?'Handed in late. Your teacher will see it':'✓ Handed in. Well done!');render();return}
+ if(o=g('[data-hwv]')){pdet(o.dataset.hwv);return}});
+document.addEventListener('change',e=>{const t=e.target;
+ if(t.dataset.hwcl){hf.cl=t.value;render();return}
+ if(t.dataset.pol){const k=t.dataset.pol;if(k==='lim')LIMIT=+t.value;else if(k==='wk')POL.wk=+t.value;else if(k==='late')POL.late=t.value;else POL[k]=t.checked;toast('Policy updated');render();return}
+ if(t.dataset.hfc){const a=hform.cl,c=t.dataset.hfc;hform.cl=t.checked?a.concat(c):a.filter(x=>x!==c);formUI();return}
+ if(t.dataset.hf){hform[t.dataset.hf]=t.value;formUI();return}
+ if(t.dataset.hfk){hform[t.dataset.hfk]=t.checked;formUI()}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.hfi)hform[t.dataset.hfi]=t.value});
+
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA CMS · Approval Requests</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f5f6fb;--card:#fff;--ink:#14162b;--mut:#646a8c;--line:#e8eaf3;--hov:#f7f7fd;--acc:#6c4cf1;--accs:#efeaff;--ok:#0f8a66;--oks:#e3f7ef;--warn:#a85a05;--warns:#fff3dc;--bad:#d9362b;--bads:#fdebec;
+--shadow:0 1px 2px rgba(20,22,43,.05),0 8px 24px rgba(20,22,43,.06);--glow:radial-gradient(900px 300px at 20% -10%,rgba(108,76,241,.10),transparent),radial-gradient(700px 260px at 100% 0,rgba(255,140,120,.08),transparent)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1022;--card:#161a35;--ink:#eceefc;--mut:#9ba1c8;--line:#262b4d;--hov:#1b2040;--accs:#2a2458;--ok:#4fd1a5;--oks:#0f3a2e;--warn:#f4b25c;--warns:#3d2a0c;--bad:#ff7a70;--bads:#3a1d28;--shadow:none;--glow:radial-gradient(900px 300px at 20% -10%,rgba(108,76,241,.18),transparent)}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+button,select,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+[hidden]{display:none!important}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app{display:flex;min-height:100vh}
+.side{width:248px;flex:none;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,#1a2152,#12172f 60%);color:#c9cdf0;padding:16px 14px;display:flex;flex-direction:column;overflow:auto}
+.brand{display:flex;gap:11px;align-items:center;color:#fff;font-weight:800;padding:4px 6px 16px}
+.brand i{width:38px;height:38px;border-radius:11px;background:#0b0f26;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;font-style:normal}
+.brand small{display:block;font-weight:500;font-size:11.5px;color:#8c91c4}
+.nav-g{border-top:1px solid rgba(255,255,255,.08)}
+.nav-g button{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;padding:15px 10px;font-size:11.5px;font-weight:700;letter-spacing:.08em;color:#9aa0d3;cursor:pointer}
+.nav-a{display:flex;align-items:center;gap:11px;padding:11px 12px;margin:0 0 8px;border-radius:12px;background:rgba(255,255,255,.1);color:#fff;font-weight:600;box-shadow:inset 3px 0 0 var(--acc)}
+.nav-a b{margin-left:auto;background:#e5484d;font-size:11px;border-radius:99px;padding:0 7px}
+.side .me{margin-top:auto;border-top:1px solid rgba(255,255,255,.1);padding:14px 4px 4px;display:flex;gap:10px;align-items:center;color:#fff;font-size:13.5px;font-weight:700}
+.side .me small{display:block;color:#8c91c4;font-weight:500}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12.5px;font-weight:800;flex:none;background:hsl(var(--h,260) 52% 46%)}
+.col{flex:1;min-width:0}
+.topbar{display:flex;align-items:center;gap:12px;padding:12px 28px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.chip-s{border:1px solid var(--line);background:var(--hov);border-radius:12px;padding:9px 14px;font-weight:600;font-size:14px}
+.srch{flex:1;max-width:380px;border:1px solid var(--line);background:var(--hov);border-radius:12px;padding:10px 14px;color:var(--mut)}
+.hbtn{position:relative;border:0;border-radius:14px;height:42px;color:#fff;display:inline-flex;align-items:center;gap:8px;padding:0 13px;font-weight:800;font-size:13.5px;transition:transform .15s}
+.hbtn:hover{transform:translateY(-2px)}.hbtn svg.i{width:20px;height:20px;stroke-width:2.2}
+.hbtn.msg{background:linear-gradient(135deg,#7c4dff,#3b82f6);box-shadow:0 8px 20px rgba(92,76,241,.38)}
+.hbtn.bell{background:linear-gradient(135deg,#ffb020,#ff5e7a);box-shadow:0 8px 20px rgba(255,110,100,.38);width:42px;padding:0;justify-content:center}
+.hbtn b{position:absolute;top:-7px;right:-6px;background:#e5484d;color:#fff;font-size:10.5px;border-radius:99px;padding:1px 6px;border:2px solid var(--card);line-height:1.3}
+.hbtn.ping::after{content:"";position:absolute;inset:0;border-radius:14px;box-shadow:0 0 0 0 rgba(255,94,122,.55);animation:ping 1.8s infinite}
+@keyframes ping{to{box-shadow:0 0 0 12px rgba(255,94,122,0)}}
+.pop{position:absolute;right:0;top:52px;width:390px;max-width:92vw;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 60px rgba(20,22,43,.25);padding:10px;display:none;z-index:30}
+.pop.on{display:block;animation:up .18s ease}
+.pop h4{margin:6px 8px 8px;font-size:15px;display:flex;align-items:center}
+.pop h4 button{margin-left:auto;border:0;background:none;color:var(--acc);font-weight:700;font-size:13px}
+.pl{max-height:380px;overflow:auto}
+.ni{display:flex;gap:11px;align-items:flex-start;padding:10px;border-radius:12px;cursor:pointer;width:100%;border:0;background:none;text-align:left}
+.ni:hover{background:var(--hov)}.ni.un{background:color-mix(in srgb,var(--acc) 7%,transparent)}
+.ni .t{font-weight:700;font-size:13.5px}.ni small{color:var(--mut);display:block;font-size:12.5px}
+.ni .dot{width:9px;height:9px;border-radius:50%;background:var(--acc);margin:6px 0 0 auto;flex:none}
+@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+main{padding:24px 28px 60px;background:var(--glow)}
+.hd{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px}
+.hd>div:first-child{flex:1;min-width:240px;border-left:3px solid var(--acc);padding-left:16px}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}.sub{margin:2px 0 0;color:var(--mut)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 16px;font-weight:700;display:inline-flex;gap:8px;align-items:center;transition:transform .15s}
+.btn:hover:not(:disabled){transform:translateY(-1px)}
+.btn.p{background:linear-gradient(135deg,#6c4cf1,#5b43d6);border-color:transparent;color:#fff;box-shadow:0 8px 20px rgba(108,76,241,.35)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.bad{color:var(--bad)}.btn.sm{padding:7px 12px;font-size:13.5px;border-radius:10px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.seg{display:inline-flex;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px}
+.seg button{border:0;background:none;border-radius:10px;padding:7px 12px;font-weight:700;font-size:13px}
+.seg button[aria-pressed=true]{background:var(--acc);color:#fff}
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.tile{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:16px;box-shadow:var(--shadow);text-align:left;display:flex;gap:14px;align-items:center;transition:transform .15s}
+.tile:hover{transform:translateY(-2px)}.tile[aria-pressed=true]{border-color:var(--acc)}
+.tile .g{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:#fff;flex:none}
+.tile b{display:block;font-size:26px;line-height:1.1;letter-spacing:-.02em}.tile span{color:var(--mut);font-size:13.5px}
+.cats{display:flex;gap:8px;overflow:auto;padding:2px 2px 10px;margin-bottom:6px;scrollbar-width:thin}
+.cat{flex:none;border:1.5px solid var(--line);background:var(--card);border-radius:99px;padding:7px 14px 7px 8px;font-weight:700;font-size:13.5px;display:flex;gap:8px;align-items:center}
+.cat .ci{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;background:var(--c,var(--acc))}
+.cat .ci svg.i{width:14px;height:14px}
+.cat em{font-style:normal;font-size:12px;background:var(--hov);border-radius:99px;padding:0 8px;color:var(--mut)}
+.cat[aria-pressed=true]{border-color:var(--c,var(--acc));background:color-mix(in srgb,var(--c,var(--acc)) 10%,var(--card))}
+.cat[aria-pressed=true] em{background:var(--c,var(--acc));color:#fff}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:8px 0 14px}
+.bar .sp{flex:1}
+.sbox{display:flex;gap:8px;align-items:center;border:1px solid var(--line);background:var(--card);border-radius:12px;padding:0 12px;color:var(--mut);min-width:220px}
+.sbox input{border:0;background:none;outline:0;padding:9px 0;flex:1;min-width:0}
+select.fs{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 12px}
+.bulk{display:flex;gap:10px;align-items:center;background:var(--ink);color:var(--bg);border-radius:14px;padding:10px 14px;margin-bottom:12px;animation:up .2s}
+.bulk .btn{padding:6px 12px}
+.list{display:grid;gap:10px}
+.rq{display:grid;grid-template-columns:auto auto 1fr auto;gap:14px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);cursor:pointer;transition:transform .15s,border-color .15s;position:relative}
+.rq:hover{transform:translateY(-2px);border-color:var(--c)}
+.rq.un::before{content:"";position:absolute;left:-1px;top:14px;bottom:14px;width:4px;border-radius:4px;background:var(--c)}
+.rq input[type=checkbox]{width:18px;height:18px;accent-color:var(--acc)}
+.rq .ci{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;color:#fff;background:var(--c)}
+.rq h3{margin:0;font-size:15.5px}.rq .m{color:var(--mut);font-size:13.5px;margin-top:1px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:11.5px;font-weight:800;border-radius:99px;padding:2px 9px;background:color-mix(in srgb,var(--c,var(--acc)) 14%,transparent);color:var(--c,var(--acc));white-space:nowrap}
+.tag.warn{--c:var(--warn)}.tag.bad{--c:var(--bad)}.tag.ok{--c:var(--ok)}.tag.mut{--c:var(--mut)}
+.acts{display:flex;gap:8px;align-items:center}
+.rq .acts .btn{padding:7px 12px;font-size:13px}
+.empty{text-align:center;padding:50px 0;color:var(--mut)}
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.45);display:none;z-index:40}.scrim.on{display:block}
+.dr{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--card);z-index:41;transform:translateX(105%);transition:transform .25s;box-shadow:-10px 0 40px rgba(0,0,0,.25);display:flex;flex-direction:column}
+.dr.on{transform:none}
+.dh{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:flex-start}
+.dh h2{margin:4px 0 0;font-size:19px;line-height:1.25}
+.x{margin-left:auto;border:1px solid var(--line);background:var(--card);width:36px;height:36px;border-radius:11px;display:grid;place-items:center;flex:none}
+.db{flex:1;overflow:auto;padding:18px 22px}
+.df{border-top:1px solid var(--line);padding:14px 22px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.df .sp{flex:1}
+.req{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;margin-bottom:16px}
+.req b{display:block}.req small{color:var(--mut)}
+.kv{display:grid;grid-template-columns:130px 1fr;gap:6px 14px;font-size:14px;margin-bottom:16px}
+.kv dt{color:var(--mut)}.kv dd{margin:0;font-weight:600}
+.dr h4{margin:18px 0 8px;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--mut)}
+.note{background:var(--hov);border-radius:14px;padding:12px 14px;font-size:14px}
+.att{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:6px 10px;font-size:13px;font-weight:600;margin:0 6px 6px 0}
+.tl{list-style:none;margin:0;padding:0 0 0 4px}
+.tl li{position:relative;padding:0 0 14px 22px;font-size:13.5px}
+.tl li::before{content:"";position:absolute;left:0;top:5px;width:10px;height:10px;border-radius:50%;background:var(--acc)}
+.tl li::after{content:"";position:absolute;left:4px;top:16px;bottom:0;width:2px;background:var(--line)}
+.tl li:last-child::after{display:none}.tl small{color:var(--mut);display:block}
+.fld{width:100%;border:1.5px solid var(--line);background:var(--hov);border-radius:12px;padding:10px 12px;outline:0;margin-top:8px}
+.fld:focus{border-color:var(--acc)}
+.mod{border:0;padding:0;border-radius:22px;max-width:min(860px,94vw);width:100%;background:var(--card);color:var(--ink);box-shadow:0 30px 80px rgba(10,12,30,.45)}
+.mod::backdrop{background:rgba(10,12,30,.55);backdrop-filter:blur(3px)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}th,td{text-align:left;padding:10px;border-top:1px solid var(--line);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);border-top:0}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:14px;font-weight:700;font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:100;max-width:92vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%)}
+@media(max-width:1000px){.tiles{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.side{display:none}.topbar{padding:10px 14px}.chip-s,.srch{display:none}.topbar .sp{flex:1}main{padding:16px 12px 40px}.hbtn.msg span.lbl{display:none}.hbtn.msg{width:42px;padding:0;justify-content:center}
+.rq{grid-template-columns:auto 1fr}.rq .acts{grid-column:1/3}.rq input[type=checkbox]{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side" aria-label="Main navigation">
+  <div class="brand"><i aria-hidden="true">📖</i><div>ILMA Education N…<small id="portal">Super Admin Portal</small></div></div>
+  <div class="nav-g"><button>OVERVIEW <span>⌄</span></button></div>
+  <div class="nav-g"><button>ACADEMICS <span>⌄</span></button></div>
+  <div class="nav-g"><button>BRANCH CONTROL <span>⌄</span></button></div>
+  <div class="nav-g"><button>ADMISSIONS <span>⌄</span></button></div>
+  <div class="nav-g"><button>EVENTS <span>⌄</span></button></div>
+  <div class="nav-g"><button>PEOPLE <span>⌄</span></button></div>
+  <div class="nav-g"><button>FINANCE <span>⌄</span></button></div>
+  <div class="nav-g"><button>REPORTS <span>⌄</span></button></div>
+  <div class="nav-g"><button>LEAVE <span>⌄</span></button></div>
+  <div class="nav-g"><button>WORKFLOW <span>⌃</span></button><div class="nav-a" aria-current="page"><svg class="i" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="m5 12.5 4.5 4.5L19 7"/></svg> Approval Requests <b id="navB"></b></div></div>
+  <div class="nav-g"><button>PLATFORM <span>⌄</span></button></div>
+  <div style="padding:14px 10px;color:#fff;font-weight:600">✨ ILMA AI</div>
+  <div class="me"><span class="av" id="meAv"></span><div id="meT"></div></div>
+</aside>
+<div class="col">
+<div class="topbar">
+  <span class="chip-s">🏫 2 campuses</span><span class="srch">🔍 Search modules…</span><span class="sp"></span>
+  <div style="position:relative"><button class="hbtn msg" aria-label="Messages"><svg class="i" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-5.4A8 8 0 1 1 21 12z"/></svg><span class="lbl">Messages</span><b>2</b></button></div>
+  <div style="position:relative"><button class="hbtn bell" id="hBell" aria-haspopup="true" aria-expanded="false" aria-label="Notifications"><svg class="i" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9"/><path d="M10 20a2 2 0 0 0 4 0"/></svg><b id="bB"></b></button>
+   <div class="pop" id="pop" role="dialog" aria-label="Notifications"></div></div>
+</div>
+<main>
+ <div class="hd">
+  <div><h1>Approval Requests</h1><p class="sub" id="sub"></p></div>
+  <div class="seg" role="group" aria-label="View as" id="roleSeg"></div>
+  <button class="btn" id="bRules">📐 Routing rules</button>
+  <button class="btn p" id="bSim">＋ Simulate new request</button>
+ </div>
+ <section class="tiles" id="tiles"></section>
+ <div class="cats" id="cats" role="group" aria-label="Categories"></div>
+ <div class="bar">
+  <div class="seg" role="group" aria-label="Status" id="stSeg"></div>
+  <label class="sbox"><svg class="i" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span style="position:absolute;width:1px;height:1px;overflow:hidden">Search</span><input id="q" placeholder="Search requester, class or title" autocomplete="off"></label>
+  <span class="sp"></span>
+  <select class="fs" id="sort" aria-label="Sort"><option value="due">Sort: Most urgent</option><option value="new">Sort: Newest</option><option value="cat">Sort: Category</option></select>
+ </div>
+ <div class="bulk" id="bulk" hidden></div>
+ <div class="list" id="list"></div>
+ <p style="margin-top:18px;color:var(--mut);font-size:12.5px">Sample data for design preview. Routing thresholds are examples to be set by your school.</p>
+</main>
+</div>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="dr" id="dr" role="dialog" aria-modal="true" aria-label="Request details"></aside>
+<dialog class="mod" id="rules" aria-labelledby="rT"></dialog>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s),e=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const IC={clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',leave:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/>',cr:'<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+ exam:'<path d="M6 3h9l4 4v14H6z"/><path d="m9 14 2 2 4-4"/>',adm:'<circle cx="10" cy="8" r="3.5"/><path d="M3.5 20a6.5 6.5 0 0 1 13 0M19 8v6M16 11h6"/>',
+ fin:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18M16 15h2"/>',tt:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ evt:'<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>',com:'<path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1zM15 8a5 5 0 0 1 0 8"/>',
+ hr:'<rect x="3" y="7" width="18" height="13" rx="3"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>',
+ srch:'', file:'<path d="M6 3h9l4 4v14H6z"/>',check:'<path d="m5 12.5 4.5 4.5L19 7"/>',x:'<path d="M6 6l12 12M18 6 6 18"/>',bell:'<path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9"/>'};
+const ic=(n,s)=>`<svg class="i" viewBox="0 0 24 24"${s?` style="width:${s}px;height:${s}px"`:''} aria-hidden="true">${IC[n]}</svg>`;
+const CATS={leave:{n:'Leave',c:'#0d8f86'},cr:{n:'Class Representatives',c:'#e8820c'},exam:{n:'Results & Exams',c:'#6c4cf1'},adm:{n:'Admissions & Students',c:'#3b82f6'},
+ fin:{n:'Fees & Finance',c:'#12a574'},tt:{n:'Timetable & Cover',c:'#d6409f'},evt:{n:'Events & Trips',c:'#e5484d'},com:{n:'Notices & Messages',c:'#7c4dff'},hr:{n:'Staff & HR',c:'#64748b'}};
+const ROLE={admin:['Nadia Hussain','Branch Admin','Admin Portal',320],super:['Hassan Malik','Institution Owner','Super Admin Portal',260]};
+/* lv: who must decide ('admin'|'super'); due: hours left; ts: minutes ago */
+let REQ=[
+{id:1,cat:'leave',t:'Casual leave · 2 days',who:'Mr. Kamran Ali',role:'Maths teacher',h:190,ts:25,due:6,pr:0,st:'pending',lv:'admin',bulk:1,un:1,f:[['Type','Casual leave (staff)'],['Dates','Thu 15 – Fri 16 Oct'],['Balance after','4 of 8 days'],['Cover needed','Maths 8-A, 9-B (4 periods)']],note:'Family function out of town.',att:[],tl:[['Submitted','Kamran Ali']]},
+{id:2,cat:'leave',t:'Sick leave · 5 days (student)',who:'Ayaan Khan · 9-A',role:'Applied by parent Mr. Imran Khan',h:210,ts:70,due:20,pr:0,st:'pending',lv:'admin',bulk:1,un:1,f:[['Type','Sick leave (student)'],['Dates','Thu 15 – Wed 21 Oct'],['Class teacher','Approved · Ms. Hira Khan'],['Why here','More than 3 days needs Admin']],note:'Doctor advised rest after viral fever.',att:['Medical_note.pdf'],tl:[['Submitted','Mr. Imran Khan (parent)'],['Class teacher approved','Ms. Hira Khan']]},
+{id:3,cat:'leave',t:'Annual leave · 7 days',who:'Ms. Sana Iqbal',role:'English teacher',h:350,ts:300,due:30,pr:0,st:'pending',lv:'super',un:0,f:[['Type','Annual leave (staff)'],['Dates','Mon 26 Oct – Tue 3 Nov'],['Balance after','5 of 12 days'],['Why Super Admin','Staff leave over 5 days']],note:'Planned family trip.',att:[],tl:[['Submitted','Sana Iqbal'],['Escalated automatically','Over 5 days']]},
+{id:4,cat:'cr',t:'Vice-CR nomination · Grade 6-A',who:'Maryam Noor',role:'Nominated by Sarah Khan',h:20,ts:90,due:40,pr:0,st:'pending',lv:'admin',bulk:1,un:1,f:[['Role','Vice Class Representative'],['Class','Grade 6-A'],['Attendance','96%'],['Term ends','31 Mar 2027'],['Permissions','Broadcast to own section, polls. Files off.']],note:'Top 3 in class and always volunteers for events.',att:[],tl:[['Nominated','Sarah Khan (class teacher)']]},
+{id:5,cat:'cr',t:'CR nomination · Grade 7-B',who:'Zain Ali',role:'Nominated by Ahmed Raza',h:160,ts:200,due:44,pr:0,st:'pending',lv:'admin',bulk:1,un:0,f:[['Role','Class Representative'],['Class','Grade 7-B'],['Attendance','89%'],['Term ends','31 Mar 2027']],note:'Confident speaker and well liked.',att:[],tl:[['Nominated','Ahmed Raza (class teacher)']]},
+{id:6,cat:'exam',t:'Publish term results · Mathematics',who:'Ahmed Raza',role:'Grade 7-B · 34 students',h:200,ts:150,due:3,pr:1,st:'pending',lv:'admin',un:1,f:[['Exam','Term 1 · Mathematics'],['Students','34 (2 absent)'],['Class average','80%'],['Highest / lowest','97% / 41%'],['On approval','Visible to parents and students']],note:'Marks entered and double-checked by the HOD.',att:['Maths_7B_results.xlsx'],tl:[['Submitted','Ahmed Raza'],['HOD checked','Mr. Bilal']]},
+{id:7,cat:'exam',t:'Marks correction after publishing',who:'Ms. Hira Khan',role:'Grade 9-A · Physics',h:330,ts:600,due:22,pr:0,st:'pending',lv:'admin',un:0,f:[['Student','Hira Shah'],['Change','38 → 43 out of 50'],['Reason','Totalling error on page 2'],['After change','Grade B → A']],note:'Checked the answer sheet again; question 7(b) was not added.',att:['Answer_sheet_p2.jpg'],tl:[['Submitted','Hira Khan']]},
+{id:8,cat:'adm',t:'New admission · Grade 6',who:'Daniyal Ahmed',role:'Applied by Mr. Ahmed Hassan',h:30,ts:240,due:60,pr:0,st:'pending',lv:'admin',un:1,f:[['Applicant','Daniyal Ahmed, age 11'],['Previous school','City Grammar School'],['Documents','4 of 4 verified'],['Entry test','72% · passed'],['Fee plan','Standard']],note:'Siblings already in Grade 9.',att:['Birth_certificate.pdf','Previous_result.pdf'],tl:[['Application received','Front desk'],['Documents verified','Admissions office']]},
+{id:9,cat:'adm',t:'Leaving certificate',who:'Areeba Khan · 8-A',role:'Requested by parent',h:350,ts:900,due:48,pr:0,st:'pending',lv:'admin',bulk:1,un:0,f:[['Student','Areeba Khan, Grade 8-A'],['Reason','Family relocating'],['Dues','Cleared · Rs 0'],['Library items','All returned']],note:'',att:[],tl:[['Requested','Parent via ILMA app'],['Accounts cleared','Accounts office']]},
+{id:10,cat:'fin',t:'Fee concession · 25%',who:'Rohan Dar · 9-A',role:'Requested by Accounts',h:240,ts:420,due:26,pr:0,st:'pending',lv:'super',un:1,f:[['Concession','25% for the year'],['Annual value','Rs 28,000'],['Reason','Parent job loss, documents attached'],['Why Super Admin','Above Rs 20,000']],note:'Recommended by class teacher and Accounts.',att:['Parent_letter.pdf'],tl:[['Requested','Accounts office'],['Escalated automatically','Amount above Rs 20,000']]},
+{id:11,cat:'fin',t:'Late fee waiver · Rs 1,500',who:'Sara Ahmed · 9-A',role:'Requested by Accounts',h:20,ts:110,due:12,pr:0,st:'pending',lv:'admin',bulk:0,un:1,f:[['Voucher','October · due 10 Oct'],['Late fee','Rs 1,500'],['Reason','Bank transfer delay, proof attached']],note:'First time request.',att:['Bank_receipt.png'],tl:[['Requested','Accounts office']]},
+{id:12,cat:'tt',t:'Substitute cover · Urdu 8-A',who:'ILMA AI suggestion',role:'Cover at 3:15 PM today',h:300,ts:15,due:1,pr:1,st:'pending',lv:'admin',bulk:1,un:1,f:[['Period','Urdu · Grade 8-A · 3:15 PM'],['Absent teacher','Ms. Ayesha Malik (leave)'],['Suggested cover','Ms. Hina Shah (free at 3:15)'],['Alternatives','Ms. Sana · Mr. Bilal']],note:'Auto-suggested from free periods.',att:[],tl:[['Created','ILMA AI']]},
+{id:13,cat:'evt',t:'Off-campus class picnic',who:'Ali Raza',role:'Grade 9-A · Sat 24 Oct',h:160,ts:500,due:50,pr:0,st:'pending',lv:'super',un:0,f:[['Students','32 + 3 staff'],['Venue','Heritage park (off campus)'],['Transport','2 school buses'],['Budget','Rs 36,000'],['Parent consent','28 of 32 received'],['Why Super Admin','Off-campus trip']],note:'Voted by students in the class poll.',att:['Trip_plan.pdf','Consent_summary.xlsx'],tl:[['Submitted','Ali Raza'],['Escalated automatically','Off-campus trip']]},
+{id:14,cat:'com',t:'School-wide notice · Eid holidays',who:"Principal's office",role:'To 340 students and 312 parents',h:240,ts:35,due:2,pr:1,st:'pending',lv:'admin',un:1,f:[['Audience','All students and parents'],['Channels','In-app + SMS'],['Language','English + اردو'],['Send','On approval']],note:'School closed Thursday and Friday for Eid. Classes resume Monday.',att:[],tl:[['Drafted','Principal office (AI draft edited)']]},
+{id:15,cat:'com',t:'WhatsApp bulk · fee reminder',who:'Accounts Office',role:'To 312 parents',h:150,ts:700,due:15,pr:0,st:'pending',lv:'super',un:0,f:[['Audience','All parents with dues'],['Count','312'],['Channel','WhatsApp (paid)'],['Why Super Admin','WhatsApp bulk over 250']],note:'',att:[],tl:[['Submitted','Accounts office']]},
+{id:16,cat:'hr',t:'Bank account change',who:'Mr. Bilal Hussain',role:'Science teacher',h:30,ts:1200,due:60,pr:0,st:'pending',lv:'super',un:0,f:[['Change','Salary bank account'],['New bank','Sample Bank · ****4821'],['Proof','Cheque copy attached']],note:'',att:['Cheque_copy.jpg'],tl:[['Submitted','Bilal Hussain']]},
+{id:17,cat:'leave',t:'Sick leave · 1 day',who:'Ms. Hira Khan',role:'Class teacher 9-A',h:330,ts:2900,due:0,pr:0,st:'approved',lv:'admin',un:0,by:'Nadia Hussain',f:[['Dates','Mon 12 Oct'],['Type','Sick leave (staff)']],note:'',att:[],tl:[['Submitted','Hira Khan'],['Approved','Nadia Hussain']]},
+{id:18,cat:'cr',t:'CR nomination · Grade 6-A',who:'Zain Ali',role:'Nominated by Sarah Khan',h:160,ts:1500,due:0,pr:0,st:'rejected',lv:'admin',un:0,by:'Nadia Hussain',why:'Attendance is below 80%. Please suggest another student.',f:[['Role','Class Representative'],['Attendance','74%']],note:'',att:[],tl:[['Nominated','Sarah Khan'],['Rejected','Nadia Hussain']]}];
+const S={role:'super',cat:'all',st:'pending',q:'',sort:'due',sel:new Set(),open:null,mode:null,tile:null};
+const NEWQ=[{cat:'leave',t:'Half-day leave',who:'Ms. Sana Iqbal',role:'English teacher',h:350,due:5,lv:'admin',bulk:1,f:[['Type','Half-day (staff)'],['Date','Thu 15 Oct, afternoon']],note:'Doctor appointment.'},
+ {cat:'adm',t:'Branch transfer request',who:'Hamza Iqbal · 7-B',role:'Requested by parent',h:30,due:40,lv:'super',f:[['Student','Hamza Iqbal, Grade 7-B'],['To branch','North campus'],['Why Super Admin','Branch transfer']],note:''},
+ {cat:'tt',t:'Timetable change · Grade 10-A',who:'Farah Naz',role:'Swap Physics and Chemistry, Wed',h:290,due:6,lv:'admin',bulk:1,f:[['Change','Swap P2 and P4, Wed'],['Clashes','None']],note:''}];
+let NI=0,UID=100;
+const vis=r=>S.role==='super'||true; // admin also sees escalated items (read-only)
+const mineAct=r=>r.st==='pending'&&(S.role==='super'||r.lv==='admin');
+const isInfo=r=>r.st==='info';
+const open_=r=>r.st==='pending'||r.st==='info';
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('on'),2800)}
+const ago=m=>m<60?m+' min ago':m<1440?Math.round(m/60)+' h ago':Math.round(m/1440)+' d ago';
+const dueTxt=r=>r.due<=0?'':r.due<=4?'Due in '+(r.due)+'h':r.due<24?'Due in '+r.due+'h':'Due in '+Math.round(r.due/24)+' d';
+function filtered(){
+ const q=S.q.toLowerCase();
+ let L=REQ.filter(r=>{
+  if(S.cat!=='all'&&r.cat!==S.cat)return false;
+  if(S.st==='pending'&&!(r.st==='pending'))return false;
+  if(S.st==='info'&&r.st!=='info')return false;
+  if(S.st==='done'&&open_(r))return false;
+  if(S.tile==='urgent'&&!(r.st==='pending'&&r.due<=4))return false;
+  if(S.tile==='esc'&&!(open_(r)&&r.lv==='super'))return false;
+  if(q&&!(r.t+' '+r.who+' '+r.role+' '+CATS[r.cat].n).toLowerCase().includes(q))return false;
+  return true});
+ L.sort((a,b)=>S.sort==='new'?a.ts-b.ts:S.sort==='cat'?a.cat.localeCompare(b.cat)||a.due-b.due:(b.pr-a.pr)||(a.due-b.due)||(a.ts-b.ts));
+ return L}
+const actionable=()=>REQ.filter(mineAct);
+function renderTop(){
+ const a=actionable().length,u=REQ.filter(r=>r.un&&mineAct(r)).length;
+ $('#navB').textContent=a;$('#navB').hidden=!a;
+ const nb=notifs().filter(n=>n.un).length;$('#bB').textContent=nb;$('#bB').hidden=!nb;$('#hBell').classList.toggle('ping',nb>0);
+ const R=ROLE[S.role];$('#portal').textContent=R[2];$('#meAv').textContent=R[0].split(' ').map(w=>w[0]).join('');$('#meAv').style.setProperty('--h',R[3]);
+ $('#meT').innerHTML=e(R[0])+'<small>'+e(R[1])+'</small>';
+ $('#roleSeg').innerHTML=[['admin','Admin'],['super','Super Admin']].map(r=>`<button aria-pressed="${S.role===r[0]}" data-role="${r[0]}">${r[1]}</button>`).join('');
+ $('#sub').textContent=S.role==='super'?'Everything waiting for a decision across both campuses, plus items escalated by Admin':'Requests routed to you. Larger items are escalated to the Super Admin automatically';
+}
+function renderTiles(){
+ const p=REQ.filter(r=>r.st==='pending'&&mineAct(r)).length,ur=REQ.filter(r=>r.st==='pending'&&r.due<=4&&mineAct(r)).length,es=REQ.filter(r=>open_(r)&&r.lv==='super').length;
+ const T=[['pend',p,'Waiting for you','linear-gradient(135deg,#ffb020,#ff8a3c)','clock',null],['urgent',ur,'Due within 4 hours','linear-gradient(135deg,#ff5e7a,#e5484d)','bell','urgent'],
+  ['esc',es,S.role==='super'?'Escalated to you':'Escalated to Super Admin','linear-gradient(135deg,#7c4dff,#3b82f6)','hr','esc'],['avg','3.2 h','Average response time','linear-gradient(135deg,#12a574,#0d8f86)','check','']];
+ $('#tiles').innerHTML=T.map(t=>`<button class="tile" data-tile="${t[5]==null?'':t[5]}" aria-pressed="${S.tile===t[5]&&t[5]}" ${t[5]===''?'disabled style="cursor:default"':''}><span class="g" style="background:${t[3]}">${ic(t[4],22)}</span><span><b>${t[1]}</b><span>${t[2]}</span></span></button>`).join('');
+}
+function renderCats(){
+ const cnt=c=>REQ.filter(r=>r.st==='pending'&&(c==='all'||r.cat===c)).length;
+ $('#cats').innerHTML=`<button class="cat" data-cat="all" aria-pressed="${S.cat==='all'}"><span class="ci" style="--c:var(--acc)">${ic('check')}</span>All <em>${cnt('all')}</em></button>`+Object.entries(CATS).map(([k,v])=>`<button class="cat" style="--c:${v.c}" data-cat="${k}" aria-pressed="${S.cat===k}"><span class="ci">${ic(k)}</span>${v.n} <em>${cnt(k)}</em></button>`).join('');
+ $('#stSeg').innerHTML=[['pending','Pending'],['info','Info requested'],['done','Decided'],['all','All']].map(x=>`<button aria-pressed="${S.st===x[0]}" data-st="${x[0]}">${x[1]}</button>`).join('');
+}
+function row(r){
+ const c=CATS[r.cat],act=mineAct(r),esc_=r.st==='pending'&&r.lv==='super'&&S.role==='admin';
+ const tags=[`<span class="tag" style="--c:${c.c}">${c.n}</span>`,r.pr?'<span class="tag bad">Urgent</span>':'',r.st==='pending'&&r.due>0?`<span class="tag ${r.due<=4?'bad':'mut'}">${dueTxt(r)}</span>`:'',
+  r.lv==='super'&&open_(r)?'<span class="tag" style="--c:#7c4dff">Super Admin level</span>':'',r.st==='info'?'<span class="tag warn">Waiting for requester</span>':'',
+  r.st==='approved'?'<span class="tag ok">Approved</span>':r.st==='rejected'?'<span class="tag bad">Rejected</span>':''].join('');
+ const acts=act?`<button class="btn sm bad" data-q="rej" data-id="${r.id}">Reject</button><button class="btn sm ok" data-q="app" data-id="${r.id}">${ic('check',14)} Approve</button>`:esc_?'<span class="tag mut">Awaiting Super Admin</span>':'';
+ const cb=act&&r.bulk&&r.st==='pending'?`<input type="checkbox" data-sel="${r.id}" ${S.sel.has(r.id)?'checked':''} aria-label="Select ${e(r.t)}">`:`<input type="checkbox" disabled title="${act?'Needs individual review':''}" style="opacity:.25" aria-hidden="true">`;
+ return `<article class="rq ${r.un?'un':''}" style="--c:${c.c}" data-open="${r.id}" tabindex="0">${cb}<span class="ci">${ic(r.cat,22)}</span><div style="min-width:0"><h3>${e(r.t)}</h3><div class="m">${e(r.who)} · ${e(r.role)} · ${ago(r.ts)}</div><div class="tags">${tags}</div></div><div class="acts">${acts}</div></article>`}
+function renderList(){
+ const L=filtered();
+ $('#list').innerHTML=L.length?L.map(row).join(''):'<div class="empty"><div style="font-size:36px">🎉</div><b>All caught up</b><br>No requests match these filters.</div>';
+ const n=S.sel.size;$('#bulk').hidden=!n;
+ if(n)$('#bulk').innerHTML=`<b>${n} selected</b><span style="flex:1"></span><button class="btn sm" data-bulk="clear">Clear</button><button class="btn sm bad" data-bulk="rej" style="background:var(--card)">Reject</button><button class="btn sm ok" data-bulk="app">${ic('check',14)} Approve ${n}</button>`;
+}
+/* notifications */
+let NOTES=[];
+function notifs(){
+ const fromReq=REQ.filter(r=>open_(r)&&(S.role==='super'||r.lv==='admin')).map(r=>({rid:r.id,t:'New request · '+CATS[r.cat].n,s:r.t+' · '+r.who,ts:r.ts,un:!!r.un,cat:r.cat}));
+ const extra=NOTES.filter(n=>n.role===S.role||!n.role).map(n=>Object.assign({},n));
+ return fromReq.concat(extra).sort((a,b)=>a.ts-b.ts)}
+function renderPop(){
+ const L=notifs();
+ $('#pop').innerHTML=`<h4>Notifications <button data-act="readall">Mark all read</button></h4><div class="pl">`+L.slice(0,8).map(n=>`<button class="ni ${n.un?'un':''}" data-nid="${n.rid||''}"><span class="ci" style="width:38px;height:38px;border-radius:12px;display:grid;place-items:center;color:#fff;background:${CATS[n.cat]?CATS[n.cat].c:'#12a574'};flex:none">${ic(n.cat||'check',18)}</span><span><span class="t">${e(n.t)}</span><small>${e(n.s)}</small><small>${ago(n.ts)}</small></span>${n.un?'<i class="dot"></i>':''}</button>`).join('')+`</div><button class="btn sm" style="width:100%;justify-content:center;margin-top:8px" data-act="viewall">View all approval requests</button>`}
+function renderAll(){renderTop();renderTiles();renderCats();renderList();renderPop()}
+/* drawer */
+function openDr(id){
+ const r=REQ.find(x=>x.id===id);if(!r)return;r.un=0;S.open=id;S.mode=null;drawer();renderTop();renderPop();renderList();
+ $('#dr').classList.add('on');$('#scrim').classList.add('on')}
+function closeDr(){S.open=null;$('#dr').classList.remove('on');$('#scrim').classList.remove('on')}
+function drawer(){
+ const r=REQ.find(x=>x.id===S.open),c=CATS[r.cat],act=mineAct(r);
+ const tl=r.tl.map(t=>`<li><b>${e(t[0])}</b><small>${e(t[1])}</small></li>`).join('');
+ let foot='';
+ if(act&&!S.mode)foot=`<button class="btn bad" data-d="rejm">Reject</button><button class="btn" data-d="infom">Request info</button>${r.cat==='fin'||r.cat==='hr'||r.cat==='evt'?'':''}${S.role==='admin'?'<button class="btn" data-d="esc">Escalate</button>':''}<span class="sp"></span><button class="btn ok" data-d="app">${ic('check',16)} Approve</button>`;
+ if(act&&S.mode==='rej')foot=`<div style="flex:1;min-width:100%"><b>Reason for rejecting</b> <span style="color:var(--mut);font-size:13px">(the requester will see this)</span><textarea class="fld" id="rs" rows="2" placeholder="Explain what to change or why this cannot be approved"></textarea><div style="display:flex;gap:8px;margin-top:10px"><button class="btn" data-d="back">Back</button><button class="btn bad" data-d="rejgo" style="margin-left:auto">Confirm reject</button></div></div>`;
+ if(act&&S.mode==='info')foot=`<div style="flex:1;min-width:100%"><b>What do you need?</b><textarea class="fld" id="rs" rows="2" placeholder="Ask the requester for a detail or a document"></textarea><div style="display:flex;gap:8px;margin-top:10px"><button class="btn" data-d="back">Back</button><button class="btn p" data-d="infogo" style="margin-left:auto">Send request</button></div></div>`;
+ if(!act&&open_(r))foot=`<span class="tag mut">Awaiting Super Admin decision</span>`;
+ $('#dr').innerHTML=`<div class="dh"><span class="ci" style="width:46px;height:46px;border-radius:15px;display:grid;place-items:center;color:#fff;background:${c.c};flex:none">${ic(r.cat,22)}</span><div><span class="tag" style="--c:${c.c}">${c.n}</span> <span style="color:var(--mut);font-size:12.5px">REQ-${1000+r.id}</span><h2>${e(r.t)}</h2></div><button class="x" data-d="close" aria-label="Close">${ic('x')}</button></div>
+ <div class="db"><div class="req"><span class="av" style="--h:${r.h}">${e(r.who.replace(/[^A-Za-z ]/g,'').split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join(''))}</span><div><b>${e(r.who)}</b><small>${e(r.role)} · ${ago(r.ts)}</small></div><span style="margin-left:auto">${r.st==='approved'?'<span class="tag ok">Approved</span>':r.st==='rejected'?'<span class="tag bad">Rejected</span>':r.st==='info'?'<span class="tag warn">Info requested</span>':r.due?`<span class="tag ${r.due<=4?'bad':'mut'}">${dueTxt(r)}</span>`:''}</span></div>
+ <dl class="kv">${r.f.map(x=>`<dt>${e(x[0])}</dt><dd>${e(x[1])}</dd>`).join('')}</dl>
+ ${r.note?`<h4>Note from requester</h4><div class="note">“${e(r.note)}”</div>`:''}${r.why?`<h4>Rejection reason</h4><div class="note" style="background:var(--bads);color:var(--bad)">${e(r.why)}</div>`:''}
+ ${r.att.length?`<h4>Attachments</h4>${r.att.map(a=>`<span class="att">${ic('file',15)} ${e(a)}</span>`).join('')}`:''}
+ <h4>Activity</h4><ul class="tl">${tl}</ul></div><div class="df">${foot}</div>`;
+}
+function addTl(r,a,b){r.tl.push([a,b])}
+function decide(id,st,why){
+ const r=REQ.find(x=>x.id===id),who=ROLE[S.role][0];r.st=st;r.by=who;r.un=0;if(why)r.why=why;addTl(r,st==='approved'?'Approved':'Rejected',who+(why?' · '+why:''));S.sel.delete(id);
+ NOTES.unshift({t:(st==='approved'?'You approved':'You rejected')+' · '+r.t,s:r.who+' has been notified',ts:0,un:false,role:S.role,cat:null});
+ toast((st==='approved'?'Approved':'Rejected')+' · '+r.who.split(' · ')[0]+' notified')}
+/* events */
+document.addEventListener('click',ev=>{
+ const t=ev.target;
+ if(!t.closest('#pop,#hBell'))$('#pop').classList.remove('on');
+ const bt=t.closest('#hBell');if(bt){$('#pop').classList.toggle('on');bt.setAttribute('aria-expanded',$('#pop').classList.contains('on'));return}
+ let m;
+ if(m=t.closest('[data-role]')){S.role=m.dataset.role;S.sel.clear();closeDr();renderAll();return}
+ if(m=t.closest('[data-cat]')){S.cat=m.dataset.cat;renderCats();renderList();return}
+ if(m=t.closest('[data-st]')){S.st=m.dataset.st;S.tile=null;renderCats();renderTiles();renderList();return}
+ if(m=t.closest('[data-tile]')){const v=m.dataset.tile;S.tile=S.tile===v?null:v;if(S.tile){S.st='all'}renderAll();return}
+ if(m=t.closest('[data-sel]')){const id=+m.dataset.sel;m.checked?S.sel.add(id):S.sel.delete(id);renderList();ev.stopPropagation();return}
+ if(m=t.closest('[data-q]')){ev.stopPropagation();const id=+m.dataset.id;if(m.dataset.q==='app'){decide(id,'approved');renderAll()}else{openDr(id);S.mode='rej';drawer()}return}
+ if(m=t.closest('[data-bulk]')){const a=m.dataset.bulk;if(a==='clear'){S.sel.clear()}else{const n=S.sel.size;[...S.sel].forEach(id=>{const r=REQ.find(x=>x.id===id);r.st=a==='app'?'approved':'rejected';r.by=ROLE[S.role][0];r.un=0;if(a==='rej')r.why='Rejected in bulk.';addTl(r,a==='app'?'Approved':'Rejected',ROLE[S.role][0]+' (bulk)')});S.sel.clear();toast(n+' request'+(n>1?'s':'')+' '+(a==='app'?'approved':'rejected')+' · requesters notified')}renderAll();return}
+ if(m=t.closest('[data-d]')){const a=m.dataset.d,r=REQ.find(x=>x.id===S.open);
+  if(a==='close'){closeDr();return}
+  if(a==='app'){decide(r.id,'approved');closeDr();renderAll()}
+  else if(a==='rejm'){S.mode='rej';drawer()}else if(a==='infom'){S.mode='info';drawer()}else if(a==='back'){S.mode=null;drawer()}
+  else if(a==='rejgo'){const w=$('#rs').value.trim();if(!w){$('#rs').focus();toast('Add a reason so the requester knows what to fix');return}decide(r.id,'rejected',w);closeDr();renderAll()}
+  else if(a==='infogo'){const w=$('#rs').value.trim();if(!w){$('#rs').focus();return}r.st='info';addTl(r,'Information requested',ROLE[S.role][0]+' · '+w);toast('Sent to '+r.who.split(' · ')[0]);S.mode=null;closeDr();renderAll()}
+  else if(a==='esc'){r.lv='super';addTl(r,'Escalated to Super Admin',ROLE[S.role][0]);toast('Escalated to Super Admin');closeDr();renderAll()}
+  return}
+ if(m=t.closest('[data-nid]')){$('#pop').classList.remove('on');if(m.dataset.nid)openDr(+m.dataset.nid);return}
+ if(m=t.closest('[data-act]')){const a=m.dataset.act;if(a==='readall'){REQ.forEach(r=>r.un=0);NOTES.forEach(n=>n.un=false);renderAll()}else if(a==='viewall'){$('#pop').classList.remove('on');S.st='pending';S.cat='all';S.tile=null;renderAll();window.scrollTo({top:0,behavior:'smooth'})}return}
+ if(m=t.closest('[data-open]')){openDr(+m.dataset.open);return}
+ if(t.id==='scrim')closeDr();
+});
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'){closeDr();$('#pop').classList.remove('on')}if(ev.key==='Enter'&&ev.target.classList.contains('rq'))openDr(+ev.target.dataset.open)});
+$('#q').oninput=ev=>{S.q=ev.target.value;renderList()};
+$('#sort').onchange=ev=>{S.sort=ev.target.value;renderList()};
+$('#bSim').onclick=()=>{
+ const n=NEWQ[NI++%NEWQ.length];REQ.unshift(Object.assign({id:UID++,ts:0,pr:0,st:'pending',un:1,att:[],tl:[['Submitted',n.who]]},JSON.parse(JSON.stringify(n))));
+ renderAll();toast('New request: '+n.t+' · '+n.who.split(' · ')[0])};
+$('#bRules').onclick=()=>{
+ const rows=[['Leave','Class teacher (students) · Admin (staff)','Staff leave over 5 days','24 h'],['Class Representatives','Admin','—','48 h'],['Results & Exams','Admin (after HOD check)','Never. Corrections after publishing stay with Admin','24 h'],
+ ['Admissions & Students','Admin','Branch transfer or fee-free admission','72 h'],['Fees & Finance','Admin up to Rs 20,000','Above Rs 20,000, or any refund','48 h'],['Timetable & Cover','Admin','—','4 h (same day)'],
+ ['Events & Trips','Admin','Off-campus trip or budget above Rs 50,000','72 h'],['Notices & Messages','Class teacher (CR posts) · Admin (school-wide)','WhatsApp bulk to more than 250 people','4 h'],['Staff & HR','Super Admin only','—','72 h']];
+ $('#rules').innerHTML=`<div style="display:flex;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line)"><h2 id="rT" style="margin:0;font-size:19px">Routing rules (suggested)</h2><span style="flex:1"></span><button class="x" id="rX" aria-label="Close">${ic('x')}</button></div><div style="padding:6px 22px 20px;max-height:70vh;overflow:auto"><p style="color:var(--mut);font-size:13.5px">Who decides first, when it moves to Super Admin, and how long before it is flagged as overdue. Amounts are examples.</p><table><thead><tr><th>Category</th><th>First approver</th><th>Escalates to Super Admin when</th><th>SLA</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td></tr>`).join('')}</tbody></table></div>`;
+ $('#rules').showModal();$('#rX').onclick=()=>$('#rules').close()};
+renderAll();
+</script>
+</body>
+</html>

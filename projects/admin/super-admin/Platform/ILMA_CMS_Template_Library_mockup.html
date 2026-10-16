@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA CMS · Template Library</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+
+:root{--bg:#f5f6fb;--card:#fff;--ink:#14162b;--mut:#646a8c;--line:#e8eaf3;--hov:#f7f7fd;--acc:#6c4cf1;--accs:#efeaff;--ok:#0f8a66;--oks:#e3f7ef;--warn:#a85a05;--warns:#fff3dc;--bad:#d9362b;--bads:#fdebec;--blue:#2a63d4;--blues:#e6efff;
+--shadow:0 1px 2px rgba(20,22,43,.05),0 8px 24px rgba(20,22,43,.06);--glow:radial-gradient(900px 300px at 20% -10%,rgba(108,76,241,.10),transparent),radial-gradient(700px 260px at 100% 0,rgba(255,140,120,.08),transparent)}
+:root[data-theme=dark]{--bg:#0d1022;--card:#161a35;--ink:#eceefc;--mut:#9ba1c8;--line:#262b4d;--hov:#1b2040;--accs:#2a2458;--ok:#4fd1a5;--oks:#0f3a2e;--warn:#f4b25c;--warns:#3d2e10;--bad:#ff8a80;--bads:#41191c;--blue:#8ab4ff;--blues:#1a2b52;--glow:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1022;--card:#161a35;--ink:#eceefc;--mut:#9ba1c8;--line:#262b4d;--hov:#1b2040;--accs:#2a2458;--ok:#4fd1a5;--oks:#0f3a2e;--warn:#f4b25c;--warns:#3d2e10;--bad:#ff8a80;--bads:#41191c;--blue:#8ab4ff;--blues:#1a2b52;--glow:none}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+button,select,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+[hidden]{display:none!important}
+.app{display:flex;min-height:100vh}
+.side{width:250px;flex:none;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,#1a2152,#12172f 60%);color:#c9cdf0;padding:16px 14px;display:flex;flex-direction:column;overflow:auto}
+.brand{display:flex;gap:11px;align-items:center;color:#fff;font-weight:800;padding:4px 6px 16px}
+.brand i{width:38px;height:38px;border-radius:11px;background:#0b0f26;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;font-style:normal}
+.brand small{display:block;font-weight:500;font-size:11.5px;color:#8c91c4}
+.nv{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:3px;border-radius:12px;color:#c9cdf0;font-weight:600;cursor:pointer}
+.nv:hover{background:rgba(255,255,255,.07)}.nv.on{background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 3px 0 0 var(--acc)}
+.nv b{margin-left:auto;background:#e5484d;color:#fff;font-size:11px;border-radius:99px;padding:0 7px}
+.nv .ch{margin-left:auto;font-size:11px;opacity:.7}
+.sub1{padding-left:18px;margin-bottom:6px}.sub1 .nv{font-size:13.5px;padding:7px 12px;font-weight:500}.sub1 .nv.on{box-shadow:none;background:rgba(108,76,241,.35)}
+.me{margin-top:auto;border-top:1px solid rgba(255,255,255,.1);padding:14px 4px 4px;display:flex;gap:10px;align-items:center;color:#fff;font-size:13.5px;font-weight:700}
+.me small{display:block;color:#8c91c4;font-weight:500}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800;flex:none;background:hsl(var(--h,260) 52% 46%)}
+.av.s{width:26px;height:26px;font-size:10px}
+.col{flex:1;min-width:0}
+.top{display:flex;align-items:center;gap:12px;padding:12px 28px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;flex-wrap:wrap}
+.top label{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--mut)}
+select,.in{border:1px solid var(--line);background:var(--card);border-radius:11px;padding:9px 12px;min-width:0}
+.in{width:100%}textarea.in{min-height:84px;resize:vertical}
+.sp{flex:1}
+.bell{position:relative;border:0;border-radius:14px;height:42px;width:42px;color:#fff;background:linear-gradient(135deg,#ffb020,#ff5e7a);box-shadow:0 8px 20px rgba(255,110,100,.35);font-size:18px}
+.bell b{position:absolute;top:-6px;right:-6px;background:#e5484d;color:#fff;font-size:10.5px;border-radius:99px;padding:1px 6px;border:2px solid var(--card)}
+main{padding:24px 28px 60px;background:var(--glow);min-height:calc(100vh - 66px)}
+.hd{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
+.hd>div:first-child{flex:1;min-width:240px;border-left:3px solid var(--acc);padding-left:16px}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}h2{margin:0;font-size:20px}h3{margin:0;font-size:16px}
+.sub{margin:2px 0 0;color:var(--mut)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 16px;font-weight:700;display:inline-flex;gap:8px;align-items:center;transition:transform .15s;white-space:nowrap}
+.btn:hover:not(:disabled){transform:translateY(-1px)}
+.btn.p{background:linear-gradient(135deg,#6c4cf1,#5b43d6);border-color:transparent;color:#fff;box-shadow:0 8px 20px rgba(108,76,241,.3)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.bad{color:var(--bad)}.btn.sm{padding:6px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 16px;box-shadow:var(--shadow);text-align:left;width:100%}
+.kpi b{display:block;font-size:26px;letter-spacing:-.02em}.kpi span{color:var(--mut);font-size:13px}
+button.kpi:hover{border-color:var(--acc)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.tile{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);transition:.18s;display:flex;flex-direction:column;gap:6px;min-height:168px}
+.tile:hover{transform:translateY(-3px);border-color:var(--acc);box-shadow:0 14px 34px rgba(108,76,241,.18)}
+.tile .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:hsl(var(--h) 80% 94%)}
+:root[data-theme=dark] .tile .ic{background:hsl(var(--h) 40% 22%)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .tile .ic{background:hsl(var(--h) 40% 22%)}}
+.tile h3{margin-top:6px}.tile p{margin:0;color:var(--mut);font-size:13.5px;flex:1}
+.tile .ft{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tile .n{position:absolute;top:16px;right:16px;background:#e5484d;color:#fff;font-weight:800;font-size:12px;border-radius:99px;padding:1px 9px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--hov);color:var(--mut);border:1px solid var(--line);white-space:nowrap}
+.pill.ok{background:var(--oks);color:var(--ok);border-color:transparent}.pill.warn{background:var(--warns);color:var(--warn);border-color:transparent}.pill.bad{background:var(--bads);color:var(--bad);border-color:transparent}.pill.acc{background:var(--accs);color:var(--acc);border-color:transparent}.pill.blue{background:var(--blues);color:var(--blue);border-color:transparent}
+.att{display:flex;flex-direction:column;gap:2px}
+.att button{display:flex;gap:12px;align-items:center;border:0;background:none;text-align:left;padding:10px 8px;border-radius:12px;border-bottom:1px solid var(--line)}
+.att button:hover{background:var(--hov)}.att span{flex:1}
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.45);z-index:40;animation:fade .2s}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:75vw;min-width:min(760px,100vw);background:var(--bg);z-index:41;box-shadow:-24px 0 60px rgba(10,12,30,.35);display:flex;flex-direction:column;animation:slide .25s ease;border-left:1px solid var(--line)}
+@keyframes slide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}@keyframes fade{from{opacity:0}}
+.dhd{display:flex;align-items:center;gap:12px;padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.dhd h2{flex:1;display:flex;gap:10px;align-items:center}
+.dbd{padding:20px 24px 60px;overflow:auto;flex:1}
+.tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:8px}
+.tabs button{border:0;background:none;padding:8px 14px;border-radius:10px;font-weight:700;color:var(--mut);white-space:nowrap}
+.tabs button.on{background:var(--accs);color:var(--acc)}.tabs button i{font-style:normal;opacity:.7;margin-left:4px;font-size:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 13px;font-weight:700;font-size:13px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--hov);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}tbody tr:hover td{background:var(--hov)}
+tr.grp td{background:var(--hov);font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+td.done .tt{text-decoration:line-through;color:var(--mut)}
+td small{display:block;color:var(--mut);font-size:12.5px}
+td .tt{font-weight:700}
+.cb{width:20px;height:20px;accent-color:var(--acc);cursor:pointer}
+.ra{display:flex;gap:6px;justify-content:flex-end;flex-wrap:nowrap}
+td select{padding:5px 8px;font-size:13px;border-radius:8px}
+.empty{text-align:center;color:var(--mut);padding:36px 10px}
+.fld{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--mut)}
+.fld select,.fld .in{font-weight:500;color:var(--ink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.trow{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.trow:last-child{border-bottom:0}.trow>div:first-child{flex:1}.trow small{display:block;color:var(--mut)}
+.sw{position:relative;width:42px;height:24px;flex:none;display:inline-block}.sw input{opacity:0;position:absolute;inset:0;margin:0;cursor:pointer;z-index:1}.sw i{position:absolute;inset:0;background:var(--line);border-radius:99px;transition:.2s}.sw i::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}.sw input:checked+i{background:var(--acc)}.sw input:checked+i::after{left:21px}
+.qa{display:flex;gap:8px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:12px;align-items:center}
+.qa .in{flex:1;min-width:180px}
+.prog{height:8px;background:var(--hov);border:1px solid var(--line);border-radius:99px;overflow:hidden;min-width:80px}.prog i{display:block;height:100%;background:linear-gradient(90deg,#6c4cf1,#8b6cff)}
+.bal{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.bal div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}.bal b{font-size:22px}.bal span{display:block;color:var(--mut);font-size:13px}
+.info{background:var(--blues);color:var(--blue);border-radius:12px;padding:10px 14px;font-size:13.5px;margin:0 0 12px}
+.thr{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.msg{display:flex;gap:10px}.msg .bd{background:var(--hov);border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:8px 12px}.msg .hh{font-size:12px;color:var(--mut);font-weight:700}
+.msg.me{flex-direction:row-reverse}.msg.me .bd{background:var(--accs);border-color:transparent;border-radius:14px 4px 14px 14px}
+.an{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.an.urgent{border-left-color:var(--bad);background:linear-gradient(90deg,var(--bads),var(--card) 40%)}
+.an h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.an p{margin:6px 0 10px;white-space:pre-wrap}
+.un{font-weight:800}.unread td:first-child{box-shadow:inset 3px 0 0 var(--acc)}
+dialog{border:0;border-radius:22px;padding:0;width:min(620px,94vw);background:var(--card);color:var(--ink);box-shadow:0 30px 80px rgba(10,12,30,.4)}
+dialog::backdrop{background:rgba(10,12,30,.55)}
+.mh{display:flex;align-items:center;gap:10px;padding:16px 22px;border-bottom:1px solid var(--line)}.mh h3{flex:1}.mh button{border:0;background:var(--hov);width:34px;height:34px;border-radius:10px}
+.mb{padding:18px 22px;max-height:66vh;overflow:auto}.mf{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:100;align-items:center;pointer-events:none}
+#toast div{background:#12172f;color:#fff;padding:11px 18px;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.35);font-weight:600;font-size:14px;animation:slide .2s}
+.pop{position:absolute;right:28px;top:60px;width:380px;max-width:92vw;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 60px rgba(20,22,43,.25);padding:10px;z-index:30}
+.pop h4{margin:6px 8px 8px}.pop button.ni{display:block;width:100%;text-align:left;border:0;background:none;padding:10px;border-radius:12px}.pop button.ni:hover{background:var(--hov)}.pop small{display:block;color:var(--mut)}
+@media(max-width:1100px){.drawer{width:92vw}}
+@media(max-width:900px){.app{flex-direction:column}.side{width:auto;height:auto;position:static;flex-direction:row;overflow-x:auto;padding:8px;gap:4px;align-items:center}.me,.sub1,.brand small{display:none}.brand{padding:0 8px 0 4px}.nv{width:auto;white-space:nowrap;margin:0}
+.top{padding:10px 14px}main{padding:18px 14px 60px}.drawer{width:100vw;min-width:0}.dbd{padding:14px 12px 60px}.g2,.g3{grid-template-columns:1fr}.pop{right:10px}}
+
+.cat{display:flex;gap:10px;align-items:center;font-weight:800;font-size:18px;margin:6px 0 12px}
+.cat i{font-style:normal;color:#2a63d4}
+.tile{min-height:150px}
+.tile .ic{background:hsl(var(--h) 80% 94%)}
+.sg{display:inline-flex;gap:3px}.sg button{width:34px;height:30px;border-radius:8px;border:1px solid var(--line);background:var(--card);font-weight:800;font-size:12px;color:var(--mut)}
+.sg button.on.P{background:var(--oks);color:var(--ok);border-color:transparent}.sg button.on.A{background:var(--bads);color:var(--bad);border-color:transparent}.sg button.on.L{background:var(--warns);color:var(--warn);border-color:transparent}.sg button.on.V{background:var(--blues);color:var(--blue);border-color:transparent}.sg button.on.H{background:var(--accs);color:var(--acc);border-color:transparent}
+.reg{border-collapse:separate;border-spacing:2px;font-size:12px}.reg th{padding:4px 2px;text-align:center;background:none;border:0;min-width:26px}.reg td{padding:0;border:0;text-align:center}.reg td.n{text-align:left;padding:4px 10px 4px 4px;white-space:nowrap;font-weight:700;font-size:13px;position:sticky;left:0;background:var(--card)}
+.reg .c{display:block;width:26px;height:26px;line-height:26px;border-radius:6px;font-weight:800;font-size:11px;cursor:pointer}
+.reg .c.P{background:var(--oks);color:var(--ok)}.reg .c.A{background:var(--bads);color:var(--bad)}.reg .c.L{background:var(--warns);color:var(--warn)}.reg .c.V{background:var(--blues);color:var(--blue)}.reg .c.H{background:var(--accs);color:var(--acc)}.reg .c.W{background:var(--hov);color:var(--mut);cursor:default}
+.lgd{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin:10px 0}
+.tree ul{list-style:none;margin:0;padding-left:26px;position:relative}.tree>ul{padding-left:0}.tree li{position:relative;padding:6px 0 6px 18px}
+.tree li::before{content:"";position:absolute;left:-8px;top:0;bottom:0;border-left:2px solid var(--line)}.tree li::after{content:"";position:absolute;left:-8px;top:26px;width:18px;border-top:2px solid var(--line)}.tree>ul>li{padding-left:0}.tree>ul>li::before,.tree>ul>li::after{display:none}.tree li:last-child::before{bottom:auto;height:27px}
+.node{display:inline-flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:9px 14px;box-shadow:var(--shadow);cursor:pointer}.node:hover{border-color:var(--acc)}.node small{display:block;color:var(--mut)}
+.bigav{width:64px;height:64px;font-size:22px}
+.prof{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.frm{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}.frm .full{grid-column:1/-1}
+.tl{border-left:2px solid var(--line);margin-left:8px;padding-left:18px}.tl>div{position:relative;padding-bottom:14px}.tl>div::before{content:"";position:absolute;left:-26px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--acc);border:2px solid var(--bg)}
+.dchk{display:flex;gap:10px;flex-wrap:wrap}.dchk label{display:flex;gap:6px;align-items:center;font-weight:600;color:var(--ink);font-size:13.5px;border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+.emb{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#faf9f5}.emb iframe{display:block;width:100%;height:calc(100vh - 190px);min-height:560px;border:0}
+@media(max-width:900px){.frm{grid-template-columns:1fr}}
+.mut{color:var(--mut)}code{background:var(--hov);padding:1px 6px;border-radius:6px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace}
+.scope{display:inline-block;background:var(--accs);color:var(--acc);border-radius:99px;padding:2px 11px;font-size:12.5px;font-weight:700}
+.pill.blue{background:var(--blues);color:var(--blue);border-color:transparent}.pill.acc{background:var(--accs);color:var(--acc);border-color:transparent}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:11px;overflow:hidden}.seg button{border:0;background:var(--card);padding:8px 12px;font-weight:700;color:var(--mut)}.seg button.on{background:var(--accs);color:var(--acc)}
+.act{white-space:nowrap;text-align:right}.act .btn{margin-left:4px}tr.pl td{color:var(--mut)}tr[data-a]{cursor:pointer}tr.sel td{background:var(--accs)}
+.row2{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.tg{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}.tpc{padding:0;min-height:0;overflow:hidden;gap:0}.tpc.pl{opacity:.75}.th{height:200px;overflow:hidden;background:var(--hov);border-bottom:1px solid var(--line)}.tb2{padding:12px 14px;display:flex;flex-direction:column;gap:6px}.plh{height:100%;display:grid;place-items:center;align-content:center;border:2px dashed var(--line);margin:10px;border-radius:10px;color:var(--mut);font-weight:700;height:calc(100% - 20px)}.plh span{font-size:30px;display:block;text-align:center}
+.mnl{position:fixed;z-index:70;width:220px;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px}.mnl button{display:block;width:100%;text-align:left;border:0;background:none;padding:8px 10px;border-radius:8px;font-weight:600}.mnl button:hover:not(:disabled){background:var(--hov)}.mnl button:disabled{opacity:.4;cursor:not-allowed}
+dialog.wide{width:min(940px,96vw)}.stp{list-style:none;padding:0}.stp li{padding:6px 0}.stp li.wt{color:var(--mut)}.stp li.wt::before{content:'○ '}.stp li.dn::before{content:'✓ ';color:var(--ok);font-weight:800}
+.wl{margin:6px 0;padding-left:20px;color:var(--warn);font-size:13px}
+.chk{padding:10px 14px;border-radius:12px;font-weight:700;margin-bottom:10px}.chk.ok{background:var(--oks);color:var(--ok)}.chk.bad{background:var(--bads);color:var(--bad)}
+.ck{padding:7px 10px;border-radius:9px;margin:5px 0;font-size:13px;line-height:1.35}.ck.e{background:var(--bads);color:var(--bad)}.ck.w{background:var(--warns);color:var(--warn)}.ck.g{background:var(--oks);color:var(--ok)}
+.chkh{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:14px 0 4px}#chk.flash{outline:2px solid var(--bad);border-radius:10px}
+.cbx{display:flex;gap:6px;align-items:center;font-size:13px;font-weight:600;white-space:nowrap}
+.dr{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}.lk{margin-top:12px;padding:10px 12px;background:var(--hov);border-radius:12px;color:var(--mut);font-size:13px}.lk div{margin-top:4px}
+.gg{align-items:start}.bg{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:start}.bform{display:flex;flex-direction:column;gap:14px}
+.sgr{display:grid;grid-template-columns:80px 1fr 1fr;gap:6px;align-items:center;margin-bottom:8px}.sgr .cbx{grid-column:2/4}
+.sw2{width:26px;height:26px;border-radius:50%;border:2px solid var(--card);box-shadow:0 0 0 1px var(--line)}
+.sim{background:#0d1022;color:#d6dbff;padding:12px;border-radius:12px;white-space:pre-wrap;font-size:12.5px;margin-top:12px;font-family:ui-monospace,Menlo,monospace;border-left:4px solid #555}.sim.c200{border-left-color:#4fd1a5}.sim.c403,.sim.c404{border-left-color:#ff8a80}
+.inh{display:flex;flex-direction:column;gap:6px}.ib{padding:12px 14px;border-radius:12px;border:1px solid var(--line)}.ib small{display:block;color:var(--mut)}.ib.sys{background:var(--blues)}.ib.ten{background:var(--accs)}.ib.snap{background:var(--oks)}.ar{text-align:center;color:var(--mut);font-size:12.5px}
+.pipe li{margin-bottom:5px}details{border-bottom:1px solid var(--line);padding:8px 0}summary{cursor:pointer;font-weight:700}details p{margin:6px 0 0;color:var(--mut);font-size:13.5px}
+/* paper */
+.pvh{overflow:auto;background:var(--hov);border:1px solid var(--line);border-radius:14px;padding:12px;min-height:80px}
+.pgw{position:relative;margin:0 auto}
+.pg{background:#fff;color:#1a1a2e;transform-origin:top left;box-shadow:0 2px 14px rgba(0,0,0,.2);position:absolute;top:0;left:0;box-sizing:border-box;overflow:hidden;display:flex;flex-direction:column}
+.pgb{flex:1}.pg.idc{border-radius:10px}.pgh{font-size:.75em;color:#666;border-bottom:1px solid #eee;margin-bottom:8px}.pgf{border-top:1px solid #ddd;margin-top:14px;padding-top:5px;font-size:.72em;color:#777;text-align:center}
+.pg .bk{margin-bottom:10px}.bk.ct{text-align:center}.bk .bn{font-weight:800;font-size:1.35em;color:var(--bc);line-height:1.2}.bk .bt{font-style:italic;opacity:.75;font-size:.85em}.bk .bs{font-size:.75em;opacity:.8}.bk.ct .mono,.bk.ct .lg{margin-bottom:4px}
+.bk.lf{display:flex;gap:12px;align-items:center;text-align:left}.bk.bd{display:flex;gap:12px;align-items:center;background:var(--bc);color:#fff;padding:12px 16px;border-radius:6px;text-align:left}.bk.bd .bn{color:#fff}
+.bk.cp{display:flex;gap:7px;align-items:center;border-bottom:2px solid var(--bc);padding-bottom:4px;margin-bottom:6px}.bk.cp b{color:var(--bc)}.bk.cp small{display:block;font-size:.8em;opacity:.7}
+.mono{display:inline-grid;place-items:center;border-radius:50%;color:#fff;font-weight:800;vertical-align:middle;flex:none}.lg{object-fit:contain;max-width:220px;vertical-align:middle}
+.pg .h{font-weight:800;color:var(--bc);margin:10px 0 6px}.pg .h1{font-size:1.1em}.pg .h2{font-size:1.45em;letter-spacing:.04em}.pg .h3{font-size:1.1em}
+.pg p{margin:6px 0}.pg hr{border:0;border-top:2px solid var(--bc);margin:8px 0}.pg b{font-weight:800}
+.pg table{width:100%;border-collapse:collapse;font-size:inherit}.pg th,.pg td{text-transform:none;letter-spacing:0;font-size:inherit;vertical-align:top}
+.kv{margin:8px 0}.kv th{background:none;text-align:left;font-weight:700;color:#555;padding:3px 10px 3px 0;width:1%;white-space:nowrap;border:0}.kv td{padding:3px 14px 3px 0;border:0;border-bottom:1px solid #eee;color:#111}
+.tb{margin:10px 0}.tb th{background:var(--bc);color:#fff;padding:5px 8px;border:0}.tb td{border:1px solid #ddd;padding:5px 8px;color:#111}.tb .r{text-align:right}.tb .c{text-align:center}.tb .l{text-align:left}.tb tr.ft td{font-weight:800;background:#f3f3f7}
+.sgs{display:flex;gap:30px;margin-top:34px}.sgx{flex:1;text-align:center;position:relative;padding-top:28px}.sgn{position:absolute;top:0;left:0;right:0;font-family:'Segoe Script','Brush Script MT',cursive;font-size:1.4em;color:#1a2a6c;font-style:italic}.sgx .ln{display:block;border-top:1px solid #333;margin-bottom:3px}.sgx small{display:block;color:#666}
+.pg p .sgn,.pg td .sgn{position:static;font-size:1.1em}
+.qb{margin-top:10px}.qb.right{text-align:right}.qb.center{text-align:center}.qb small{display:block;font-size:.7em;color:#666}.qb.float{float:right;margin:0 0 0 8px}.qr{display:inline-block;vertical-align:middle}
+.im{margin:6px 0}.im.float{float:left;margin:0 10px 6px 0}.im.center{text-align:center}.im.right{text-align:right}
+.phi{display:inline-block;background:#dfe3f0;border:1px solid #c9cfe4;border-radius:4px;vertical-align:middle}.phi::after{content:'👤';display:grid;place-items:center;height:100%;font-size:1.5em;opacity:.45}
+mark.miss,.miss{background:#fde3e1;color:#b3261e;padding:0 3px;border-radius:3px;font-size:.85em;font-family:ui-monospace,Menlo,monospace}
+/* editor */
+#ed{position:fixed;inset:0;z-index:60;background:var(--bg);display:flex;flex-direction:column}#ed[hidden]{display:none}
+.eh{display:flex;gap:8px;align-items:center;padding:10px 16px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}.eh .nm{width:min(300px,100%);font-weight:800}
+.eb{flex:1;display:grid;grid-template-columns:290px 410px minmax(0,1fr);min-height:0}
+.el,.er{overflow:auto;padding:12px;min-height:0}.el{border-right:1px solid var(--line);background:var(--card)}.em{border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.pp{padding:12px;overflow:auto}.em .pp{max-height:50%;flex:none;border-bottom:1px solid var(--line);background:var(--card)}.pph{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.pph small{color:var(--mut)}
+.vp{flex:1;min-height:0;display:flex;flex-direction:column;padding:12px;gap:8px}.vph{display:flex;flex-direction:column}.vph span{font-size:12px}#vl{overflow:auto;flex:1;min-height:120px}
+.tabs.sm{margin-bottom:10px}.tabs.sm button{padding:6px 12px;font-size:13px}
+.bi{display:flex;gap:9px;align-items:center;padding:8px 9px;border:1px solid var(--line);border-radius:11px;margin-bottom:6px;cursor:pointer;background:var(--card)}.bi.on{border-color:var(--acc);background:var(--accs)}.bi>div{min-width:0}.bi small{display:block;color:var(--mut);font-size:11.5px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.bic{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:var(--hov);font-weight:800;font-size:13px;flex:none}.bbs{margin-left:auto;display:flex;gap:1px;flex:none}.bbs button{border:0;background:none;padding:2px 4px;border-radius:6px;font-size:12px}.bbs button:hover:not(:disabled){background:var(--hov)}.bbs button:disabled{opacity:.3}
+.addb{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}.addb b{width:100%;font-size:13px}
+.vi{padding:8px 10px;border:1px solid var(--line);border-radius:10px;margin-bottom:6px;cursor:pointer;background:var(--card)}.vi:hover{border-color:var(--acc)}.vi code{color:var(--acc);font-weight:700;background:none;padding:0}.vi b{display:block;font-size:13px}.vi small{display:block;color:var(--mut);font-size:12px}.vm{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px;align-items:center}.vi.dim{opacity:.6}.ex{font-size:12px;color:var(--mut)}.vi .pill{font-size:11px;padding:1px 8px}
+.kvr{display:grid;grid-template-columns:1fr 1.4fr auto;gap:6px;margin-bottom:6px}.kvr.c4{grid-template-columns:1fr 1fr auto auto}.kvr .in,.kvr select{padding:7px 9px}
+.cond{margin-top:12px;padding-top:10px;border-top:1px dashed var(--line)}.slot{border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px}.fbk{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}.fbk code{margin-bottom:3px;width:max-content}
+.pvt{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}.pvt label{display:flex;gap:8px;align-items:center;font-size:12.5px;font-weight:700;color:var(--mut)}
+#printArea{display:none}
+@media print{body>*:not(#printArea){display:none!important}#printArea{display:block!important}#printArea .pgw{width:auto!important;height:auto!important}#printArea .pg{position:static!important;transform:none!important;box-shadow:none!important}}
+@media(max-width:1100px){.eb{grid-template-columns:1fr;overflow:auto;display:block}.el,.er{overflow:visible}.em{overflow:visible}.em .pp{max-height:none}#vl{max-height:360px}.bg{grid-template-columns:1fr}}
+@media(max-width:900px){.side{display:none}.gg{grid-template-columns:1fr}}
+.bg>.bprev{align-self:stretch}
+
+</style>
+<style id="pgstyle"></style>
+</head>
+<body>
+<div class="app">
+<aside class="side" id="side"></aside>
+<div class="col">
+ <div class="top" id="top"></div>
+ <main id="main"></main>
+</div>
+</div>
+<div id="ed" hidden></div>
+<div id="layer"></div>
+<div id="printArea"></div>
+<dialog id="dlg"></dialog>
+<div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toast=m=>{const d=document.createElement('div');d.textContent=m;$('#toast').appendChild(d);setTimeout(()=>d.remove(),3000)};
+const clone=o=>JSON.parse(JSON.stringify(o)),hsh=s=>[...String(s)].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7);
+const TODAY='2026-10-15',NOW='15 Oct 2026, 14:11';
+const fdate=s=>{if(!s)return'';const d=new Date(String(s).slice(0,10)+'T00:00:00');return isNaN(d)?String(s):d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})};
+const pkr=n=>'PKR '+Number(n).toLocaleString('en-US');
+const val=id=>$('#'+id)?.value;const mclose=()=>$('#dlg').open&&$('#dlg').close();
+let ID=900;const nid=p=>p+(++ID);
+function words(n){const a=['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'],b=['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];const w=n=>n<20?a[n]:n<100?b[n/10|0]+(n%10?' '+a[n%10]:''):a[n/100|0]+' Hundred'+(n%100?' '+w(n%100):'');if(!n)return'Zero';return(n>=1000?w(n/1000|0)+' Thousand'+(n%1000?' ':''):'')+(n%1000?w(n%1000):'')}
+/* ---------- tenants ---------- */
+const SIG=(a,b,c)=>({principal:{nm:a,ti:'Principal',on:true},accountant:{nm:b,ti:'Accounts Officer',on:true},hr:{nm:c,ti:'HR Manager',on:!!c}});
+const TEN=[
+ {id:'t-alnoor',name:'Al-Noor Education System',short:'Al-Noor',tag:'Knowledge · Character · Service',reg:'REG/LHR/2014/0457',email:'info@alnoor.edu.pk',phone:'042-35761234',web:'www.alnoor.edu.pk',addr:'12 Canal Road, Gulshan-e-Ravi, Lahore',color:'#1f6f5c',font:'sans',logo:null,sigs:SIG('Mr. Tariq Mehmood','Ms. Sadia Anwar','Mrs. Nadia Hussain'),
+  branches:[{id:'a1',n:'Lahore Main',code:'LHR-01',city:'Lahore',addr:'12 Canal Road, Gulshan-e-Ravi',ph:'042-35761234',em:'lahore@alnoor.edu.pk',adm:'Ms. Farah Siddiqui'},{id:'a2',n:'Gulberg Campus',code:'LHR-02',city:'Lahore',addr:'45 MM Alam Road, Gulberg III',ph:'042-35879900',em:'gulberg@alnoor.edu.pk',adm:'Mr. Kashif Mahmood'},{id:'a3',n:'Islamabad',code:'ISB-01',city:'Islamabad',addr:'Sector F-8/3, Jinnah Avenue',ph:'051-2260011',em:'isb@alnoor.edu.pk',adm:'Ms. Maria Khan'}]},
+ {id:'t-iqra',name:'Iqra Academy',short:'Iqra',tag:'Read. Reflect. Rise.',reg:'SEC/KHI/2009/1182',email:'office@iqra.edu.pk',phone:'021-35340077',web:'www.iqra.edu.pk',addr:'DHA Phase 6, Khayaban-e-Shamsheer, Karachi',color:'#b4472e',font:'serif',logo:null,sigs:SIG('Dr. Rubina Qadir','Mr. Faisal Memon',null),
+  branches:[{id:'b1',n:'Karachi Main',code:'KHI-01',city:'Karachi',addr:'DHA Phase 6, Khayaban-e-Shamsheer',ph:'021-35340077',em:'karachi@iqra.edu.pk',adm:'Mr. Zeeshan Ali'},{id:'b2',n:'Hyderabad',code:'HYD-01',city:'Hyderabad',addr:'Qasimabad Road, Hyderabad',ph:'022-2650123',em:'hyd@iqra.edu.pk',adm:'Ms. Aneela Raza'}]}];
+const SAMPLE={id:'t-sample',name:'Sample Institute',short:'Sample',tag:'Platform preview tenant',reg:'REG/0000/0000',email:'hello@sample.edu',phone:'000-0000000',web:'www.sample.edu',addr:'1 Example Road, Sample City',color:'#6c4cf1',font:'sans',logo:null,sigs:SIG('Principal Name','Accounts Officer','HR Manager'),branches:[{id:'s1',n:'Main Campus',code:'MAIN-01',city:'Sample City',addr:'1 Example Road, Sample City',ph:'000-0000000',em:'main@sample.edu',adm:'Branch Admin'}]};
+const tenant=id=>id==='t-sample'?SAMPLE:TEN.find(x=>x.id===id);
+/* ---------- records (per tenant) ---------- */
+const SUBJ=['English','Urdu','Mathematics','Science','Islamiyat','Social Studies'];
+const gr=(p)=>p>=90?'A+':p>=80?'A':p>=70?'B':p>=60?'C':'D';
+function stu(id,name,g,cls,sec,br,gn,rel,ph){const res=SUBJ.map(s=>{const o=55+hsh(id+s)%41;return{sub:s,total:100,obt:o,grade:gr(o)}});const pc=Math.round(res.reduce((a,x)=>a+x.obt,0)/res.length*10)/10;const h=hsh(id);
+ return{id,name,g,cls,sec,br,roll:String(1+h%38).padStart(2,'0'),gr:'GR-'+(2200+h%700),dob:`${2026-(+cls+5)}-0${1+h%9}-${10+h%15}`,addr:['House 14, Block C, Model Town','Flat 7, Gulshan Heights','Street 9, F-8/2','House 221, Phase 5, DHA'][h%4],adm:`${2026-Math.min(+cls,5)}-04-0${1+h%8}`,status:'Enrolled',photo:null,gd:{name:gn,rel,phone:ph,email:h%2?gn.split(' ').pop().toLowerCase()+'@mail.com':'',cnic:'35202-'+(1000000+h%8999999)+'-1'},res,pc,grade:gr(pc),att:88+h%11,pos:h%3?null:(1+h%5),rem:h%2?'Shows steady improvement. Encouraged to read more.':'',teacher:['Ms. Sana Javed','Mr. Adeel Raza','Ms. Hina Shah'][h%3]}}
+const REC={'t-alnoor':{
+ S:[stu('s1','Hira Fatima','F','8','A','a1','Mr. Imran Sheikh','Father','0300-4561122'),stu('s2','Ahmed Raza','M','6','B','a1','Mr. Raza Ali','Father','0301-7788990'),stu('s3','Zainab Ali','F','9','A','a2','Mrs. Sobia Ali','Mother','0333-1200456'),stu('s4','Usman Tariq','M','5','C','a2','Mr. Tariq Mahmood','Father','0321-9087654'),stu('s5','Maryam Noor','F','7','B','a3','Mr. Noor Ahmed','Father','0345-1119922'),stu('s6','Bilal Hussain','M','10','A','a3','Mr. Hussain Shah','Father','0300-8812345')],
+ A:[{id:'ad1',no:'APP-26-0318',name:'Aleena Shah',g:'F',dob:'2016-03-12',cls:'3',date:'2026-09-30',status:'Interview scheduled',br:'a1',addr:'House 8, Johar Town',score:'82%',gd:{name:'Mr. Shah Rukh',rel:'Father',phone:'0300-5550101',email:'shahrukh@mail.com',cnic:'35202-8765432-1'}},{id:'ad2',no:'APP-26-0322',name:'Hassan Javed',g:'M',dob:'2014-11-02',cls:'6',date:'2026-10-03',status:'Documents pending',br:'a3',addr:'Street 4, G-9/1',score:'',gd:{name:'Mr. Javed Iqbal',rel:'Father',phone:'0333-4440202',email:'',cnic:'61101-1234567-9'}}],
+ T:[{id:'x1',type:'invoice',no:'INV-2026-1041',sid:'s1',br:'a1',lines:[{desc:'Tuition fee · Oct 2026',amt:12000},{desc:'Transport fee',amt:3000},{desc:'Examination fee',amt:1500}],due:'2026-10-25',paid:null,method:'',sch:'',late:0,period:'October 2026'},
+  {id:'x2',type:'receipt',no:'INV-2026-1038',rcpt:'RCP-2026-0877',sid:'s2',br:'a1',lines:[{desc:'Tuition fee · Oct 2026',amt:10500}],due:'2026-10-25',paid:'2026-10-09',method:'Bank transfer',sch:'Sibling concession 10%',late:0,period:'October 2026'},
+  {id:'x3',type:'invoice',no:'INV-2026-1052',sid:'s3',br:'a2',lines:[{desc:'Tuition fee · Oct 2026',amt:14000},{desc:'Lab fee',amt:2000}],due:'2026-10-25',paid:null,method:'',sch:'',late:500,period:'October 2026'},
+  {id:'x4',type:'receipt',no:'INV-2026-1060',rcpt:'RCP-2026-0902',sid:'s6',br:'a3',lines:[{desc:'Tuition fee · Oct 2026',amt:15000},{desc:'Computer lab fee',amt:2500}],due:'2026-10-25',paid:'2026-10-12',method:'Cash',sch:'',late:0,period:'October 2026'}],
+ F:[{id:'f1',name:'Sana Javed',emp:'EMP-0142',des:'Senior Teacher',dept:'Academics',join:'2018-04-02',left:'',cnic:'35202-1234567-1',email:'sana@alnoor.edu.pk',gross:85000,ded:6500,br:'a1',probation:''},{id:'f2',name:'Hamza Iqbal',emp:'EMP-0231',des:'Accounts Officer',dept:'Finance & Accounts',join:'2021-08-15',left:'',cnic:'35201-7654321-5',email:'hamza@alnoor.edu.pk',gross:62000,ded:4200,br:'a1',probation:'2026-02-15'},{id:'f3',name:'Kashif Mahmood',des:'IT Administrator',emp:'EMP-0288',dept:'IT & Systems',join:'2022-01-10',left:'',cnic:'35202-5550123-7',email:'kashif@alnoor.edu.pk',gross:78000,ded:5600,br:'a2',probation:''},{id:'f4',name:'Imran Butt',emp:'EMP-0099',des:'Teacher',dept:'Academics',join:'2016-09-01',left:'2026-07-31',cnic:'35202-3331222-3',email:'imran@alnoor.edu.pk',gross:58000,ded:3900,br:'a2',probation:''},{id:'f5',name:'Maria Khan',emp:'EMP-0175',des:'Vice Principal',dept:'Administration',join:'2019-03-18',left:'',cnic:'61101-9988776-2',email:'maria@alnoor.edu.pk',gross:120000,ded:11000,br:'a3',probation:''}],
+ L:[{id:'l1',fid:'f1',type:'Casual',from:'2026-10-20',to:'2026-10-22',days:3,reason:'Family wedding out of city',status:'Approved',by:'Mr. Tariq Mehmood',on:'2026-10-14',br:'a1'},{id:'l2',fid:'f2',type:'Medical',from:'2026-10-16',to:'2026-10-17',days:2,reason:'Medical procedure; certificate attached',status:'Pending',by:'',on:'',br:'a1'},{id:'l3',fid:'f3',type:'Annual',from:'2026-11-02',to:'2026-11-06',days:5,reason:'Annual leave',status:'Approved',by:'Mr. Kashif Mahmood',on:'2026-10-10',br:'a2'}],
+ C:[{id:'c1',sid:'s4',ref:'DC-26-014',date:'2026-10-08',type:'Repeated late arrival',desc:'Arrived after the 07:45 bell on 5 of the last 8 school days without prior notice.',action:'Written warning issued; parent meeting requested.',by:'Ms. Sana Javed',br:'a2'},{id:'c2',sid:'s6',ref:'DC-26-016',date:'2026-10-12',type:'Classroom misconduct',desc:'Disrupted a lesson and refused a teacher instruction in Class 10-A.',action:'Detention (2 days) and counselling referral.',by:'Mr. Adeel Raza',br:'a3'}],
+ R:[{id:'r1',title:'Fee Collection Report',period:'October 2026',rows:[{br:'a1',branch:'Lahore Main',billed:3480000,collected:2910000},{br:'a2',branch:'Gulberg Campus',billed:2250000,collected:1830000},{br:'a3',branch:'Islamabad',billed:1900000,collected:1620000}]}]},
+'t-iqra':{
+ S:[stu('s7','Ayesha Siddiqui','F','4','A','b1','Mr. Siddiqui Khan','Father','0300-2223344'),stu('s8','Hamza Qureshi','M','8','B','b1','Mrs. Farzana Qureshi','Mother','0312-5556677'),stu('s9','Sana Malik','F','3','A','b2','Mr. Malik Anwar','Father','0345-9998877')],
+ A:[{id:'ad3',no:'IQ-APP-0142',name:'Rehan Ahmed',g:'M',dob:'2015-06-21',cls:'4',date:'2026-10-01',status:'Offer sent',br:'b1',addr:'Flat 12, Clifton Block 5',score:'76%',gd:{name:'Mr. Ahmed Ali',rel:'Father',phone:'0300-1010101',email:'',cnic:'42201-1234567-1'}}],
+ T:[{id:'x5',type:'invoice',no:'IQ-INV-5531',sid:'s7',br:'b1',lines:[{desc:'Tuition fee · Oct 2026',amt:9000},{desc:'Stationery',amt:1200}],due:'2026-10-28',paid:null,method:'',sch:'',late:0,period:'October 2026'},{id:'x6',type:'receipt',no:'IQ-INV-5520',rcpt:'IQ-RCP-3101',sid:'s8',br:'b1',lines:[{desc:'Tuition fee · Oct 2026',amt:11000}],due:'2026-10-28',paid:'2026-10-05',method:'Cash',sch:'',late:0,period:'October 2026'}],
+ F:[{id:'f6',name:'Rabia Anwar',emp:'IQ-044',des:'Teacher',dept:'Academics',join:'2020-08-10',left:'',cnic:'42201-7776665-4',email:'rabia@iqra.edu.pk',gross:64000,ded:4800,br:'b1',probation:''},{id:'f7',name:'Asad Mir',emp:'IQ-071',des:'Administrator',dept:'Administration',join:'2023-02-01',left:'',cnic:'41301-2223334-5',email:'asad@iqra.edu.pk',gross:70000,ded:5000,br:'b2',probation:''}],
+ L:[{id:'l4',fid:'f6',type:'Annual',from:'2026-12-22',to:'2026-12-31',days:8,reason:'Annual leave',status:'Approved',by:'Mr. Zeeshan Ali',on:'2026-10-11',br:'b1'}],
+ C:[{id:'c3',sid:'s8',ref:'IQ-DC-007',date:'2026-10-09',type:'Uniform violation',desc:'Attended school out of uniform for the third time this term.',action:'Verbal warning; note sent home.',by:'Mr. Zeeshan Ali',br:'b1'}],
+ R:[{id:'r2',title:'Fee Collection Report',period:'October 2026',rows:[{br:'b1',branch:'Karachi Main',billed:2640000,collected:2210000},{br:'b2',branch:'Hyderabad',billed:1180000,collected:910000}]}]}};
+/* ---------- roles & permissions ---------- */
+const ROLES={platform:{n:'Platform Admin',edit:'sys',perms:[],all:true,desc:'Manages shared system templates. Cannot open any institute’s student, staff or finance records.'},
+ inst:{n:'Institute Admin (Super Admin)',edit:'ten',perms:['stu','acad','fin','hr','sal','pii','gen','disc','rep'],all:true,desc:'Customizes templates, edits branding, generates all documents for every branch of one institute.'},
+ branch:{n:'Branch Admin',edit:false,perms:['stu','acad','fin','hr','pii','gen','disc','rep'],all:false,desc:'Generates documents for own branch only. No payroll/salary documents. Cannot edit templates or branding.'},
+ teacher:{n:'Teacher',edit:false,perms:['stu','acad','disc','gen'],all:false,desc:'Student, academic and discipline documents for own branch. No finance or HR documents.'}};
+const PERM_N={stu:'Student records',acad:'Academic results',fin:'Finance',hr:'Staff records',sal:'Payroll / salary',pii:'National ID numbers',gen:'General documents',disc:'Discipline',rep:'Reports'};
+const RT={S:'Student',A:'Admission',T:'Finance transaction',F:'Staff member',L:'Leave request',R:'Report',C:'Discipline case',N:'No record'};
+/* ---------- variable schema ---------- */
+const VS=[],CATN={institution:'Institution & branding',branch:'Branch',student:'Student',guardian:'Guardian',academic:'Academic',admission:'Admission',finance:'Finance',staff:'Staff & HR',leave:'Leave & approvals',case:'Discipline',report:'Reports',doc:'Document metadata',signature:'Signatures & QR codes'};
+const V=(key,type,label,ex,desc,rec,fl,g)=>{const f=(fl||'').split(',');VS.push({key,type,label,ex,desc,rec,cat:key.split('.')[0],o:f.includes('o'),pl:f.includes('pl'),sens:f.find(x=>['pii','fin','hr','sal'].includes(x))||'',g})};
+const bro=c=>c.b||{};
+V('institution.name','text','Institution name','Al-Noor Education System','Legal name from the institute profile','*','',c=>c.t.name);
+V('institution.short_name','text','Short name','Al-Noor','Short name used in compact headers','*','',c=>c.t.short);
+V('institution.logo','image','Institution logo','LOGO','Logo from Branding settings (monogram if none uploaded)','*','',c=>c.t.logo||'MONO');
+V('institution.tagline','text','Tagline / motto','Knowledge · Character · Service','Motto shown under the name','*','o',c=>c.t.tag);
+V('institution.reg_no','text','Registration number','REG/LHR/2014/0457','Education-board / SECP registration','*','o',c=>c.t.reg);
+V('institution.email','text','Institution email','info@alnoor.edu.pk','Main contact email','*','',c=>c.t.email);
+V('institution.phone','text','Institution phone','042-35761234','Main contact number','*','',c=>c.t.phone);
+V('institution.website','text','Website','www.alnoor.edu.pk','Public website','*','o',c=>c.t.web);
+V('institution.address','text','Head-office address','12 Canal Road, Lahore','Address from the institute profile','*','',c=>c.t.addr);
+V('branch.name','text','Branch name','Lahore Main','Branch of the selected record','*','',c=>bro(c).n);
+V('branch.code','text','Branch code','LHR-01','Short code','*','',c=>bro(c).code);
+V('branch.address','text','Branch address','12 Canal Road, Gulshan-e-Ravi','Street address of the branch','*','',c=>bro(c).addr);
+V('branch.city','text','Branch city','Lahore','City','*','',c=>bro(c).city);
+V('branch.phone','text','Branch phone','042-35761234','Branch contact number','*','',c=>bro(c).ph);
+V('branch.email','text','Branch email','lahore@alnoor.edu.pk','Branch contact email','*','',c=>bro(c).em);
+V('branch.admin_name','text','Branch administrator','Ms. Farah Siddiqui','Administrator assigned to the branch','*','o',c=>bro(c).adm);
+V('student.name','text','Student name','Hira Fatima','Full name','SATC','',c=>c.s?.name);
+V('student.parentage','text','S/o · D/o prefix','D/o','“S/o” or “D/o” from gender','SATC','',c=>c.s?(c.s.g==='M'?'S/o':'D/o'):'');
+V('student.class','text','Class','8','Current class (or class applied for)','STC','',c=>c.s?.cls);
+V('student.section','text','Section','A','Section','STC','',c=>c.s?.sec);
+V('student.roll_no','text','Roll number','14','Class roll number','STC','',c=>c.s?.roll);
+V('student.gr_no','text','GR / admission number','GR-2318','General register number','STC','',c=>c.s?.gr);
+V('student.dob','date','Date of birth','2018-05-14','Date of birth','SATC','',c=>c.s?.dob);
+V('student.gender','text','Gender','Female','Gender','SATC','',c=>c.s?(c.s.g==='M'?'Male':'Female'):'');
+V('student.address','text','Home address','House 14, Block C, Model Town','Residential address','SATC','',c=>c.s?.addr);
+V('student.admission_date','date','Date of admission','2023-04-03','First admission date','S','',c=>c.s?.adm);
+V('student.status','text','Enrolment status','Enrolled','Enrolled / Withdrawn / Passed out','S','',c=>c.s?.status);
+V('student.photo','image','Student photo','PHOTO','Photo on the student record','SATC','o',c=>c.s?.photo||'PH');
+V('student.blood_group','text','Blood group','B+','Not captured in ILMA yet','S','pl',()=>undefined);
+V('guardian.name','text','Guardian name','Mr. Imran Sheikh','Primary guardian','SATC','',c=>c.g?.name);
+V('guardian.relation','text','Relation','Father','Relation to student','SATC','',c=>c.g?.rel);
+V('guardian.phone','text','Guardian phone','0300-4561122','Primary contact','SATC','',c=>c.g?.phone);
+V('guardian.email','text','Guardian email','imran@mail.com','Email (may be empty)','SATC','o',c=>c.g?.email);
+V('guardian.cnic','text','Guardian CNIC','35202-1234567-1','National ID, restricted','SATC','o,pii',c=>c.g?.cnic);
+V('academic.session','text','Academic session','2026–27','Current academic session','*','',()=>'2026–27');
+V('academic.term','text','Examination term','Mid-Term 2026','Term of the result','S','',()=>'Mid-Term 2026');
+V('academic.class_teacher','text','Class teacher','Ms. Sana Javed','Teacher of the student’s section','S','',c=>c.s?.teacher);
+V('academic.results','list','Subject results','(table)','Subject, total, obtained, grade. Use inside a table block','S','',c=>c.s?.res);
+V('academic.overall_pct','text','Overall percentage','78.5%','Average of all subjects','S','',c=>c.s?c.s.pc+'%':'');
+V('academic.grade','text','Overall grade','B','Grade for overall percentage','S','',c=>c.s?.grade);
+V('academic.attendance_pct','text','Attendance','94%','Attendance for the term','S','',c=>c.s?c.s.att+'%':'');
+V('academic.position','text','Class position','3rd','Shown only if positions are published','S','o',c=>c.s?.pos?c.s.pos+'':'');
+V('academic.remarks','text','Teacher remarks','Shows steady improvement.','Free-text remark (may be empty)','S','o',c=>c.s?.rem);
+V('admission.no','text','Application number','APP-26-0318','Application reference','A','',c=>c.ad?.no);
+V('admission.date','date','Application date','2026-09-30','Date applied','A','',c=>c.ad?.date);
+V('admission.class','text','Class applied for','3','Requested class','A','',c=>c.ad?.cls);
+V('admission.status','text','Application status','Interview scheduled','Current stage','A','',c=>c.ad?.status);
+V('admission.test_score','text','Entry-test score','82%','Entry assessment score','A','o',c=>c.ad?.score);
+V('finance.invoice_no','text','Invoice number','INV-2026-1041','Fee invoice number','T','',c=>c.tx?.no);
+V('finance.receipt_no','text','Receipt number','RCP-2026-0877','Only exists once paid','T','o',c=>c.tx?.rcpt);
+V('finance.period','text','Fee period','October 2026','Billing period','T','',c=>c.tx?.period);
+V('finance.lines','list','Fee lines','(table)','Description and amount per fee head. Use inside a table block','T','fin',c=>c.tx?.lines);
+V('finance.amount','currency','Total amount','16500','Sum of all lines','T','fin',c=>c.tx?c.tx.lines.reduce((a,x)=>a+x.amt,0)+(c.tx.late||0):'');
+V('finance.amount_words','text','Amount in words','Sixteen Thousand Five Hundred Rupees Only','Total in words','T','fin',c=>c.tx?words(c.tx.lines.reduce((a,x)=>a+x.amt,0)+(c.tx.late||0))+' Rupees Only':'');
+V('finance.balance','currency','Outstanding balance','16500','Unpaid amount','T','fin',c=>c.tx?(c.tx.paid?0:c.tx.lines.reduce((a,x)=>a+x.amt,0)+(c.tx.late||0)):'');
+V('finance.due_date','date','Due date','2026-10-25','Payment due date','T','fin',c=>c.tx?.due);
+V('finance.paid_on','date','Payment date','2026-10-09','Date payment was received','T','o,fin',c=>c.tx?.paid);
+V('finance.method','text','Payment method','Bank transfer','How it was paid','T','o,fin',c=>c.tx?.method);
+V('finance.scholarship','text','Scholarship / concession','Sibling concession 10%','Only if one applies','T','o,fin',c=>c.tx?.sch);
+V('finance.late_fee','currency','Late fee','500','Only if charged','T','o,fin',c=>c.tx?.late||'');
+V('staff.name','text','Staff name','Sana Javed','Full name','FL','',c=>c.st?.name);
+V('staff.emp_id','text','Employee ID','EMP-0142','Employee number','FL','',c=>c.st?.emp);
+V('staff.designation','text','Designation','Senior Teacher','Current designation','FL','',c=>c.st?.des);
+V('staff.department','text','Department','Academics','Department','FL','',c=>c.st?.dept);
+V('staff.joining_date','date','Joining date','2018-04-02','Date of joining','FL','',c=>c.st?.join);
+V('staff.leaving_date','date','Leaving date','2026-07-31','Only for former staff','FL','o',c=>c.st?.left);
+V('staff.probation_end','date','Probation end','2026-02-15','Only if probation recorded','FL','o',c=>c.st?.probation);
+V('staff.email','text','Work email','sana@alnoor.edu.pk','Work email','FL','',c=>c.st?.email);
+V('staff.photo','image','Staff photo','PHOTO','Photo on the staff record','FL','o',c=>c.st?.photo||'PH');
+V('staff.cnic','text','Staff CNIC','35202-1234567-1','National ID, restricted','FL','pii',c=>c.st?.cnic);
+V('staff.salary_gross','currency','Gross salary','85000','Monthly gross, payroll-restricted','FL','sal',c=>c.st?.gross);
+V('staff.deductions','currency','Deductions','6500','Monthly deductions, payroll-restricted','FL','sal',c=>c.st?.ded);
+V('staff.salary_net','currency','Net salary','78500','Gross minus deductions, payroll-restricted','FL','sal',c=>c.st?c.st.gross-c.st.ded:'');
+V('staff.bank_account','text','Bank account','PK36…','Not captured in ILMA yet','FL','pl,sal',()=>undefined);
+V('leave.type','text','Leave type','Casual','Leave category','L','',c=>c.lv?.type);
+V('leave.from','date','From','2026-10-20','First day of leave','L','',c=>c.lv?.from);
+V('leave.to','date','To','2026-10-22','Last day of leave','L','',c=>c.lv?.to);
+V('leave.days','number','Days','3','Working days','L','',c=>c.lv?.days);
+V('leave.reason','text','Reason','Family wedding','Reason given','L','',c=>c.lv?.reason);
+V('leave.status','text','Approval status','Approved','Pending / Approved / Rejected','L','',c=>c.lv?.status);
+V('leave.approver','text','Approved by','Mr. Tariq Mehmood','Approver name','L','o',c=>c.lv?.by);
+V('leave.approved_on','date','Approved on','2026-10-14','Decision date','L','o',c=>c.lv?.on);
+V('case.ref','text','Case reference','DC-26-014','Discipline case number','C','',c=>c.cs?.ref);
+V('case.date','date','Incident date','2026-10-08','Date of incident','C','',c=>c.cs?.date);
+V('case.type','text','Incident type','Repeated late arrival','Category','C','',c=>c.cs?.type);
+V('case.description','text','Description','Arrived late 5 of 8 days.','What happened','C','',c=>c.cs?.desc);
+V('case.action','text','Action taken','Written warning issued','Action recorded','C','o',c=>c.cs?.action);
+V('case.reported_by','text','Reported by','Ms. Sana Javed','Staff who reported','C','',c=>c.cs?.by);
+V('report.title','text','Report title','Fee Collection Report','Title of the report','R','',c=>c.rp?.title);
+V('report.period','text','Report period','October 2026','Reporting period','R','',c=>c.rp?.period);
+V('report.scope','text','Report scope','All branches','Branches included','R','',c=>c.rpScope);
+V('report.rows','list','Report rows','(table)','Branch rows. Use inside a table block','R','fin',c=>c.rpRows);
+V('report.total_collected','currency','Total collected','6360000','Sum collected','R','fin',c=>c.rpRows?c.rpRows.reduce((a,x)=>a+x.collected,0):'');
+V('report.total_outstanding','currency','Total outstanding','1270000','Billed minus collected','R','fin',c=>c.rpRows?c.rpRows.reduce((a,x)=>a+x.billed-x.collected,0):'');
+V('doc.number','text','Document number','AN-BON-2026-0041','Unique number assigned at issue','*','',(c,o)=>o.docNo||'PREVIEW-0000');
+V('doc.issue_date','date','Issue date','2026-10-15','Date the document is generated','*','',()=>TODAY);
+V('doc.valid_until','date','Valid until','2027-04-15','Only for time-limited documents','*','o',()=>'');
+V('doc.generated_by','text','Generated by','Dr. Ayesha Malik','User who generated it','*','',(c,o)=>o.user||'—');
+V('doc.verify_url','qr','Verification link (QR)','https://verify.ilma.app/d/XXXX','Public verification URL, shown as QR code','*','',(c,o)=>'https://verify.ilma.app/d/'+(o.docNo||'preview'));
+V('signature.principal','sign','Principal signature','Principal','Signature on file for the Principal','*','',c=>c.t.sigs.principal.on?c.t.sigs.principal.nm:'');
+V('signature.accountant','sign','Accounts signature','Accounts Officer','Signature on file for Accounts','*','',c=>c.t.sigs.accountant.on?c.t.sigs.accountant.nm:'');
+V('signature.hr_manager','sign','HR Manager signature','HR Manager','Signature on file for HR','*','',c=>c.t.sigs.hr.on?c.t.sigs.hr.nm:'');
+const VM=Object.fromEntries(VS.map(v=>[v.key,v]));
+const LF={'academic.results':[['sub','Subject'],['total','Total'],['obt','Obtained'],['grade','Grade']],'finance.lines':[['desc','Description'],['amt','Amount']],'report.rows':[['branch','Branch'],['billed','Billed'],['collected','Collected'],['out','Outstanding']]};
+const SAMP_LISTS={'academic.results':SUBJ.map((s,i)=>({sub:s,total:100,obt:72+i*3,grade:gr(72+i*3)})),'finance.lines':[{desc:'Tuition fee · Oct 2026',amt:12000},{desc:'Transport fee',amt:3000},{desc:'Examination fee',amt:1500}],'report.rows':[{branch:'Branch A',billed:3480000,collected:2910000},{branch:'Branch B',billed:2250000,collected:1830000}]};
+/* ---------- templates ---------- */
+const CATS=[['A','Students & Admissions','🎓'],['B','Academics & Examinations','📚'],['C','Finance & Fees','💰'],['D','Staff & HR','👥'],['E','General & Administration','🗂️'],['F','Discipline & Student Welfare','🛡️'],['G','Reports & Analytics','📈']];
+const PLAN={A:['Student ID Card','Admission Application Form','Student Registration Form','Bonafide Certificate','Character Certificate','Transfer Certificate','Student Profile Sheet'],B:['Report Card','Examination Result Sheet','Attendance Report','Progress Report','Timetable','Examination Date Sheet','Academic Calendar'],C:['Fee Invoice','Payment Receipt','Student Fee Statement','Outstanding Dues Notice','Scholarship Letter','Refund Voucher','Fee Collection Report'],D:['Staff ID Card','Appointment Letter','Experience Certificate','Salary Slip','Staff Attendance Report','Leave Application','Leave Approval Letter','Staff Warning Letter','Clearance Form'],E:['Official Letterhead','General Application','Permission Request','Meeting Minutes','Meeting Notice','Office Circular','General Certificate','Complaint/Incident Report','Asset Handover Form'],F:['Behavior Report','Incident Report','Disciplinary Notice','Parent Meeting Notice','Counseling Referral','Award Certificate'],G:['Institution Summary','Branch Performance','Enrollment','Student Attendance Summary','Staff Attendance Summary','Academic Performance','Fee Collection','Outstanding Balances']};
+const DEFREC={A:'S',B:'S',C:'T',D:'F',E:'N',F:'C',G:'R'},DEFP={A:'stu',B:'acad',C:'fin',D:'hr',E:'gen',F:'disc',G:'rep'};
+const H=(txt,sz=2,al='center')=>({t:'h',txt,sz,al}),P=(txt,al='left')=>({t:'p',txt,al}),KV=(rows,cols=1)=>({t:'kv',rows,cols}),BRD=(style='center')=>({t:'brand',style}),HR={t:'hr'},IMG=(v,w=90,al='left')=>({t:'img',v,w,al}),SG=(...slots)=>({t:'sig',slots}),QRB=(al='right',size=76,cap='Scan to verify')=>({t:'qr',v:'doc.verify_url',cap,size,al}),TB=(each,cols)=>({t:'tbl',each,cols,rows:[]});
+const SL=(v,label,nm)=>({v,label,nm:nm||''});
+const cd=(c,b)=>({...b,cond:c});
+const DEFF='{{institution.name}} · {{branch.name}} · Doc {{doc.number}}';
+const IMPL={
+'Student ID Card':{rec:'S',p:'stu',size:'ID',orient:'landscape',mg:3,fs:9,lh:1.3,ftr:'',blocks:[BRD('compact'),{...IMG('student.photo',58,'float')},KV([['Name','{{student.name}}'],['Class','{{student.class}}-{{student.section}}'],['GR No.','{{student.gr_no}}'],['Guardian','{{guardian.phone}}']]),QRB('float',44,'')]},
+'Bonafide Certificate':{rec:'S',p:'stu',font:'serif',fs:14,lh:1.7,blocks:[BRD('center'),HR,H('BONAFIDE CERTIFICATE',2),KV([['Certificate No.','{{doc.number}}'],['Date','{{doc.issue_date}}']],2),P('This is to certify that **{{student.name}}**, {{student.parentage}} **{{guardian.name}}**, is a bonafide student of **{{institution.name}}, {{branch.name}}**, currently enrolled in Class **{{student.class}}** (Section {{student.section}}) for the academic session **{{academic.session}}**.\n\nAdmission / GR No.: {{student.gr_no}}\nDate of birth: {{student.dob}}'),P('This certificate is issued at the request of the parent/guardian for whatever purpose it may serve.'),SG(SL('signature.principal','Principal')),QRB()]},
+'Character Certificate':{rec:'S',p:'stu',font:'serif',fs:14,lh:1.7,blocks:[BRD('center'),HR,H('CHARACTER CERTIFICATE',2),P('This is to certify that **{{student.name}}**, {{student.parentage}} **{{guardian.name}}**, has been a student of {{branch.name}} since **{{student.admission_date}}** (GR No. {{student.gr_no}}).\n\nDuring this period the student’s conduct and character have been found **satisfactory**.'),SG(SL('signature.principal','Principal')),QRB()]},
+'Student Profile Sheet':{rec:'S',p:'stu',fs:12,blocks:[BRD('left'),HR,H('STUDENT PROFILE',2,'left'),IMG('student.photo',92,'float'),KV([['Name','{{student.name}}'],['GR No.','{{student.gr_no}}'],['Class / Section','{{student.class}} / {{student.section}}'],['Roll No.','{{student.roll_no}}'],['Date of birth','{{student.dob}}'],['Gender','{{student.gender}}'],['Admitted','{{student.admission_date}}'],['Address','{{student.address}}']],2),H('Guardian',3,'left'),KV([['Name','{{guardian.name}} ({{guardian.relation}})'],['Phone','{{guardian.phone}}'],['Email','{{guardian.email|Not provided}}']],2),QRB('right',64,'')]},
+'Admission Application Form':{rec:'A',p:'stu',fs:12,blocks:[BRD('band'),H('ADMISSION APPLICATION FORM',2),KV([['Application No.','{{admission.no}}'],['Date','{{admission.date}}'],['Class applied for','{{admission.class}}'],['Status','{{admission.status}}']],2),H('Applicant',3,'left'),KV([['Name','{{student.name}}'],['Date of birth','{{student.dob}}'],['Gender','{{student.gender}}'],['Address','{{student.address}}']],2),H('Parent / Guardian',3,'left'),KV([['Name','{{guardian.name}}'],['Relation','{{guardian.relation}}'],['Phone','{{guardian.phone}}'],['Email','{{guardian.email|—}}']],2),cd('admission.test_score',KV([['Entry-test score','{{admission.test_score}}']])),P('I declare that the information given above is correct and I agree to abide by the rules of {{institution.name}}.'),SG(SL('','Parent / Guardian'),SL('signature.principal','Principal'))]},
+'Report Card':{rec:'S',p:'acad',fs:12,blocks:[BRD('center'),H('REPORT CARD · {{academic.term}}',2),KV([['Student','{{student.name}}'],['Class / Section','{{student.class}} / {{student.section}}'],['GR No.','{{student.gr_no}}'],['Session','{{academic.session}}']],2),TB('academic.results',[{h:'Subject',f:'sub',al:'l'},{h:'Total',f:'total',al:'r'},{h:'Obtained',f:'obt',al:'r',sum:true},{h:'Grade',f:'grade',al:'c'}]),KV([['Overall','{{academic.overall_pct}} · Grade {{academic.grade}}'],['Attendance','{{academic.attendance_pct}}']],2),cd('academic.position',KV([['Class position','{{academic.position}}']])),cd('academic.remarks',P('**Remarks:** {{academic.remarks}}')),SG(SL('','Class Teacher','{{academic.class_teacher}}'),SL('signature.principal','Principal'))]},
+'Fee Invoice':{rec:'T',p:'fin',fs:12,blocks:[BRD('left'),HR,H('FEE INVOICE',2,'left'),KV([['Invoice No.','{{finance.invoice_no}}'],['Period','{{finance.period}}'],['Due date','{{finance.due_date}}'],['Issued','{{doc.issue_date}}']],2),KV([['Student','{{student.name}}'],['Class','{{student.class}}-{{student.section}}'],['GR No.','{{student.gr_no}}'],['Guardian','{{guardian.name}}']],2),TB('finance.lines',[{h:'Description',f:'desc',al:'l'},{h:'Amount',f:'amt',al:'r',sum:true}]),cd('finance.scholarship',KV([['Concession','{{finance.scholarship}}']])),cd('finance.late_fee',KV([['Late fee','{{finance.late_fee}}']])),KV([['Total payable','{{finance.amount}}'],['In words','{{finance.amount_words}}']]),P('Please pay before the due date. Late payment may attract a late fee. Pay via bank, cash at the branch accounts office or the ILMA parent portal.'),SG(SL('signature.accountant','Accounts Office')),QRB()]},
+'Payment Receipt':{rec:'T',p:'fin',size:'A5',fs:12,blocks:[BRD('center'),H('PAYMENT RECEIPT',2),KV([['Receipt No.','{{finance.receipt_no|Not yet paid}}'],['Paid on','{{finance.paid_on|—}}'],['Invoice','{{finance.invoice_no}}'],['Method','{{finance.method|—}}']],2),KV([['Received from','{{guardian.name}} ({{guardian.relation}} of {{student.name}})'],['Class','{{student.class}}-{{student.section}}']]),TB('finance.lines',[{h:'Description',f:'desc',al:'l'},{h:'Amount',f:'amt',al:'r',sum:true}]),cd('finance.scholarship',KV([['Concession','{{finance.scholarship}}']])),KV([['Amount received','{{finance.amount}}'],['Balance','{{finance.balance}}']]),SG(SL('signature.accountant','Accounts Office')),QRB('right',60,'')]},
+'Fee Collection Report':{rec:'R',p:'rep',fs:12,blocks:[BRD('left'),HR,H('{{report.title}}',2,'left'),KV([['Period','{{report.period}}'],['Scope','{{report.scope}}']],2),TB('report.rows',[{h:'Branch',f:'branch',al:'l'},{h:'Billed',f:'billed',al:'r',sum:true},{h:'Collected',f:'collected',al:'r',sum:true},{h:'Outstanding',f:'out',al:'r',sum:true}]),KV([['Total collected','{{report.total_collected}}'],['Total outstanding','{{report.total_outstanding}}']],2),P('Figures are drawn live from the Finance module at the time of generation.')]},
+'Staff ID Card':{rec:'F',p:'hr',size:'ID',orient:'landscape',mg:3,fs:9,lh:1.3,ftr:'',blocks:[BRD('compact'),IMG('staff.photo',58,'float'),KV([['Name','{{staff.name}}'],['Designation','{{staff.designation}}'],['Emp. ID','{{staff.emp_id}}'],['Branch','{{branch.name}}']]),QRB('float',44,'')]},
+'Appointment Letter':{rec:'F',p:'sal',font:'serif',fs:13,lh:1.6,blocks:[BRD('left'),HR,KV([['Ref','{{doc.number}}'],['Date','{{doc.issue_date}}']],2),P('To,\n**{{staff.name}}**\nCNIC: {{staff.cnic}}'),H('Subject: Appointment as {{staff.designation}}',3,'left'),P('Dear {{staff.name}},\n\nWe are pleased to appoint you as **{{staff.designation}}** in the **{{staff.department}}** department at {{institution.name}}, {{branch.name}}, with effect from **{{staff.joining_date}}**.'),KV([['Gross monthly salary','{{staff.salary_gross}}']]),cd('staff.probation_end',P('Your probation period ends on **{{staff.probation_end}}**.')),P('This offer is subject to the institution’s policies. Please sign and return a copy as acceptance.'),SG(SL('signature.hr_manager','HR Manager'),SL('','Employee acceptance'))]},
+'Experience Certificate':{rec:'F',p:'hr',font:'serif',fs:14,lh:1.7,blocks:[BRD('center'),HR,H('EXPERIENCE CERTIFICATE',2),P('This is to certify that **{{staff.name}}** (Employee ID {{staff.emp_id}}) worked with **{{institution.name}}, {{branch.name}}** as **{{staff.designation}}** in the {{staff.department}} department from **{{staff.joining_date}}** to **{{staff.leaving_date|date of issue}}**.\n\nDuring this period the employee’s performance and conduct were found satisfactory. We wish them every success.'),SG(SL('signature.hr_manager','HR Manager')),QRB()]},
+'Salary Slip':{rec:'F',p:'sal',size:'A5',fs:12,blocks:[BRD('compact'),H('SALARY SLIP · CONFIDENTIAL',3),KV([['Employee','{{staff.name}} ({{staff.emp_id}})'],['Designation','{{staff.designation}}'],['Issued','{{doc.issue_date}}']],2),KV([['Gross salary','{{staff.salary_gross}}'],['Deductions','{{staff.deductions}}'],['Net payable','{{staff.salary_net}}']]),P('This slip is system generated and issued to the named employee only.')]},
+'Leave Application':{rec:'L',p:'hr',font:'serif',fs:13,lh:1.6,blocks:[BRD('left'),HR,P('Date: {{doc.issue_date}}\n\nTo,\nThe Principal, {{branch.name}}'),H('Subject: Application for {{leave.type}} leave',3,'left'),P('Respected Sir/Madam,\n\nI, **{{staff.name}}** ({{staff.designation}}, {{staff.emp_id}}), request {{leave.type}} leave for **{{leave.days}}** day(s) from **{{leave.from}}** to **{{leave.to}}**.\n\nReason: {{leave.reason}}'),SG(SL('','Applicant','{{staff.name}}'))]},
+'Leave Approval Letter':{rec:'L',p:'hr',font:'serif',fs:13,lh:1.6,blocks:[BRD('left'),HR,KV([['Ref','{{doc.number}}'],['Date','{{doc.issue_date}}']],2),P('To,\n**{{staff.name}}**\n{{staff.designation}}, {{staff.department}}'),H('Subject: {{leave.type}} leave: {{leave.status}}',3,'left'),P('Dear {{staff.name}},\n\nYour application for {{leave.type}} leave from **{{leave.from}}** to **{{leave.to}}** ({{leave.days}} day(s)) has been **{{leave.status}}** by {{leave.approver|the approving authority}} on {{leave.approved_on|—}}.'),SG(SL('signature.hr_manager','HR Manager'))]},
+'Official Letterhead':{rec:'N',p:'gen',font:'serif',fs:13,lh:1.6,blocks:[BRD('center'),HR,P('Date: {{doc.issue_date}}\n\n[Write your letter here]'),SG(SL('signature.principal','Principal'))]},
+'Office Circular':{rec:'N',p:'gen',fs:13,blocks:[BRD('center'),HR,H('OFFICE CIRCULAR',2),KV([['Ref','{{doc.number}}'],['Date','{{doc.issue_date}}']],2),P('**To:** All staff, {{branch.name}}\n**Subject:** [Subject of the circular]'),P('[Write the circular text here. Variables such as {{branch.name}} are replaced automatically.]'),SG(SL('signature.principal','Principal'))]},
+'Meeting Notice':{rec:'N',p:'gen',fs:13,blocks:[BRD('left'),HR,H('MEETING NOTICE',2,'left'),KV([['Branch','{{branch.name}}'],['Date issued','{{doc.issue_date}}'],['Meeting date & time','[Set before issuing]'],['Venue','[Set before issuing]']],2),P('All concerned are requested to attend the meeting. The agenda is attached separately.'),SG(SL('signature.principal','Principal'))]},
+'Disciplinary Notice':{rec:'C',p:'disc',fs:12,blocks:[BRD('left'),HR,H('DISCIPLINARY NOTICE',2,'left'),KV([['Case ref','{{case.ref}}'],['Date of incident','{{case.date}}'],['Student','{{student.name}}, {{student.class}}-{{student.section}}'],['Type','{{case.type}}']],2),P('Dear {{guardian.name}},\n\nWe write regarding {{student.name}}. {{case.description}}'),cd('case.action',P('**Action taken:** {{case.action}}')),P('Reported by {{case.reported_by}}. Please contact the school office to discuss this matter.'),SG(SL('signature.principal','Principal'),SL('','Parent acknowledgement'))]},
+'Parent Meeting Notice':{rec:'S',p:'disc',fs:12,blocks:[BRD('left'),HR,H('PARENT MEETING NOTICE',2,'left'),P('Dear {{guardian.name}},\n\nYou are requested to meet the class teacher of **{{student.name}}** (Class {{student.class}}-{{student.section}}) at {{branch.name}} to discuss progress and conduct.'),KV([['Date & time','[Set before issuing]'],['Contact','{{branch.phone}}']],2),SG(SL('','Class Teacher','{{academic.class_teacher}}'))]}};
+const SYS={},SYSE={},SYSV={};
+CATS.forEach(([k])=>PLAN[k].forEach(n=>{const id='tpl-'+n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/-$/,''),im=IMPL[n];
+ const base={id,n,cat:k,rec:DEFREC[k],p:DEFP[k],fmt:['PDF','Print'],size:'A4',orient:'portrait',mg:14,font:'sans',fs:13,lh:1.45,al:'left',accent:'',hdr:'',ftr:DEFF,blocks:[],fb:{},ver:1,upd:'2026-09-'+String(5+hsh(n)%20).padStart(2,'0')};
+ SYS[id]=im?{...base,...im,planned:false,ver:1+hsh(n)%3}:{...base,planned:true,fmt:[],ftr:'',ver:0};
+ if(im){const v=SYS[id].ver;SYSV[id]=[];for(let i=1;i<=v;i++)SYSV[id].push({v:i,date:'2026-0'+(5+i)+'-1'+i,by:i===1?'ILMA Platform Team':'Ayesha Malik (Platform)',note:i===1?'Initial release':i===2?'Added QR verification and fallbacks':'Layout and wording refinements',tpl:i===v?null:null});}}));
+Object.values(SYS).forEach(t=>{if(!t.planned)SYSV[t.id][SYSV[t.id].length-1].tpl=clone(t)});
+/* tenant entries */
+const ENT={'t-alnoor':{},'t-iqra':{}};
+const ent=(tid,id)=>(ENT[tid]=ENT[tid]||{})[id]=(ENT[tid][id]||{pub:null,draft:null,arch:false,vers:[],custom:false,base:0});
+/* tenant seed: Al-Noor customised Bonafide; archived Character Certificate (Iqra); draft custom */
+(function(){const e=ent('t-alnoor','tpl-bonafide-certificate');const t=clone(SYS['tpl-bonafide-certificate']);t.blocks[4]=P('This is to certify that **{{student.name}}**, {{student.parentage}} **{{guardian.name}}**, is a bonafide student of **{{institution.name}}, {{branch.name}}**, in Class **{{student.class}}**-{{student.section}} (Session {{academic.session}}).\n\nGR No.: {{student.gr_no}} · Date of birth: {{student.dob}}\n\nIssued for visa and travel purposes.');t.ver=SYS['tpl-bonafide-certificate'].ver+1;t.upd='2026-10-02';e.pub=t;e.base=SYS['tpl-bonafide-certificate'].ver;e.vers=[{v:t.ver,date:'2026-10-02',by:'Ayesha Malik',note:'Shortened wording for visa applications',tpl:clone(t)}];
+ ent('t-iqra','tpl-character-certificate').arch=true;
+ const c=clone(SYS['tpl-office-circular']);c.id='c-circular-eid';c.n='Eid Holiday Circular';c.cat='E';c.ver=0;c.upd='2026-10-11';c.blocks[3]=P('**Subject:** Eid holidays\n\nSchool will remain closed from [date] to [date]. Classes resume on [date].');const e2=ent('t-alnoor','c-circular-eid');e2.custom=true;e2.draft=c;
+ const k=clone(SYS['tpl-fee-invoice']);k.n='Fee Invoice';const e3=ent('t-iqra','tpl-fee-invoice');k.ver=SYS['tpl-fee-invoice'].ver+1;k.upd='2026-09-20';k.blocks.find(b=>b.t==='kv'&&b.rows[0][0]==='Invoice No.').rows.push(['Bank','HBL · A/C 0012-3344556']);e3.pub=k;e3.base=SYS['tpl-fee-invoice'].ver;e3.vers=[{v:k.ver,date:'2026-09-20',by:'Zeeshan Ali',note:'Added bank details',tpl:clone(k)}];})();
+
+/* ---------- engine ---------- */
+const TOK=/\{\{\s*([a-z_]+\.[a-z_]+)\s*(?:\|([^}]*?))?\s*\}\}/g;
+const brOf=(t,id)=>t.branches.find(b=>b.id===id)||t.branches[0];
+function ctxFor(tid,brId,rt,rid){const t=tenant(tid),R=REC[tid]||{},f=(k,id)=>(R[k]||[]).find(x=>x.id===id);const c={t,rt};
+ if(rt==='S'){c.s=f('S',rid);c.g=c.s?.gd;c.rec=c.s}
+ else if(rt==='A'){c.ad=f('A',rid);if(c.ad){c.s={name:c.ad.name,g:c.ad.g,dob:c.ad.dob,addr:c.ad.addr,cls:c.ad.cls};c.g=c.ad.gd}c.rec=c.ad}
+ else if(rt==='T'){c.tx=f('T',rid);c.s=f('S',c.tx?.sid);c.g=c.s?.gd;c.rec=c.tx}
+ else if(rt==='F'){c.st=f('F',rid);c.rec=c.st}
+ else if(rt==='L'){c.lv=f('L',rid);c.st=f('F',c.lv?.fid);c.rec=c.lv}
+ else if(rt==='C'){c.cs=f('C',rid);c.s=f('S',c.cs?.sid);c.g=c.s?.gd;c.rec=c.cs}
+ else if(rt==='R'){c.rp=f('R',rid);c.rec=c.rp;const rows=(c.rp?.rows||[]).filter(r=>brId==='all'||r.br===brId);c.rpRows=rows.map(r=>({branch:r.branch,billed:r.billed,collected:r.collected,out:r.billed-r.collected}));c.rpScope=brId==='all'?'All branches':brOf(t,brId).n}
+ c.b=brOf(t,c.rec?.br||(brId==='all'?null:brId));return c}
+function getVal(v,c,o){if(['institution','branch','doc','signature'].includes(v.cat))return v.g(c,o);if(o.mode!=='real'){if(o.mode==='sampleEmpty'&&v.o)return undefined;return v.ex}return v.g(c,o)}
+const has=x=>x!=null&&x!==''&&!(Array.isArray(x)&&!x.length);
+const mono=(t,h=44)=>`<span class="mono" style="width:${h}px;height:${h}px;font-size:${h*.4}px;background:${t.color}">${esc(t.short.replace(/[^A-Za-z]/g,'').slice(0,2).toUpperCase())}</span>`;
+const logo=(t,h=44)=>t.logo?`<img class="lg" src="${t.logo}" style="height:${h}px" alt="">`:mono(t,h);
+function qrSvg(txt,px){const n=21,h=hsh(txt),g=[];let s=h;const r=()=>(s=(s*1103515245+12345)>>>0)/4294967296;for(let y=0;y<n;y++)for(let x=0;x<n;x++){const f=(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9);if(f)continue;if(r()>.52)g.push(`<rect x="${x}" y="${y}" width="1" height="1"/>`)}
+ const fd=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3"/>`;
+ return `<svg class="qr" viewBox="-1 -1 23 23" width="${px}" height="${px}" shape-rendering="crispEdges"><rect x="-1" y="-1" width="23" height="23" fill="#fff"/><g fill="#111">${fd(0,0)}${fd(n-7,0)}${fd(0,n-7)}${g.join('')}</g></svg>`}
+const PGS={A4:[794,1123],A5:[559,794],ID:[324,204]},FONTS={sans:"'Plus Jakarta Sans',system-ui,sans-serif",serif:"Georgia,'Times New Roman',serif",classic:"'Times New Roman',Times,serif"};
+function listFor(each,c,o){if(o.mode!=='real'){if(each==='report.rows')return c.t.branches.map((b,i)=>({branch:b.n,billed:3480000-i*600000,collected:2910000-i*520000,out:570000-i*80000}));return SAMP_LISTS[each].map(x=>({...x}))}return VM[each].g(c,o)||[]}
+const CUR=new Set(['amt','billed','collected','out']);
+function tx(s,c,tpl,o,st,plain){let h=esc(s);if(!plain)h=h.replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\n/g,'<br>');
+ return h.replace(TOK,(m,k,fb)=>{const v=VM[k];if(!v||v.pl){st.bad.add(k);return`<mark class="miss">${k}?</mark>`}
+  if(v.type==='list'){st.bad.add(k);return`<mark class="miss">${k}?</mark>`}
+  if(o.mode==='real'&&v.sens&&!o.perms.includes(v.sens)){st.deny.add(k);return'<mark class="miss">🔒 restricted</mark>'}
+  let x=getVal(v,c,o);if(v.type==='image'){return x==='MONO'?mono(c.t,22):x==='LOGO'?logo(c.t,22):x?'<span class="phi" style="width:18px;height:18px"></span>':''}
+  if(v.type==='qr')return qrSvg(String(x),28);
+  if(v.type==='sign')return x?`<i class="sgn">${esc(x)}</i>`:'';
+  if(!has(x)){const f=fb!=null?esc(fb.trim()):tpl.fb?.[k];if(f!=null&&f!=='')return esc(f);if(v.o)return'';st.miss.add(k);return`<mark class="miss">${k}</mark>`}
+  return esc(v.type==='date'?fdate(x):v.type==='currency'?pkr(x):x)})}
+const pending=(c)=>c;
+function imgBlock(b,c,o,st,tpl){const v=VM[b.v];if(!v)return'';const x=getVal(v,c,o);if(!has(x)){if(!v.o)st.miss.add(b.v);return''}
+ const w=b.w||80,al=b.al||'left';let inner;if(x==='MONO'||x==='LOGO')inner=logo(c.t,w);else if(x==='PH'||x==='PHOTO')inner=`<span class="phi" style="width:${w}px;height:${Math.round(w*1.25)}px"></span>`;else inner=`<img src="${esc(x)}" style="width:${w}px">`;
+ return`<div class="im ${al}">${inner}</div>`}
+function blockHtml(b,tpl,c,o,st){if(b.cond){const v=VM[b.cond];if(!v)st.bad.add(b.cond);else if(!has(getVal(v,c,o)))return''}
+ const t=c.t,br=c.b||t.branches[0],al=x=>`style="text-align:${x||'left'}"`;
+ switch(b.t){
+ case'brand':{const s=b.style||'center',sub=`${esc(br.addr)} · ${esc(br.ph)} · ${esc(br.em)}`;
+  if(s==='compact')return`<div class="bk cp">${logo(t,26)}<div><b>${esc(t.short)}</b><small>${esc(br.n)}</small></div></div>`;
+  if(s==='left')return`<div class="bk lf">${logo(t,52)}<div><div class="bn">${esc(t.name)}</div>${t.tag?`<div class="bt">${esc(t.tag)}</div>`:''}<div class="bs">${sub}</div></div></div>`;
+  if(s==='band')return`<div class="bk bd">${logo(t,46)}<div><div class="bn">${esc(t.name)}</div><div class="bs">${esc(br.n)} · ${esc(br.city)}</div></div></div>`;
+  return`<div class="bk ct">${logo(t,56)}<div class="bn">${esc(t.name)}</div>${t.tag?`<div class="bt">${esc(t.tag)}</div>`:''}<div class="bs">${esc(br.n)} · ${sub}</div></div>`}
+ case'h':return`<div class="h h${b.sz||2}" ${al(b.al)}>${tx(b.txt||'',c,tpl,o,st)}</div>`;
+ case'p':return`<p ${al(b.al)}>${tx(b.txt||'',c,tpl,o,st)}</p>`;
+ case'hr':return'<hr>';
+ case'kv':{const cols=b.cols||1,rows=b.rows||[];let h=`<table class="kv c${cols}">`;for(let i=0;i<rows.length;i+=cols){h+='<tr>';for(let j=0;j<cols;j++){const r=rows[i+j];h+=r?`<th>${tx(r[0],c,tpl,o,st,1)}</th><td>${tx(r[1],c,tpl,o,st,1)}</td>`:'<th></th><td></td>'}h+='</tr>'}return h+'</table>'}
+ case'tbl':{const cols=b.cols||[];let h='<table class="tb"><thead><tr>'+cols.map(x=>`<th class="${x.al||'l'}">${tx(x.h||'',c,tpl,o,st,1)}</th>`).join('')+'</tr></thead><tbody>';
+  if(b.each){const v=VM[b.each];if(!v||v.type!=='list'){st.bad.add(b.each||'?');return''}if(o.mode==='real'&&v.sens&&!o.perms.includes(v.sens)){st.deny.add(b.each);return'<div class="miss">🔒 restricted table</div>'}
+   const items=listFor(b.each,c,o),sums={};items.forEach(it=>cols.forEach(x=>{if(x.sum)sums[x.f]=(sums[x.f]||0)+(+it[x.f]||0)}));
+   const fm=(x,it)=>{const y=it[x.f];return y==null?'':CUR.has(x.f)?pkr(y):esc(y)};
+   h+=items.map(it=>'<tr>'+cols.map(x=>`<td class="${x.al||'l'}">${fm(x,it)}</td>`).join('')+'</tr>').join('');
+   if(cols.some(x=>x.sum)){h+='<tr class="ft">'+cols.map((x,i)=>`<td class="${x.al||'l'}">${x.sum?(CUR.has(x.f)?pkr(sums[x.f]||0):sums[x.f]||0):i===0?'Total':''}</td>`).join('')+'</tr>'}}
+  else h+=(b.rows||[]).map(r=>'<tr>'+cols.map((x,i)=>`<td class="${x.al||'l'}">${tx(r[i]||'',c,tpl,o,st,1)}</td>`).join('')+'</tr>').join('');
+  return h+'</tbody></table>'}
+ case'img':return imgBlock(b,c,o,st,tpl);
+ case'sig':return'<div class="sgs">'+(b.slots||[]).map(sl=>{let nm='',im='';const v=sl.v&&VM[sl.v];if(v){const x=getVal(v,c,o);if(has(x)){im=`<i class="sgn">${esc(x)}</i>`;nm=x}else st.warn.add(sl.v)}
+  const n2=sl.nm?tx(sl.nm,c,tpl,o,st,1):esc(nm);const lab=v&&!sl.label?esc(c.t.sigs[sl.v.split('.')[1]==='hr_manager'?'hr':sl.v.split('.')[1]]?.ti||''):esc(sl.label||'');return`<div class="sgx">${im}<span class="ln"></span><b>${n2}</b><small>${lab}</small></div>`}).join('')+'</div>';
+ case'qr':{const v=VM[b.v];if(!v)return'';const x=getVal(v,c,o);return`<div class="qb ${b.al||'right'}">${qrSvg(String(x),b.size||72)}${b.cap?`<small>${esc(b.cap)}</small>`:''}</div>`}}
+ return''}
+function renderDoc(tpl,c,o){o={mode:'sample',perms:[],...o};const st={miss:new Set(),bad:new Set(),deny:new Set(),warn:new Set()};
+ const [pw0,ph0]=PGS[tpl.size||'A4'],land=tpl.orient==='landscape',pw=land?Math.max(pw0,ph0):Math.min(pw0,ph0),ph=land?Math.min(pw0,ph0):Math.max(pw0,ph0);
+ const body=tpl.blocks.map(b=>blockHtml(b,tpl,c,o,st)).join('');
+ const hd=tpl.hdr?`<div class="pgh">${tx(tpl.hdr,c,tpl,o,st,1)}</div>`:'',ft=tpl.ftr?`<div class="pgf">${tx(tpl.ftr,c,tpl,o,st,1)}</div>`:'';
+ const fam=tpl.font==='brand'?FONTS[c.t.font]:FONTS[tpl.font||'sans'],mg=Math.round((tpl.mg??14)*3.78);
+ const html=`<div class="pgw" data-w="${pw}" data-h="${ph}"><div class="pg ${tpl.size==='ID'?'idc':''}" style="width:${pw}px;min-height:${ph}px;padding:${mg}px;font-family:${fam};font-size:${tpl.fs||13}px;line-height:${tpl.lh||1.45};text-align:${tpl.al||'left'};--bc:${tpl.accent||c.t.color}">${hd}<div class="pgb">${body}</div>${ft}</div></div>`;
+ return{html,st,pw,ph}}
+function fitPreviews(root=document){root.querySelectorAll('.pgw').forEach(w=>{const host=w.parentElement,pw=+w.dataset.w,ph=+w.dataset.h,fixed=host.dataset.scale;const cs=getComputedStyle(host),pd=(parseFloat(cs.paddingLeft)||0)*2;let k=fixed?+fixed:Math.min(1,(host.clientWidth-pd-2)/pw);if(!host.clientWidth&&!fixed)k=.5;const pg=w.firstChild;pg.style.transform=`scale(${k})`;w.style.width=pw*k+'px';w.style.height=Math.max(ph,pg.offsetHeight)*k+'px'})}
+/* ---------- validation ---------- */
+function scan(tpl){const out=[];const add=(s,where)=>{if(typeof s!=='string')return;let m;TOK.lastIndex=0;while((m=TOK.exec(s)))out.push({key:m[1],fb:m[2]!=null&&m[2].trim()!=='',where,inline:true})};
+ const ref=(k,where,kind)=>{if(k)out.push({key:k,where,kind})};
+ add(tpl.hdr,'Header');add(tpl.ftr,'Footer');
+ tpl.blocks.forEach((b,i)=>{const w=`Block ${i+1} · ${BL[b.t]?.n||b.t}`;add(b.txt,w);(b.rows||[]).forEach(r=>(Array.isArray(r)?r:[]).forEach(x=>add(x,w)));(Array.isArray(b.cols)?b.cols:[]).forEach(x=>add(x.h,w));ref(b.cond,w,'cond');if(b.t==='img'||b.t==='qr')ref(b.v,w,b.t);if(b.t==='tbl'&&b.each)ref(b.each,w,'each');(b.slots||[]).forEach(s=>{add(s.nm,w);if(s.v)ref(s.v,w,'sig')})});return out}
+function validate(tpl,tid){const E=[],W=[],SG_={},t=tenant(tid)||SAMPLE,seen=new Set(),push=(a,key,msg)=>{const k=a+key+msg;if(seen.has(k))return;seen.add(k);(a==='e'?E:W).push({key,msg})};
+ if(!tpl.blocks.length)push('e','','Template is empty. Add at least one block.');
+ const sc=scan(tpl),condKeys=new Set(sc.filter(x=>x.kind==='cond').map(x=>x.key));
+ sc.forEach(x=>{const v=VM[x.key];if(!v){push('e',x.key,`Unknown variable {{${x.key}}} in ${x.where}. It isn’t in the ILMA variable schema.`);return}
+  if(v.pl){push('e',x.key,`{{${x.key}}} isn’t available yet (planned). ILMA doesn’t capture “${v.label}” today.`);return}
+  if(v.rec!=='*'&&[...tpl.rec].some(r=>!v.rec.includes(r)))push('e',x.key,`{{${x.key}}} is incompatible: it needs a ${[...v.rec].map(r=>RT[r]).join(' / ')} record, but this template is for ${[...tpl.rec].map(r=>RT[r]).join(' / ')} (${x.where}).`);
+  if(v.type==='list'&&x.inline)push('e',x.key,`{{${x.key}}} is a list. Use it in a table block (“Repeat for each”), not in text.`);
+  if(x.kind==='each'&&v.type!=='list')push('e',x.key,`${x.where}: “${x.key}” isn’t a list and can’t repeat rows.`);
+  if(x.kind==='img'&&v.type!=='image')push('e',x.key,`${x.where}: “${x.key}” isn’t an image field.`);
+  if(x.kind==='qr'&&v.type!=='qr')push('e',x.key,`${x.where}: “${x.key}” can’t be shown as a QR code.`);
+  if(v.sens)(SG_[v.sens]=SG_[v.sens]||new Set()).add(x.key);
+  if(v.cat==='signature'){const k=x.key.split('.')[1]==='hr_manager'?'hr':x.key.split('.')[1];if(!t.sigs[k].on)push('w',x.key,`${v.label} isn’t on file for ${t.short}. The document will print an empty signature line. Add it in Branding › Signatories.`)}
+  if(v.o&&v.type!=='image'&&!x.fb&&!x.kind&&!tpl.fb?.[x.key]&&!condKeys.has(x.key))push('w',x.key,`{{${x.key}}} is optional and may print blank. Add a fallback (e.g. {{${x.key}|Not provided}}) or wrap it in a conditional block.`)});
+ tpl.blocks.forEach((b,i)=>{if(b.t==='tbl'&&b.each&&VM[b.each]?.type==='list'){(b.cols||[]).forEach(cc=>{if(!LF[b.each].some(f=>f[0]===cc.f))push('e',b.each,`Block ${i+1}: column “${cc.h}” uses field “${cc.f}” which isn’t part of ${b.each}.`)})}});
+ Object.entries(SG_).forEach(([g,ks])=>push('w',[...ks][0],`Uses restricted fields (${PERM_N[g]}): ${[...ks].map(k=>'{{'+k+'}}').join(', ')}. Only users with that permission can generate this document.`));
+ if(/Certificate|Letter/i.test(tpl.n)&&!tpl.blocks.some(b=>b.t==='sig'))push('w','','Certificates and letters normally need an authorised signature block.');
+ return{E,W,keys:[...new Set(sc.map(x=>x.key))]}}
+const BL={brand:{n:'Letterhead',i:'🏛️'},h:{n:'Heading',i:'H'},p:{n:'Text',i:'¶'},kv:{n:'Details',i:'☰'},tbl:{n:'Table',i:'▦'},img:{n:'Image / logo',i:'🖼️'},sig:{n:'Signatures',i:'✍️'},qr:{n:'QR code',i:'▣'},hr:{n:'Divider',i:'―'}};
+const newBlock=t=>({brand:BRD('center'),h:H('Heading'),p:P('Write text here. Click a variable on the right to insert it.'),kv:KV([['Label','']]),tbl:{t:'tbl',each:'',cols:[{h:'Item',al:'l'},{h:'Details',al:'l'}],rows:[['','']]},img:IMG('institution.logo',80),sig:SG(SL('signature.principal','Principal')),qr:QRB(),hr:HR})[t];
+
+/* ---------- state & scope ---------- */
+const S={role:'inst',tid:'t-alnoor',br:'a1',tab:'lib',q:'',cat:'all',st:'all',view:'table',gen:{rt:'S',rid:null,br:'all'},bprev:'tpl-fee-invoice',bbr:null,bd:null,vq:'',vcat:'all',audF:'all',sim:{ep:'get',owner:'other',hdr:'t-iqra'},ed:null,checks:null,tmenu:null};
+const AUD=[],ISSUED=[],A={};
+const R_=()=>ROLES[S.role],TEN_=()=>S.role==='platform'?SAMPLE:tenant(S.tid),perms=()=>R_().perms,canEdit=()=>R_().edit;
+const USER={platform:'Platform Admin',inst:'Dr. Ayesha Malik',branch:'Ms. Farah Siddiqui',teacher:'Mr. Adeel Raza'};
+const E=id=>S.role==='platform'?(SYSE[id]=SYSE[id]||{draft:null,arch:false,custom:false}):ent(S.tid,id);
+const pubOf=id=>S.role==='platform'?SYS[id]:(E(id).pub||SYS[id]||null);
+const isCustom=id=>!SYS[id];
+const planned=id=>!!SYS[id]?.planned;
+const archived=id=>!!E(id).arch;
+function stat(id){if(planned(id))return'planned';if(archived(id))return'archived';if(S.role!=='platform'&&isCustom(id)&&!E(id).pub)return'draft';return'active'}
+const src=id=>isCustom(id)?'Custom':(S.role!=='platform'&&E(id).pub)?'Customized':'Platform default';
+const verOf=id=>pubOf(id)?.ver||0;
+const upstream=id=>S.role!=='platform'&&E(id).pub&&!isCustom(id)&&SYS[id].ver>E(id).base;
+const meta=id=>E(id).draft||pubOf(id)||SYS[id];
+function allIds(){const ids=Object.keys(SYS);if(S.role!=='platform')Object.keys(ENT[S.tid]||{}).forEach(k=>{if(ENT[S.tid][k].custom)ids.push(k)});return ids}
+const canAccess=(role,userBr,rb)=>ROLES[role].all||rb===userBr;
+const canGen=(role,tpl)=>ROLES[role].perms.includes(tpl.p)&&role!=='platform';
+function aud(act,obj,kind='info',tid=null){AUD.unshift({at:NOW,who:USER[S.role],role:ROLES[S.role].n,tid:S.role==='platform'?'platform':(tid||S.tid),act,obj,kind})}
+function dlg(title,body,foot='',wide=false){const d=$('#dlg');d.className=wide?'wide':'';d.innerHTML=`<div class="mh"><h3>${title}</h3><button data-a="mclose" aria-label="Close">✕</button></div><div class="mb">${body}</div>${foot?`<div class="mf">${foot}</div>`:''}`;if(!d.open)d.showModal()}
+const confirmDlg=(t,m,ok,act,i='',bad=false)=>dlg(t,m,`<button class="btn" data-a="mclose">Cancel</button><button class="btn ${bad?'bad':'p'}" data-a="${act}" data-i="${esc(i)}">${ok}</button>`);
+const stPill=s=>({active:'<span class="pill ok">● Active</span>',draft:'<span class="pill warn">● Draft</span>',archived:'<span class="pill">Archived</span>',planned:'<span class="pill acc">Planned</span>'})[s];
+const recNames=r=>[...r].map(x=>RT[x]).join(', ');
+const catN=k=>CATS.find(c=>c[0]===k);
+function ctxSample(t,brId){return{t,b:brOf(t,brId),rt:'N'}}
+/* ---------- shell ---------- */
+function side(){const t=TEN_();$('#side').innerHTML=`<div class="brand"><i>🎓</i><div>ILMA CMS<small>${S.role==='platform'?'Platform operator':esc(t.short)}</small></div></div>`+
+ [['📊','Dashboard'],['🏢','Organization & People'],['🧰','WorkHub'],['📚','Academics'],['💰','Finance'],['📈','Reports & Analytics']].map(x=>`<button class="nv" data-a="toast" data-i="${x[1]} opens in the full ILMA app">${x[0]} ${x[1]}</button>`).join('')+
+ `<button class="nv on" data-a="tab" data-i="lib">⚙️ Platform & Settings <span class="ch">▾</span></button><div class="sub1"><button class="nv" data-a="toast" data-i="Institute profile opens in the full ILMA app">Institute profile</button><button class="nv on" data-a="tab" data-i="lib">Template Library</button><button class="nv" data-a="toast" data-i="Roles & permissions open in the full ILMA app">Roles & permissions</button></div>`+
+ `<div class="me"><span class="av" style="--h:${S.role==='platform'?200:290}">${USER[S.role].split(' ').map(x=>x[0]).slice(0,2).join('')}</span><div>${USER[S.role]}<small>${ROLES[S.role].n}</small></div></div>`}
+function topBar(){const ro=Object.entries(ROLES).map(([k,v])=>`<option value="${k}" ${k===S.role?'selected':''}>${v.n}</option>`).join('');
+ $('#top').innerHTML=`<label>Signed in as<select id="role">${ro}</select></label>`+(S.role!=='platform'?`<label title="Simulates the institute resolved from the login session">Institute<select id="ten">${TEN.map(t=>`<option value="${t.id}" ${t.id===S.tid?'selected':''}>${esc(t.name)}</option>`).join('')}</select></label>`:'<span class="scope">Platform scope · no institute data</span>')+
+ (!R_().all&&S.role!=='platform'?`<label>Branch<select id="brs">${TEN_().branches.map(b=>`<option value="${b.id}" ${b.id===S.br?'selected':''}>${esc(b.n)}</option>`).join('')}</select></label>`:'')+`<div class="sp"></div><button class="btn sm" id="theme">◐ Light / Dark</button>`}
+function render(){side();topBar();const T=[['lib','Template Library'],['brand','Branding & live preview'],['gen','Generate documents'],['iss','Issued documents'],['vars','Variables'],['aud','Audit log'],['sec','Security & data model']];
+ const hide={platform:['brand','gen','iss'],teacher:['brand','aud'],branch:['aud'],inst:[]}[S.role];const tabs=T.filter(x=>!hide.includes(x[0]));if(!tabs.some(x=>x[0]===S.tab))S.tab='lib';
+ $('#main').innerHTML=`<div class="hd"><div><h1>Templates & Documents</h1><p class="sub"><span class="scope">${S.role==='platform'?'🌐 Shared system templates':'🔒 '+esc(TEN_().name)+(R_().all?' · all branches':' · '+esc(brOf(TEN_(),S.br).n))}</span> &nbsp;${esc(R_().desc)}</p></div></div><div class="tabs">${tabs.map(x=>`<button class="${S.tab===x[0]?'on':''}" data-a="tab" data-i="${x[0]}">${x[1]}</button>`).join('')}</div><div id="tb">${TAB[S.tab]()}</div>`;post()}
+const post=()=>requestAnimationFrame(()=>fitPreviews($('#main')));
+const TAB={};
+/* ---------- library ---------- */
+function libList(){const q=S.q.toLowerCase();return allIds().filter(id=>{const m=meta(id),s=stat(id);if(s==='planned'&&!['platform','inst'].includes(S.role))return false;if(S.role!=='platform'&&!planned(id)&&!perms().includes(m.p))return false;if(S.cat!=='all'&&m.cat!==S.cat)return false;if(S.st!=='all'&&s!==S.st)return false;if(q&&!(m.n+' '+catN(m.cat)[1]+' '+recNames(m.rec)).toLowerCase().includes(q))return false;return true})}
+TAB.lib=()=>{const ids=allIds(),act=ids.filter(i=>stat(i)==='active'&&!planned(i)).length,cu=ids.filter(i=>S.role!=='platform'&&E(i).pub).length,dr=ids.filter(i=>S.role==='platform'?!!SYSE[i]?.draft:(E(i).draft||stat(i)==='draft')).length,pl=ids.filter(planned).length;
+ const used=S.role==='platform'?TEN.length:'';return`<div class="kpis"><div class="kpi"><span>Active templates</span><b>${act}</b></div>${S.role==='platform'?`<div class="kpi"><span>Institutes inheriting</span><b>${TEN.length}</b></div><div class="kpi"><span>Institute overrides</span><b>${TEN.reduce((a,t)=>a+Object.values(ENT[t.id]||{}).filter(e=>e.pub&&!e.custom).length,0)}</b></div>`:`<div class="kpi"><span>Customized by you</span><b>${cu}</b></div><div class="kpi"><span>Drafts</span><b style="color:var(--warn)">${dr}</b></div>`}<div class="kpi"><span>Planned (not built)</span><b style="color:var(--mut)">${pl}</b></div></div>
+ <div class="bar"><input class="in" id="q" placeholder="Search templates, categories, record types…" value="${esc(S.q)}" style="max-width:340px"><select id="stf"><option value="all">All statuses</option>${['active','draft','archived','planned'].map(s=>`<option value="${s}" ${S.st===s?'selected':''}>${s[0].toUpperCase()+s.slice(1)}</option>`).join('')}</select><div class="sp"></div><div class="seg"><button class="${S.view==='table'?'on':''}" data-a="view" data-i="table">☰ Table</button><button class="${S.view==='cards'?'on':''}" data-a="view" data-i="cards">▦ Cards</button></div>
+ ${S.role==='inst'?'<button class="btn p" data-a="cnew">＋ New custom template</button>':''}${S.role==='platform'?'<button class="btn p" data-a="regnew">＋ Register institute</button>':''}</div>
+ <div class="chips" style="margin-bottom:12px"><button class="chip ${S.cat==='all'?'on':''}" data-a="cat" data-i="all">All</button>${CATS.map(c=>`<button class="chip ${S.cat===c[0]?'on':''}" data-a="cat" data-i="${c[0]}">${c[2]} ${c[1]}</button>`).join('')}</div><div id="lb">${libBody()}</div>`};
+function libBody(){const ids=libList();if(!ids.length)return`<div class="card empty"><div style="font-size:34px">🗂️</div><b>No templates match</b><p>Try another category or clear the search.</p><button class="btn" data-a="clr">Clear filters</button></div>`;
+ return S.view==='cards'?`<div class="tiles tg">${ids.map(cardOf).join('')}</div>`:`<div class="tw"><table><thead><tr><th>Template</th><th>Category</th><th>Works with</th><th>Formats</th><th>Status</th><th>Version</th><th>Updated</th><th></th></tr></thead><tbody>${ids.map(rowOf).join('')}</tbody></table></div>`}
+function srcPill(id){const s=src(id);return planned(id)?'':`<span class="pill ${s==='Customized'?'acc':s==='Custom'?'blue':''}">${s}</span>${upstream(id)?' <span class="pill warn" title="The platform default has changed since you customized">Upstream v'+SYS[id].ver+'</span>':''}${E(id).draft&&stat(id)!=='draft'?' <span class="pill warn">Unpublished changes</span>':''}`}
+function rowOf(id){const m=meta(id),s=stat(id),c=catN(m.cat),pl=planned(id),pv=pubOf(id);
+ return`<tr class="${pl?'pl':''}"><td><b>${esc(m.n)}</b><br>${srcPill(id)}</td><td>${c[2]} ${esc(c[1])}</td><td>${recNames(m.rec)}</td><td>${pl?'<small>Not yet built</small>':m.fmt.join(' · ')}</td><td>${stPill(s)}</td><td>${pl?'—':'v'+(pv?pv.ver:'0')+(E(id).draft?'<small> + draft</small>':'')}</td><td>${pl?'—':fdate(meta(id).upd)}</td><td class="act">${pl?`<button class="btn sm" data-a="pprev" data-i="${id}">What’s planned</button>`:`<button class="btn sm" data-a="prev" data-i="${id}">Preview</button><button class="btn sm" data-a="edit" data-i="${id}" ${canEdit()&&s!=='archived'?'':'disabled'} title="${canEdit()?'':'Your role can’t edit templates'}">Edit</button><button class="btn sm" data-a="mnu" data-i="${id}" aria-label="More actions">⋯</button>`}</td></tr>`}
+function cardOf(id){const m=meta(id),s=stat(id),c=catN(m.cat),pl=planned(id);
+ return`<div class="tile tpc ${pl?'pl':''}"><div class="th" ${pl?'':''}>${pl?`<div class="plh"><span>${c[2]}</span>Planned</div>`:renderDoc(pubOf(id)||meta(id),ctxSample(TEN_(),TEN_().branches[0].id),{mode:'sample'}).html}</div><div class="tb2"><b>${esc(m.n)}</b><small>${c[2]} ${esc(c[1])} · ${recNames(m.rec)}</small><div class="ft">${stPill(s)}${pl?'':`<span class="pill">v${verOf(id)}</span>`}${srcPill(id)}</div>${pl?'':`<div class="ft" style="margin-top:6px"><button class="btn sm" data-a="prev" data-i="${id}">Preview</button><button class="btn sm" data-a="edit" data-i="${id}" ${canEdit()&&s!=='archived'?'':'disabled'}>Edit</button><button class="btn sm" data-a="mnu" data-i="${id}">⋯</button></div>`}</div></div>`}
+Object.assign(A,{
+ tab:a=>{S.tab=a.dataset.i;if(S.tab==='brand')initBd();render()},view:a=>{S.view=a.dataset.i;render()},cat:a=>{S.cat=a.dataset.i;render()},clr:()=>{S.q='';S.cat='all';S.st='all';render()},toast:a=>toast(a.dataset.i),mclose,
+ pprev:a=>{const m=SYS[a.dataset.i];dlg('Planned template',`<p><b>${esc(m.n)}</b> is on the roadmap but not built yet. It can’t be previewed, edited or generated.</p><p>When released it will work with <b>${recNames(m.rec)}</b> records and inherit every institute’s branding automatically.</p>`,'<button class="btn" data-a="mclose">Close</button>')},
+ mnu:a=>{const id=a.dataset.i,r=a.getBoundingClientRect(),e=E(id),s=stat(id),ed=canEdit(),it=[];
+  if(S.role!=='platform'){it.push(['dup','⧉ Duplicate as custom',ed],['hist','🕘 Version history',true]);if(s==='archived')it.push(['rest','↺ Restore',ed]);else{if(s==='draft')it.push(['act','✓ Activate (publish)',ed]);it.push(['arch','🗄 Archive',ed])}if(e.pub&&!isCustom(id))it.push(['reset','⟲ Reset to platform default',ed])}else it.push(['hist','🕘 Version history',true]);
+  $('#layer').innerHTML=`<div class="mnl" style="top:${Math.min(r.bottom+4,innerHeight-230)}px;left:${Math.max(8,r.right-220)}px">${it.map(x=>`<button data-a="${x[0]}" data-i="${id}" ${x[2]?'':'disabled'}>${x[1]}</button>`).join('')}</div>`},
+ prev:a=>{const id=a.dataset.i,t=TEN_(),tpl=pubOf(id)||meta(id);if(!tpl.blocks)return;
+  dlg(esc(tpl.n)+' <small class="mut">· preview with sample data</small>',`<div class="info">Sample data with <b>${esc(t.name)}</b> branding. Real documents are generated on the server from authorised records.</div><label class="fld" style="max-width:260px">Branch<select id="pvbr" data-a2="pvbr" data-i="${id}">${t.branches.map(b=>`<option value="${b.id}">${esc(b.n)}</option>`).join('')}</select></label><div class="pvh" id="pvbox" data-fit="1">${renderDoc(tpl,ctxSample(t,t.branches[0].id),{mode:'sample'}).html}</div>`,'<button class="btn" data-a="mclose">Close</button>',true);fitPreviews($('#dlg'))},
+ hist:a=>{const id=a.dataset.i,m=meta(id),own=S.role==='platform'?SYSV[id]:E(id).vers,sh=S.role==='platform'?[]:(SYSV[id]||[]);
+  const row=(v,k,scope)=>`<tr><td><b>v${v.v}</b></td><td>${fdate(v.date)}</td><td>${esc(v.by)}</td><td>${esc(v.note)}</td><td>${scope}</td><td class="act"><button class="btn sm" data-a="hview" data-i="${id}" data-v="${v.v}" data-s="${k}">View</button><button class="btn sm" data-a="hroll" data-i="${id}" data-v="${v.v}" ${k==='own'&&canEdit()&&v.v!==verOf(id)?'':'disabled'}>Roll back</button></td></tr>`;
+  const rows=[...own].reverse().map(v=>row(v,'own',S.role==='platform'?'Platform':'Your institute')).concat(sh.slice().reverse().map(v=>row(v,'sys','Platform default')));
+  dlg('Version history · '+esc(m.n),rows.length?`<div class="tw"><table><thead><tr><th>Ver</th><th>Date</th><th>By</th><th>Note</th><th>Source</th><th></th></tr></thead><tbody>${rows.join('')}</tbody></table></div><p class="mut" style="font-size:13px">Rolling back publishes the old content as a <b>new version</b>; history is never rewritten. Documents already issued are unaffected.</p>`:'<div class="empty">No published versions yet. Publish this template to start its history.</div>','<button class="btn" data-a="mclose">Close</button>',true)},
+ hview:a=>{const id=a.dataset.i,v=+a.dataset.v,l=(a.dataset.s==='own'?(S.role==='platform'?SYSV[id]:E(id).vers):SYSV[id]).find(x=>x.v===v);if(!l?.tpl)return toast('Snapshot unavailable');const t=TEN_();
+  dlg(`${esc(meta(id).n)} · v${v}`,`<div class="pvh">${renderDoc(l.tpl,ctxSample(t,t.branches[0].id),{mode:'sample'}).html}</div>`,`<button class="btn" data-a="hist" data-i="${id}">← Back to history</button><button class="btn" data-a="mclose">Close</button>`,true);fitPreviews($('#dlg'))},
+ hroll:a=>confirmDlg('Roll back to v'+a.dataset.v+'?','This publishes the old content as the newest version for your institute. Documents already issued keep their original snapshot.','Roll back &amp; publish','hrollok',a.dataset.i+'|'+a.dataset.v),
+ hrollok:a=>{const [id,v]=a.dataset.i.split('|'),l=(S.role==='platform'?SYSV[id]:E(id).vers).find(x=>x.v===+v);publishTpl(id,clone(l.tpl),'Rolled back to v'+v);mclose();render();toast('✓ Rolled back. Published as v'+verOf(id))},
+ dup:a=>{const id=a.dataset.i,t=clone(work(id));const nidc='c-'+nid('').slice(1);t.id=nidc;t.n='Copy of '+t.n;t.ver=0;t.upd=TODAY;const e=ent(S.tid,nidc);e.custom=true;e.draft=t;aud('Template duplicated',meta(id).n+' → '+t.n);mclose();$('#layer').innerHTML='';render();toast('Duplicated as a custom draft');openEd(nidc)},
+ arch:a=>confirmDlg('Archive “'+esc(meta(a.dataset.i).n)+'”?','Archived templates disappear from the “Generate documents” menus for every branch. Already-issued documents are not affected, and you can restore it later.','Archive','archok',a.dataset.i,true),
+ archok:a=>{E(a.dataset.i).arch=true;aud('Template archived',meta(a.dataset.i).n,'warn');mclose();render();toast('Archived')},
+ rest:a=>{E(a.dataset.i).arch=false;aud('Template restored',meta(a.dataset.i).n);$('#layer').innerHTML='';render();toast('✓ Restored')},
+ act:a=>{const id=a.dataset.i,v=validate(work(id),curTid());$('#layer').innerHTML='';if(v.E.length){toast('Fix '+v.E.length+' validation error(s) before activating');return openEd(id)}pubDlg(id,work(id))},
+ reset:a=>confirmDlg('Reset to platform default?','Your customised version will be removed from this institute and the shared platform template will be used again. Version history of your changes is kept in the audit log.','Reset','resetok',a.dataset.i,true),
+ resetok:a=>{const e=E(a.dataset.i);e.pub=null;e.draft=null;e.vers=[];aud('Customisation reset to platform default',meta(a.dataset.i).n,'warn');mclose();$('#layer').innerHTML='';render();toast('Reset to platform default')},
+ cnew:()=>dlg('New custom template',`<p class="mut">Custom templates belong to <b>${esc(TEN_().short)}</b> only. They never appear for other institutes.</p><label class="fld">Name<input class="in" id="cn" placeholder="e.g. Sports Day Invitation"></label><div class="g2"><label class="fld">Category<select id="cc">${CATS.map(c=>`<option value="${c[0]}">${c[2]} ${c[1]}</option>`).join('')}</select></label><label class="fld">Works with<select id="cr">${Object.entries(RT).map(([k,v])=>`<option value="${k}" ${k==='N'?'selected':''}>${v}</option>`).join('')}</select></label></div><label class="fld">Start from<select id="cs"><option value="">Blank letterhead</option>${Object.values(SYS).filter(t=>!t.planned).map(t=>`<option value="${t.id}">${esc(t.n)}</option>`).join('')}</select></label>`,'<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="cnewok">Create &amp; edit</button>'),
+ cnewok:()=>{const n=val('cn').trim();if(!n)return toast('Give the template a name');const base=val('cs')?clone(SYS[val('cs')]):{...clone(SYS['tpl-office-circular']),blocks:[BRD('center'),HR,P('Write your content here.')]};const id='c-'+nid('').slice(1);Object.assign(base,{id,n,cat:val('cc'),rec:val('cr'),p:DEFP[val('cc')],ver:0,upd:TODAY,planned:false});const e=ent(S.tid,id);e.custom=true;e.draft=base;aud('Custom template created',n);mclose();render();openEd(id)},
+ regnew:()=>dlg('Register a new institute',`<div class="info">Simulates institute onboarding: creates the tenant profile and links the shared template library. Nothing is copied.</div><label class="fld">Institute name<input class="in" id="rn" placeholder="e.g. Fajr Public School"></label><div class="g2"><label class="fld">Short name<input class="in" id="rs" placeholder="Fajr"></label><label class="fld">Brand colour<input type="color" id="rc" value="#2a63d4" style="height:40px;width:100%"></label></div><label class="fld">Contact email<input class="in" id="re" placeholder="office@fajr.edu.pk"></label>`,'<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="regok">Register &amp; initialise</button>'),
+ regok:()=>{const n=val('rn').trim();if(!n)return toast('Enter the institute name');const sh=(val('rs').trim()||n.split(' ')[0]),id='t-'+sh.toLowerCase().replace(/[^a-z0-9]/g,'')+nid('');
+  const t={id,name:n,short:sh,tag:'',reg:'',email:val('re')||'',phone:'',web:'',addr:'',color:val('rc'),font:'sans',logo:null,sigs:SIG('Principal',"Accounts Officer",null),branches:[{id:nid('b'),n:'Main Campus',code:'MAIN-01',city:'',addr:'',ph:'',em:'',adm:''}]};t.sigs.principal.on=false;t.sigs.accountant.on=false;TEN.push(t);ENT[id]={};REC[id]={S:[],A:[],T:[],F:[],L:[],R:[],C:[]};
+  const steps=['Created tenant profile ('+id+')','Created default branch “Main Campus”','Linked '+Object.values(SYS).filter(x=>!x.planned).length+' shared system templates (inherited, 0 copied)','Initialised branding from your inputs','Default library ready'];
+  dlg('Initialising institute…',`<ol class="stp">${steps.map((s,i)=>`<li id="st${i}" class="wt">${s}</li>`).join('')}</ol>`,'');steps.forEach((s,i)=>setTimeout(()=>{const e=$('#st'+i);if(e)e.className='dn'},350*(i+1)));
+  setTimeout(()=>{if($('#dlg').open)dlg('✓ '+esc(n)+' is ready',`<ol class="stp">${steps.map(s=>`<li class="dn">${s}</li>`).join('')}</ol><p>The institute now inherits every shared template with its own branding. Open it as its Institute Admin to add a logo and customise.</p>`,`<button class="btn" data-a="mclose">Stay as Platform Admin</button><button class="btn p" data-a="openten" data-i="${id}">Open as Institute Admin</button>`);aud('Institute registered',n,'info',id)},350*steps.length+250)},
+ openten:a=>{S.role='inst';S.tid=a.dataset.i;S.tab='brand';S.br=tenant(S.tid).branches[0].id;initBd();mclose();render()}});
+/* ---------- publishing core ---------- */
+const work=id=>E(id).draft||pubOf(id)||SYS[id];
+function publishTpl(id,w,note){const cur=pubOf(id),v=(cur?cur.ver:(SYS[id]?SYS[id].ver:0))+1;w.ver=v;w.upd=TODAY;const e=E(id),entry={v,date:TODAY,by:USER[S.role],note:note||'Published',tpl:clone(w)};
+ if(S.role==='platform'){SYS[id]=clone(w);SYSV[id].push(entry);e.draft=null}else{if(!isCustom(id)&&!e.pub)e.base=SYS[id].ver;e.pub=clone(w);e.draft=null;e.vers.push(entry)}
+ aud('Template published',`${w.n} · v${v}${note?' · '+note:''}`,'pub')}
+function pubDlg(id,w){const v=validate(w,curTid()),cur=pubOf(id),nv=(cur?cur.ver:(SYS[id]?SYS[id].ver:0))+1;const aff=S.role==='platform'?`<b>${TEN.length} institutes</b> that haven’t customised this template (${TEN.filter(t=>!(ENT[t.id]?.[id]?.pub)).length} inherit it right now). Customised copies are not touched.`:`all branches of <b>${esc(TEN_().short)}</b>. The platform default and other institutes are unaffected.`;
+ dlg('Publish “'+esc(w.n)+'”?',`<div class="chk ok">✓ Validation passed${v.W.length?` with ${v.W.length} warning(s)`:''}</div>${v.W.length?`<ul class="wl">${v.W.map(x=>`<li>${esc(x.msg)}</li>`).join('')}</ul>`:''}<p>This publishes <b>version ${nv}</b>, immediately live for ${aff}</p><p class="mut" style="font-size:13px">Documents already issued keep their original snapshot.</p><label class="fld">What changed? (shown in version history)<input class="in" id="pn" placeholder="e.g. Updated wording for visa use"></label>`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn ok" data-a="pubok" data-i="${id}">Publish v${nv}</button>`)}
+
+/* ---------- editor ---------- */
+const curTid=()=>S.role==='platform'?'t-sample':S.tid;
+const recsFor=rt=>(REC[S.tid]?.[rt]||[]).filter(r=>rt==='R'||canAccess(S.role,S.br,r.br));
+const compat=(w,v)=>v.rec==='*'||![...w.rec].some(r=>!v.rec.includes(r));
+const setPath=(o,p,val)=>{const k=p.split('.');let x=o;for(let i=0;i<k.length-1;i++)x=x[k[i]];x[k[k.length-1]]=val};
+const fT=(l,p,v,ph='')=>`<label class="fld">${l}<input class="in vt" data-p="${p}" value="${esc(v)}" placeholder="${esc(ph)}"></label>`;
+const fA=(l,p,v,r=6)=>`<label class="fld">${l}<textarea class="in vt" data-p="${p}" rows="${r}">${esc(v)}</textarea></label>`;
+const fS=(l,p,v,o,r,n)=>`<label class="fld">${l}<select class="in" data-p="${p}" ${r?'data-r="1"':''} ${n?'data-n="1"':''}>${o.map(x=>`<option value="${esc(x[0])}" ${String(x[0])===String(v)?'selected':''}>${esc(x[1])}</option>`).join('')}</select></label>`;
+const fN=(l,p,v,mn,mx)=>`<label class="fld">${l}<input type="number" class="in" data-n="1" data-p="${p}" value="${v}" min="${mn}" max="${mx}"></label>`;
+const AL=[['left','Left'],['center','Centre'],['right','Right']];
+function openEd(id){if(planned(id))return;const e=E(id);S.ed={id,w:clone(work(id)),sel:0,pm:'sample',rid:null,br:S.role==='platform'?SAMPLE.branches[0].id:(R_().all?TEN_().branches[0].id:S.br),lt:'blocks',dirty:false,vq:'',vc:'all',fork:S.role==='inst'&&!isCustom(id)&&!e.pub&&!e.draft};
+ $('#ed').hidden=false;document.body.style.overflow='hidden';editor()}
+function editor(){const d=S.ed;$('#ed').innerHTML=`${edHead()}<div class="eb"><div class="el">${edLeft()}</div><div class="em">${edProps()}${edVars()}</div><div class="er">${edPrev()}</div></div>`;edUpdate()}
+function edHead(){const d=S.ed,w=d.w,pub=pubOf(d.id);
+ return`<div class="eh"><button class="btn sm" data-a="edclose">← Library</button><input class="in nm" data-p="T.n" value="${esc(w.n)}" aria-label="Template name"><span id="dty" class="pill warn" ${d.dirty?'':'hidden'}>● Unsaved</span>${stPill(stat(d.id))}<span class="pill">${pub?'v'+pub.ver+' live':'not published'}</span>${S.role==='platform'?'<span class="pill bad" title="Shared by every institute that has not customised it">🌐 Editing shared default</span>':d.fork?'<span class="pill acc">Your own copy · platform default stays unchanged</span>':''}<div class="sp"></div><button class="btn sm" data-a="hist" data-i="${d.id}">🕘 History</button><button class="btn sm" data-a="edsave">Save draft</button><button class="btn p sm" data-a="edpub">Publish…</button></div>`}
+function edLeft(){const d=S.ed;return`<div class="tabs sm"><button class="${d.lt==='blocks'?'on':''}" data-a="lt" data-i="blocks">Blocks</button><button class="${d.lt==='page'?'on':''}" data-a="lt" data-i="page">Page & style</button></div>${d.lt==='blocks'?`<div id="bl"></div><div class="addb"><b>Add block</b>${Object.entries(BL).map(([k,v])=>`<button class="btn sm" data-a="badd" data-i="${k}">${v.i} ${v.n}</button>`).join('')}</div>`:edPage()}`}
+function blSum(b){const f=s=>String(s||'').replace(/\*\*/g,'').slice(0,34);return({brand:()=>'Style: '+b.style,h:()=>f(b.txt),p:()=>f(b.txt),kv:()=>`${b.rows.length} row(s)`,tbl:()=>b.each?'Repeats '+b.each:'Static table',img:()=>b.v,sig:()=>b.slots.length+' signature(s)',qr:()=>b.v,hr:()=>'Line'})[b.t]()}
+function edList(){const d=S.ed;return d.w.blocks.map((b,i)=>`<div class="bi ${i===d.sel?'on':''}" data-a="bsel" data-i="${i}"><span class="bic">${BL[b.t].i}</span><div><b>${BL[b.t].n}${b.cond?' <span class="pill acc">if</span>':''}</b><small>${esc(blSum(b))}</small></div><span class="bbs"><button data-a="bmv" data-i="${i}" data-d="-1" title="Move up" ${i?'':'disabled'}>↑</button><button data-a="bmv" data-i="${i}" data-d="1" title="Move down" ${i<d.w.blocks.length-1?'':'disabled'}>↓</button><button data-a="bdup" data-i="${i}" title="Duplicate">⧉</button><button data-a="bdel" data-i="${i}" title="Delete">🗑</button></span></div>`).join('')||'<div class="empty">No blocks yet. Add one below.</div>'}
+function fbKeys(w){return validate(w,curTid()).keys.filter(k=>{const v=VM[k];return v&&v.o&&!['image','qr','sign','list'].includes(v.type)&&!v.pl})}
+function edPage(){const w=S.ed.w;return`<div class="pp">${fS('Page size','T.size',w.size,[['A4','A4'],['A5','A5'],['ID','ID card (85.6 × 54 mm)']])}${fS('Orientation','T.orient',w.orient,[['portrait','Portrait'],['landscape','Landscape']])}${fN('Margins (mm)','T.mg',w.mg,0,30)}
+ ${fS('Typeface','T.font',w.font,[['sans','Sans (modern)'],['serif','Serif (formal)'],['classic','Classic'],['brand','Institute font']])}<div class="g2">${fN('Font size (px)','T.fs',w.fs,8,18)}${fS('Line spacing','T.lh',w.lh,[[1.2,'Tight'],[1.45,'Normal'],[1.7,'Relaxed'],[2,'Double']],0,1)}</div>${fS('Body alignment','T.al',w.al,[...AL,['justify','Justify']])}
+ <label class="fld">Accent colour<span class="row2"><input type="color" class="in" style="padding:2px;height:38px;width:60px" data-p="T.accent" value="${w.accent||TEN_().color}"><span class="mut" style="font-weight:500">${w.accent?'Custom':'Using institute brand colour'}</span>${w.accent?'<button class="btn sm" data-a="accrs">Use brand colour</button>':''}</span></label>
+ ${fT('Header text','T.hdr',w.hdr,'e.g. {{doc.number}}')}${fT('Footer text','T.ftr',w.ftr)}
+ <div class="fbk"><b>Fallbacks for optional fields</b><p class="mut" style="font-size:12.5px;margin:2px 0 8px">Printed when an optional field is empty. You can also write {{key|fallback}} inline.</p>${fbKeys(w).map(k=>`<label class="fld"><code>${k}</code><input class="in" data-fb="${k}" value="${esc(w.fb[k]||'')}" placeholder="Leave blank to print nothing"></label>`).join('')||'<span class="mut">This template uses no optional fields.</span>'}</div></div>`}
+function condField(b){const w=S.ed.w;return`<div class="cond">${fS('Conditional block: show only if this field has a value','cond',b.cond||'',[['','Always show'],...VS.filter(v=>!v.pl&&v.type!=='list'&&compat(w,v)).map(v=>[v.key,v.key+'  ·  '+v.label])])}</div>`}
+function edProps(){const d=S.ed,b=d.w.blocks[d.sel];if(!b)return`<div class="pp"><div class="empty">Select a block on the left to edit it.</div></div>`;let h=`<div class="pp"><div class="pph"><b>${BL[b.t].i} ${BL[b.t].n}</b><small>Block ${d.sel+1} of ${d.w.blocks.length}</small></div>`;
+ const colOpts=(each)=>[['','Fixed table (type your own cells)'],...VS.filter(v=>v.type==='list'&&compat(d.w,v)).map(v=>[v.key,'Repeat rows for each: '+v.label])];
+ if(b.t==='brand')h+=fS('Letterhead style','style',b.style,[['center','Centred'],['left','Logo left'],['band','Colour band'],['compact','Compact (ID card)']])+'<p class="mut">Logo, name, tagline and branch address always come from the institute’s Branding settings.</p>';
+ if(b.t==='h')h+=fT('Heading text','txt',b.txt)+`<div class="g2">${fS('Size','sz',b.sz,[[1,'Small'],[2,'Medium'],[3,'Large']],0,1)}${fS('Align','al',b.al,AL)}</div>`;
+ if(b.t==='p')h+=fA('Text','txt',b.txt,7)+fS('Align','al',b.al,[...AL,['justify','Justify']])+'<p class="mut">Use **bold** for emphasis. A new line becomes a line break.</p>';
+ if(b.t==='kv')h+=fS('Columns','cols',b.cols||1,[[1,'1 column'],[2,'2 columns']],1,1)+b.rows.map((r,i)=>`<div class="kvr"><input class="in" data-p="rows.${i}.0" value="${esc(r[0])}" placeholder="Label"><input class="in vt" data-p="rows.${i}.1" value="${esc(r[1])}" placeholder="Value or variable"><button class="btn sm bad" data-a="kvdel" data-i="${i}" aria-label="Remove row">✕</button></div>`).join('')+'<button class="btn sm" data-a="kvadd">＋ Add row</button>';
+ if(b.t==='tbl'){h+=fS('Rows come from','each',b.each||'',colOpts(),1);
+  if(b.each)h+=b.cols.map((c,i)=>`<div class="kvr c4"><input class="in" data-p="cols.${i}.h" value="${esc(c.h)}"><select class="in" data-p="cols.${i}.f" data-r="1">${LF[b.each].map(f=>`<option value="${f[0]}" ${f[0]===c.f?'selected':''}>${f[1]}</option>`).join('')}</select><label class="cbx"><input type="checkbox" data-c="1" data-p="cols.${i}.sum" ${c.sum?'checked':''}>Σ</label><button class="btn sm bad" data-a="coldel" data-i="${i}">✕</button></div>`).join('')+'<button class="btn sm" data-a="coladd">＋ Add column</button>';
+  else h+=`<div class="kvr" style="grid-template-columns:repeat(${b.cols.length},1fr) auto">${b.cols.map((c,i)=>`<input class="in vt" data-p="cols.${i}.h" value="${esc(c.h)}" placeholder="Heading">`).join('')}<button class="btn sm bad" data-a="coldel" data-i="${b.cols.length-1}" ${b.cols.length>1?'':'disabled'} title="Remove last column">✕</button></div>`+b.rows.map((r,ri)=>`<div class="kvr" style="grid-template-columns:repeat(${b.cols.length},1fr) auto">${b.cols.map((c,i)=>`<input class="in vt" data-p="rows.${ri}.${i}" value="${esc(r[i]||'')}">`).join('')}<button class="btn sm bad" data-a="rowdel" data-i="${ri}">✕</button></div>`).join('')+'<button class="btn sm" data-a="rowadd">＋ Row</button> <button class="btn sm" data-a="coladd">＋ Column</button>'}
+ if(b.t==='img')h+=fS('Image','v',b.v,VS.filter(v=>v.type==='image'&&compat(d.w,v)).map(v=>[v.key,v.label]),1)+`<div class="g2">${fN('Width (px)','w',b.w||80,20,300)}${fS('Placement','al',b.al,[['left','Left'],['center','Centre'],['right','Right'],['float','Float left (text wraps)']])}</div>`;
+ if(b.t==='sig')h+=b.slots.map((s,i)=>`<div class="slot">${fS('Signature on file','slots.'+i+'.v',s.v,[['','None (blank line to sign by hand)'],...VS.filter(v=>v.type==='sign').map(v=>[v.key,v.label])])}${fT('Label','slots.'+i+'.label',s.label)}${fT('Name printed below','slots.'+i+'.nm',s.nm,'Optional; defaults to the signatory name')}<button class="btn sm bad" data-a="sldel" data-i="${i}">Remove signature</button></div>`).join('')+'<button class="btn sm" data-a="sladd">＋ Add signature</button>';
+ if(b.t==='qr')h+=fS('QR code content','v',b.v,VS.filter(v=>v.type==='qr').map(v=>[v.key,v.label]))+fT('Caption','cap',b.cap)+`<div class="g2">${fN('Size (px)','size',b.size||72,32,160)}${fS('Placement','al',b.al,[['left','Left'],['center','Centre'],['right','Right'],['float','Float right']])}</div>`;
+ if(b.t==='hr')h+='<p class="mut">A thin divider line. Nothing to configure.</p>';
+ return h+condField(b)+'</div>'}
+function vFilter(q,c,w){q=q.toLowerCase();return VS.filter(v=>(c==='all'||v.cat===c)&&(!q||(v.key+v.label+v.desc).toLowerCase().includes(q))).sort((a,b)=>(w?compat(w,b)-compat(w,a):0)||0)}
+function vTags(v,w){const t=[];if(w&&!compat(w,v))t.push('<span class="pill bad">Not for this template</span>');if(v.pl)t.push('<span class="pill bad">Planned</span>');if(v.o)t.push('<span class="pill">Optional</span>');if(v.sens)t.push('<span class="pill warn">🔒 '+(PERM_N[v.sens])+'</span>');if(v.type==='list')t.push('<span class="pill acc">Table only</span>');return t.join('')}
+function vList(){const d=S.ed;return vFilter(d.vq,d.vc,d.w).map(v=>`<div class="vi ${v.pl||!compat(d.w,v)?'dim':''}" data-a="vins" data-i="${v.key}" role="button" tabindex="0"><code>{{${v.key}}}</code><b>${esc(v.label)}</b><small>${esc(v.desc)}</small><div class="vm"><span class="pill">${v.type}</span>${vTags(v,d.w)}<span class="ex">e.g. ${esc(v.type==='image'||v.type==='qr'||v.type==='list'||v.type==='sign'?'—':v.type==='date'?fdate(v.ex):v.type==='currency'?pkr(v.ex):v.ex)}</span></div><small class="rq">${v.rec==='*'?'Available for every document':'Needs: '+[...v.rec].map(r=>RT[r]).join(' / ')+' record'}</small></div>`).join('')||'<div class="empty">No variables match.</div>'}
+function edVars(){const d=S.ed;return`<div class="vp"><div class="vph"><b>Variables</b><span class="mut">Click into a text field, then click a variable to insert it</span></div><div class="g2"><input class="in" id="vq" placeholder="Search variables…" value="${esc(d.vq)}"><select id="vc"><option value="all">All categories</option>${Object.entries(CATN).map(([k,n])=>`<option value="${k}" ${d.vc===k?'selected':''}>${n}</option>`).join('')}</select></div><div id="vl">${vList()}</div></div>`}
+function edPrev(){const d=S.ed,rt=d.w.rec[0],t=TEN_(),rs=S.role==='platform'?[]:recsFor(rt);
+ return`<div class="pvt"><label>Preview data<select id="pm"><option value="sample" ${d.pm==='sample'?'selected':''}>Sample data</option><option value="sampleEmpty" ${d.pm==='sampleEmpty'?'selected':''}>Sample · optional fields empty</option><option value="real" ${d.pm==='real'?'selected':''} ${S.role==='platform'?'disabled':''}>${S.role==='platform'?'Real record (not available to platform)':'Real record (authorised)'}</option></select></label>${d.pm==='real'&&rt!=='N'?`<label>Record<select id="prec">${rs.map(r=>`<option value="${r.id}" ${d.rid===r.id?'selected':''}>${esc(recLabel(rt,r))}</option>`).join('')}</select></label>`:''}${(R_().all||S.role==='platform')&&t.branches.length>1&&(d.pm!=='real'||rt==='N'||rt==='R')?`<label>Branch<select id="pbr">${(S.role==='platform'?SAMPLE:t).branches.map(b=>`<option value="${b.id}" ${d.br===b.id?'selected':''}>${esc(b.n)}</option>`).join('')}</select></label>`:''}</div><div id="pvp" class="pvh"></div><div id="chk"></div>`}
+function edUpdate(){const d=S.ed;if(!d)return;const t=TEN_(),w=d.w,rt=w.rec[0];let ctx,msg='',o={mode:d.pm,perms:perms(),user:USER[S.role],docNo:'PREVIEW-0000'};
+ if(d.pm==='real'){if(rt==='N')ctx=ctxSample(t,d.br);else{const rs=recsFor(rt);if(!rs.length)msg=`<div class="empty"><div style="font-size:30px">📭</div><b>No ${RT[rt].toLowerCase()} records available</b><p>${esc(t.short)} has none in your scope yet. Switch to sample data to keep designing.</p></div>`;else{if(!rs.some(r=>r.id===d.rid))d.rid=rs[0].id;ctx=ctxFor(S.tid,rt==='R'?(R_().all?d.br:S.br):null,rt,d.rid)}}}else ctx=ctxSample(t,d.br);
+ let res=null;if(ctx){res=renderDoc(w,ctx,o)}
+ $('#pvp').innerHTML=msg||res.html;fitPreviews($('#pvp'));
+ const v=validate(w,curTid()),iss=[];if(res){if(res.st.miss.size)iss.push(['e','Missing in this record: '+[...res.st.miss].map(k=>`<code>${k}</code>`).join(', ')+'. A real document can’t be issued until it is filled in.']);if(res.st.deny.size)iss.push(['w','Restricted fields hidden for your role: '+[...res.st.deny].map(k=>`<code>${k}</code>`).join(', ')]);if(res.st.warn.size)iss.push(['w','No signature on file for: '+[...res.st.warn].map(k=>`<code>${k}</code>`).join(', ')])}
+ $('#chk').innerHTML=`<div class="chkh"><b>Checks before publishing</b>${v.E.length?`<span class="pill bad">${v.E.length} error${v.E.length>1?'s':''}</span>`:'<span class="pill ok">✓ Ready to publish</span>'}${v.W.length?`<span class="pill warn">${v.W.length} warning${v.W.length>1?'s':''}</span>`:''}</div>`+v.E.map(x=>`<div class="ck e">✕ ${esc(x.msg)}</div>`).join('')+v.W.map(x=>`<div class="ck w">⚠ ${esc(x.msg)}</div>`).join('')+iss.map(x=>`<div class="ck ${x[0]}">${x[0]==='e'?'✕':'⚠'} ${x[1]}</div>`).join('')+(!v.E.length&&!v.W.length&&!iss.length?'<div class="ck g">All variables resolve and are compatible with this template.</div>':'');
+ const bl=$('#bl');if(bl)bl.innerHTML=edList();const dt=$('#dty');if(dt)dt.hidden=!d.dirty}
+function recLabel(rt,r){const t=TEN_(),R=REC[S.tid]||{},sn=id=>(R.S||[]).find(x=>x.id===id)?.name,fn=id=>(R.F||[]).find(x=>x.id===id)?.name;
+ return({S:()=>`${r.name} · Class ${r.cls}-${r.sec}`,A:()=>`${r.no} · ${r.name}`,T:()=>`${r.no} · ${sn(r.sid)}`,F:()=>`${r.name} · ${r.des}`,L:()=>`${fn(r.fid)} · ${r.type} leave (${r.status})`,C:()=>`${r.ref} · ${sn(r.sid)}`,R:()=>`${r.title} · ${r.period}`})[rt]()}
+function edDirty(){S.ed.dirty=true}
+Object.assign(A,{
+ edit:a=>{const id=a.dataset.i;if(!canEdit())return toast('Your role can’t edit templates');const e=E(id);if(S.role==='inst'&&!isCustom(id)&&!e.pub&&!e.draft)return confirmDlg('Customise “'+esc(SYS[id].n)+'” for '+esc(TEN_().short)+'?','<p>You’ll get <b>your own copy</b> of this template to edit. The shared platform default and every other institute are <b>not affected</b>.</p><p>You can reset to the platform default at any time.</p>','Customise &amp; edit','customok',id);openEd(id)},
+ customok:a=>{mclose();openEd(a.dataset.i)},
+ lt:a=>{S.ed.lt=a.dataset.i;$('.el').innerHTML=edLeft();edUpdate()},
+ bsel:a=>{S.ed.sel=+a.dataset.i;$('.em').innerHTML=edProps()+edVars();edUpdate()},
+ bmv:a=>{const d=S.ed,i=+a.dataset.i,j=i+ +a.dataset.d,b=d.w.blocks;if(j<0||j>=b.length)return;[b[i],b[j]]=[b[j],b[i]];d.sel=j;edDirty();editor()},
+ bdup:a=>{const d=S.ed,i=+a.dataset.i;d.w.blocks.splice(i+1,0,clone(d.w.blocks[i]));d.sel=i+1;edDirty();editor()},
+ bdel:a=>{const d=S.ed,i=+a.dataset.i;d.w.blocks.splice(i,1);d.sel=Math.max(0,Math.min(d.sel,d.w.blocks.length-1));edDirty();editor()},
+ badd:a=>{const d=S.ed;d.w.blocks.push(newBlock(a.dataset.i));d.sel=d.w.blocks.length-1;edDirty();editor();$('#bl').lastElementChild?.scrollIntoView({block:'nearest'})},
+ kvadd:()=>{const b=cb();b.rows.push(['','']);edDirty();redoProps()},kvdel:a=>{cb().rows.splice(+a.dataset.i,1);edDirty();redoProps()},
+ coladd:()=>{const b=cb();if(b.each){const used=b.cols.map(c=>c.f),f=LF[b.each].find(x=>!used.includes(x[0]))||LF[b.each][0];b.cols.push({h:f[1],f:f[0],al:'l'})}else{b.cols.push({h:'Column',al:'l'});b.rows.forEach(r=>r.push(''))}edDirty();redoProps()},
+ coldel:a=>{const b=cb(),i=+a.dataset.i;b.cols.splice(i,1);if(!b.each)b.rows.forEach(r=>r.splice(i,1));edDirty();redoProps()},
+ rowadd:()=>{const b=cb();b.rows.push(b.cols.map(()=>''));edDirty();redoProps()},rowdel:a=>{cb().rows.splice(+a.dataset.i,1);edDirty();redoProps()},
+ sladd:()=>{cb().slots.push(SL('signature.principal','Principal'));edDirty();redoProps()},sldel:a=>{cb().slots.splice(+a.dataset.i,1);edDirty();redoProps()},
+ accrs:()=>{S.ed.w.accent='';edDirty();$('.el').innerHTML=edLeft();edUpdate()},
+ vins:a=>{const d=S.ed,k=a.dataset.i,v=VM[k],b=cb();
+  if(v.type==='list'){if(b&&b.t==='tbl'){b.each=k;b.cols=LF[k].map(f=>({h:f[1],f:f[0],al:/^(total|obt|amt|billed|collected|out)$/.test(f[0])?'r':'l',sum:false}));b.rows=[];edDirty();redoProps();return toast('Table now repeats for each '+v.label.toLowerCase())}return toast('List fields go inside a table block. Select a table, then click it.')}
+  if(b&&((b.t==='img'&&v.type==='image')||(b.t==='qr'&&v.type==='qr'))){b.v=k;edDirty();redoProps();return toast('Block now uses '+v.label)}
+  const el=S.lastVt;if(!el||!document.contains(el)||!el.closest('#ed'))return toast('Click into a text field first, then pick a variable');
+  const s=el.selectionStart??el.value.length,e=el.selectionEnd??s,tok='{{'+k+'}}';el.value=el.value.slice(0,s)+tok+el.value.slice(e);el.focus();el.setSelectionRange(s+tok.length,s+tok.length);el.dispatchEvent(new Event('input',{bubbles:true}));toast('Inserted '+tok)},
+ edsave:()=>{const d=S.ed;E(d.id).draft=clone(d.w);d.dirty=false;aud('Draft saved',d.w.n);toast('✓ Draft saved');edUpdate();render()},
+ edpub:()=>{const d=S.ed,v=validate(d.w,curTid());if(v.E.length){toast('Fix '+v.E.length+' error(s) before publishing');$('#chk').scrollIntoView({behavior:'smooth',block:'nearest'});$('#chk').classList.add('flash');setTimeout(()=>$('#chk')?.classList.remove('flash'),900);return}pubDlg(d.id,d.w)},
+ pubok:a=>{const id=a.dataset.i,note=(val('pn')||'').trim(),w=(S.ed&&S.ed.id===id)?S.ed.w:clone(work(id));publishTpl(id,w,note);if(S.ed&&S.ed.id===id){S.ed.w=clone(pubOf(id));S.ed.dirty=false;S.ed.fork=false}mclose();render();if(S.ed)editor();toast('✓ Published v'+verOf(id))},
+ edclose:()=>{if(S.ed.dirty)dlg('Unsaved changes','<p>You have changes that aren’t saved. What would you like to do?</p>','<button class="btn" data-a="mclose">Keep editing</button><button class="btn bad" data-a="edclose2">Discard</button><button class="btn p" data-a="edsc">Save draft &amp; close</button>');else A.edclose2()},
+ edsc:()=>{A.edsave();A.edclose2()},
+ edclose2:()=>{mclose();S.ed=null;$('#ed').hidden=true;$('#ed').innerHTML='';document.body.style.overflow='';render()}});
+const cb=()=>S.ed.w.blocks[S.ed.sel];
+function redoProps(){$('.em').firstElementChild.outerHTML=edProps();edUpdate()}
+
+/* ---------- generate ---------- */
+const GT=[['S','Student','🎓'],['A','Admission','📝'],['T','Finance transaction','💳'],['F','Staff member','🧑‍🏫'],['L','Leave request','🌴'],['C','Discipline case','🛡️'],['R','Report','📈'],['N','General (no record)','🗂️']];
+const tplFor=(tid,id)=>ENT[tid]?.[id]?.pub||SYS[id]||null;
+const cdOf=n=>n.split(/\s+/).map(w=>w[0]).join('').toUpperCase().replace(/[^A-Z]/g,'').slice(0,3);
+function issue(tid,tplId,rt,rid,brId,role,user,at){const tpl=tplFor(tid,tplId),t=tenant(tid);if(!tpl||tpl.planned)return{ok:false,err:'Template not available'};
+ const rec=rt==='N'?null:(REC[tid][rt]||[]).find(r=>r.id===rid);if(rt!=='N'&&!rec)return{ok:false,err:'Record not found'};
+ const no=`${t.short.slice(0,2).toUpperCase()}-${cdOf(tpl.n)}-2026-${String(41+ISSUED.filter(x=>x.tid===tid).length).padStart(4,'0')}`;
+ const ctx=ctxFor(tid,rt==='R'||rt==='N'?brId:null,rt,rid);const res=renderDoc(tpl,ctx,{mode:'real',perms:ROLES[role].perms,docNo:no,user});
+ if(res.st.miss.size||res.st.deny.size||res.st.bad.size)return{ok:false,miss:[...res.st.miss],deny:[...res.st.deny],bad:[...res.st.bad],tpl};
+ const sens=validate(tpl,tid).keys.some(k=>VM[k]?.sens);
+ const e={no,tid,tplId,name:tpl.n,ver:tpl.ver,rt,rec:rec?recLabelT(tid,rt,rec):'—',brId:ctx.b.id,br:ctx.b.n,by:user,at:at||NOW,html:res.html,size:tpl.size,orient:tpl.orient,sens};ISSUED.unshift(e);return{ok:true,e}}
+function recLabelT(tid,rt,r){const R=REC[tid],sn=id=>R.S.find(x=>x.id===id)?.name,fn=id=>R.F.find(x=>x.id===id)?.name;return({S:()=>r.name,A:()=>r.name,T:()=>`${r.no} (${sn(r.sid)})`,F:()=>r.name,L:()=>`${fn(r.fid)} · ${r.type}`,C:()=>`${r.ref} (${sn(r.sid)})`,R:()=>r.title})[rt]()}
+TAB.gen=()=>{const g=S.gen,t=TEN_(),rs=g.rt==='N'?[]:recsFor(g.rt);if(g.rt!=='N'&&!rs.some(r=>r.id===g.rid))g.rid=rs[0]?.id||null;
+ const tiles=GT.map(([k,n,ic])=>{const c=k==='N'?'':recsFor(k).length;return`<button class="chip ${g.rt===k?'on':''}" data-a="grt" data-i="${k}">${ic} ${n}${c!==''?` <i>${c}</i>`:''}</button>`}).join('');
+ const brsel=(g.rt==='N'||g.rt==='R')?(R_().all?`<label class="fld" style="max-width:240px">Branch scope<select id="gbr">${g.rt==='R'?'<option value="all">All branches</option>':''}${t.branches.map(b=>`<option value="${b.id}" ${g.br===b.id?'selected':''}>${esc(b.n)}</option>`).join('')}</select></label>`:`<div class="info">Scoped to <b>${esc(brOf(t,S.br).n)}</b> (your branch).</div>`):'';
+ const list=g.rt==='N'?'':rs.length?`<div class="tw"><table><thead><tr><th>Record</th><th>Branch</th><th></th></tr></thead><tbody>${rs.map(r=>`<tr class="${r.id===g.rid?'sel':''}" data-a="grec" data-i="${r.id}"><td>${esc(recLabel(g.rt,r))}</td><td>${esc(brOf(t,r.br||t.branches[0].id).n)}</td><td>${r.id===g.rid?'✓':''}</td></tr>`).join('')}</tbody></table></div>`:`<div class="card empty"><div style="font-size:34px">📭</div><b>No ${RT[g.rt].toLowerCase()} records yet</b><p>${R_().all?'Records created in the ILMA modules show up here automatically.':'There are no records in your branch.'}</p></div>`;
+ const ids=allIds().filter(id=>!planned(id)&&stat(id)==='active'&&pubOf(id)?.rec.includes(g.rt)),ok=ids.filter(id=>perms().includes(pubOf(id).p)),lock=ids.filter(id=>!ok.includes(id));
+ const can=g.rt==='N'||g.rid;
+ const docs=`<div class="card"><h3 style="margin:0 0 4px">Documents</h3><p class="mut" style="margin:0 0 12px;font-size:13px">Only active templates that fit this record and your permissions are shown.</p>${!can?'<div class="empty">Select a record first.</div>':ok.length?ok.map(id=>`<div class="dr"><div><b>${esc(pubOf(id).n)}</b><br>${srcPill(id)} <span class="pill">v${pubOf(id).ver}</span>${pubOf(id).p==='sal'||pubOf(id).p==='fin'?' <span class="pill warn">🔒 sensitive</span>':''}</div><button class="btn p sm" data-a="gen" data-i="${id}">Generate</button></div>`).join(''):'<div class="empty">No active template fits this record type.</div>'}${lock.length&&can?`<div class="lk"><b>🔒 Not available to ${esc(R_().n)} (${lock.length})</b>${lock.map(id=>`<div>${esc(pubOf(id).n)} <small>needs “${PERM_N[pubOf(id).p]}” permission</small></div>`).join('')}</div>`:''}</div>`;
+ return`<div class="info">This stands in for the “Documents” menu inside ILMA modules (student profile, fee ledger, staff profile, leave request, reports). Pick a record and generate. Generation always runs against <b>${esc(t.short)}</b>’s data on the server.</div><div class="chips" style="margin-bottom:12px">${tiles}</div>${brsel}<div class="g2 gg"><div>${list}</div><div>${docs}</div></div>`};
+Object.assign(A,{grt:a=>{S.gen.rt=a.dataset.i;S.gen.rid=null;if(S.gen.rt==='R'&&!R_().all)S.gen.br=S.br;if(S.gen.rt==='N'&&S.gen.br==='all')S.gen.br=TEN_().branches[0].id;render()},grec:a=>{S.gen.rid=a.dataset.i;render()},
+ gen:a=>{const id=a.dataset.i,g=S.gen,tpl=pubOf(id);
+  if(!tpl||!canGen(S.role,tpl)){aud('Generation denied (403)',(tpl?.n||id)+' · missing permission “'+(tpl?.p)+'”','deny');return toast('403 · Your role isn’t permitted to generate this document')}
+  const rec=g.rt==='N'?null:(REC[S.tid][g.rt]||[]).find(r=>r.id===g.rid);if(g.rt!=='N'&&(!rec||!canAccess(S.role,S.br,rec.br)&&g.rt!=='R')){aud('Generation denied (404)','Record outside scope','deny');return toast('Record not found in your scope')}
+  const brId=g.rt==='N'||g.rt==='R'?(R_().all?(g.rt==='N'&&g.br==='all'?TEN_().branches[0].id:g.br):S.br):null;
+  const r=issue(S.tid,id,g.rt,g.rid,brId,S.role,USER[S.role]);
+  if(!r.ok){return dlg('Can’t generate this document',`<div class="ck e">✕ ${r.err||'Required information is missing for this record.'}</div>${r.miss?.length?`<p>These required fields are empty on the record. Fill them in the source module, then try again:</p><ul>${r.miss.map(k=>`<li><code>${k}</code> · ${esc(VM[k].label)}</li>`).join('')}</ul>`:''}${r.deny?.length?`<p>Restricted fields: ${r.deny.map(k=>`<code>${k}</code>`).join(', ')}</p>`:''}<p class="mut" style="font-size:13px">Nothing was issued and no document number was used.</p>`,'<button class="btn" data-a="mclose">Close</button>')}
+  aud(r.e.sens?'Sensitive document generated':'Document generated',`${r.e.no} · ${r.e.name} · ${r.e.rec}`,r.e.sens?'sens':'gen');showDoc(r.e.no,true);render()},
+ view:a=>{if(a.dataset.i==='table'||a.dataset.i==='cards'){S.view=a.dataset.i;return render()}showDoc(a.dataset.i)},
+ pdf:a=>{toast('In the print window choose “Save as PDF”. Production renders PDFs on the server.');printDoc(a.dataset.i)},prt:a=>printDoc(a.dataset.i)});
+function showDoc(no,fresh){const e=ISSUED.find(x=>x.no===no);dlg(esc(e.name)+' <small class="mut">· '+esc(e.no)+'</small>',`${fresh?'<div class="chk ok">✓ Issued. Number reserved and a read-only snapshot stored.</div>':'<div class="info">Issued snapshot. This is exactly what was generated on '+esc(e.at)+'. Later template changes don’t alter it.</div>'}<div class="pvh" data-fit="1">${e.html}</div>`,`<button class="btn" data-a="mclose">Close</button><button class="btn" disabled title="Email delivery is a planned channel; the generator already returns a file reference for it">✉ Email (coming soon)</button><button class="btn" data-a="prt" data-i="${no}">🖨 Print</button><button class="btn p" data-a="pdf" data-i="${no}">⬇ Download PDF</button>`,true);fitPreviews($('#dlg'))}
+function printDoc(no){const e=ISSUED.find(x=>x.no===no);$('#printArea').innerHTML=e.html;$('#pgstyle').textContent=`@page{size:${e.size==='ID'?'85.6mm 54mm':e.size} ${e.size==='ID'?'':e.orient};margin:0}`;document.title=e.no;window.print()}
+/* ---------- issued & audit ---------- */
+TAB.iss=()=>{const rows=ISSUED.filter(x=>x.tid===S.tid&&canAccess(S.role,S.br,x.brId));
+ return`<div class="info">Every generated document is stored as an immutable snapshot with its own number. Editing or archiving a template never changes what was already issued.</div>${rows.length?`<div class="tw"><table><thead><tr><th>Number</th><th>Document</th><th>Template version</th><th>Record</th><th>Branch</th><th>Issued by</th><th>When</th><th></th></tr></thead><tbody>${rows.map(x=>{const cur=tplFor(x.tid,x.tplId)?.ver;return`<tr><td><b>${x.no}</b></td><td>${esc(x.name)} ${x.sens?'<span class="pill warn">🔒</span>':''}</td><td>v${x.ver}${cur>x.ver?` <span class="pill warn">now v${cur}</span>`:''}</td><td>${esc(x.rec)}</td><td>${esc(x.br)}</td><td>${esc(x.by)}</td><td>${esc(x.at)}</td><td class="act"><button class="btn sm" data-a="view" data-i="${x.no}">View</button><button class="btn sm" data-a="pdf" data-i="${x.no}">PDF</button></td></tr>`}).join('')}</tbody></table></div>`:'<div class="card empty"><div style="font-size:34px">🧾</div><b>No documents issued yet</b><p>Generate one from the “Generate documents” tab.</p></div>'}`};
+TAB.aud=()=>{const sc=S.role==='platform'?'platform':S.tid,rows=AUD.filter(x=>x.tid===sc&&(S.audF==='all'||x.kind===S.audF||(S.audF==='gen'&&x.kind==='sens')));
+ return`<div class="chips" style="margin-bottom:12px">${[['all','Everything'],['pub','Publishing'],['gen','Document generation'],['sens','Sensitive'],['deny','Denied requests']].map(x=>`<button class="chip ${S.audF===x[0]?'on':''}" data-a="audf" data-i="${x[0]}">${x[1]}</button>`).join('')}</div>${rows.length?`<div class="tw"><table><thead><tr><th>When</th><th>Who</th><th>Action</th><th>Target</th></tr></thead><tbody>${rows.map(x=>`<tr><td>${esc(x.at)}</td><td>${esc(x.who)}<br><small>${esc(x.role)}</small></td><td>${x.kind==='deny'?'<span class="pill bad">':x.kind==='sens'?'<span class="pill warn">':x.kind==='pub'?'<span class="pill acc">':'<span class="pill">'}${esc(x.act)}</span></td><td>${esc(x.obj)}</td></tr>`).join('')}</tbody></table></div>`:'<div class="card empty"><b>Nothing logged here yet</b></div>'}<p class="mut" style="font-size:13px">Audit entries are append-only, tenant-scoped, and cover template publishing, archiving, sensitive document generation and denied requests.</p>`};
+A.audf=a=>{S.audF=a.dataset.i;render()};
+/* ---------- branding ---------- */
+function initBd(){const t=tenant(S.tid);if(!t)return;S.bd=clone(t);S.bbr=0}
+TAB.brand=()=>{if(!S.bd||S.bd.id!==S.tid)initBd();const b=S.bd,ro=S.role!=='inst',dis=ro?'disabled':'',bi=S.bbr||0,br=b.branches[bi];
+ const f=(l,k,v,ph='')=>`<label class="fld">${l}<input class="in" data-b="${k}" value="${esc(v)}" placeholder="${esc(ph)}" ${dis}></label>`;
+ const sg=(k,l)=>{const s=b.sigs[k];return`<div class="sgr"><b>${l}</b><input class="in" data-b="sigs.${k}.nm" value="${esc(s.nm)}" ${dis} placeholder="Name"><input class="in" data-b="sigs.${k}.ti" value="${esc(s.ti)}" ${dis} placeholder="Title"><label class="cbx"><input type="checkbox" data-bc="sigs.${k}.on" ${s.on?'checked':''} ${dis}> Signature on file</label></div>`};
+ return`${ro?`<div class="info">🔒 Only the Institute Admin can change branding. You can see how it applies to documents.</div>`:'<div class="info">Changes appear in the preview instantly. <b>Save</b> applies them to every template and every new document for this institute.</div>'}
+ <div class="g2 bg"><div class="bform"><div class="card"><h3 style="margin:0 0 10px">Institute profile</h3>${f('Institute name','name',b.name)}<div class="g2">${f('Short name','short',b.short)}${f('Tagline / motto','tag',b.tag)}</div>${f('Registration number','reg',b.reg)}<div class="g2">${f('Email','email',b.email)}${f('Phone','phone',b.phone)}</div>${f('Website','web',b.web)}${f('Head-office address','addr',b.addr)}</div>
+ <div class="card"><h3 style="margin:0 0 10px">Logo & colours</h3><div class="row2"><div id="lgp">${logo(b,56)}</div><label class="btn sm" style="cursor:pointer">Upload logo<input type="file" id="logo" accept="image/*" hidden ${dis}></label>${b.logo?`<button class="btn sm bad" data-a="lgrm" ${dis}>Remove</button>`:''}</div><div class="row2" style="margin-top:12px"><label class="fld" style="margin:0">Brand colour<input type="color" data-b="color" value="${b.color}" style="height:40px;width:90px" ${dis}></label><div class="chips">${['#1f6f5c','#b4472e','#2a63d4','#6c4cf1','#a85a05','#1a2152'].map(c=>`<button class="sw2" style="background:${c}" data-a="bcol" data-i="${c}" ${dis} aria-label="${c}"></button>`).join('')}</div></div><label class="fld" style="margin-top:12px">Document typeface<select class="in" data-b="font" ${dis}>${[['sans','Sans (modern)'],['serif','Serif (formal)'],['classic','Classic']].map(x=>`<option value="${x[0]}" ${b.font===x[0]?'selected':''}>${x[1]}</option>`).join('')}</select></label></div>
+ <div class="card"><h3 style="margin:0 0 10px">Branch details</h3><label class="fld">Branch<select id="bbr" class="in">${b.branches.map((x,i)=>`<option value="${i}" ${i===bi?'selected':''}>${esc(x.n)}</option>`).join('')}</select></label>${f('Branch name',`branches.${bi}.n`,br.n)}${f('Address',`branches.${bi}.addr`,br.addr)}<div class="g2">${f('Phone',`branches.${bi}.ph`,br.ph)}${f('Email',`branches.${bi}.em`,br.em)}</div></div>
+ <div class="card"><h3 style="margin:0 0 10px">Signatories</h3><p class="mut" style="font-size:13px;margin-top:0">Authorised signatures are only printed when marked “on file”.</p>${sg('principal','Principal')}${sg('accountant','Accounts')}${sg('hr','HR Manager')}</div>
+ ${ro?'':'<div class="bar"><button class="btn p" data-a="bsave">Save branding</button><button class="btn" data-a="bdisc">Discard changes</button></div>'}</div>
+ <div class="bprev"><div class="card" style="position:sticky;top:76px"><div class="bar" style="margin-bottom:8px"><b>Live preview</b><div class="sp"></div><select id="bpt">${allIds().filter(i=>!planned(i)&&stat(i)==='active'&&perms().includes(pubOf(i).p)).map(i=>`<option value="${i}" ${S.bprev===i?'selected':''}>${esc(pubOf(i).n)}</option>`).join('')}</select></div><div class="pvh" id="bpv"></div></div></div></div>`};
+function bdPrev(){const el=$('#bpv');if(!el)return;let id=S.bprev;if(!pubOf(id)||stat(id)!=='active')id=allIds().find(i=>!planned(i)&&stat(i)==='active');const tpl=pubOf(id);el.innerHTML=renderDoc(tpl,{t:S.bd,b:S.bd.branches[S.bbr||0],rt:'N'},{mode:'sample'}).html;fitPreviews(el)}
+Object.assign(A,{bcol:a=>{S.bd.color=a.dataset.i;render()},lgrm:()=>{S.bd.logo=null;render()},bdisc:()=>{initBd();render();toast('Changes discarded')},bsave:()=>{Object.assign(tenant(S.tid),clone(S.bd));aud('Branding updated',S.bd.name,'pub');toast('✓ Branding saved. All documents now use it.');render()}});
+/* ---------- variables ---------- */
+const usage=()=>{const m={};Object.values(SYS).filter(t=>!t.planned).forEach(t=>validate(t,'t-sample').keys.forEach(k=>(m[k]=m[k]||[]).push(t.n)));return m};
+TAB.vars=()=>`<div class="info">Variables use the form <code>{{category.field}}</code>, and an inline fallback like <code>{{guardian.email|Not provided}}</code>. Every variable is resolved <b>on the server</b> from authorised records and the institute’s branding.</div><div class="bar"><input class="in" id="vqq" placeholder="Search variables…" value="${esc(S.vq)}" style="max-width:320px"><select id="vcc"><option value="all">All categories</option>${Object.entries(CATN).map(([k,n])=>`<option value="${k}" ${S.vcat===k?'selected':''}>${n}</option>`).join('')}</select></div><div id="vb">${varsBody()}</div>`;
+function varsBody(){const u=usage(),vs=vFilter(S.vq,S.vcat,null);return vs.length?`<div class="tw"><table><thead><tr><th>Variable</th><th>What it is</th><th>Type</th><th>Example</th><th>Needs</th><th>Rules</th><th>Used in</th></tr></thead><tbody>${vs.map(v=>`<tr><td><code>{{${v.key}}}</code></td><td><b>${esc(v.label)}</b><br><small>${esc(v.desc)}</small></td><td>${v.type}</td><td>${esc(['image','qr','list','sign'].includes(v.type)?'—':v.type==='date'?fdate(v.ex):v.type==='currency'?pkr(v.ex):v.ex)}</td><td>${v.rec==='*'?'No record':[...v.rec].map(r=>RT[r]).join(' / ')}</td><td>${vTags(v,null)||'Required'}</td><td>${(u[v.key]||[]).length?`${u[v.key].length} template${u[v.key].length>1?'s':''}`:'—'}</td></tr>`).join('')}</tbody></table></div>`:'<div class="card empty"><b>No variables match</b></div>'}
+/* ---------- security & data model ---------- */
+function simApi(){const s=S.sim,me=curTid(),L={get:['GET','/api/templates/tpl-fee-invoice'],pub:['POST','/api/templates/tpl-fee-invoice/publish'],gen:['POST','/api/documents'],file:['GET','/api/documents/AN-BON-2026-0041/file']}[s.ep],ln=[`→ ${L[0]} ${L[1]}`,`   X-Tenant-Id: ${s.hdr||'(none)'}   ← supplied by the browser`,`server  tenant = ${me}   ← from the verified session, not the request`];
+ if(s.hdr&&s.hdr!==me)ln.push(`server  ignored X-Tenant-Id “${s.hdr}” (≠ session tenant)`);let code,msg;
+ if(s.owner==='other'){code=404;msg='Not found. The query is always WHERE tenant_id = session tenant, so another institute’s rows can’t be seen, and their existence isn’t revealed.'}
+ else if(s.ep==='pub'&&!canEdit()){code=403;msg='Forbidden. Role “'+R_().n+'” can’t publish templates.'}
+ else if((s.ep==='gen'||s.ep==='file')&&S.role==='platform'){code=403;msg='Forbidden. Platform operators can’t read or generate institute records.'}
+ else if(s.ep==='pub'&&S.role==='platform'){code=200;msg='OK. Published a shared system version (audit entry written).'}
+ else{code=200;msg='OK. '+({get:'Template returned (tenant override if present, else shared default).',pub:'Published for this institute only (audit entry written).',gen:'Document generated from server-side data; snapshot stored; short-lived signed URL returned.',file:'Short-lived signed URL (5 min), bound to this user.'})[s.ep]}
+ ln.push(`← ${code}  ${msg}`);if(code!==200)aud('Request denied ('+code+')',`${L[0]} ${L[1]} · header tenant ${s.hdr||'none'}`,'deny');return{ln,code}}
+function runChecks(){const R=[],T=(n,f)=>{try{R.push([n,!!f()])}catch(e){R.push([n+' ('+e.message+')',false])}};const bon='tpl-bonafide-certificate',doc=(tid,id,rt,rid,role='inst',o={})=>renderDoc(tplFor(tid,id),ctxFor(tid,null,rt,rid),{mode:'real',perms:ROLES[role].perms,docNo:'T-1',user:'t',...o});
+ T('Variables resolve from the right institute',()=>ctxFor('t-alnoor',null,'S','s1').t.name==='Al-Noor Education System');
+ T('Al-Noor document uses Al-Noor branding only',()=>{const h=doc('t-alnoor',bon,'S','s1').html;return h.includes('Al-Noor Education System')&&!h.includes('Iqra')});
+ T('Same shared template renders Iqra branding for Iqra',()=>{const h=doc('t-iqra',bon,'S','s7').html;return h.includes('Iqra Academy')&&!h.includes('Al-Noor')});
+ T('Another institute’s record id cannot be resolved (tenant isolation)',()=>!ctxFor('t-iqra',null,'S','s1').s);
+ T('Institute override does not change the shared default',()=>tplFor('t-iqra',bon).ver===SYS[bon].ver&&tplFor('t-alnoor',bon).ver>SYS[bon].ver);
+ T('Customising one institute leaves others untouched',()=>!JSON.stringify(tplFor('t-iqra',bon)).includes('visa'));
+ T('Optional field uses its fallback instead of blank/missing',()=>{const r=renderDoc(tplFor('t-alnoor','tpl-leave-approval-letter'),ctxFor('t-alnoor',null,'L','l2'),{mode:'real',perms:ROLES.inst.perms,docNo:'T-2',user:'t'});return r.st.miss.size===0&&r.html.includes('—')});
+ T('Missing required field blocks generation',()=>{const r=issue('t-alnoor','tpl-student-id-card','S','s5',null,'inst','t');ISSUED.length&&0;return!r.ok&&r.miss.includes('student.gr_no')});
+ T('Conditional block is hidden when its field is empty',()=>!doc('t-alnoor','tpl-fee-invoice','T','x1').html.includes('Late fee'));
+ T('Conditional block shows when the field has a value',()=>doc('t-alnoor','tpl-fee-invoice','T','x3').html.includes('Late fee'));
+ T('Teacher role is denied finance fields',()=>doc('t-alnoor','tpl-fee-invoice','T','x1','teacher').st.deny.size>0);
+ T('Teacher cannot generate payroll templates',()=>!canGen('teacher',SYS['tpl-salary-slip'])&&canGen('inst',SYS['tpl-salary-slip'])&&!canGen('branch',SYS['tpl-salary-slip']));
+ T('Branch admin cannot access another branch’s record',()=>canAccess('branch','a1','a1')&&!canAccess('branch','a1','a2')&&canAccess('inst','a1','a2'));
+ T('Platform role has no document generation',()=>!canGen('platform',SYS[bon]));
+ T('Validation rejects unknown variables',()=>validate({...SYS[bon],blocks:[P('{{foo.bar}}')]},'t-alnoor').E.length>0);
+ T('Validation rejects planned (unsupported) fields',()=>validate({...SYS[bon],blocks:[P('{{student.blood_group}}')]},'t-alnoor').E.length>0);
+ T('Validation rejects incompatible record fields',()=>validate({...SYS[bon],blocks:[P('{{staff.name}}')]},'t-alnoor').E.some(x=>/incompatible/.test(x.msg)));
+ T('Validation warns when a signature is not on file',()=>validate(tplFor('t-iqra','tpl-experience-certificate'),'t-iqra').W.some(x=>/isn’t on file/.test(x.msg)));
+ T('Issued snapshot is not changed by later template edits',()=>{const e=ISSUED.find(x=>x.tplId===bon);if(!e)return false;const before=e.html;const old=ENT['t-alnoor'][bon].pub.blocks[4].txt;ENT['t-alnoor'][bon].pub.blocks[4].txt='CHANGED';const same=e.html===before;ENT['t-alnoor'][bon].pub.blocks[4].txt=old;return same&&!e.html.includes('CHANGED')});
+ return R}
+function swSec(){const t=curTid()==='t-sample'?null:tenant(curTid()),ids=Object.keys(SYS).filter(i=>!SYS[i].planned),en=t?Object.entries(ENT[t.id]||{}):[];
+ return`<div class="g2 gg"><div class="card"><h3 style="margin:0 0 6px">Request simulator</h3><p class="mut" style="font-size:13px;margin-top:0">Try to break tenant isolation. The browser can send any header it likes; the server only trusts the session.</p><div class="g2"><label class="fld">Endpoint<select id="sep" class="in">${[['get','GET template'],['pub','POST publish template'],['gen','POST generate document'],['file','GET document file']].map(x=>`<option value="${x[0]}" ${S.sim.ep===x[0]?'selected':''}>${x[1]}</option>`).join('')}</select></label><label class="fld">Target belongs to<select id="sow" class="in"><option value="mine" ${S.sim.owner==='mine'?'selected':''}>My institute</option><option value="other" ${S.sim.owner==='other'?'selected':''}>Another institute</option></select></label></div><label class="fld">X-Tenant-Id header the browser sends<input id="shd" class="in" value="${esc(S.sim.hdr)}"></label><button class="btn p" data-a="sim">Send request</button><pre id="simo" class="sim">Choose a request and press Send.</pre></div>
+ <div class="card"><h3 style="margin:0 0 6px">Template inheritance</h3><div class="inh"><div class="ib sys"><b>Shared system templates</b><small>${ids.length} built · owned by the platform · versioned</small></div><div class="ar">↓ inherited, never copied</div><div class="ib ten"><b>${t?esc(t.short)+' overrides & custom templates':'Institute overrides & custom templates'}</b><small>${t?`${en.filter(e=>e[1].pub&&!e[1].custom).length} customised · ${en.filter(e=>e[1].custom).length} custom · ${ids.length-en.filter(e=>e[1].pub&&!e[1].custom).length} inherited`:'Pick an institute role to see this'}</small></div><div class="ar">↓ + institute branding + authorised record data</div><div class="ib snap"><b>Issued document snapshots</b><small>Immutable · private storage · signed URLs</small></div></div></div></div>`}
+TAB.sec=()=>{const roles=Object.entries(ROLES),caps=[['Edit shared system templates',r=>r.edit==='sys'],['Customise / publish own templates',r=>r.edit==='ten'],['Edit branding & signatories',r=>r.edit==='ten'],['See all branches',r=>r.all&&r.edit==='ten'],['Read student / staff / finance records',r=>r.perms.length>0],['Student documents',r=>r.perms.includes('stu')],['Finance documents',r=>r.perms.includes('fin')],['Staff documents',r=>r.perms.includes('hr')],['Payroll / salary documents',r=>r.perms.includes('sal')],['See CNIC / national ID numbers',r=>r.perms.includes('pii')]];
+ return`${swSec()}<div class="card" style="margin-top:14px"><h3 style="margin:0 0 8px">Permission matrix</h3><div class="tw"><table><thead><tr><th>Capability</th>${roles.map(r=>`<th>${r[1].n}</th>`).join('')}</tr></thead><tbody>${caps.map(c=>`<tr><td>${c[0]}</td>${roles.map(r=>`<td>${c[1](r[1])?'<span class="pill ok">✓</span>':'<span class="pill">—</span>'}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>
+ <div class="card" style="margin-top:14px"><h3 style="margin:0 0 4px">Engine self-checks</h3><p class="mut" style="font-size:13px;margin-top:0">These run live against this mockup’s resolver, validator and renderer. The same cases are the test plan for the production implementation.</p><button class="btn p" data-a="chk">Run ${runChecks().length} checks</button><div id="chks"></div></div>
+ <div class="card" style="margin-top:14px"><h3 style="margin:0 0 8px">Server-side generation pipeline</h3><ol class="pipe">${['Authenticate; resolve the tenant from the session (never from the request).','Authorise: role, branch scope and the template’s permission group.','Load the published version: institute override first, else the shared default.','Load the record with tenant_id + branch filters; 404 if not in scope.','Load institute branding and signatories for that tenant.','Resolve variables through a registry; apply sensitivity rules and fallbacks.','Block with a clear list if a required field is missing (422).','Render HTML, convert to PDF, store snapshot + hash in private storage.','Write the audit entry (sensitive documents flagged).','Return a short-lived signed URL bound to the user.'].map(s=>`<li>${s}</li>`).join('')}</ol></div>
+ <div class="card" style="margin-top:14px"><h3 style="margin:0 0 4px">Proposed data model</h3><p class="mut" style="font-size:13px;margin-top:0">Proposal only. It must be reconciled with ILMA’s real schema (branches, students, staff, fees…), which isn’t available here. No existing column is assumed.</p>${[['system_templates','id, code, category, record_types[], output_formats[], status, current_version_id'],['system_template_versions','id, template_id, version, body_json, variables_used[], published_by, published_at, change_note'],['tenant_template_overrides','id, tenant_id, system_template_id (null = custom), name, status, published_version_id, draft_json, base_system_version, archived_at'],['tenant_template_versions','id, override_id, tenant_id, version, body_json, published_by, published_at, change_note'],['tenant_branding','tenant_id (PK), display_name, short_name, logo_asset_id, brand_color, font_key, address, phone, email, website, registration_no'],['tenant_signatories','tenant_id, role_key, name, title, signature_asset_id, authorised_by'],['variable_schema','key (PK), type, record_types[], optional, sensitivity, planned, resolver_id'],['generated_documents','id, tenant_id, branch_id, template_version_ref, record_type, record_id, document_no, storage_key, sha256, snapshot_json, generated_by, generated_at'],['template_audit_log','id, tenant_id, actor_id, action, target, ip, at (append-only)']].map(x=>`<details><summary><code>${x[0]}</code></summary><p>${x[1]}</p></details>`).join('')}</div>`};
+Object.assign(A,{sim:()=>{const r=simApi();$('#simo').className='sim c'+r.code;$('#simo').textContent=r.ln.join('\n');},chk:()=>{const R=runChecks();$('#chks').innerHTML=`<div class="chk ${R.every(x=>x[1])?'ok':'bad'}" style="margin:12px 0 6px">${R.filter(x=>x[1]).length} / ${R.length} checks passed</div>`+R.map(x=>`<div class="ck ${x[1]?'g':'e'}">${x[1]?'✓':'✕'} ${esc(x[0])}</div>`).join('')}});
+/* ---------- events ---------- */
+function setP(el){const d=S.ed;if(!d)return;let v=el.type==='checkbox'?el.checked:el.value;if(el.dataset.n)v=+v;const p=el.dataset.p;
+ if(p.startsWith('T.'))setPath(d.w,p.slice(2),v);else{const b=cb();setPath(b,p,v);if(p==='each'){if(v){b.cols=LF[v].map(f=>({h:f[1],f:f[0],al:/^(total|obt|amt|billed|collected|out)$/.test(f[0])?'r':'l'}));b.rows=[]}else{b.cols=[{h:'Item',al:'l'},{h:'Details',al:'l'}];b.rows=[['','']]}}}
+ d.dirty=true;if(el.dataset.r||p==='each')redoProps();else edUpdate();if(p==='T.accent'&&el.type==='color'){}}
+document.addEventListener('focusin',e=>{if(e.target.classList?.contains('vt'))S.lastVt=e.target});
+document.addEventListener('mousedown',e=>{if(e.target.closest('[data-a=vins]'))e.preventDefault()});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList?.contains('vi')){e.preventDefault();e.target.click()}});
+document.addEventListener('click',e=>{if(!e.target.closest('.mnl')&&!e.target.closest('[data-a=mnu]'))$('#layer').innerHTML='';const el=e.target.closest('[data-a]');if(!el)return;const f=A[el.dataset.a];if(f){f(el,e);if(el.closest('.mnl')&&el.dataset.a!=='mnu')$('#layer').innerHTML=''}});
+document.addEventListener('input',e=>{const el=e.target;
+ if(el.id==='q'){S.q=el.value;$('#lb').innerHTML=libBody();fitPreviews($('#lb'))}
+ else if(el.id==='vq'&&S.ed){S.ed.vq=el.value;$('#vl').innerHTML=vList()}
+ else if(el.id==='vqq'){S.vq=el.value;$('#vb').innerHTML=varsBody()}
+ else if(el.dataset.fb!==undefined&&S.ed){const w=S.ed.w;if(el.value)w.fb[el.dataset.fb]=el.value;else delete w.fb[el.dataset.fb];S.ed.dirty=true;edUpdate()}
+ else if(el.dataset.p!==undefined&&el.closest('#ed')&&!['SELECT'].includes(el.tagName)&&el.type!=='checkbox')setP(el);
+ else if(el.dataset.b!==undefined&&S.bd){setPath(S.bd,el.dataset.b,el.value);bdPrev()}
+ else if(el.id==='shd')S.sim.hdr=el.value});
+document.addEventListener('change',e=>{const el=e.target,id=el.id;
+ if(id==='role'){S.role=el.value;if(S.ed)A.edclose2();if(!R_().all&&S.role!=='platform')S.br=TEN_().branches.some(b=>b.id===S.br)?S.br:TEN_().branches[0].id;S.gen.rid=null;S.gen.br=R_().all?'all':S.br;S.bd=null;render()}
+ else if(id==='ten'){S.tid=el.value;S.br=TEN_().branches[0].id;S.gen={rt:'S',rid:null,br:'all'};S.bd=null;render()}
+ else if(id==='brs'){S.br=el.value;S.gen.rid=null;S.gen.br=S.br;render()}
+ else if(id==='stf'){S.st=el.value;render()}
+ else if(id==='pm'&&S.ed){S.ed.pm=el.value;$('.er').innerHTML=edPrev();edUpdate()}
+ else if(id==='prec'&&S.ed){S.ed.rid=el.value;edUpdate()}
+ else if(id==='pbr'&&S.ed){S.ed.br=el.value;edUpdate()}
+ else if(id==='vc'&&S.ed){S.ed.vc=el.value;$('#vl').innerHTML=vList()}
+ else if(id==='vcc'){S.vcat=el.value;$('#vb').innerHTML=varsBody()}
+ else if(id==='gbr'){S.gen.br=el.value;render()}
+ else if(id==='bbr'){S.bbr=+el.value;render()}
+ else if(id==='bpt'){S.bprev=el.value;bdPrev()}
+ else if(id==='sep')S.sim.ep=el.value;else if(id==='sow')S.sim.owner=el.value;
+ else if(id==='logo'&&el.files[0]){const r=new FileReader();r.onload=()=>{S.bd.logo=r.result;render()};r.readAsDataURL(el.files[0])}
+ else if(el.dataset.a2==='pvbr'){const t=TEN_(),tpl=pubOf(el.dataset.i)||meta(el.dataset.i);$('#pvbox').innerHTML=renderDoc(tpl,ctxSample(t,el.value),{mode:'sample'}).html;fitPreviews($('#dlg'))}
+ else if(el.dataset.bc!==undefined&&S.bd){setPath(S.bd,el.dataset.bc,el.checked);bdPrev()}
+ else if(el.dataset.p!==undefined&&el.closest('#ed')&&(el.tagName==='SELECT'||el.type==='checkbox')){setP(el);if(el.dataset.p==='T.accent')$('.el').innerHTML=edLeft()}
+ else if(el.dataset.p==='T.accent'&&S.ed){$('.el').innerHTML=edLeft()}
+ if(el.dataset.p==='T.accent'&&S.ed&&el.type==='color')$('.el').innerHTML=edLeft()});
+addEventListener('resize',()=>{fitPreviews(document)});
+document.addEventListener('click',e=>{if(e.target.id==='theme'){const r=document.documentElement;const dark=(r.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))==='dark';r.dataset.theme=dark?'light':'dark'}});
+/* ---------- init ---------- */
+REC['t-alnoor'].S[4].gr='';
+(function(){const U=(r,at,by)=>[r,at,by];
+ [['t-alnoor','tpl-bonafide-certificate','S','s2',null,'branch','Ms. Farah Siddiqui','12 Oct 2026, 10:20'],['t-alnoor','tpl-payment-receipt','T','x2',null,'branch','Ms. Farah Siddiqui','09 Oct 2026, 15:05'],['t-alnoor','tpl-report-card','S','s3',null,'teacher','Mr. Adeel Raza','08 Oct 2026, 12:40'],['t-alnoor','tpl-appointment-letter','F','f5',null,'inst','Dr. Ayesha Malik','03 Oct 2026, 09:15'],['t-iqra','tpl-fee-invoice','T','x5',null,'inst','Mr. Zeeshan Ali','11 Oct 2026, 11:00']].forEach(a=>{const r=issue(a[0],a[1],a[2],a[3],a[4],a[5],a[6],a[7]);if(r.ok&&r.e.sens)AUD.unshift({at:a[7],who:a[6],role:ROLES[a[5]].n,tid:a[0],act:'Sensitive document generated',obj:`${r.e.no} · ${r.e.name} · ${r.e.rec}`,kind:'sens'});else if(r.ok)AUD.unshift({at:a[7],who:a[6],role:ROLES[a[5]].n,tid:a[0],act:'Document generated',obj:`${r.e.no} · ${r.e.name} · ${r.e.rec}`,kind:'gen'})});
+ AUD.unshift({at:'02 Oct 2026, 16:30',who:'Dr. Ayesha Malik',role:ROLES.inst.n,tid:'t-alnoor',act:'Template published',obj:'Bonafide Certificate · v'+(SYS['tpl-bonafide-certificate'].ver+1)+' · Shortened wording for visa applications',kind:'pub'},{at:'20 Sep 2026, 09:40',who:'Mr. Zeeshan Ali',role:ROLES.inst.n,tid:'t-iqra',act:'Template published',obj:'Fee Invoice · Added bank details',kind:'pub'},{at:'12 Oct 2026, 08:55',who:'Mr. Adeel Raza',role:ROLES.teacher.n,tid:'t-alnoor',act:'Generation denied (403)',obj:'Fee Invoice · missing permission “fin”',kind:'deny'},{at:'05 Sep 2026, 10:00',who:'Platform Admin',role:ROLES.platform.n,tid:'platform',act:'Template published',obj:'Fee Invoice · v1 · Initial release',kind:'pub'},{at:'28 Sep 2026, 13:10',who:'Platform Admin',role:ROLES.platform.n,tid:'platform',act:'Institute registered',obj:'Iqra Academy',kind:'info'});
+ AUD.sort(()=>0)})();
+render();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA CMS · WorkHub</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f5f6fb;--card:#fff;--ink:#14162b;--mut:#646a8c;--line:#e8eaf3;--hov:#f7f7fd;--acc:#6c4cf1;--accs:#efeaff;--ok:#0f8a66;--oks:#e3f7ef;--warn:#a85a05;--warns:#fff3dc;--bad:#d9362b;--bads:#fdebec;--blue:#2a63d4;--blues:#e6efff;
+--shadow:0 1px 2px rgba(20,22,43,.05),0 8px 24px rgba(20,22,43,.06);--glow:radial-gradient(900px 300px at 20% -10%,rgba(108,76,241,.10),transparent),radial-gradient(700px 260px at 100% 0,rgba(255,140,120,.08),transparent)}
+:root[data-theme=dark]{--bg:#0d1022;--card:#161a35;--ink:#eceefc;--mut:#9ba1c8;--line:#262b4d;--hov:#1b2040;--accs:#2a2458;--ok:#4fd1a5;--oks:#0f3a2e;--warn:#f4b25c;--warns:#3d2e10;--bad:#ff8a80;--bads:#41191c;--blue:#8ab4ff;--blues:#1a2b52;--glow:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1022;--card:#161a35;--ink:#eceefc;--mut:#9ba1c8;--line:#262b4d;--hov:#1b2040;--accs:#2a2458;--ok:#4fd1a5;--oks:#0f3a2e;--warn:#f4b25c;--warns:#3d2e10;--bad:#ff8a80;--bads:#41191c;--blue:#8ab4ff;--blues:#1a2b52;--glow:none}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+button,select,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+[hidden]{display:none!important}
+.app{display:flex;min-height:100vh}
+.side{width:250px;flex:none;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,#1a2152,#12172f 60%);color:#c9cdf0;padding:16px 14px;display:flex;flex-direction:column;overflow:auto}
+.brand{display:flex;gap:11px;align-items:center;color:#fff;font-weight:800;padding:4px 6px 16px}
+.brand i{width:38px;height:38px;border-radius:11px;background:#0b0f26;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;font-style:normal}
+.brand small{display:block;font-weight:500;font-size:11.5px;color:#8c91c4}
+.nv{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:3px;border-radius:12px;color:#c9cdf0;font-weight:600;cursor:pointer}
+.nv:hover{background:rgba(255,255,255,.07)}.nv.on{background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 3px 0 0 var(--acc)}
+.nv b{margin-left:auto;background:#e5484d;color:#fff;font-size:11px;border-radius:99px;padding:0 7px}
+.nv .ch{margin-left:auto;font-size:11px;opacity:.7}
+.sub1{padding-left:18px;margin-bottom:6px}.sub1 .nv{font-size:13.5px;padding:7px 12px;font-weight:500}.sub1 .nv.on{box-shadow:none;background:rgba(108,76,241,.35)}
+.me{margin-top:auto;border-top:1px solid rgba(255,255,255,.1);padding:14px 4px 4px;display:flex;gap:10px;align-items:center;color:#fff;font-size:13.5px;font-weight:700}
+.me small{display:block;color:#8c91c4;font-weight:500}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800;flex:none;background:hsl(var(--h,260) 52% 46%)}
+.av.s{width:26px;height:26px;font-size:10px}
+.col{flex:1;min-width:0}
+.top{display:flex;align-items:center;gap:12px;padding:12px 28px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;flex-wrap:wrap}
+.top label{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--mut)}
+select,.in{border:1px solid var(--line);background:var(--card);border-radius:11px;padding:9px 12px;min-width:0}
+.in{width:100%}textarea.in{min-height:84px;resize:vertical}
+.sp{flex:1}
+.bell{position:relative;border:0;border-radius:14px;height:42px;width:42px;color:#fff;background:linear-gradient(135deg,#ffb020,#ff5e7a);box-shadow:0 8px 20px rgba(255,110,100,.35);font-size:18px}
+.bell b{position:absolute;top:-6px;right:-6px;background:#e5484d;color:#fff;font-size:10.5px;border-radius:99px;padding:1px 6px;border:2px solid var(--card)}
+main{padding:24px 28px 60px;background:var(--glow);min-height:calc(100vh - 66px)}
+.hd{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
+.hd>div:first-child{flex:1;min-width:240px;border-left:3px solid var(--acc);padding-left:16px}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}h2{margin:0;font-size:20px}h3{margin:0;font-size:16px}
+.sub{margin:2px 0 0;color:var(--mut)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 16px;font-weight:700;display:inline-flex;gap:8px;align-items:center;transition:transform .15s;white-space:nowrap}
+.btn:hover:not(:disabled){transform:translateY(-1px)}
+.btn.p{background:linear-gradient(135deg,#6c4cf1,#5b43d6);border-color:transparent;color:#fff;box-shadow:0 8px 20px rgba(108,76,241,.3)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.bad{color:var(--bad)}.btn.sm{padding:6px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 16px;box-shadow:var(--shadow);text-align:left;width:100%}
+.kpi b{display:block;font-size:26px;letter-spacing:-.02em}.kpi span{color:var(--mut);font-size:13px}
+button.kpi:hover{border-color:var(--acc)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.tile{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);transition:.18s;display:flex;flex-direction:column;gap:6px;min-height:168px}
+.tile:hover{transform:translateY(-3px);border-color:var(--acc);box-shadow:0 14px 34px rgba(108,76,241,.18)}
+.tile .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:hsl(var(--h) 80% 94%)}
+:root[data-theme=dark] .tile .ic{background:hsl(var(--h) 40% 22%)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .tile .ic{background:hsl(var(--h) 40% 22%)}}
+.tile h3{margin-top:6px}.tile p{margin:0;color:var(--mut);font-size:13.5px;flex:1}
+.tile .ft{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tile .n{position:absolute;top:16px;right:16px;background:#e5484d;color:#fff;font-weight:800;font-size:12px;border-radius:99px;padding:1px 9px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--hov);color:var(--mut);border:1px solid var(--line);white-space:nowrap}
+.pill.ok{background:var(--oks);color:var(--ok);border-color:transparent}.pill.warn{background:var(--warns);color:var(--warn);border-color:transparent}.pill.bad{background:var(--bads);color:var(--bad);border-color:transparent}.pill.acc{background:var(--accs);color:var(--acc);border-color:transparent}.pill.blue{background:var(--blues);color:var(--blue);border-color:transparent}
+.att{display:flex;flex-direction:column;gap:2px}
+.att button{display:flex;gap:12px;align-items:center;border:0;background:none;text-align:left;padding:10px 8px;border-radius:12px;border-bottom:1px solid var(--line)}
+.att button:hover{background:var(--hov)}.att span{flex:1}
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.45);z-index:40;animation:fade .2s}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:75vw;min-width:min(760px,100vw);background:var(--bg);z-index:41;box-shadow:-24px 0 60px rgba(10,12,30,.35);display:flex;flex-direction:column;animation:slide .25s ease;border-left:1px solid var(--line)}
+@keyframes slide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}@keyframes fade{from{opacity:0}}
+.dhd{display:flex;align-items:center;gap:12px;padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.dhd h2{flex:1;display:flex;gap:10px;align-items:center}
+.dbd{padding:20px 24px 60px;overflow:auto;flex:1}
+.tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:8px}
+.tabs button{border:0;background:none;padding:8px 14px;border-radius:10px;font-weight:700;color:var(--mut);white-space:nowrap}
+.tabs button.on{background:var(--accs);color:var(--acc)}.tabs button i{font-style:normal;opacity:.7;margin-left:4px;font-size:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 13px;font-weight:700;font-size:13px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--hov);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}tbody tr:hover td{background:var(--hov)}
+tr.grp td{background:var(--hov);font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+td.done .tt{text-decoration:line-through;color:var(--mut)}
+td small{display:block;color:var(--mut);font-size:12.5px}
+td .tt{font-weight:700}
+.cb{width:20px;height:20px;accent-color:var(--acc);cursor:pointer}
+.ra{display:flex;gap:6px;justify-content:flex-end;flex-wrap:nowrap}
+td select{padding:5px 8px;font-size:13px;border-radius:8px}
+.empty{text-align:center;color:var(--mut);padding:36px 10px}
+.fld{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--mut)}
+.fld select,.fld .in{font-weight:500;color:var(--ink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.trow{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.trow:last-child{border-bottom:0}.trow>div:first-child{flex:1}.trow small{display:block;color:var(--mut)}
+.sw{position:relative;width:42px;height:24px;flex:none;display:inline-block}.sw input{opacity:0;position:absolute;inset:0;margin:0;cursor:pointer;z-index:1}.sw i{position:absolute;inset:0;background:var(--line);border-radius:99px;transition:.2s}.sw i::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}.sw input:checked+i{background:var(--acc)}.sw input:checked+i::after{left:21px}
+.qa{display:flex;gap:8px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:12px;align-items:center}
+.qa .in{flex:1;min-width:180px}
+.prog{height:8px;background:var(--hov);border:1px solid var(--line);border-radius:99px;overflow:hidden;min-width:80px}.prog i{display:block;height:100%;background:linear-gradient(90deg,#6c4cf1,#8b6cff)}
+.bal{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.bal div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}.bal b{font-size:22px}.bal span{display:block;color:var(--mut);font-size:13px}
+.info{background:var(--blues);color:var(--blue);border-radius:12px;padding:10px 14px;font-size:13.5px;margin:0 0 12px}
+.thr{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.msg{display:flex;gap:10px}.msg .bd{background:var(--hov);border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:8px 12px}.msg .hh{font-size:12px;color:var(--mut);font-weight:700}
+.msg.me{flex-direction:row-reverse}.msg.me .bd{background:var(--accs);border-color:transparent;border-radius:14px 4px 14px 14px}
+.an{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.an.urgent{border-left-color:var(--bad);background:linear-gradient(90deg,var(--bads),var(--card) 40%)}
+.an h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.an p{margin:6px 0 10px;white-space:pre-wrap}
+.un{font-weight:800}.unread td:first-child{box-shadow:inset 3px 0 0 var(--acc)}
+dialog{border:0;border-radius:22px;padding:0;width:min(620px,94vw);background:var(--card);color:var(--ink);box-shadow:0 30px 80px rgba(10,12,30,.4)}
+dialog::backdrop{background:rgba(10,12,30,.55)}
+.mh{display:flex;align-items:center;gap:10px;padding:16px 22px;border-bottom:1px solid var(--line)}.mh h3{flex:1}.mh button{border:0;background:var(--hov);width:34px;height:34px;border-radius:10px}
+.mb{padding:18px 22px;max-height:66vh;overflow:auto}.mf{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:100;align-items:center;pointer-events:none}
+#toast div{background:#12172f;color:#fff;padding:11px 18px;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.35);font-weight:600;font-size:14px;animation:slide .2s}
+.pop{position:absolute;right:28px;top:60px;width:380px;max-width:92vw;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 60px rgba(20,22,43,.25);padding:10px;z-index:30}
+.pop h4{margin:6px 8px 8px}.pop button.ni{display:block;width:100%;text-align:left;border:0;background:none;padding:10px;border-radius:12px}.pop button.ni:hover{background:var(--hov)}.pop small{display:block;color:var(--mut)}
+@media(max-width:1100px){.drawer{width:92vw}}
+@media(max-width:900px){.app{flex-direction:column}.side{width:auto;height:auto;position:static;flex-direction:row;overflow-x:auto;padding:8px;gap:4px;align-items:center}.me,.sub1,.brand small{display:none}.brand{padding:0 8px 0 4px}.nv{width:auto;white-space:nowrap;margin:0}
+.top{padding:10px 14px}main{padding:18px 14px 60px}.drawer{width:100vw;min-width:0}.dbd{padding:14px 12px 60px}.g2,.g3{grid-template-columns:1fr}.pop{right:10px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side" id="side"></aside>
+<div class="col">
+ <div class="top">
+  <label>Acting as<select id="user"><option value="ayesha">Dr. Ayesha Malik · Principal</option><option value="sana">Ms. Sana Iqbal · Coordinator</option><option value="hina">Ms. Hina Raza · Teacher</option><option value="bilal">Mr. Bilal Ahmed · IT admin</option></select></label>
+  <div class="sp"></div>
+  <button class="btn sm" id="theme">◐ Light / Dark</button>
+  <button class="bell" id="bell" aria-label="Notifications">🔔<b id="bn">0</b></button>
+ </div>
+ <div class="pop" id="pop" hidden></div>
+ <main id="main"></main>
+</div>
+</div>
+<div id="layer"></div>
+<dialog id="dlg"></dialog>
+<div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toast=m=>{const d=document.createElement('div');d.textContent=m;$('#toast').appendChild(d);setTimeout(()=>d.remove(),2600)};
+const hue=s=>[...s].reduce((a,c)=>a+c.charCodeAt(0),0)%360;
+const P={ayesha:['Dr. Ayesha Malik','Principal'],sana:['Ms. Sana Iqbal','Coordinator'],hina:['Ms. Hina Raza','Teacher · Maths'],omar:['Mr. Omar Siddiqui','Teacher · Science'],hamza:['Mr. Hamza Tariq','Accounts officer'],bilal:['Mr. Bilal Ahmed','IT administrator'],imran:['Mr. Imran Shah','Facilities manager'],nadia:['Ms. Nadia Farooq','HR officer']};
+const nm=id=>P[id]?P[id][0]:id,sn=id=>nm(id).replace(/^(Mr\.|Ms\.|Dr\.|Mrs\.) /,'');
+const ini=id=>nm(id).replace(/^(Mr\.|Ms\.|Dr\.) /,'').split(' ').map(x=>x[0]).join('');
+const av=(id,c='')=>`<span class="av ${c}" style="--h:${hue(nm(id))}">${ini(id)}</span>`;
+const pill=(t,k='')=>`<span class="pill ${k}">${t}</span>`;
+const ME=()=>S.user,isLead=()=>['ayesha','sana'].includes(S.user);
+/* dates (today fixed for the demo) */
+const TODAY=new Date('2026-10-15T00:00:00');const iso=d=>d.toISOString().slice(0,10);
+const add=(s,n)=>{const d=new Date(s+'T00:00:00');d.setDate(d.getDate()+n);return iso(d)};
+const diff=s=>Math.round((new Date(s+'T00:00:00')-TODAY)/864e5);
+const fd=s=>s?new Date(s+'T00:00:00').toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}):'—';
+const rel=s=>{if(!s)return '';const d=diff(s);return d===0?'Today':d===1?'Tomorrow':d===-1?'Yesterday':d<0?(-d)+'d overdue':'in '+d+'d'};
+const dueP=(s,done)=>{if(!s)return pill('No date');if(done)return pill(fd(s));const d=diff(s);return pill(fd(s)+' · '+rel(s),d<0?'bad':d===0?'warn':d<=2?'blue':'')};
+const nextDue=(s,f)=>f==='daily'?add(s,1):f==='weekdays'?add(s,new Date(s+'T00:00:00').getDay()===5?3:new Date(s+'T00:00:00').getDay()===6?2:1):f==='weekly'?add(s,7):f==='monthly'?(()=>{const d=new Date(s+'T00:00:00');d.setMonth(d.getMonth()+1);return iso(d)})():null;
+/* data */
+let ID=100;const nid=p=>p+(++ID);
+const D={
+tasks:[
+ {id:'T1',t:'Submit Term 1 result sheets to the coordinator',d:'Class 7 and 8 Maths sheets, signed.',by:'sana',to:'hina',pri:'high',due:'2026-10-16',st:'progress',rec:'none',fu:[{d:'2026-10-15',n:'Ask if marks entry is complete',done:0}]},
+ {id:'T2',t:'Prepare 8-B revision worksheet',d:'',by:'hina',to:'hina',pri:'normal',due:'2026-10-18',st:'todo',rec:'none',fu:[]},
+ {id:'T3',t:'Weekly attendance audit (all sections)',d:'Check unmarked sections and late entries.',by:'ayesha',to:'sana',pri:'normal',due:'2026-10-16',st:'todo',rec:'weekly',fu:[],last:'2026-10-09',on:1},
+ {id:'T4',t:'Collect fee defaulter list for the Principal',d:'',by:'ayesha',to:'hamza',pri:'high',due:'2026-10-13',st:'progress',rec:'none',fu:[{d:'2026-10-16',n:'Overdue, ask for ETA',done:0}]},
+ {id:'T5',t:'Daily Science lab safety check',d:'Gas, fire extinguisher, chemicals shelf.',by:'sana',to:'omar',pri:'normal',due:'2026-10-15',st:'todo',rec:'daily',fu:[],last:'2026-10-14',on:1},
+ {id:'T6',t:'Replace projector in Lab 2',d:'Vendor visit booked.',by:'ayesha',to:'imran',pri:'urgent',due:'2026-10-17',st:'blocked',rec:'none',fu:[{d:'2026-10-15',n:'Vendor quote pending',done:0}]},
+ {id:'T7',t:'Review annual budget draft',d:'',by:'ayesha',to:'ayesha',pri:'high',due:'2026-10-20',st:'todo',rec:'none',fu:[]},
+ {id:'T8',t:'Monthly fire drill log',d:'Upload drill photos and timings.',by:'ayesha',to:'sana',pri:'normal',due:'2026-10-30',st:'todo',rec:'monthly',fu:[],last:'2026-09-30',on:1},
+ {id:'T9',t:'Parent-teacher meeting schedule draft',d:'',by:'ayesha',to:'sana',pri:'normal',due:'2026-10-14',st:'progress',rec:'none',fu:[]},
+ {id:'T10',t:'Update IT asset register',d:'',by:'sana',to:'bilal',pri:'low',due:'2026-10-24',st:'todo',rec:'none',fu:[]},
+ {id:'T11',t:'Grade 9 Science practical files check',d:'',by:'sana',to:'hina',pri:'low',due:'2026-10-22',st:'todo',rec:'none',fu:[]},
+ {id:'T12',t:'Send September salary slips query to HR',d:'',by:'hina',to:'hina',pri:'normal',due:'2026-10-12',st:'done',rec:'none',fu:[]},
+ {id:'T13',t:'Backup school server and test restore',d:'',by:'ayesha',to:'bilal',pri:'high',due:'2026-10-19',st:'todo',rec:'weekly',fu:[],last:'2026-10-12',on:1}],
+leaves:[
+ {id:'R1',u:'hina',ty:'Casual leave',f:'2026-10-20',e:'2026-10-21',r:'Family function',st:'pending',ap:'A1',cat:'leave'},
+ {id:'R2',u:'hina',ty:'Sick leave',f:'2026-09-08',e:'2026-09-09',r:'Fever',st:'approved',ap:null,cat:'leave'},
+ {id:'R3',u:'hina',ty:'Late arrival',f:'2026-10-07',e:'2026-10-07',r:'Road closure, will arrive 9:15',st:'rejected',ap:null,cat:'request'}],
+bal:{hina:[['Annual',14,5],['Sick',10,2],['Casual',8,3],['Half-day',6,1]],ayesha:[['Annual',20,4],['Sick',10,0],['Casual',8,1],['Half-day',6,0]],sana:[['Annual',18,6],['Sick',10,1],['Casual',8,2],['Half-day',6,2]],bilal:[['Annual',14,3],['Sick',10,3],['Casual',8,4],['Half-day',6,0]]},
+appr:[
+ {id:'A1',ty:'Leave',ti:'Casual leave · Ms. Hina Raza · 20–21 Oct',by:'hina',ref:'R1',steps:['sana','ayesha'],cur:0,st:'pending',sub:'Today 09:10',hist:[]},
+ {id:'A2',ty:'Workflow',ti:'Resource: Auditorium booking · Science Fair',by:'omar',ref:'W1',steps:['ayesha'],cur:0,st:'pending',sub:'Yesterday',hist:[]},
+ {id:'A3',ty:'Leave',ti:'Sick leave · Mr. Omar Siddiqui · 15–16 Oct',by:'omar',ref:null,steps:['sana','ayesha'],cur:1,st:'pending',sub:'Yesterday',hist:[['sana','Approved','12 Oct']]},
+ {id:'A4',ty:'Fee concession',ti:'Concession request · Hamid Tariq (9-C) · Rs 6,000',by:'hamza',ref:null,steps:['ayesha'],cur:0,st:'pending',sub:'3 days ago',hist:[]},
+ {id:'A5',ty:'Duty adjustment',ti:'Swap duty with Ms. Hina · 12 Oct',by:'sana',ref:null,steps:['ayesha'],cur:1,st:'approved',sub:'10 Oct',hist:[['ayesha','Approved','10 Oct']]},
+ {id:'A6',ty:'Request',ti:'Late arrival · Ms. Hina Raza · 7 Oct',by:'hina',ref:'R3',steps:['sana'],cur:1,st:'rejected',sub:'6 Oct',hist:[['sana','Rejected: 3rd late arrival this month','7 Oct']]}],
+deleg:{on:0,to:'sana',from:'2026-10-20',until:'2026-10-24'},
+tickets:[
+ {id:'TK-31',s:'Projector in Lab 2 flickers',cat:'Facility',pri:'high',by:'omar',as:'imran',st:'progress',age:'2d',th:[['omar','Turns off after 5 minutes.'],['imran','Vendor visit on Thursday.']]},
+ {id:'TK-30',s:'Cannot print from Staff Room 2',cat:'IT',pri:'normal',by:'hina',as:'bilal',st:'open',age:'1d',th:[['hina','Printer shows offline.']]},
+ {id:'TK-29',s:'AC leaking in Class 6-A',cat:'Maintenance',pri:'high',by:'sana',as:'imran',st:'open',age:'4h',th:[['sana','Water dripping near the whiteboard.']]},
+ {id:'TK-28',s:'ILMA app slow on attendance screen',cat:'Technical',pri:'normal',by:'hina',as:'bilal',st:'resolved',age:'6d',th:[['hina','Takes 20s to load.'],['bilal','Cache cleared and app updated.']]},
+ {id:'TK-27',s:'Broken chair in Library',cat:'Maintenance',pri:'low',by:'ayesha',as:null,st:'open',age:'3h',th:[['ayesha','Please replace before Monday.']]}],
+notifs:[
+ {id:'N1',to:'ayesha',ty:'Approval',m:'Leave request from Ms. Hina Raza needs Level 1 approval first',mod:'approvals',age:'09:10',r:0},
+ {id:'N2',to:'ayesha',ty:'Approval',m:'Auditorium booking request from Mr. Omar is waiting for you',mod:'approvals',age:'Yesterday',r:0},
+ {id:'N3',to:'ayesha',ty:'Due date',m:'“Collect fee defaulter list” is overdue by 2 days',mod:'tasks',age:'08:00',r:0},
+ {id:'N4',to:'ayesha',ty:'Ticket',m:'TK-27 raised by you has no assignee yet',mod:'tickets',age:'3h',r:1},
+ {id:'N5',to:'sana',ty:'Approval',m:'Casual leave by Ms. Hina Raza is waiting for you (Level 1)',mod:'approvals',age:'09:10',r:0},
+ {id:'N6',to:'sana',ty:'Due date',m:'“Weekly attendance audit” is due tomorrow',mod:'tasks',age:'08:00',r:0},
+ {id:'N7',to:'hina',ty:'Task',m:'Ms. Sana assigned “Grade 9 Science practical files check”',mod:'tasks',age:'Yesterday',r:0},
+ {id:'N8',to:'hina',ty:'Follow-up',m:'Ms. Sana is following up on “Submit Term 1 result sheets”',mod:'tasks',age:'08:00',r:0},
+ {id:'N9',to:'hina',ty:'Approval',m:'Your late arrival request was rejected',mod:'leave',age:'7 Oct',r:1},
+ {id:'N10',to:'bilal',ty:'Ticket',m:'TK-30 assigned to you: Cannot print from Staff Room 2',mod:'tickets',age:'1d',r:0},
+ {id:'N11',to:'bilal',ty:'Task',m:'“Backup school server and test restore” is due in 4 days',mod:'tasks',age:'08:00',r:0}],
+prefs:{due:1,appr:1,tick:1,ann:1,fu:1,email:0,wa:0},
+anns:[
+ {id:'AN1',t:'Mid-term exams start 3 November',b:'Datesheet is attached. Teachers must submit question papers to the coordinator by 24 October.',by:'ayesha',aud:'All staff',urg:0,pin:1,age:'2d ago',ack:['sana'],tot:48,read:41},
+ {id:'AN2',t:'URGENT: Early closure tomorrow at 12:00',b:'Due to the city-wide rally, school will close at 12:00. Buses will leave at 12:15.',by:'ayesha',aud:'All staff',urg:1,pin:0,age:'3h ago',ack:[],tot:48,read:22},
+ {id:'AN3',t:'Science Fair volunteers needed',b:'Science teachers please share volunteer names by Friday.',by:'sana',aud:'Teachers',urg:0,pin:0,age:'5d ago',ack:['hina'],tot:31,read:29}],
+wtypes:[{id:'WT1',n:'Document request',ic:'📄',ap:'sana',f:'Document needed, Purpose'},{id:'WT2',n:'Resource request',ic:'📦',ap:'ayesha',f:'Item, Quantity, Needed by'},{id:'WT3',n:'Schedule change',ic:'🗓️',ap:'sana',f:'Class, Original slot, New slot'},{id:'WT4',n:'Permission',ic:'🔑',ap:'ayesha',f:'Permission needed, Duration'}],
+wreq:[{id:'W1',ty:'Resource request',u:'omar',s:'Auditorium booking · Science Fair',d:'26 Nov, 9am to 2pm',st:'pending',age:'Yesterday',ap:'A2'},{id:'W2',ty:'Document request',u:'hina',s:'Experience letter',d:'Needed for bank loan',st:'approved',age:'6 Oct',ap:null},{id:'W3',ty:'Schedule change',u:'hina',s:'Swap Period 3 and 5 on Monday',d:'Class 8-B',st:'rejected',age:'2 Oct',ap:null}],
+meets:[
+ {id:'M1',t:'Staff meeting',dt:'2026-10-12',by:'ayesha',att:['sana','hina','omar','hamza'],st:'done',notes:'Reviewed term plan and exam schedule.',acts:[{id:'AC1',t:'Share exam datesheet with parents',o:'sana',due:'2026-10-14',st:'done'},{id:'AC2',t:'Fix Lab 2 projector',o:'imran',due:'2026-10-17',st:'open'},{id:'AC3',t:'Prepare Science Fair budget',o:'omar',due:'2026-10-19',st:'open'}]},
+ {id:'M2',t:'Exam committee',dt:'2026-10-14',by:'sana',att:['ayesha','hina','omar'],st:'done',notes:'Seating plan and invigilation duties.',acts:[{id:'AC4',t:'Draft invigilation roster',o:'hina',due:'2026-10-18',st:'open'}]},
+ {id:'M3',t:'PTM planning',dt:'2026-10-20',by:'sana',att:['ayesha','hina','hamza'],st:'upcoming',notes:'',acts:[]}],
+sugg:[
+ {id:'S1',ty:'Suggestion',cat:'Teaching',t:'Add a shared printing quota per department',b:'We waste paper because printing is untracked.',by:'hina',anon:0,v:['sana','omar'],st:'review',rep:''},
+ {id:'S2',ty:'Feedback',cat:'Workplace',t:'Staff room needs more power sockets',b:'Only two sockets for 14 teachers.',by:'omar',anon:1,v:['hina'],st:'new',rep:''},
+ {id:'S3',ty:'Suggestion',cat:'Process',t:'Let teachers submit result sheets in the app',b:'Paper sheets get lost.',by:'sana',anon:0,v:['hina','omar','bilal'],st:'planned',rep:'Planned for next term in Assessments.'},
+ {id:'S4',ty:'Feedback',cat:'Management',t:'Staff meetings are too long',b:'Please keep to 45 minutes.',by:'hina',anon:1,v:[],st:'new',rep:''}],
+act:[
+ {m:'tasks',ic:'✅',x:'Hina completed “Send September salary slips query to HR”',u:'hina',age:'Mon 12 Oct'},
+ {m:'leave',ic:'🌴',x:'Hina applied for Casual leave 20–21 Oct',u:'hina',age:'Today 09:10'},
+ {m:'approvals',ic:'🧾',x:'Sana approved Swap duty request',u:'sana',age:'10 Oct'},
+ {m:'tickets',ic:'🛠️',x:'Bilal resolved TK-28 ILMA app slow on attendance screen',u:'bilal',age:'9 Oct'}]};
+const S={user:'ayesha',mod:null,tab:{},f:{},q:{}};
+const log=(m,ic,x)=>D.act.unshift({m,ic,x,u:ME(),age:'Just now'});
+const notify=(to,ty,m,mod)=>{if(to!==ME())D.notifs.unshift({id:nid('N'),to,ty,m,mod,age:'Just now',r:0})};
+/* modules */
+const MODS=[
+ {k:'tasks',n:'My Tasks',ic:'✅',h:150,d:'To-dos, assigned tasks, deadlines, priorities, recurring tasks and follow-ups.',core:1},
+ {k:'leave',n:'Leave & Requests',ic:'🌴',h:200,d:'Leave, attendance corrections, late arrival and duty adjustments.',core:1},
+ {k:'approvals',n:'Approvals',ic:'🧾',h:260,d:'Items awaiting your decision, delegation and approval history.',core:1},
+ {k:'tickets',n:'Helpdesk & Tickets',ic:'🛠️',h:20,d:'IT, maintenance and facility tickets with assignment and tracking.',core:1},
+ {k:'notifs',n:'Notifications',ic:'🔔',h:35,d:'Alerts, reminders, due dates and status changes in one place.',core:1},
+ {k:'anns',n:'Announcements',ic:'📣',h:340,d:'Circulars and urgent notices to staff, parents or students.',core:1},
+ {k:'wf',n:'Workflow Requests',ic:'🧩',h:180,d:'Document, resource, schedule and permission requests.'},
+ {k:'meets',n:'Meetings & Follow-ups',ic:'🤝',h:300,d:'Minutes, action items, owners and reminders.'},
+ {k:'sugg',n:'Suggestions & Feedback',ic:'💡',h:45,d:'Ideas and feedback with privacy controls and voting.'},
+ {k:'activity',n:'My Activity',ic:'🕘',h:230,d:'One history of your tasks, requests, approvals and tickets.'}];
+const mine=()=>D.tasks.filter(t=>t.to===ME());
+const openT=t=>t.st!=='done';
+const counts=()=>{const m=mine().filter(openT);return{
+ tasks:m.filter(t=>t.due&&diff(t.due)<=0).length,leave:D.leaves.filter(l=>l.u===ME()&&l.st==='pending').length,
+ approvals:pend().length,tickets:D.tickets.filter(t=>t.st!=='resolved'&&(t.as===ME()||(isLead()&&!t.as))).length,
+ notifs:D.notifs.filter(n=>n.to===ME()&&!n.r).length,anns:D.anns.filter(a=>!a.ack.includes(ME())&&(a.urg||a.pin)).length,
+ wf:D.wreq.filter(w=>w.u===ME()&&w.st==='pending').length,meets:D.meets.flatMap(x=>x.acts).filter(a=>a.o===ME()&&a.st!=='done').length,sugg:0,activity:0}};
+const pend=()=>D.appr.filter(a=>a.st==='pending'&&(a.steps[a.cur]===ME()||(D.deleg.on&&D.deleg.to===ME()&&a.steps[a.cur]===delFor())));
+const delFor=()=>ME()==='sana'?'ayesha':null;
+/* shell */
+function side(){const c=counts();
+ $('#side').innerHTML=`<div class="brand"><i>🎓</i><div>ILMA CMS<small>Super Admin Portal</small></div></div>
+ ${['📊 Dashboard','👥 People & HR','🎓 Academics'].map(x=>`<button class="nv" data-a="toast" data-i="${x.slice(3)} opens in the full ILMA app">${x}</button>`).join('')}
+ <button class="nv ${S.hub?'on':''}" data-a="hub">🧰 WorkHub<span class="ch">${S.hub?'▾':'▸'}</span></button>
+ ${S.hub?`<div class="sub1">${MODS.filter(m=>m.core).map(m=>`<button class="nv ${S.mod===m.k?'on':''}" data-a="open" data-i="${m.k}">${m.n}${c[m.k]?`<b>${c[m.k]}</b>`:''}</button>`).join('')}</div>`:''}
+ ${['💰 Finance','📈 Reports & Analytics'].map(x=>`<button class="nv" data-a="toast" data-i="${x.slice(3)} opens in the full ILMA app">${x}</button>`).join('')}
+ <div class="me">${av(ME())}<div>${esc(nm(ME()))}<small>${esc(P[ME()][1])}</small></div></div>`}
+function hub(){const c=counts(),m=mine().filter(openT);const od=m.filter(t=>t.due&&diff(t.due)<0).length,td=m.filter(t=>t.due&&diff(t.due)===0).length;
+ const att=[];m.filter(t=>t.due&&diff(t.due)<=0).slice(0,3).forEach(t=>att.push(['✅',`${esc(t.t)}`,t.due&&diff(t.due)<0?'Overdue '+rel(t.due):'Due today','tasks']));
+ pend().slice(0,2).forEach(a=>att.push(['🧾',esc(a.ti),'Waiting for you','approvals']));
+ D.anns.filter(a=>a.urg&&!a.ack.includes(ME())).forEach(a=>att.push(['📣',esc(a.t),'Urgent, please acknowledge','anns']));
+ $('#main').innerHTML=`<div class="hd"><div><h1>WorkHub</h1><p class="sub">Everyday work, requests, approvals and communication in one place. Hello, ${esc(sn(ME()).split(' ')[0])}.</p></div><button class="btn" data-a="qt">➕ New task</button><button class="btn p" data-a="open" data-i="leave">🌴 Apply for leave</button></div>
+ <div class="kpis"><button class="kpi" data-a="open" data-i="tasks"><span>Due today</span><b>${td}</b></button><button class="kpi" data-a="open" data-i="tasks"><span>Overdue</span><b style="color:var(--bad)">${od}</b></button><button class="kpi" data-a="open" data-i="approvals"><span>Awaiting my approval</span><b>${c.approvals}</b></button><button class="kpi" data-a="open" data-i="tickets"><span>My open tickets</span><b>${c.tickets}</b></button><button class="kpi" data-a="open" data-i="notifs"><span>Unread alerts</span><b>${c.notifs}</b></button></div>
+ ${att.length?`<div class="card" style="margin-bottom:18px"><h3>Needs your attention</h3><div class="att" style="margin-top:8px">${att.map(a=>`<button data-a="open" data-i="${a[3]}"><span style="font-size:20px">${a[0]}</span><span><b>${a[1]}</b></span>${pill(a[2],a[2].startsWith('Overdue')?'bad':'warn')}</button>`).join('')}</div></div>`:''}
+ <h3 style="margin-bottom:10px">Sub-modules</h3><div class="tiles">${MODS.map(x=>`<button class="tile" data-a="open" data-i="${x.k}" style="--h:${x.h}">${c[x.k]?`<span class="n">${c[x.k]}</span>`:''}<span class="ic">${x.ic}</span><h3>${x.n}</h3><p>${x.d}</p><div class="ft">${pill(x.core?'Core':'Extended',x.core?'acc':'')}</div></button>`).join('')}</div>`}
+function render(){side();$('#bn').textContent=counts().notifs;if(!S.hub){$('#main').innerHTML=`<div class="card" style="text-align:center;padding:50px"><h2>Select a module</h2><p class="sub">Click WorkHub in the sidebar.</p><br><button class="btn p" data-a="hub">Open WorkHub</button></div>`}else hub();drawer()}
+function drawer(){const L=$('#layer');if(!S.mod){L.innerHTML='';return}const m=MODS.find(x=>x.k===S.mod);const keep=$('#dbd')?.scrollTop||0;const na=$('.drawer')?' style="animation:none"':'';
+ L.innerHTML=`<div class="scrim" data-a="closeD"${na}></div><section class="drawer"${na} role="dialog" aria-label="${m.n}"><div class="dhd"><button class="btn sm" data-a="closeD">← Back to WorkHub</button><h2><span>${m.ic}</span>${m.n}</h2><button class="btn sm" data-a="closeD" aria-label="Close">✕</button></div><div class="dbd" id="dbd">${VIEW[S.mod]()}</div></section>`;$('#dbd').scrollTop=keep}
+/* ui helpers */
+function tabs(k,list){const cur=S.tab[k]||list[0][0];return `<div class="tabs">${list.map(x=>`<button class="${cur===x[0]?'on':''}" data-a="tab" data-k="${k}" data-i="${x[0]}">${x[1]}${x[2]!=null?`<i>${x[2]}</i>`:''}</button>`).join('')}</div>`}
+const tab=(k,d)=>S.tab[k]||d;
+const tbl=(h,r,e)=>`<div class="tw"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${r.length?r.join(''):`<tr><td colspan="${h.length}"><div class="empty">${e||'Nothing here yet.'}</div></td></tr>`}</tbody></table></div>`;
+const chips=(k,l)=>`<div class="chips">${l.map(x=>`<button class="chip ${(S.f[k]||l[0][0])===x[0]?'on':''}" data-a="chip" data-k="${k}" data-i="${x[0]}">${x[1]}</button>`).join('')}</div>`;
+const search=(k,ph)=>`<input class="in" id="sq_${k}" data-q="${k}" placeholder="${ph||'Search…'}" value="${esc(S.q[k]||'')}" style="max-width:260px">`;
+const PRI={low:['Low',''],normal:['Normal','blue'],high:['High','warn'],urgent:['Urgent','bad']};
+const STN={todo:['To do',''],progress:['In progress','acc'],blocked:['Blocked','bad'],done:['Done','ok']};
+function modal(t,b,f,w){const d=$('#dlg');d.style.width=w||'';d.innerHTML=`<div class="mh"><h3>${t}</h3><button data-a="mclose" aria-label="Close">✕</button></div><div class="mb">${b}</div><div class="mf">${f||''}</div>`;if(!d.open)d.showModal()}
+const mclose=()=>$('#dlg').open&&$('#dlg').close();
+const val=id=>$('#'+id)?.value;
+const fld=(l,h)=>`<div class="fld">${l}${h}</div>`;
+const opts=(l,c)=>l.map(x=>Array.isArray(x)?`<option value="${x[0]}" ${c===x[0]?'selected':''}>${x[1]}</option>`:`<option ${c===x?'selected':''}>${x}</option>`).join('');
+const staffOpts=c=>opts(Object.keys(P).map(k=>[k,nm(k)]),c);
+const VIEW={};const A={};
+/* ---------- TASKS ---------- */
+const REC={none:'Does not repeat',daily:'Every day',weekdays:'Every weekday',weekly:'Every week',monthly:'Every month'};
+function tfilter(l){const f=S.f.tasks||'open',q=(S.q.tasks||'').toLowerCase(),p=S.f.tpri||'';
+ return l.filter(t=>(f==='all'||(f==='open'?openT(t):f==='overdue'?openT(t)&&t.due&&diff(t.due)<0:!openT(t)))&&(!p||t.pri===p)&&(!q||(t.t+nm(t.to)+nm(t.by)).toLowerCase().includes(q)))}
+const tbar=(extra)=>`<div class="bar">${chips('tasks',[['open','Open'],['overdue','Overdue'],['done','Done'],['all','All']])}<span class="sp"></span>${search('tasks','Search tasks…')}<select id="tpri" aria-label="Priority"><option value="">All priorities</option>${opts(Object.entries(PRI).map(([k,v])=>[k,v[0]]),S.f.tpri)}</select>${extra||''}</div>`;
+function trow(t,mode){const d=!openT(t),fu=t.fu.find(x=>!x.done);
+ const who=mode==='todo'?(t.by===t.to?pill('Personal'):`<div class="row">${av(t.by,'s')}${esc(sn(t.by))}</div>`):`<div class="row">${av(t.to,'s')}${esc(sn(t.to))}</div>`;
+ return `<tr><td style="width:34px"><input type="checkbox" class="cb" ${d?'checked':''} data-a="tdone" data-i="${t.id}" aria-label="Complete"></td>
+ <td class="${d?'done':''}"><span class="tt">${esc(t.t)}</span>${t.d?`<small>${esc(t.d)}</small>`:''}${t.rec!=='none'?`<small>🔁 ${REC[t.rec]}</small>`:''}</td>
+ <td>${who}</td><td>${pill(...PRI[t.pri])}</td><td>${dueP(t.due,d)}</td>
+ <td><select data-a="tst" data-i="${t.id}" aria-label="Status">${opts(Object.entries(STN).map(([k,v])=>[k,v[0]]),t.st)}</select></td>
+ ${mode==='assigned'?`<td>${fu?pill('📌 '+fd(fu.d),diff(fu.d)<=0?'warn':'blue'):'<span style="color:var(--mut)">—</span>'}</td>`:''}
+ <td><div class="ra">${mode==='assigned'?`<button class="btn sm" data-a="tfu" data-i="${t.id}">Follow up</button>`:''}<button class="btn sm" data-a="tedit" data-i="${t.id}">Edit</button><button class="btn sm bad" data-a="tdel" data-i="${t.id}" aria-label="Delete">🗑</button></div></td></tr>`}
+VIEW.tasks=()=>{const me=ME(),all=D.tasks,m=mine(),as=all.filter(t=>t.by===me&&t.to!==me),rec=all.filter(t=>t.rec!=='none'&&openT(t)&&(t.to===me||t.by===me)),fus=all.filter(t=>t.fu.some(f=>!f.done)&&(t.by===me||t.to===me));
+ const T=[['todo','My to-dos',m.filter(openT).length],['assigned','Assigned by me',as.filter(openT).length],['deadlines','Deadlines'],['recurring','Recurring',rec.length],['follow','Follow-ups',fus.length]];if(isLead())T.push(['team','Team workload']);
+ const t=tab('tasks','todo');let b=tabs('tasks',T);
+ if(t==='todo'){b+=`<div class="qa"><input class="in" id="qt_t" placeholder="Add a to-do and press Enter…"><input class="in" type="date" id="qt_d" style="max-width:160px" aria-label="Due"><select id="qt_p" aria-label="Priority">${opts(Object.entries(PRI).map(([k,v])=>[k,v[0]]),'normal')}</select><button class="btn p" data-a="tquick">Add</button></div>`+tbar()+
+  tbl(['','Task','From','Priority','Due','Status',''],tfilter(m).sort((a,b)=>(a.due||'9')>(b.due||'9')?1:-1).map(x=>trow(x,'todo')),'No tasks match. Enjoy the calm. 🎉')}
+ if(t==='assigned'){b+=tbar(`<button class="btn p" data-a="qt">➕ Assign task</button>`)+tbl(['','Task','Assigned to','Priority','Due','Status','Follow-up',''],tfilter(as).sort((a,b)=>(a.due||'9')>(b.due||'9')?1:-1).map(x=>trow(x,'assigned')),'You have not assigned any tasks. Use “Assign task”.')}
+ if(t==='deadlines'){const l=m.concat(as).filter(openT).sort((a,b)=>(a.due||'9')>(b.due||'9')?1:-1);const G=[['Overdue',x=>x.due&&diff(x.due)<0],['Today',x=>x.due&&diff(x.due)===0],['Tomorrow',x=>x.due&&diff(x.due)===1],['This week',x=>x.due&&diff(x.due)>1&&diff(x.due)<=7],['Later',x=>x.due&&diff(x.due)>7],['No date',x=>!x.due]];
+  b+=`<p class="sub" style="margin-bottom:10px">Everything with a deadline, mine and assigned by me, grouped by urgency.</p>`+tbl(['','Task','Owner','Priority','Due','Status',''],G.flatMap(g=>{const r=l.filter(g[1]);return r.length?[`<tr class="grp"><td colspan="7">${g[0]} · ${r.length}</td></tr>`,...r.map(x=>trow(x,'assigned').replace(/<td><div class="ra">.*<\/div><\/td>/,`<td><div class="ra"><button class="btn sm" data-a="tedit" data-i="${x.id}">Edit</button></div></td>`))]:[]}))}
+ if(t==='recurring'){b+=`<div class="bar"><p class="sub" style="margin:0">Repeating tasks create the next one automatically when you complete the current one.</p><span class="sp"></span><button class="btn p" data-a="qt" data-r="weekly">➕ New recurring task</button></div>`+tbl(['Task','Owner','Repeats','Next due','Last done','Active',''],rec.map(x=>`<tr><td><span class="tt">${esc(x.t)}</span></td><td><div class="row">${av(x.to,'s')}${esc(sn(x.to))}</div></td><td>${pill('🔁 '+REC[x.rec],'acc')}</td><td>${dueP(x.due)}</td><td>${x.last?fd(x.last):'—'}</td><td><label class="sw"><input type="checkbox" ${x.on!==0?'checked':''} data-a="ton" data-i="${x.id}"><i></i></label></td><td><div class="ra"><button class="btn sm" data-a="trun" data-i="${x.id}">Mark done now</button><button class="btn sm" data-a="tedit" data-i="${x.id}">Edit</button></div></td></tr>`),'No recurring tasks yet.')}
+ if(t==='follow'){const rows=[];fus.forEach(x=>x.fu.forEach((f,i)=>{rows.push([x,f,i])}));rows.sort((a,b)=>a[1].d>b[1].d?1:-1);
+  b+=`<div class="bar"><p class="sub" style="margin:0">Reminders to check progress on tasks you assigned or received.</p></div>`+tbl(['Task','Owner','Follow-up on','Note','Status',''],rows.map(([x,f,i])=>`<tr><td><span class="tt">${esc(x.t)}</span><small>${pill(...STN[x.st])}</small></td><td>${esc(sn(x.to))}</td><td>${f.done?pill(fd(f.d)):pill(fd(f.d)+' · '+rel(f.d),diff(f.d)<0?'bad':diff(f.d)===0?'warn':'blue')}</td><td>${esc(f.n)}</td><td>${f.done?pill('Done','ok'):pill('Pending','warn')}</td><td><div class="ra">${f.done?'':`<button class="btn sm" data-a="tnudge" data-i="${x.id}">Nudge</button><button class="btn sm ok" data-a="tfudone" data-i="${x.id}" data-n="${i}">Done</button>`}<button class="btn sm" data-a="tfu" data-i="${x.id}">+ Add</button></div></td></tr>`),'No follow-ups scheduled.')}
+ if(t==='team'){const ppl=[...new Set(all.map(x=>x.to))];b+=`<p class="sub" style="margin-bottom:10px">Workload across staff. Click a name to assign them a task.</p>`+tbl(['Staff','Open','Overdue','Done','Completion',''],ppl.map(u=>{const o=all.filter(x=>x.to===u&&openT(x)),dn=all.filter(x=>x.to===u&&!openT(x)).length,od=o.filter(x=>x.due&&diff(x.due)<0).length,tot=o.length+dn;return `<tr><td><div class="row">${av(u,'s')}<b>${esc(nm(u))}</b></div><small>${esc(P[u][1])}</small></td><td>${o.length}</td><td>${od?pill(od,'bad'):'0'}</td><td>${dn}</td><td style="min-width:140px"><div class="prog"><i style="width:${tot?dn/tot*100:0}%"></i></div></td><td><div class="ra"><button class="btn sm" data-a="qt" data-u="${u}">Assign</button></div></td></tr>`}))}
+ return b};
+function tform(t){t=t||{pri:'normal',rec:'none',fu:[]};const lead=isLead();
+ return `${fld('Task',`<input class="in" id="tt" value="${esc(t.t||'')}" placeholder="What needs to be done?">`)}${fld('Details (optional)',`<textarea class="in" id="td">${esc(t.d||'')}</textarea>`)}
+ <div class="g2">${fld('Assign to',`<select id="ta" ${lead?'':'disabled'}>${staffOpts(t.to||S.assignTo||ME())}</select>`)}${fld('Priority',`<select id="tp">${opts(Object.entries(PRI).map(([k,v])=>[k,v[0]]),t.pri)}</select>`)}</div>
+ ${lead?'':`<div class="info">Teachers can create tasks for themselves. Coordinators and the Principal can assign to staff.</div>`}
+ <div class="g2">${fld('Due date',`<input class="in" type="date" id="tdue" value="${t.due||''}">`)}${fld('Repeats',`<select id="tr">${opts(Object.entries(REC),t.rec)}</select>`)}</div>
+ <div class="g2">${fld('Reminder',`<select id="trm"><option>On the due date</option><option>1 day before</option><option>2 days before</option><option>None</option></select>`)}${fld('Follow-up date (optional)',`<input class="in" type="date" id="tfd">`)}</div>`}
+Object.assign(A,{
+ qt:a=>{S.assignTo=a.dataset.u||null;modal('New task',tform(a.dataset.r?{pri:'normal',rec:a.dataset.r,fu:[]}:null),`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="tsave">Create task</button>`);S.editId=null},
+ tedit:a=>{const t=D.tasks.find(x=>x.id===a.dataset.i);S.editId=t.id;modal('Edit task',tform(t),`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="tsave">Save changes</button>`)},
+ tsave:()=>{const ti=val('tt').trim();if(!ti){toast('Please enter a task');return}const to=isLead()?val('ta'):ME();
+  if(S.editId){const t=D.tasks.find(x=>x.id===S.editId);Object.assign(t,{t:ti,d:val('td'),to,pri:val('tp'),due:val('tdue')||null,rec:val('tr')});toast('Task updated');log('tasks','✏️','Updated task “'+ti+'”')}
+  else{const t={id:nid('T'),t:ti,d:val('td'),by:ME(),to,pri:val('tp'),due:val('tdue')||null,st:'todo',rec:val('tr'),fu:val('tfd')?[{d:val('tfd'),n:'Check progress',done:0}]:[],on:1};D.tasks.push(t);
+   if(to!==ME()){notify(to,'Task',nm(ME())+' assigned you “'+ti+'”','tasks');toast('Assigned to '+nm(to));S.tab.tasks='assigned'}else toast('Task added');log('tasks','➕','Created task “'+ti+'”'+(to!==ME()?' for '+nm(to):''))}
+  mclose();render()},
+ tquick:()=>{const t=val('qt_t').trim();if(!t){toast('Type a to-do first');return}D.tasks.push({id:nid('T'),t,d:'',by:ME(),to:ME(),pri:val('qt_p'),due:val('qt_d')||null,st:'todo',rec:'none',fu:[]});log('tasks','➕','Added to-do “'+t+'”');toast('Added');render()},
+ tdone:a=>{const t=D.tasks.find(x=>x.id===a.dataset.i);if(a.checked)complete(t);else{t.st='todo';toast('Reopened')}render()},
+ tst:a=>{const t=D.tasks.find(x=>x.id===a.dataset.i);if(a.value==='done')complete(t);else{t.st=a.value;log('tasks','🔄','“'+t.t+'” → '+STN[a.value][0]);toast('Status: '+STN[a.value][0]);if(t.by!==ME())notify(t.by,'Task',nm(ME())+' set “'+t.t+'” to '+STN[a.value][0],'tasks')}render()},
+ tdel:a=>{const t=D.tasks.find(x=>x.id===a.dataset.i);D.tasks=D.tasks.filter(x=>x!==t);log('tasks','🗑','Deleted task “'+t.t+'”');toast('Task deleted');render()},
+ trun:a=>{complete(D.tasks.find(x=>x.id===a.dataset.i));render()},
+ ton:a=>{const t=D.tasks.find(x=>x.id===a.dataset.i);t.on=a.checked?1:0;toast(a.checked?'Recurring resumed':'Recurring paused');},
+ tfu:a=>{S.fuId=a.dataset.i;modal('Schedule a follow-up',`${fld('Follow up on',`<input class="in" type="date" id="fd" value="${add('2026-10-15',1)}">`)}${fld('Note',`<input class="in" id="fn" placeholder="What do you want to check?">`)}<div class="info">The assignee gets a reminder on that date.</div>`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="tfusave">Save follow-up</button>`)},
+ tfusave:()=>{const t=D.tasks.find(x=>x.id===S.fuId);t.fu.push({d:val('fd'),n:val('fn')||'Check progress',done:0});notify(t.to,'Follow-up',nm(ME())+' will follow up on “'+t.t+'” on '+fd(val('fd')),'tasks');log('tasks','📌','Follow-up set on “'+t.t+'”');mclose();toast('Follow-up scheduled');render()},
+ tfudone:a=>{const t=D.tasks.find(x=>x.id===a.dataset.i);t.fu[+a.dataset.n].done=1;toast('Follow-up done');render()},
+ tnudge:a=>{const t=D.tasks.find(x=>x.id===a.dataset.i);notify(t.to,'Follow-up',nm(ME())+' is asking for an update on “'+t.t+'”','tasks');log('tasks','🔔','Nudged '+nm(t.to)+' on “'+t.t+'”');toast('Nudge sent to '+nm(t.to))}});
+function complete(t){t.st='done';log('tasks','✅','Completed “'+t.t+'”');let m='Done ✓';
+ if(t.rec!=='none'&&t.on!==0){t.last=iso(TODAY);const nd=nextDue(t.due,t.rec);D.tasks.push({...t,id:nid('T'),due:nd,st:'todo',fu:[],d:t.d});m='Done. Next one due '+fd(nd)}
+ if(t.by!==ME())notify(t.by,'Task',nm(ME())+' completed “'+t.t+'”','tasks');toast(m)}
+D.leaves.push({id:'R4',u:'omar',ty:'Sick leave',f:'2026-10-15',e:'2026-10-16',r:'Fever',st:'pending',ap:'A3',cat:'leave'},{id:'R5',u:'bilal',ty:'Casual leave',f:'2026-10-16',e:'2026-10-16',r:'Personal',st:'approved',ap:null,cat:'leave'});
+const stP=s=>pill({pending:'Pending',approved:'Approved',rejected:'Rejected',withdrawn:'Withdrawn',open:'Open',progress:'In progress',resolved:'Resolved',review:'Under review',planned:'Planned',new:'New',done:'Done',declined:'Declined'}[s]||s,{pending:'warn',approved:'ok',rejected:'bad',resolved:'ok',progress:'acc',open:'blue',review:'acc',planned:'ok',done:'ok',new:'blue'}[s]||'');
+const days=(f,e)=>Math.round((new Date(e)-new Date(f))/864e5)+1;
+const flow=a=>a.steps.map((s,i)=>`<span class="pill ${a.st!=='pending'?(i<a.cur||a.st==='approved'?'ok':i===a.cur&&a.st==='rejected'?'bad':''):i<a.cur?'ok':i===a.cur?'warn':''}">${i+1}. ${esc(sn(s))}</span>`).join(' → ');
+/* ---------- LEAVE & REQUESTS ---------- */
+const LT=['Annual leave','Sick leave','Casual leave','Half-day','Attendance correction','Late arrival','Duty adjustment'];
+VIEW.leave=()=>{const me=ME(),l=D.leaves.filter(x=>x.u===me);const T=[['mine','My requests',l.length],['away','Who is away']];if(isLead())T.push(['all','All staff requests',D.leaves.length]);const t=tab('leave','mine');let b=tabs('leave',T);
+ const row=(x,who)=>`<tr><td><span class="tt">${x.ty}</span><small>${x.cat==='leave'?'Leave':'Request'}</small></td>${who?`<td>${esc(nm(x.u))}</td>`:''}<td>${fd(x.f)}${x.e!==x.f?' → '+fd(x.e):''}<small>${days(x.f,x.e)} day${days(x.f,x.e)>1?'s':''}</small></td><td>${esc(x.r)}</td><td>${stP(x.st)}</td><td><div class="ra">${x.st==='pending'&&x.u===me?`<button class="btn sm bad" data-a="lwd" data-i="${x.id}">Withdraw</button>`:''}${x.ap&&x.st==='pending'?`<button class="btn sm" data-a="open" data-i="approvals">Track</button>`:''}</div></td></tr>`;
+ if(t==='mine'){b+=`<div class="info">Leave balances come from People & HR, which stays the source of truth. WorkHub only submits and tracks requests.</div><div class="bal">${(D.bal[me]||[]).map(x=>`<div><span>${x[0]}</span><b>${x[1]-x[2]}</b> <span style="display:inline">of ${x[1]} left</span><div class="prog" style="margin-top:8px"><i style="width:${(x[1]-x[2])/x[1]*100}%"></i></div></div>`).join('')}</div>
+  <div class="bar"><h3 style="flex:1">My requests</h3><button class="btn p" data-a="lnew">➕ New request</button></div>`+tbl(['Type','Dates','Reason','Status',''],l.map(x=>row(x)),'No requests yet.')}
+ if(t==='away')b+=`<p class="sub" style="margin-bottom:10px">Approved and pending leave for the next two weeks.</p>`+tbl(['Staff','Type','Dates','Status'],D.leaves.filter(x=>x.cat==='leave'&&x.st!=='rejected'&&x.st!=='withdrawn'&&diff(x.e)>=0).map(x=>`<tr><td><div class="row">${av(x.u,'s')}${esc(nm(x.u))}</div></td><td>${x.ty}</td><td>${fd(x.f)}${x.e!==x.f?' → '+fd(x.e):''}</td><td>${stP(x.st)}</td></tr>`),'Everyone is in.');
+ if(t==='all')b+=tbl(['Type','Staff','Dates','Reason','Status',''],D.leaves.map(x=>row(x,1)));
+ return b};
+Object.assign(A,{
+ lnew:()=>modal('New leave or request',`${fld('Type',`<select id="lt">${opts(LT)}</select>`)}<div class="g2">${fld('From',`<input class="in" type="date" id="lf" value="2026-10-19">`)}${fld('To',`<input class="in" type="date" id="le" value="2026-10-19">`)}</div>${fld('Reason',`<textarea class="in" id="lr" placeholder="Short reason"></textarea>`)}${fld('Covering colleague (optional)',`<select id="lc"><option value="">None</option>${staffOpts('')}</select>`)}<div class="info">Goes to ${ME()==='sana'?'the Principal':'the Coordinator, then the Principal'} for approval.</div>`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="lsave">Submit request</button>`),
+ lsave:()=>{const ty=val('lt'),f=val('lf'),e=val('le'),r=val('lr').trim();if(!r){toast('Please add a reason');return}if(e<f){toast('End date is before start date');return}
+  const isL=/leave|Half/.test(ty),steps=ME()==='ayesha'?[]:ME()==='sana'?['ayesha']:isL?['sana','ayesha']:['sana'];
+  const L={id:nid('R'),u:ME(),ty,f,e,r,st:steps.length?'pending':'approved',ap:null,cat:isL?'leave':'request'};
+  if(steps.length){const ap={id:nid('A'),ty:isL?'Leave':'Request',ti:ty+' · '+nm(ME())+' · '+fd(f)+(e!==f?' to '+fd(e):''),by:ME(),ref:L.id,steps,cur:0,st:'pending',sub:'Just now',hist:[]};D.appr.unshift(ap);L.ap=ap.id;notify(steps[0],'Approval',ty+' request from '+nm(ME())+' needs your decision','approvals')}
+  D.leaves.unshift(L);log('leave','🌴','Applied for '+ty+' ('+fd(f)+')');mclose();toast('✓ Request submitted. Approval started.');render()},
+ lwd:a=>{const l=D.leaves.find(x=>x.id===a.dataset.i);l.st='withdrawn';const ap=D.appr.find(x=>x.id===l.ap);if(ap){ap.st='withdrawn'}log('leave','↩️','Withdrew '+l.ty+' request');toast('Request withdrawn');render()}});
+/* ---------- APPROVALS ---------- */
+VIEW.approvals=()=>{const me=ME(),p=pend(),h=D.appr.filter(a=>a.st!=='pending'&&a.st!=='withdrawn'&&(isLead()||a.by===me||a.steps.includes(me)||a.hist.some(x=>x[0]===me)));
+ const T=[['pending','Pending for me',p.length],['mineA','My submitted',D.appr.filter(a=>a.by===me).length],['hist','History',h.length]];if(isLead())T.push(['deleg','Delegation']);const t=tab('approvals','pending');let b=tabs('approvals',T);
+ const subm=x=>`<tr><td><span class="tt">${esc(x.ti)}</span><small>${x.id} · ${x.ty}</small></td><td>${esc(nm(x.by))}</td><td>${x.sub}</td><td>${flow(x)}</td>`;
+ if(t==='pending')b+=tbl(['Request','From','Submitted','Approval flow',''],p.map(x=>subm(x)+`<td><div class="ra"><button class="btn sm ok" data-a="aok" data-i="${x.id}">Approve</button><button class="btn sm bad" data-a="arej" data-i="${x.id}">Reject</button><button class="btn sm" data-a="adel" data-i="${x.id}">Delegate</button><button class="btn sm" data-a="aview" data-i="${x.id}">View</button></div></td></tr>`),'You are all caught up. ✨');
+ if(t==='mineA')b+=tbl(['Request','From','Submitted','Approval flow','Status'],D.appr.filter(a=>a.by===me).map(x=>subm(x)+`<td>${stP(x.st)}</td></tr>`),'You have not submitted anything.');
+ if(t==='hist')b+=tbl(['Request','From','Submitted','Approval flow','Decision',''],h.map(x=>subm(x)+`<td>${stP(x.st)}<small>${esc((x.hist.slice(-1)[0]||[])[1]||'')}</small></td><td><div class="ra"><button class="btn sm" data-a="aview" data-i="${x.id}">View</button></div></td></tr>`),'No history yet.');
+ if(t==='deleg'){const d=D.deleg;b+=`<div class="card" style="max-width:680px"><h3>Delegation</h3><p class="sub">When you are away, a trusted colleague can decide on your behalf. Every decision shows “on behalf of” in the history.</p>
+  <div class="trow"><div><b>Delegate my approvals</b><small>${d.on?'Active: '+esc(nm(d.to))+' can decide '+fd(d.from)+' to '+fd(d.until):'Off'}</small></div><label class="sw"><input type="checkbox" data-a="dgon" ${d.on?'checked':''}><i></i></label></div>
+  <div class="g3" style="margin-top:12px">${fld('Delegate',`<select data-a="dgto">${staffOpts(d.to)}</select>`)}${fld('From',`<input class="in" type="date" value="${d.from}" data-a="dgf">`)}${fld('Until',`<input class="in" type="date" value="${d.until}" data-a="dgu">`)}</div><div class="info">Tip: switch “Acting as” to Ms. Sana after turning this on to see Principal-level items appear for her.</div></div>`}
+ return b};
+function nextStep(a,by,txt){a.hist.push([by,txt,'Today']);const ref=D.leaves.find(l=>l.id===a.ref)||D.wreq.find(w=>w.id===a.ref)}
+Object.assign(A,{
+ aok:a=>{const x=D.appr.find(i=>i.id===a.dataset.i),ref=D.leaves.find(l=>l.id===x.ref)||D.wreq.find(w=>w.id===x.ref);x.hist.push([ME(),'Approved','Today']);
+  if(x.cur+1<x.steps.length){x.cur++;notify(x.steps[x.cur],'Approval',x.ti+' now needs your approval (Level '+(x.cur+1)+')','approvals');toast('Approved. Sent to '+nm(x.steps[x.cur])+' for Level '+(x.cur+1))}
+  else{x.st='approved';x.cur=x.steps.length;if(ref)ref.st='approved';notify(x.by,'Approval','Your request was approved: '+x.ti,'approvals');toast('✓ Fully approved')}
+  log('approvals','✅','Approved “'+x.ti+'”');render()},
+ arej:a=>{S.rj=a.dataset.i;modal('Reject request',`<p class="sub" style="margin-bottom:10px">${esc(D.appr.find(x=>x.id===S.rj).ti)}</p>${fld('Reason for rejection (required)',`<textarea class="in" id="rr" placeholder="The requester will see this"></textarea>`)}`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn bad" data-a="rejok">Reject</button>`)},
+ rejok:()=>{const r=val('rr').trim();if(!r){toast('A reason is required');return}const x=D.appr.find(i=>i.id===S.rj),ref=D.leaves.find(l=>l.id===x.ref)||D.wreq.find(w=>w.id===x.ref);x.st='rejected';x.hist.push([ME(),'Rejected: '+r,'Today']);if(ref)ref.st='rejected';notify(x.by,'Approval','Your request was rejected: '+r,'approvals');log('approvals','⛔','Rejected “'+x.ti+'”');mclose();toast('Rejected. Requester notified.');render()},
+ adel:a=>{S.dl=a.dataset.i;modal('Delegate this decision',`${fld('Delegate to',`<select id="dt">${staffOpts('sana')}</select>`)}${fld('Note (optional)',`<input class="in" id="dn">`)}`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="delok">Delegate</button>`)},
+ delok:()=>{const x=D.appr.find(i=>i.id===S.dl),to=val('dt');x.steps[x.cur]=to;x.hist.push([ME(),'Delegated to '+nm(to),'Today']);notify(to,'Approval',nm(ME())+' delegated “'+x.ti+'” to you','approvals');log('approvals','↪️','Delegated “'+x.ti+'” to '+nm(to));mclose();toast('Delegated to '+nm(to));render()},
+ aview:a=>{const x=D.appr.find(i=>i.id===a.dataset.i);modal(x.id+' · '+x.ty,`<h3>${esc(x.ti)}</h3><p class="sub">Submitted by ${esc(nm(x.by))} · ${x.sub}</p><p>${flow(x)}</p><h4 style="margin:14px 0 6px">History</h4>${x.hist.length?x.hist.map(h=>`<div class="trow"><div><b>${esc(nm(h[0]))}</b><small>${esc(h[1])}</small></div><span style="color:var(--mut)">${h[2]}</span></div>`).join(''):'<p class="sub">No decisions yet.</p>'}`,`<button class="btn p" data-a="mclose">Close</button>`)},
+ dgon:a=>{D.deleg.on=a.checked?1:0;toast(D.deleg.on?'Delegation on':'Delegation off');render()},dgto:a=>{D.deleg.to=a.value;toast('Delegate: '+nm(a.value))},dgf:a=>{D.deleg.from=a.value},dgu:a=>{D.deleg.until=a.value}});
+/* ---------- TICKETS ---------- */
+const TC={IT:'bilal',Technical:'bilal',Maintenance:'imran',Facility:'imran'};
+VIEW.tickets=()=>{const me=ME(),all=D.tickets,mi=all.filter(t=>t.by===me),as=all.filter(t=>t.as===me);const T=[['all','All tickets',all.length],['raised','Raised by me',mi.length],['assigned','Assigned to me',as.length]];const t=tab('tickets','all');let b=tabs('tickets',T);
+ const f=S.f.tickets||'open',q=(S.q.tickets||'').toLowerCase();let l=t==='all'?all:t==='raised'?mi:as;l=l.filter(x=>(f==='all'||(f==='open'?x.st!=='resolved':x.st==='resolved'))&&(!q||(x.s+x.id).toLowerCase().includes(q)));
+ b+=`<div class="bar">${chips('tickets',[['open','Open'],['resolved','Resolved'],['all','All']])}<span class="sp"></span>${search('tickets','Search tickets…')}<button class="btn p" data-a="tkn">➕ New ticket</button></div>`+
+ tbl(['Ticket','Category','Priority','Raised by','Assignee','Status','Age',''],l.map(x=>`<tr><td><span class="tt">${esc(x.s)}</span><small>${x.id}</small></td><td>${x.cat}</td><td>${pill(...PRI[x.pri])}</td><td>${esc(sn(x.by))}</td><td>${x.as?esc(sn(x.as)):'<span class="pill bad">Unassigned</span>'}</td><td>${stP(x.st)}</td><td>${x.age}</td><td><div class="ra"><button class="btn sm" data-a="tko" data-i="${x.id}">Open</button></div></td></tr>`),'No tickets here.');return b};
+Object.assign(A,{
+ tkn:()=>modal('New ticket',`<div class="g2">${fld('Category',`<select id="kc">${opts(Object.keys(TC))}</select>`)}${fld('Priority',`<select id="kp">${opts(Object.entries(PRI).map(([k,v])=>[k,v[0]]),'normal')}</select>`)}</div>${fld('Subject',`<input class="in" id="ks" placeholder="What is the problem?">`)}${fld('Details and location',`<textarea class="in" id="kd"></textarea>`)}<div class="info">IT and Technical go to Mr. Bilal. Maintenance and Facility go to Mr. Imran.</div>`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="tks">Submit ticket</button>`),
+ tks:()=>{const s=val('ks').trim();if(!s){toast('Add a subject');return}const cat=val('kc'),as=TC[cat],id='TK-'+(32+D.tickets.length-5);D.tickets.unshift({id,s,cat,pri:val('kp'),by:ME(),as,st:'open',age:'now',th:[[ME(),val('kd')||s]]});notify(as,'Ticket',id+' assigned to you: '+s,'tickets');log('tickets','🛠️','Raised '+id+' · '+s);mclose();toast('✓ '+id+' sent to '+nm(as));render()},
+ tko:a=>{S.tk=a.dataset.i;A.tkd()},
+ tkd:()=>{const x=D.tickets.find(t=>t.id===S.tk);const edit=isLead()||x.as===ME();modal(x.id+' · '+esc(x.s),`<div class="row" style="margin-bottom:10px">${stP(x.st)}${pill(...PRI[x.pri])}${pill(x.cat)}<span class="sub">Raised by ${esc(nm(x.by))} · ${x.age} ago</span></div>
+  ${edit?`<div class="g3">${fld('Status',`<select data-a="tks2">${opts([['open','Open'],['progress','In progress'],['resolved','Resolved']],x.st)}</select>`)}${fld('Assignee',`<select data-a="tka"><option value="">Unassigned</option>${staffOpts(x.as)}</select>`)}${fld('Priority',`<select data-a="tkp">${opts(Object.entries(PRI).map(([k,v])=>[k,v[0]]),x.pri)}</select>`)}</div>`:''}
+  <div class="thr">${x.th.map(m=>`<div class="msg ${m[0]===ME()?'me':''}">${av(m[0],'s')}<div class="bd"><div class="hh">${esc(nm(m[0]))}</div>${esc(m[1])}</div></div>`).join('')}</div>${fld('Reply',`<textarea class="in" id="kr" placeholder="Write an update…"></textarea>`)}`,`<button class="btn" data-a="mclose">Close</button><button class="btn p" data-a="tkr">Send reply</button>`,'min(720px,94vw)')},
+ tkr:()=>{const x=D.tickets.find(t=>t.id===S.tk),v=val('kr').trim();if(!v){toast('Write a reply first');return}x.th.push([ME(),v]);const to=x.by===ME()?x.as:x.by;if(to)notify(to,'Ticket','New reply on '+x.id,'tickets');toast('Reply sent');A.tkd();render()},
+ tks2:a=>{const x=D.tickets.find(t=>t.id===S.tk);x.st=a.value;notify(x.by,'Ticket',x.id+' is now '+a.value,'tickets');log('tickets','🛠️',x.id+' → '+a.value);toast('Status updated');A.tkd();render()},
+ tka:a=>{const x=D.tickets.find(t=>t.id===S.tk);x.as=a.value||null;if(x.as)notify(x.as,'Ticket',x.id+' assigned to you','tickets');toast(x.as?'Assigned to '+nm(x.as):'Unassigned');A.tkd();render()},
+ tkp:a=>{D.tickets.find(t=>t.id===S.tk).pri=a.value;toast('Priority updated');A.tkd();render()}});
+/* ---------- NOTIFICATIONS ---------- */
+VIEW.notifs=()=>{const me=ME(),l=D.notifs.filter(n=>n.to===me),un=l.filter(n=>!n.r).length;const t=tab('notifs','inbox');let b=tabs('notifs',[['inbox','Inbox',un],['prefs','Preferences']]);
+ if(t==='inbox'){const f=S.f.notifs||'all',ty=['Task','Approval','Ticket','Due date','Follow-up'];const sh=l.filter(n=>f==='all'||(f==='unread'?!n.r:n.ty===f));
+  b+=`<div class="bar">${chips('notifs',[['all','All'],['unread','Unread'],...ty.map(x=>[x,x])])}<span class="sp"></span><button class="btn" data-a="nall">✓ Mark all read</button></div>`+tbl(['Type','Message','When',''],sh.map(n=>`<tr class="${n.r?'':'unread'}"><td>${pill(n.ty,{Approval:'warn',Task:'acc',Ticket:'blue','Due date':'bad','Follow-up':'acc'}[n.ty]||'')}</td><td class="${n.r?'':'un'}">${esc(n.m)}</td><td>${n.age}</td><td><div class="ra"><button class="btn sm" data-a="nopen" data-i="${n.id}">Open</button><button class="btn sm" data-a="ntog" data-i="${n.id}">${n.r?'Mark unread':'Mark read'}</button></div></td></tr>`),'No notifications.')}
+ else b+=`<div class="card" style="max-width:640px"><h3>What should alert you?</h3>${[['due','Due-date reminders','A day before and on the day'],['fu','Task follow-ups','When someone follows up on your task'],['appr','Approval updates','Requests waiting for you and decisions on yours'],['tick','Ticket updates','Replies and status changes'],['ann','Announcements','Urgent notices always alert you'],['email','Also send by email','Daily digest at 8:00 am'],['wa','Also send by WhatsApp','Urgent items only']].map(r=>`<div class="trow"><div><b>${r[1]}</b><small>${r[2]}</small></div><label class="sw"><input type="checkbox" ${D.prefs[r[0]]?'checked':''} data-a="npref" data-i="${r[0]}"><i></i></label></div>`).join('')}</div>`;return b};
+Object.assign(A,{nall:()=>{D.notifs.filter(n=>n.to===ME()).forEach(n=>n.r=1);toast('All marked read');render()},ntog:a=>{const n=D.notifs.find(x=>x.id===a.dataset.i);n.r=n.r?0:1;render()},nopen:a=>{const n=D.notifs.find(x=>x.id===a.dataset.i);n.r=1;S.mod=n.mod;render()},npref:a=>{D.prefs[a.dataset.i]=a.checked?1:0;toast('Preference saved')}});
+/* ---------- ANNOUNCEMENTS ---------- */
+VIEW.anns=()=>{const me=ME();const T=[['feed','Feed']];if(isLead())T.push(['pub','Publish'],['manage','Manage',D.anns.length]);const t=tab('anns','feed');let b=tabs('anns',T);
+ if(t==='feed')b+=[...D.anns].sort((a,b)=>b.urg-a.urg||b.pin-a.pin).map(a=>`<div class="an ${a.urg?'urgent':''}"><h3>${a.pin?'📌 ':''}${esc(a.t)} ${a.urg?pill('Urgent','bad'):''}${pill(a.aud,'blue')}</h3><p>${esc(a.b)}</p><div class="row"><span class="sub">${esc(nm(a.by))} · ${a.age}</span><span class="sp"></span>${a.ack.includes(me)?pill('✓ Acknowledged','ok'):`<button class="btn sm p" data-a="ack" data-i="${a.id}">Acknowledge</button>`}</div></div>`).join('');
+ if(t==='pub')b+=`<div class="card" style="max-width:720px">${fld('Title',`<input class="in" id="at" placeholder="Short, clear headline">`)}${fld('Message',`<textarea class="in" id="ab" style="min-height:130px"></textarea>`)}<div class="g2">${fld('Audience',`<select id="au">${opts(['All staff','Teachers','Parents','Students','Class 7-B parents','Transport users'])}</select>`)}${fld('Send',`<select id="as"><option>Now</option><option>Schedule for tomorrow 8:00 am</option></select>`)}</div><div class="trow"><div><b>Mark as urgent</b><small>Sends a push alert and needs acknowledgement</small></div><label class="sw"><input type="checkbox" id="aur"><i></i></label></div><div class="trow"><div><b>Pin to the top</b></div><label class="sw"><input type="checkbox" id="apn"><i></i></label></div><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn p" data-a="apub">📣 Publish</button></div></div>`;
+ if(t==='manage')b+=tbl(['Announcement','Audience','Read','Acknowledged','Posted',''],D.anns.map(a=>`<tr><td><span class="tt">${a.pin?'📌 ':''}${esc(a.t)}</span>${a.urg?'<small>'+pill('Urgent','bad')+'</small>':''}</td><td>${a.aud}</td><td style="min-width:130px"><div class="prog"><i style="width:${a.read/a.tot*100}%"></i></div><small>${a.read} of ${a.tot}</small></td><td>${a.ack.length+Math.round(a.read*.6)}</td><td>${a.age}</td><td><div class="ra"><button class="btn sm" data-a="apin" data-i="${a.id}">${a.pin?'Unpin':'Pin'}</button><button class="btn sm bad" data-a="adelA" data-i="${a.id}">Delete</button></div></td></tr>`));return b};
+Object.assign(A,{ack:a=>{D.anns.find(x=>x.id===a.dataset.i).ack.push(ME());log('anns','📣','Acknowledged an announcement');toast('Acknowledged');render()},
+ apub:()=>{const t=val('at').trim();if(!t||!val('ab').trim()){toast('Add a title and message');return}D.anns.unshift({id:nid('AN'),t,b:val('ab'),by:ME(),aud:val('au'),urg:$('#aur').checked?1:0,pin:$('#apn').checked?1:0,age:'just now',ack:[],tot:48,read:0});log('anns','📣','Published “'+t+'” to '+val('au'));S.tab.anns='manage';toast('✓ Published to '+val('au'));render()},
+ apin:a=>{const x=D.anns.find(i=>i.id===a.dataset.i);x.pin=x.pin?0:1;render()},adelA:a=>{D.anns=D.anns.filter(x=>x.id!==a.dataset.i);toast('Deleted');render()}});
+/* ---------- WORKFLOW REQUESTS ---------- */
+VIEW.wf=()=>{const me=ME(),l=D.wreq.filter(w=>w.u===me);const T=[['mine','My requests',l.length]];if(isLead())T.push(['all','All requests',D.wreq.length],['types','Request types',D.wtypes.length]);const t=tab('wf','mine');let b=tabs('wf',T);
+ const row=(w,u)=>`<tr><td><span class="tt">${esc(w.s)}</span><small>${w.id} · ${w.ty}</small></td>${u?`<td>${esc(nm(w.u))}</td>`:''}<td>${esc(w.d)}</td><td>${stP(w.st)}</td><td>${w.age}</td></tr>`;
+ if(t==='mine')b+=`<div class="bar"><div class="chips">${D.wtypes.map(x=>`<button class="chip" data-a="wnew" data-i="${x.id}">${x.ic} ${x.n}</button>`).join('')}</div></div>`+tbl(['Request','Details','Status','Submitted'],l.map(w=>row(w)),'Pick a request type above to start.');
+ if(t==='all')b+=tbl(['Request','By','Details','Status','Submitted'],D.wreq.map(w=>row(w,1)));
+ if(t==='types')b+=`<div class="bar"><p class="sub" style="margin:0">Configure which requests staff can raise and who approves them.</p><span class="sp"></span><button class="btn p" data-a="wtadd">➕ New request type</button></div>`+tbl(['Type','Fields','Approver','Enabled'],D.wtypes.map(x=>`<tr><td><span class="tt">${x.ic} ${x.n}</span></td><td>${esc(x.f)}</td><td><select data-a="wtap" data-i="${x.id}">${staffOpts(x.ap)}</select></td><td><label class="sw"><input type="checkbox" ${x.off?'':'checked'} data-a="wton" data-i="${x.id}"><i></i></label></td></tr>`));return b};
+Object.assign(A,{wnew:a=>{const x=D.wtypes.find(t=>t.id===a.dataset.i);S.wt=x;modal(x.ic+' '+x.n,`<div class="info">Approver: <b>${esc(nm(x.ap))}</b></div>${fld('Subject',`<input class="in" id="ws">`)}${fld(x.f.split(', ').join(' / '),`<textarea class="in" id="wd" placeholder="${esc(x.f)}"></textarea>`)}`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="wsub">Submit</button>`)},
+ wsub:()=>{const s=val('ws').trim();if(!s){toast('Add a subject');return}const x=S.wt;const w={id:nid('W'),ty:x.n,u:ME(),s,d:val('wd')||'—',st:'pending',age:'Just now',ap:null};if(x.ap!==ME()){const ap={id:nid('A'),ty:'Workflow',ti:x.n+': '+s,by:ME(),ref:w.id,steps:[x.ap],cur:0,st:'pending',sub:'Just now',hist:[]};D.appr.unshift(ap);w.ap=ap.id;notify(x.ap,'Approval',x.n+' from '+nm(ME())+' needs your decision','approvals')}else w.st='approved';D.wreq.unshift(w);log('wf','🧩','Submitted '+x.n+': '+s);mclose();toast('✓ Sent to '+nm(x.ap));render()},
+ wtadd:()=>modal('New request type',`${fld('Name',`<input class="in" id="tn">`)}${fld('Fields (comma separated)',`<input class="in" id="tf" placeholder="Item, Quantity, Needed by">`)}${fld('Approver',`<select id="tap">${staffOpts('sana')}</select>`)}`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="wtsave">Create type</button>`),
+ wtsave:()=>{const n=val('tn').trim();if(!n){toast('Add a name');return}D.wtypes.push({id:nid('WT'),n,ic:'🧩',ap:val('tap'),f:val('tf')||'Details'});mclose();toast('Request type created');render()},
+ wtap:a=>{D.wtypes.find(x=>x.id===a.dataset.i).ap=a.value;toast('Approver updated')},wton:a=>{D.wtypes.find(x=>x.id===a.dataset.i).off=!a.checked;toast(a.checked?'Enabled':'Disabled')}});
+/* ---------- MEETINGS ---------- */
+VIEW.meets=()=>{const me=ME(),acts=D.meets.flatMap(m=>m.acts.map(a=>({...a,m})));const T=[['list','Meetings',D.meets.length],['acts','Action items',acts.filter(a=>a.st!=='done').length]];const t=tab('meets','list');let b=tabs('meets',T);
+ if(t==='list')b+=`<div class="bar"><span class="sp"></span><button class="btn p" data-a="mnew">➕ New meeting</button></div>`+tbl(['Meeting','Date','Organiser','Attendees','Open actions','Status',''],D.meets.map(m=>`<tr><td><span class="tt">${esc(m.t)}</span></td><td>${fd(m.dt)}</td><td>${esc(sn(m.by))}</td><td>${m.att.length+1}</td><td>${m.acts.filter(a=>a.st!=='done').length}</td><td>${stP(m.st==='upcoming'?'new':'done').replace(/New|Done/,m.st==='upcoming'?'Upcoming':'Held')}</td><td><div class="ra"><button class="btn sm" data-a="mopen" data-i="${m.id}">Open</button></div></td></tr>`));
+ if(t==='acts'){const f=S.f.meets||'mine';const l=acts.filter(a=>f==='all'||a.o===me);b+=`<div class="bar">${chips('meets',[['mine','Mine'],['all','Everyone']])}</div>`+tbl(['','Action item','Meeting','Owner','Due','Status',''],l.map(a=>`<tr><td><input type="checkbox" class="cb" ${a.st==='done'?'checked':''} data-a="mac" data-i="${a.id}"></td><td class="${a.st==='done'?'done':''}"><span class="tt">${esc(a.t)}</span></td><td>${esc(a.m.t)}</td><td>${esc(sn(a.o))}</td><td>${dueP(a.due,a.st==='done')}</td><td>${stP(a.st==='done'?'done':'open')}</td><td><div class="ra"><button class="btn sm" data-a="mtask" data-i="${a.id}" ${a.tk?'disabled':''}>${a.tk?'In tasks':'→ Task'}</button><button class="btn sm" data-a="mrem" data-i="${a.id}">Remind</button></div></td></tr>`),'No action items.')}return b};
+const acts_=id=>{for(const m of D.meets){const a=m.acts.find(x=>x.id===id);if(a)return[m,a]}};
+Object.assign(A,{
+ mnew:()=>modal('New meeting',`${fld('Title',`<input class="in" id="mt">`)}<div class="g2">${fld('Date',`<input class="in" type="date" id="md" value="2026-10-22">`)}${fld('Attendees',`<select id="ma" multiple style="min-height:110px">${staffOpts('').replace(/<option /g,'<option selected ')}</select>`)}</div>`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="msave">Schedule</button>`),
+ msave:()=>{const t=val('mt').trim();if(!t){toast('Add a title');return}const at=[...$('#ma').selectedOptions].map(o=>o.value).filter(x=>x!==ME());D.meets.push({id:nid('M'),t,dt:val('md'),by:ME(),att:at,st:'upcoming',notes:'',acts:[]});at.forEach(u=>notify(u,'Task','Invitation: '+t+' on '+fd(val('md')),'meets'));log('meets','🤝','Scheduled “'+t+'”');mclose();toast('Meeting scheduled. Invites sent.');render()},
+ mopen:a=>{S.mt=a.dataset.i;A.mdet()},
+ mdet:()=>{const m=D.meets.find(x=>x.id===S.mt);modal(esc(m.t)+' · '+fd(m.dt),`<div class="row" style="margin-bottom:10px">${[m.by,...m.att].map(u=>`<span class="pill">${av(u,'s')} ${esc(sn(u))}</span>`).join('')}</div>${fld('Minutes / notes',`<textarea class="in" id="mn" style="min-height:90px">${esc(m.notes)}</textarea>`)}<button class="btn sm" data-a="mnote">Save notes</button>
+  <h4 style="margin:16px 0 8px">Action items</h4>${tbl(['Item','Owner','Due','Status',''],m.acts.map(x=>`<tr><td class="${x.st==='done'?'done':''}"><span class="tt">${esc(x.t)}</span></td><td>${esc(sn(x.o))}</td><td>${dueP(x.due,x.st==='done')}</td><td>${stP(x.st==='done'?'done':'open')}</td><td><div class="ra"><button class="btn sm" data-a="mac2" data-i="${x.id}">${x.st==='done'?'Reopen':'Done'}</button><button class="btn sm" data-a="mtask" data-i="${x.id}" ${x.tk?'disabled':''}>${x.tk?'In tasks':'→ Task'}</button></div></td></tr>`),'No action items yet.')}
+  <div class="qa" style="margin-top:12px"><input class="in" id="ni" placeholder="New action item"><select id="no">${staffOpts(ME())}</select><input class="in" type="date" id="nd" style="max-width:150px" value="${add('2026-10-15',7)}"><button class="btn p" data-a="madd">Add</button></div>`,`<button class="btn p" data-a="mclose">Done</button>`,'min(860px,96vw)')},
+ mnote:()=>{D.meets.find(x=>x.id===S.mt).notes=val('mn');toast('Notes saved')},
+ madd:()=>{const t=val('ni').trim();if(!t){toast('Describe the action');return}const m=D.meets.find(x=>x.id===S.mt);m.acts.push({id:nid('AC'),t,o:val('no'),due:val('nd'),st:'open'});notify(val('no'),'Task','Action item from '+m.t+': '+t,'meets');toast('Action item added');A.mdet();render()},
+ mac:a=>{const [,x]=acts_(a.dataset.i);x.st=a.checked?'done':'open';toast(a.checked?'Marked done':'Reopened');render()},
+ mac2:a=>{const [,x]=acts_(a.dataset.i);x.st=x.st==='done'?'open':'done';A.mdet();render()},
+ mtask:a=>{const [m,x]=acts_(a.dataset.i);D.tasks.push({id:nid('T'),t:x.t,d:'From meeting: '+m.t,by:m.by,to:x.o,pri:'normal',due:x.due,st:'todo',rec:'none',fu:[]});x.tk=1;notify(x.o,'Task','New task from meeting: '+x.t,'tasks');log('meets','→','Converted action item to task: '+x.t);toast('Added to '+nm(x.o)+'’s tasks');if($('#dlg').open)A.mdet();render()},
+ mrem:a=>{const [,x]=acts_(a.dataset.i);notify(x.o,'Follow-up','Reminder: '+x.t+' (due '+fd(x.due)+')','meets');toast('Reminder sent to '+nm(x.o))}});
+/* ---------- SUGGESTIONS ---------- */
+VIEW.sugg=()=>{const t=tab('sugg','all');const T=[['all','All ideas',D.sugg.length],['mine','Mine',D.sugg.filter(s=>s.by===ME()).length]];let b=tabs('sugg',T);const l=(t==='mine'?D.sugg.filter(s=>s.by===ME()):D.sugg).sort((a,b)=>b.v.length-a.v.length);
+ b+=`<div class="info">🔒 Anonymous submissions hide the author from everyone, including the Principal. Only you can see that it is yours.</div><div class="bar"><span class="sp"></span><button class="btn p" data-a="snew">➕ Share an idea</button></div>`+tbl(['Votes','Idea','Type','By','Status','Response',''],l.map(s=>`<tr><td><button class="btn sm ${s.v.includes(ME())?'p':''}" data-a="svote" data-i="${s.id}">▲ ${s.v.length}</button></td><td><span class="tt">${esc(s.t)}</span><small>${esc(s.b)}</small></td><td>${pill(s.ty,s.ty==='Feedback'?'blue':'acc')}<small>${s.cat}</small></td><td>${s.anon?(s.by===ME()?'Anonymous (you)':'Anonymous'):esc(sn(s.by))}</td><td>${stP(s.st)}</td><td>${esc(s.rep)||'<span style="color:var(--mut)">—</span>'}</td><td><div class="ra">${isLead()?`<button class="btn sm" data-a="sresp" data-i="${s.id}">Respond</button>`:''}</div></td></tr>`),'No ideas yet. Be the first!');return b};
+Object.assign(A,{
+ snew:()=>modal('Share an idea or feedback',`<div class="g2">${fld('Type',`<select id="sy">${opts(['Suggestion','Feedback'])}</select>`)}${fld('Category',`<select id="sc">${opts(['Teaching','Process','Workplace','Management','Technology'])}</select>`)}</div>${fld('Title',`<input class="in" id="st_">`)}${fld('Details',`<textarea class="in" id="sb"></textarea>`)}<div class="trow"><div><b>Submit anonymously</b><small>Nobody can see who sent it</small></div><label class="sw"><input type="checkbox" id="san"><i></i></label></div>`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="ssave">Submit</button>`),
+ ssave:()=>{const t=val('st_').trim();if(!t){toast('Add a title');return}D.sugg.unshift({id:nid('S'),ty:val('sy'),cat:val('sc'),t,b:val('sb'),by:ME(),anon:$('#san').checked?1:0,v:[],st:'new',rep:''});log('sugg','💡','Shared '+val('sy').toLowerCase()+': '+t);mclose();toast('Thank you! Shared with leadership.');render()},
+ svote:a=>{const s=D.sugg.find(x=>x.id===a.dataset.i),i=s.v.indexOf(ME());i<0?s.v.push(ME()):s.v.splice(i,1);render()},
+ sresp:a=>{S.sr=a.dataset.i;const s=D.sugg.find(x=>x.id===S.sr);modal('Respond',`<p><b>${esc(s.t)}</b></p>${fld('Status',`<select id="rs">${opts([['new','New'],['review','Under review'],['planned','Planned'],['done','Done'],['declined','Declined']],s.st)}</select>`)}${fld('Response',`<textarea class="in" id="rt">${esc(s.rep)}</textarea>`)}`,`<button class="btn" data-a="mclose">Cancel</button><button class="btn p" data-a="srsave">Save</button>`)},
+ srsave:()=>{const s=D.sugg.find(x=>x.id===S.sr);s.st=val('rs');s.rep=val('rt');if(!s.anon)notify(s.by,'Task','Your idea “'+s.t+'” is now '+s.st,'sugg');mclose();toast('Response saved');render()}});
+/* ---------- ACTIVITY ---------- */
+const MN={tasks:'My Tasks',leave:'Leave',approvals:'Approvals',tickets:'Tickets',anns:'Announcements',wf:'Workflow',meets:'Meetings',sugg:'Suggestions'};
+VIEW.activity=()=>{const sc=S.f.act||'mine',mf=S.f.actm||'',q=(S.q.act||'').toLowerCase();const l=D.act.filter(a=>(sc==='all'&&isLead()||a.u===ME())&&(!mf||a.m===mf)&&(!q||a.x.toLowerCase().includes(q)));
+ return `<div class="bar">${chips('act',isLead()?[['mine','Mine'],['all','Everyone']]:[['mine','Mine']])}<select id="actm" aria-label="Module"><option value="">All modules</option>${opts(Object.entries(MN),mf)}</select><span class="sp"></span>${search('act','Search activity…')}<button class="btn" data-a="expo">⬇ Export CSV</button></div>`+tbl(['','Activity','Module','By','When'],l.map(a=>`<tr><td style="width:34px;font-size:18px">${a.ic}</td><td>${esc(a.x)}</td><td>${pill(MN[a.m]||a.m)}</td><td>${esc(sn(a.u))}</td><td>${a.age}</td></tr>`),'No activity yet. Do something in WorkHub and it appears here.')};
+Object.assign(A,{expo:()=>toast('⬇ activity.csv downloaded (demo)')});
+/* ---------- events ---------- */
+Object.assign(A,{
+ hub:()=>{S.hub=1;S.mod=null;render()},open:a=>{S.hub=1;S.mod=a.dataset.i;render()},closeD:()=>{S.mod=null;render()},mclose,toast:a=>toast(a.dataset.i),
+ tab:a=>{S.tab[a.dataset.k]=a.dataset.i;render()},chip:a=>{S.f[a.dataset.k]=a.dataset.i;render()}});
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el||['SELECT','INPUT'].includes(el.tagName)&&el.type!=='checkbox'&&el.type!=='button')return;if(el.tagName==='INPUT')return;const f=A[el.dataset.a];if(f){if(el.dataset.a==='closeD'&&e.target.closest('.drawer')&&!el.classList.contains('btn'))return;f(el)}});
+document.addEventListener('change',e=>{const el=e.target;if(el.id==='tpri'){S.f.tpri=el.value;render();return}if(el.id==='actm'){S.f.actm=el.value;render();return}const a=el.dataset.a;if(a&&A[a]&&(el.tagName==='SELECT'||el.type==='checkbox'||el.type==='date'))A[a](el)});
+document.addEventListener('input',e=>{const k=e.target.dataset.q;if(k){S.q[k]=e.target.value;const p=e.target.selectionStart;render();const q=$('#sq_'+k);q.focus();q.setSelectionRange(p,p)}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='qt_t')A.tquick();if(e.key==='Escape'&&!$('#dlg').open&&S.mod){S.mod=null;render()}});
+$('#user').onchange=e=>{S.user=e.target.value;S.tab={};S.f={};S.q={};$('#pop').hidden=true;render()};
+$('#theme').onclick=()=>{const d=document.documentElement;const dk=(d.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))==='dark';d.dataset.theme=dk?'light':'dark'};
+$('#bell').onclick=()=>{const p=$('#pop');p.hidden=!p.hidden;const l=D.notifs.filter(n=>n.to===ME()).slice(0,6);p.innerHTML=`<h4>Notifications</h4>`+(l.length?l.map(n=>`<button class="ni" data-a="nopen2" data-i="${n.id}"><b>${esc(n.m)}</b><small>${n.ty} · ${n.age}</small></button>`).join(''):'<p class="sub" style="padding:10px">Nothing new.</p>')};
+A.nopen2=a=>{const n=D.notifs.find(x=>x.id===a.dataset.i);n.r=1;$('#pop').hidden=true;S.hub=1;S.mod=n.mod;render()};
+S.hub=0;render();
+</script>
+</body></html>

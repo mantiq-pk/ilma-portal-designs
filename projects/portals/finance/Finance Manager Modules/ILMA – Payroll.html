@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA – Payroll</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F5FB;--card:#fff;--ink:#1B1D3A;--mute:#4A4F6E;--line:#E3E5F2;--line2:#D5D8EA;--head:#F8F8FC;--hover:#F8F8FD;--acc:#5B4BD6;--side:#1B1740;--seg:#E8EAF4;--good:#1F8F5F;--bad:#B02A1F;--warn:#B4701A;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1024;--card:#171A3A;--ink:#ECEEFA;--mute:#9EA4C8;--line:#2A2E5A;--line2:#353A6B;--head:#1B1F44;--hover:#1D2149;--acc:#8174F2;--seg:#1F2350;--good:#37C48B;--bad:#F0776B;--warn:#E3A24A}}
+:root[data-theme="dark"]{--bg:#0E1024;--card:#171A3A;--ink:#ECEEFA;--mute:#9EA4C8;--line:#2A2E5A;--line2:#353A6B;--head:#1B1F44;--hover:#1D2149;--acc:#8174F2;--seg:#1F2350;--good:#37C48B;--bad:#F0776B;--warn:#E3A24A}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:14px}
+button{font-family:inherit;cursor:pointer;border:0;background:none;padding:0;color:inherit;text-align:left}
+button:disabled{cursor:not-allowed;opacity:.5}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app{display:flex;min-height:100vh}
+nav{flex:0 0 232px;background:var(--side);color:#C9C6EE;padding:22px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;overflow:auto}
+.logo{display:flex;align-items:center;gap:10px;padding:0 10px 14px;color:#fff;font-weight:800;font-size:16px}
+.logo b{width:34px;height:34px;border-radius:10px;background:#5B4BD6;display:grid;place-items:center;flex:none}
+.ni{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;font-weight:500;width:100%}
+.ni:hover{background:rgba(255,255,255,.07)}.ni.on{background:rgba(255,255,255,.12);color:#fff;font-weight:700}
+.ng{font-size:11px;letter-spacing:.08em;font-weight:700;color:#8A8FAE;padding:14px 12px 4px}
+.me{margin-top:auto;display:flex;gap:10px;align-items:center;padding:12px 10px;border-top:1px solid rgba(255,255,255,.1);color:#fff;font-weight:700}
+.me small{display:block;font-weight:400;color:#A9A4D8;font-size:12px}
+main{flex:1;min-width:0;padding:28px;display:flex;flex-direction:column;gap:18px}
+header.pg{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px}
+.crumb{font-size:13px;color:var(--mute);font-weight:500}
+h1{margin:4px 0 0;font-size:28px;font-weight:800;letter-spacing:-.4px}
+.sub{margin-top:4px;color:var(--mute)}
+.hb{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{padding:11px 16px;border-radius:10px;background:var(--card);border:1px solid var(--line2);font-weight:600;display:inline-flex;gap:8px;align-items:center}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+.btn.sm{padding:7px 12px;font-size:13px;border-radius:9px}
+.btn.d{color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px}
+.stp{display:flex;gap:6px;align-items:center;padding:14px 18px;overflow-x:auto}
+.stp li{list-style:none;display:flex;align-items:center;gap:8px;font-weight:600;color:var(--mute);white-space:nowrap}
+.stp li i{width:24px;height:24px;border-radius:50%;border:2px solid var(--line2);display:grid;place-items:center;font-style:normal;font-size:12px;font-weight:800}
+.stp li.done{color:var(--good)}.stp li.done i{background:var(--good);border-color:var(--good);color:#fff}
+.stp li.cur{color:var(--ink);font-weight:800}.stp li.cur i{border-color:var(--acc);color:var(--acc)}
+.stp li+li::before{content:"";width:28px;height:2px;background:var(--line2);margin-right:2px}
+.stp ol{display:flex;gap:6px;margin:0;padding:0;align-items:center;flex:1}
+.pd{margin-left:auto;color:var(--mute);white-space:nowrap;padding-left:14px}
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.tile{padding:16px 18px;text-align:left;display:block;width:100%}
+.tile .l{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--mute);text-transform:uppercase;display:block}
+.tile b{display:block;font-size:22px;margin:6px 0 4px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.tile small{color:var(--mute);font-size:12px}
+.tr.g{color:var(--good);font-weight:700}.tr.b{color:var(--bad);font-weight:700}
+.bar{height:7px;border-radius:4px;background:var(--seg);overflow:hidden;display:flex;margin:6px 0}.bar i{display:block;height:100%}
+.leg{display:flex;gap:10px;font-size:11px;color:var(--mute);flex-wrap:wrap}.leg span::before{content:"●";margin-right:3px;color:var(--c)}
+.two{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+.two .card{padding:16px 18px}
+.two h3{margin:0 0 10px;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.att{display:flex;gap:10px;align-items:center;padding:9px 0;border-top:1px solid var(--line)}
+.att:first-of-type{border-top:0}
+.att span{flex:1}.att em{font-style:normal;font-size:18px}
+.ok{display:flex;gap:10px;align-items:center;color:var(--good);font-weight:700;padding:14px 0}
+.cd{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cd div.k small{display:block;color:var(--mute);font-size:12px}.cd div.k b{font-size:18px;font-variant-numeric:tabular-nums}
+.cd input{width:100%;font:inherit;font-weight:700;border:1px solid var(--line2);border-radius:8px;padding:5px 8px;background:var(--card);color:var(--ink)}
+.dn{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.dn span{font-size:12px;font-weight:700;background:var(--seg);border-radius:8px;padding:3px 9px;font-variant-numeric:tabular-nums}
+.short{margin-top:10px;font-weight:700;padding:8px 12px;border-radius:10px}
+.short.b{background:color-mix(in srgb,var(--bad) 13%,var(--card));color:var(--bad)}.short.g{background:color-mix(in srgb,var(--good) 13%,var(--card));color:var(--good)}
+.hint{display:flex;gap:10px;align-items:center;background:#EAF1FD;border:1px solid #BCD4F5;color:#1A4F8F;border-radius:12px;padding:11px 16px}
+:root[data-theme="dark"] .hint{background:#16264A;border-color:#2A4478;color:#A9C6F5}
+.trow{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between}
+.seg{display:flex;background:var(--seg);border-radius:12px;padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{padding:8px 14px;border-radius:9px;font-weight:600;color:var(--mute);display:flex;gap:6px;align-items:center}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(20,16,60,.12);font-weight:700}
+.cnt{font-size:11px;font-weight:800;border-radius:10px;padding:1px 7px;background:var(--line);color:var(--mute)}
+.fb{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.mn{display:flex;align-items:center;background:var(--card);border:1px solid var(--line2);border-radius:10px;height:40px}
+.mn button{width:34px;height:38px;display:grid;place-items:center}.mn span{padding:0 6px;font-weight:700;min-width:118px;text-align:center}
+.sr{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line2);border-radius:10px;padding:0 12px;height:40px;flex:1 1 220px;max-width:380px;color:var(--mute)}
+.sr input{border:0;outline:0;background:none;font:inherit;flex:1;min-width:0;color:var(--ink)}
+select{height:40px;border:1px solid var(--line2);background:var(--card);color:var(--ink);border-radius:10px;padding:0 10px;font:inherit;font-weight:600}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:7px 14px;border-radius:20px;border:1px solid var(--line2);background:var(--card);font-weight:600;display:flex;gap:6px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.bulk{display:none;flex-wrap:wrap;align-items:center;gap:10px;background:var(--side);color:#fff;border-radius:12px;padding:10px 14px}.bulk.on{display:flex}
+.bulk b{flex:1 1 140px}.bulk button{padding:8px 12px;border-radius:9px;background:rgba(255,255,255,.14);font-weight:700;font-size:13px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:980px}
+th{text-align:left;color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.5px;background:var(--head);padding:14px 8px;font-weight:700}
+td{padding:12px 8px;border-top:1px solid var(--line);vertical-align:middle}
+tr.row{cursor:pointer}tr.row:hover{background:var(--hover)}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.who{display:flex;gap:12px;align-items:center}
+.av{width:38px;height:38px;border-radius:50%;color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center;flex:none}
+.who b{display:block}.who small{color:var(--mute);font-size:12px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px;color:color-mix(in srgb,var(--c) 78%,var(--ink));background:color-mix(in srgb,var(--c) 15%,var(--card));white-space:nowrap}
+.key{font-size:10px;font-weight:800;letter-spacing:.04em;padding:1px 6px;border-radius:5px;color:#fff;background:var(--c);margin-left:6px;vertical-align:1px}
+.mini{font-size:11px;font-weight:700;color:var(--mute);background:var(--seg);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.dm{color:var(--mute)}.db{color:var(--bad);font-weight:700}
+.ab{height:5px;border-radius:3px;background:var(--seg);width:90px;overflow:hidden;margin-top:4px}.ab i{display:block;height:100%;background:var(--good)}
+.ib{width:34px;height:34px;border-radius:9px;display:grid;place-items:center}.ib:hover{background:var(--seg)}
+.foot{padding:14px 18px;border-top:1px solid var(--line);color:var(--mute)}
+.cards{display:none}
+.ov{position:fixed;inset:0;background:rgba(20,16,60,.4);z-index:30;display:none}.ov.on{display:block}
+.dr{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--card);z-index:31;display:none;flex-direction:column;box-shadow:-12px 0 40px rgba(20,16,60,.25)}.dr.on{display:flex}
+.dr .hd{padding:20px 22px;display:flex;gap:14px;align-items:center}
+.dr .bd{flex:1;overflow:auto;padding:4px 22px 22px;display:flex;flex-direction:column;gap:18px}
+.dr h4{margin:0 0 8px;font-size:13px;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.li{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;gap:10px}
+.li.t{font-weight:800;border:0;font-size:16px}
+.tl{list-style:none;margin:0;padding:0 0 0 16px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 12px 12px}.tl li::before{content:"";position:absolute;left:-23px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--acc);border:2px solid var(--card)}
+.tl small{display:block;color:var(--mute)}
+.ag{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ag .btn{justify-content:flex-start;padding:10px 12px}
+.fm{display:flex;flex-direction:column;gap:10px;padding:14px;background:var(--head);border-radius:12px;border:1px solid var(--line)}
+.fm input,.fm select{width:100%;font:inherit;border:1px solid var(--line2);border-radius:10px;padding:10px 12px;background:var(--card);color:var(--ink);height:auto}
+.err{color:var(--bad);font-size:12px;font-weight:600;display:none}
+.wz{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);width:min(520px,94vw);max-height:90vh;overflow:auto;background:var(--card);border-radius:18px;z-index:32;padding:24px;display:none}.wz.on{display:block}
+.wz h2{margin:0 0 6px}
+.pv{padding:16px;border-radius:12px;background:color-mix(in srgb,var(--acc) 12%,var(--card));text-align:center;margin:14px 0}
+.pv b{font-size:22px;display:block}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));background:var(--side);color:#fff;border-radius:14px;padding:12px 16px;display:none;gap:14px;align-items:center;z-index:50;box-shadow:0 12px 30px rgba(0,0,0,.35);max-width:94vw}
+.toast.on{display:flex}.toast button{color:#C9C2FF;font-weight:700}
+.menu{position:fixed;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 30px rgba(20,16,60,.2);padding:6px;z-index:40;display:none;min-width:210px}.menu.on{display:block}
+.menu button,.menu div{display:flex;gap:10px;align-items:center;justify-content:space-between;width:100%;padding:9px 12px;border-radius:8px;font-weight:500}.menu button:hover{background:var(--seg)}
+.spin{display:inline-block;width:12px;height:12px;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:sp .7s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
+.fab{display:none}
+@media(max-width:1180px){.strip{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media(max-width:820px){nav{display:none}main{padding:16px 16px 90px}.tw{display:none}.cards{display:flex;flex-direction:column}
+.cards>div{padding:14px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.toast{bottom:calc(80px + env(safe-area-inset-bottom,0px))}.pd{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<nav aria-label="Main">
+ <div class="logo"><b>I</b>ILMA Education Network</div>
+ <div class="ng">FINANCE</div>
+ <button class="ni" data-ic="bus">Transport</button>
+ <button class="ni" data-ic="wallet">Fees</button>
+ <button class="ni on" aria-current="page" data-ic="cash">Payroll</button>
+ <button class="ni" data-ic="bank">Accounting</button>
+ <button class="ni" data-ic="receipt">Expenses</button>
+ <button class="ni" data-ic="wallet">Salary &amp; Loans</button>
+ <button class="ni" data-ic="box">Stock &amp; Inventory</button>
+ <div class="me"><span class="av" style="background:#5B4BD6">HM</span><div>Hassan Malik<small>Super Admin</small></div></div>
+</nav>
+<main>
+ <header class="pg">
+  <div><div class="crumb">Super Admin / Finance / Payroll</div><h1>Payroll</h1><div class="sub">Salaries, wages and payouts for teachers and all staff</div></div>
+  <div class="hb">
+   <button class="btn" id="hide" data-a="hide"></button>
+   <button class="btn" id="theme">Theme</button>
+   <button class="btn" data-a="csv" data-ic="download">Export bank file</button>
+   <button class="btn p" id="main" data-a="main"></button>
+  </div>
+ </header>
+
+ <section class="card stp" aria-label="Payroll stages"><ol id="stp"></ol><span class="pd" id="pd"></span></section>
+ <section class="strip" id="strip"></section>
+ <section class="two"><div class="card" id="att"></div><div class="card" id="cd"></div></section>
+ <div class="hint" id="hint" data-ic="info"></div>
+
+ <section class="trow"><div class="seg" id="tabs" role="tablist"></div>
+  <div class="mn"><button data-a="mp" aria-label="Previous month" data-ic="l"></button><span>October 2026</span><button data-a="mn" aria-label="Next month" data-ic="r"></button></div></section>
+ <section class="fb">
+  <label class="sr" data-ic="search"><input id="q" placeholder="Search name, role key or campus" aria-label="Search staff"></label>
+  <select id="fm" aria-label="Payment method"><option value="">All methods</option><option value="cash">Cash</option><option value="bank">Bank transfer</option><option value="raast">Raast</option><option value="jazzcash">JazzCash</option><option value="easypaisa">Easypaisa</option></select>
+ </section>
+ <div class="chips" id="chips" role="group" aria-label="Status"></div>
+ <div class="bulk" id="bulk"><b id="bc"></b><button data-a="bOn">Pay online</button><button data-a="bCash">Pay cash</button><button data-a="bHold">Hold</button><button data-a="bSlip">Print slips</button><button data-a="bWa">Send payslips</button><button data-a="bClr">Clear</button></div>
+ <section class="card" style="overflow:hidden" aria-label="Staff payroll"><div id="list"></div><div class="foot" id="foot"></div></section>
+</main>
+</div>
+<div class="ov" id="ov"></div>
+<aside class="dr" id="dr" role="dialog" aria-modal="true" aria-label="Payslip"></aside>
+<div class="wz" id="wz" role="dialog" aria-modal="true"></div>
+<div class="menu" id="menu"></div>
+<div class="toast" id="toast"><span id="tm"></span><button id="tu">Undo</button></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const P={bus:'M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10H4zM4 11h16M7 19v-3M17 19v-3',wallet:'M3 7a2 2 0 0 1 2-2h13v4M3 7v11a2 2 0 0 0 2 2h15V9H5a2 2 0 0 1-2-2zM16 14.5h.01',cash:'M3 7h18v10H3zM12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z',bank:'M3 10l9-6 9 6M5 10v8M9 10v8M15 10v8M19 10v8M3 20h18',receipt:'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6',box:'M3 7l9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10',dots:'M5 12h.01M12 12h.01M19 12h.01',search:'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-4.3-4.3',l:'M15 18l-6-6 6-6',r:'M9 18l6-6-6-6',x:'M6 6l12 12M18 6L6 18',check:'M5 12l5 5 10-10',send:'M22 2L11 13M22 2l-7 20-4-9-9-4z',download:'M12 3v12M7 10l5 5 5-5M4 21h16',eye:'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z',eyeoff:'M3 3l18 18M10.6 6.1A10 10 0 0 1 12 5c6 0 10 7 10 7a17 17 0 0 1-3 3.7M6.6 6.6A17 17 0 0 0 2 12s4 7 10 7a10 10 0 0 0 4-.8',info:'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 11v5M12 8h.01',print:'M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2M6 14h12v7H6z',pause:'M8 5v14M16 5v14',plus:'M12 5v14M5 12h14',doc:'M6 3h9l4 4v14H6zM9 12h7M9 16h7'};
+const ic=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="${P[n]}"/></svg>`;
+const wire=()=>document.querySelectorAll('[data-ic]:not([data-w])').forEach(e=>{e.dataset.w=1;e.insertAdjacentHTML('afterbegin',ic(e.dataset.ic))});wire();
+const TODAY=new Date(2026,9,12);const fd=o=>{const d=new Date(TODAY);d.setDate(d.getDate()+o);return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'})};
+let hide=false;const R=n=>hide?'Rs. ••••':'Rs. '+Math.round(n).toLocaleString('en-US');
+const K=n=>hide?'Rs. ••••':n>=1e6?'Rs. '+(n/1e6).toFixed(2)+'M':'Rs. '+Math.round(n/1e3)+'k';
+const AVC=['#5B4BD6','#2B7BD6','#1F8F5F','#B4701A','#8A4FD0','#B02A1F'];
+const KEYS={TCH:['#1F8F5F','Teacher'],ADM:['#2B7BD6','Admin'],FIN:['#8A4FD0','Finance Manager'],SEC:['#B4701A','Security'],CLN:['#14A3A3','Cleaning'],DRV:['#6B7280','Driver'],VIS:['#C2467E','Visiting faculty']};
+const MET={cash:'💵 Cash',bank:'🏦 Bank',raast:'Raast',jazzcash:'JazzCash',easypaisa:'Easypaisa'};
+const STC={Draft:'#8A8FAE',Approved:'#2B7BD6',Processing:'#8A4FD0',Paid:'#1F8F5F',Failed:'#B02A1F','On hold':'#A1580A'};
+const mk=(id,n,key,grp,camp,basis,earn,ded,att,m,acct,prev,x)=>({id,n,key,grp,camp,basis,earn,ded,att,m,acct,prev,st:'pending',...(x||{})});
+let S=[
+mk(1,'Ali Raza','TCH','t','Main Campus','Monthly salary',[['Basic',70000],['Allowances',15000]],[],[22,22],'bank','HBL ••4821',[85,85,85,85,85]),
+mk(2,'Hina Malik','TCH','t','Girls Campus','Monthly salary',[['Basic',65000],['Allowances',13000]],[['Absence (2 days)',2000,'abs']],[20,22],'raast','Raast ••7710',[78,78,78,78,96]),
+mk(3,'Sadia Noor','TCH','t','Girls Campus','Monthly salary',[['Basic',72000],['Allowances',10000]],[['Loan instalment 3 of 10',5000,'loan']],[22,22],'raast','Raast ••3304',[82,82,82,82,82]),
+mk(4,'Usman Tariq','TCH','t','Main Campus','Monthly salary',[['Basic',68000],['Allowances',9000]],[],[21,22],'jazzcash','JazzCash ••5521',[77,77,77,77,77]),
+mk(5,'Farah Ahmed','ADM','a','Main Campus','Monthly salary',[['Basic',60000],['Allowances',8000]],[],[22,22],'bank','MCB ••9082',[68,68,68,68,68]),
+mk(6,'Imran Shah','FIN','a','Main Campus','Monthly salary',[['Basic',90000],['Allowances',15000]],[['Income tax',4500,'tax']],[22,22],'bank','HBL ••1156',[100,100,100,100,100.5]),
+mk(7,'Rabia Khalid','ADM','a','Girls Campus','Monthly salary',[['Basic',42000],['Allowances',3000]],[],null,'easypaisa','Easypaisa ••8843',[45,45,45,45,45]),
+mk(8,'Ghulam Abbas','SEC','s','Main Campus','Shift: 26 × Rs. 1,500',[['Shift pay',39000],['Night allowance',6000]],[],[26,30],'cash',null,[43,45,45,44,45]),
+mk(9,'Rashid Ali','SEC','s','Girls Campus','Shift: 24 × Rs. 1,500',[['Shift pay',36000],['Night allowance',5200]],[],[24,30],'cash',null,[41,41,40,41,41]),
+mk(10,'Shabana Bibi','CLN','s','Girls Campus','Daily wage: 25 × Rs. 1,100',[['Daily wages',27500]],[],[25,26],'cash',null,[27,27,28,27,27]),
+mk(11,'Naseem Akhtar','CLN','s','Main Campus','Daily wage: 24 × Rs. 1,100',[['Daily wages',26400]],[],[24,26],'cash',null,[26,27,26,26,26]),
+mk(12,'Tariq Mehmood','DRV','s','Main Campus','Monthly + overtime',[['Basic',38000],['Overtime (trip logs)',4500]],[],[26,26],'bank',null,[40,40,41,40,40]),
+mk(13,'Dr. Kamran Yousaf','VIS','v','Main Campus','Per lecture: 36 × Rs. 1,800',[['Lectures',64800]],[],[36,36],'bank','Meezan ••6620',[60,62,58,64,63]),
+mk(14,'Saima Rafiq','VIS','v','Girls Campus','Per lecture: 28 × Rs. 1,800',[['Lectures',50400]],[],[28,28],'raast','Raast ••2290',[48,50,47,50,49])];
+let G=1,cashOn=100000,F={tab:'all',chip:'all',meth:'',q:'',chk:new Set(),sel:null,form:null,dis:new Set()};
+const STG=['Draft','Reviewed','Approved','Paying','Completed'];
+const gross=s=>s.earn.reduce((a,x)=>a+x[1],0),dedT=s=>s.ded.reduce((a,x)=>a+x[1],0),net=s=>gross(s)-dedT(s);
+const online=s=>s.m!=='cash';
+const sl=s=>s.st==='pending'?(G>=2?'Approved':'Draft'):({processing:'Processing',paid:'Paid',failed:'Failed',hold:'On hold'})[s.st];
+const pill=t=>`<span class="pill" style="--c:${STC[t]}">${t==='Processing'?'<span class="spin"></span>':''}${t}</span>`;
+const avt=s=>`<span class="av" style="background:${AVC[s.id%6]}">${s.n.replace('Dr. ','').split(' ').map(w=>w[0]).join('').slice(0,2)}</span>`;
+const DN=[5000,1000,500,100,50,20,10];const dn=a=>{const o=[];DN.forEach(d=>{const c=Math.floor(a/d);if(c){o.push([d,c]);a-=c*d}});return o};
+const sum=(L,f)=>L.reduce((a,s)=>a+f(s),0);
+const grp=m=>m==='cash'?'Cash':(m==='bank'||m==='raast')?'Bank':'Wallet';
+const GN={all:'All Staff',t:'Teachers',a:'Admin & Office',s:'Support staff',v:'Visiting faculty'};
+function rows(){const q=F.q.toLowerCase();return S.filter(s=>(F.tab==='all'||s.grp===F.tab)&&(F.chip==='all'||sl(s)===F.chip)&&(!F.meth||s.m===F.meth)&&(!q||(s.n+s.key+s.camp).toLowerCase().includes(q)))}
+function issues(){const o=[];
+ const na=S.filter(s=>!s.att);if(na.length&&!F.dis.has('att'))o.push(['att','⏱',`<b>${na.length} staff</b> ${na.length>1?'have':'has'} no attendance recorded (${na.map(s=>s.n).join(', ')}).`,'Mark present','fixAtt']);
+ S.forEach(s=>{const p=s.prev[4];if(p&&s.st!=='paid'&&(p-net(s)/1000)/p>=.15&&!F.dis.has('d'+s.id))o.push(['d'+s.id,'📉',`<b>${s.n}</b>'s net is ${Math.round((p-net(s)/1000)/p*100)}% lower than last month.`,'Review','open',s.id])});
+ S.forEach(s=>{if(online(s)&&!s.acct&&s.st!=='paid')o.push(['n'+s.id,'🏦',`<b>${s.n}</b> has no bank details but is set to online.`,'Add details','addAcct',s.id])});
+ const sh=sum(S.filter(s=>s.m==='cash'&&s.st!=='paid'),net)-cashOn;if(sh>0)o.push(['c','💵',`<b>Cash shortfall of ${R(sh)}</b> for this payroll.`,'Update cash','focusCash']);
+ return o}
+function render(){
+ $('hide').innerHTML=ic(hide?'eyeoff':'eye')+(hide?'Show amounts':'Hide amounts');
+ $('stp').innerHTML=STG.map((n,i)=>`<li class="${i<G?'done':i===G?'cur':''}"><i>${i<G?'✓':i+1}</i>${n}</li>`).join('');
+ $('pd').textContent=G>=4?'Payroll complete 🎉':'Payday 28 Oct · in 16 days';
+ const mt=['Mark as reviewed','Approve payroll','Pay all online','Pay all online','Download report'][G===0?0:G];
+ $('main').innerHTML=ic(G>=4?'download':'check')+mt;
+ const tot=sum(S,net),paid=sum(S.filter(s=>s.st==='paid'),net),pend=tot-paid,np=S.filter(s=>s.st==='paid').length,od=S.filter(s=>s.st==='failed').length;
+ const mix={Cash:0,Bank:0,Wallet:0};S.forEach(s=>mix[grp(s.m)]+=net(s));const mc={Cash:'#E3A24A',Bank:'#5B4BD6',Wallet:'#1F8F5F'};
+ const lastTot=sum(S,s=>s.prev[4]*1000),ch=(tot-lastTot)/lastTot*100;
+ const dd={Absence:0,Loan:0,Tax:0};S.forEach(s=>s.ded.forEach(d=>dd[d[2]==='abs'?'Absence':d[2]==='loan'?'Loan':'Tax']+=d[1]));
+ $('strip').innerHTML=`<div class="card tile"><span class="l">Net payable</span><b>${R(tot)}</b><small class="tr ${ch<=3?'g':'b'}">${ch>=0?'▲':'▼'} ${Math.abs(ch).toFixed(1)}% <span class="dm" style="font-weight:500">vs September</span></small></div>
+ <div class="card tile"><span class="l">Paid</span><b>${R(paid)}</b><div class="bar"><i style="width:${paid/tot*100}%;background:var(--good)"></i></div><small>${np} of ${S.length} staff</small></div>
+ <div class="card tile"><span class="l">Pending</span><b>${R(pend)}</b><small>${S.length-np} staff${od?` · <span class="db">${od} failed</span>`:''}</small></div>
+ <div class="card tile"><span class="l">Payment mix</span><div class="bar" style="margin-top:14px;height:10px">${Object.keys(mix).map(k=>`<i style="width:${mix[k]/tot*100}%;background:${mc[k]}"></i>`).join('')}</div><div class="leg">${Object.keys(mix).map(k=>`<span style="--c:${mc[k]}">${k} ${K(mix[k])}</span>`).join('')}</div></div>
+ <button class="card tile" data-a="ded"><span class="l">Deductions ▾</span><b>${R(sum(S,dedT))}</b><small>Tap for breakdown</small></button>`;
+ const is=issues();
+ $('att').innerHTML=`<h3>Needs attention <span class="cnt">${is.length}</span></h3>`+(is.length?is.map(i=>`<div class="att"><em>${i[1]}</em><span>${i[2]}</span><button class="btn sm" data-a="${i[4]}" ${i[5]?`data-id="${i[5]}"`:''} data-k="${i[0]}">${i[3]}</button></div>`).join(''):`<div class="ok">${ic('check')} All clear. Nothing needs fixing before payment.</div>`);
+ const cs=S.filter(s=>s.m==='cash'&&s.st!=='paid'),need=sum(cs,net),short=need-cashOn,agg={};cs.forEach(s=>dn(net(s)).forEach(d=>agg[d[0]]=(agg[d[0]]||0)+d[1]));
+ $('cd').innerHTML=`<h3>Cash desk <button class="btn sm" data-a="env">${ic('print')}Envelopes</button></h3><div class="cd"><div class="k"><small>Cash needed</small><b>${R(need)}</b></div><div class="k"><small>Cash on hand</small><input id="coh" type="number" value="${cashOn}" aria-label="Cash on hand"></div></div>
+ ${need?(short>0?`<div class="short b">Shortfall ${R(short)}</div>`:`<div class="short g">Cash covered ✓</div>`):'<div class="short g">No cash payouts pending</div>'}
+ <div class="dn">${DN.filter(d=>agg[d]).map(d=>`<span>${d.toLocaleString()} × ${agg[d]}</span>`).join('')}</div>`;
+ $('coh').onchange=e=>{cashOn=+e.target.value||0;render()};
+ $('hint').style.display=G<2?'flex':'none';$('hint').innerHTML=ic('info')+'Payments start after the Super Admin approves the payroll (maker and checker). Review the staff list, then approve.';wire();
+ $('tabs').innerHTML=Object.keys(GN).map(k=>`<button role="tab" class="${F.tab===k?'on':''}" data-a="tab" data-k="${k}">${GN[k]} <span class="cnt">${k==='all'?S.length:S.filter(s=>s.grp===k).length}</span></button>`).join('');
+ const chs=['all','Draft','Approved','Processing','Paid','Failed','On hold'];
+ $('chips').innerHTML=chs.map(k=>`<button class="chip ${F.chip===k?'on':''}" data-a="chip" data-k="${k}">${k==='all'?'All':k} <b>${k==='all'?S.length:S.filter(s=>sl(s)===k).length}</b></button>`).join('');
+ $('bulk').classList.toggle('on',F.chk.size>0);$('bc').textContent=F.chk.size+' selected';
+ const L=rows();
+ const actB=s=>{if(G<2&&s.st==='pending')return'<span class="dm">Approve first</span>';const m={pending:online(s)?['on','Send online']:['cash','Pay cash'],failed:['on','Retry'],paid:['slip','Payslip'],hold:['rel','Release']}[s.st];return m?`<button class="btn sm ${m[0]==='on'||m[0]==='cash'?'p':''}" data-a="${m[0]}" data-id="${s.id}">${m[1]}</button>`:'<span class="dm">Sending…</span>'};
+ const attC=s=>s.att?`<b>${s.att[0]} / ${s.att[1]}</b> <span class="dm">days</span><div class="ab"><i style="width:${s.att[0]/s.att[1]*100}%"></i></div>`:'<span class="pill" style="--c:#B4701A">Not recorded</span>';
+ const row=s=>`<tr class="row" data-a="open" data-id="${s.id}"><td style="padding-left:18px;width:28px"><input type="checkbox" data-a="ck" data-id="${s.id}" aria-label="Select ${s.n}" ${F.chk.has(s.id)?'checked':''}></td>
+ <td><div class="who">${avt(s)}<div><b>${s.n}<span class="key" style="--c:${KEYS[s.key][0]}">${s.key}</span></b><small>${s.camp} · ${s.basis}</small></div></div></td>
+ <td>${attC(s)}</td><td class="num" title="Gross ${gross(s)} − Deductions ${dedT(s)}"><b>${R(net(s))}</b><br><small class="dm">Gross ${R(gross(s))}${dedT(s)?` · <span class="db">−${R(dedT(s))}</span>`:''}</small></td>
+ <td><span class="mini">${MET[s.m]}</span><br><small class="${online(s)&&!s.acct?'db':'dm'}">${s.m==='cash'?'Paid by hand':s.acct||'No account'}</small></td><td>${pill(sl(s))}${s.fail?`<br><small class="db">${s.fail}</small>`:''}</td>
+ <td style="white-space:nowrap">${actB(s)}</td><td style="padding-right:18px"><button class="ib" data-a="menu" data-id="${s.id}" aria-label="More for ${s.n}">${ic('dots')}</button></td></tr>`;
+ const card=s=>`<div data-a="open" data-id="${s.id}"><div style="display:flex;justify-content:space-between;align-items:center"><div class="who">${avt(s)}<div><b>${s.n}<span class="key" style="--c:${KEYS[s.key][0]}">${s.key}</span></b><small>${s.basis}</small></div></div>${pill(sl(s))}</div><div style="display:flex;justify-content:space-between"><b>${R(net(s))}</b><span class="mini">${MET[s.m]}</span></div>${actB(s)}</div>`;
+ $('list').innerHTML=L.length?`<div class="tw"><table><thead><tr><th style="padding-left:18px"><input type="checkbox" data-a="all" aria-label="Select all" ${L.every(s=>F.chk.has(s.id))?'checked':''}></th><th>Staff</th><th>Attendance</th><th class="num">Net pay</th><th>Method</th><th>Status</th><th>Action</th><th></th></tr></thead><tbody>${L.map(row).join('')}</tbody></table></div><div class="cards">${L.map(card).join('')}</div>`:'<div style="padding:50px;text-align:center" class="dm"><b style="display:block;color:var(--ink)">No staff match</b>Try clearing a filter.</div>';
+ $('foot').textContent=`Showing ${L.length} of ${S.length} staff`;wire();renderDr()}
+function renderDr(){const s=S.find(x=>x.id===F.sel);$('ov').classList.toggle('on',!!s||$('wz').classList.contains('on'));$('dr').classList.toggle('on',!!s);if(!s)return;
+ const t=sl(s),ev=[['Payroll prepared by Imran Shah (FIN)',fd(-2)]];if(G>=1)ev.push(['Reviewed',fd(-1)]);if(G>=2)ev.push(['Approved by Hassan Malik (SA)',fd(0)]);
+ if(s.st==='paid')ev.push([s.m==='cash'?`Paid in cash · handed by ${s.by} · ${s.conf}`:`Sent online · Ref ${s.ref}`,fd(0)]);if(s.st==='hold')ev.push(['Placed on hold',fd(0)]);if(s.st==='failed')ev.push(['Transfer failed: '+s.fail,fd(0)]);
+ const pts=[...s.prev.slice(0,4).map(v=>v*1000),net(s)],mx=Math.max(...pts),mn=Math.min(...pts),sp=pts.map((v,i)=>`${i*40+5},${40-(v-mn)/((mx-mn)||1)*32}`).join(' ');
+ const lock=s.st==='paid',a=G>=2&&s.st!=='paid'&&s.st!=='processing';
+ $('dr').innerHTML=`<div class="hd">${avt(s)}<div style="flex:1;min-width:0"><div style="font-size:20px;font-weight:800">${s.n}</div><div class="dm">${KEYS[s.key][1]} · ${s.camp}</div><div style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">${pill(t)}<span class="mini">${s.key}-SUN-0${40+s.id}</span></div></div><button class="ib" style="border:1px solid var(--line2)" data-a="close" aria-label="Close">${ic('x')}</button></div>
+ <div class="bd"><div><h4>Payslip · October 2026</h4><div class="dm" style="margin-bottom:6px">${s.basis}</div>${s.earn.map(e=>`<div class="li"><span>${e[0]}</span><span>${R(e[1])}</span></div>`).join('')}${s.ded.map(d=>`<div class="li" style="color:var(--bad)"><span>${d[0]}</span><span>− ${R(d[1])}</span></div>`).join('')}<div class="li t"><span>Net pay</span><span>${R(net(s))}</span></div></div>
+ <div><h4>Payment</h4><div class="li"><span>Method</span><b>${MET[s.m]}</b></div><div class="li"><span>${s.m==='cash'?'Handover':'Account'}</span><b class="${online(s)&&!s.acct?'db':''}">${s.m==='cash'?'In person':s.acct||'Not on file'}</b></div>${s.m==='cash'&&s.st!=='paid'?`<div class="dn">${dn(net(s)).map(d=>`<span>${d[0].toLocaleString()} × ${d[1]}</span>`).join('')}</div>`:''}</div>
+ ${F.form==='adj'?`<div class="fm"><b>Add bonus or deduction</b><select id="at" aria-label="Type"><option value="b">Bonus</option><option value="d">Deduction</option></select><input id="al" placeholder="Label, e.g. Eid bonus" aria-label="Label"><input id="aa" type="number" placeholder="Amount" aria-label="Amount"><div class="err" id="ae">Enter a label and an amount.</div><div class="hb"><button class="btn sm p" data-a="adjOk" data-id="${s.id}">Add</button><button class="btn sm" data-a="formX">Cancel</button></div></div>`:''}
+ <div class="ag">${s.st==='paid'?'':`<button class="btn p" ${a?'':'disabled'} data-a="${online(s)?'on':'cash'}" data-id="${s.id}">${ic('send')}${online(s)?(s.st==='failed'?'Retry online':'Send online'):'Pay cash'}</button>`}<button class="btn" data-a="wa" data-id="${s.id}">${ic('send')}WhatsApp payslip</button><button class="btn" data-a="pdf" data-id="${s.id}">${ic('doc')}Download PDF</button><button class="btn" ${lock?'disabled':''} data-a="adj">${ic('plus')}Bonus / deduction</button><button class="btn" ${lock||s.st==='processing'?'disabled':''} data-a="${s.st==='hold'?'rel':'hold'}" data-id="${s.id}">${ic('pause')}${s.st==='hold'?'Release':'Hold'}</button></div>
+ <div><h4>Last 5 months</h4><svg viewBox="0 0 170 46" width="100%" height="56" role="img" aria-label="Net pay trend"><polyline points="${sp}" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>${pts.map((v,i)=>`<circle cx="${i*40+5}" cy="${40-(v-mn)/((mx-mn)||1)*32}" r="3" fill="var(--acc)"/>`).join('')}</svg></div>
+ <div><h4>Timeline</h4><ul class="tl">${ev.map(e=>`<li>${e[0]}<small>${e[1]}</small></li>`).join('')}</ul></div></div>`;wire()}
+function toast(m,u){$('tm').textContent=m;$('tu').style.display=u?'':'none';$('tu').onclick=()=>{[S,G,cashOn]=JSON.parse(u);$('toast').classList.remove('on');render()};$('toast').classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').classList.remove('on'),6000)}
+const snap=()=>JSON.stringify([S,G,cashOn]);
+const refG=s=>'TXN'+(884100+s.id*37);
+function chkDone(){if(S.every(s=>s.st==='paid')){G=4;render();toast('Payroll complete 🎉 Every staff member has been paid.')}}
+function sendOnline(s){s.st='processing';s.fail=null;if(G<3)G=3;render();setTimeout(()=>{if(!s.acct){s.st='failed';s.fail='No account on file'}else{s.st='paid';s.ref=refG(s)}render();if(s.st==='paid')chkDone()},1200+s.id*90)}
+function modal(h){$('wz').innerHTML=h;$('wz').classList.add('on');$('ov').classList.add('on');wire()}
+function closeAll(){F.sel=null;F.form=null;$('wz').classList.remove('on');$('menu').classList.remove('on');render()}
+function payAllModal(ids){const L=S.filter(s=>ids.includes(s.id)&&online(s)&&(s.st==='pending'||s.st==='failed')),ok=L.filter(s=>s.acct),sk=L.length-ok.length;
+ if(!ok.length){toast('No online payments are ready. Check bank details.');return}
+ modal(`<h2>Send online payments</h2><div class="dm">Transfers cannot be undone once sent.</div><div class="pv"><b>${ok.length} transfers · ${R(sum(ok,net))}</b><span class="dm">${ok.map(s=>s.n.split(' ')[0]).join(', ')}</span></div>${sk?`<div class="hint" style="margin-bottom:12px">${sk} staff skipped: no account on file.</div>`:''}<div class="fm"><b>Confirm with OTP</b><input id="otp" inputmode="numeric" maxlength="4" placeholder="4-digit code" aria-label="OTP"><div class="err" id="oe">That code is incorrect.</div><small class="dm">Prototype: use 1234</small></div><div class="hb" style="justify-content:flex-end;margin-top:16px"><button class="btn" data-a="mx">Cancel</button><button class="btn p" data-a="payOk" data-ids="${ok.map(s=>s.id)}">Send ${ok.length} transfers</button></div>`)}
+function cashModal(ids){const L=S.filter(s=>ids.includes(s.id)&&s.m==='cash'&&s.st==='pending');if(!L.length){toast('No cash payouts selected.');return}
+ modal(`<h2>Pay in cash</h2><div class="pv"><b>${L.length} ${L.length>1?'staff':'staff member'} · ${R(sum(L,net))}</b><span class="dm">${L.map(s=>s.n.split(' ')[0]).join(', ')}</span></div><div class="fm"><label>Handed over by<select id="hb"><option>Imran Shah (FIN)</option><option>Hassan Malik (SA)</option></select></label><label>Receipt confirmation<select id="hc"><option>Signature</option><option>Thumbprint photo</option><option>WhatsApp "received"</option></select></label></div><div class="hb" style="justify-content:flex-end;margin-top:16px"><button class="btn" data-a="mx">Cancel</button><button class="btn p" data-a="cashOk" data-ids="${L.map(s=>s.id)}">Confirm cash paid</button></div>`)}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!e.target.closest('.menu')&&!(t&&['menu','ded'].includes(t.dataset.a)))$('menu').classList.remove('on');if(e.target===$('ov')){closeAll();return}if(!t)return;
+ const a=t.dataset.a,id=+t.dataset.id,s=S.find(x=>x.id===id),k=t.dataset.k;
+ if(a==='ck'){e.stopPropagation();t.checked?F.chk.add(id):F.chk.delete(id);render();return}
+ if(a==='all'){e.stopPropagation();const L=rows();t.checked?L.forEach(x=>F.chk.add(x.id)):F.chk.clear();render();return}
+ if(['on','cash','rel','slip','menu','hold','fixAtt','addAcct'].includes(a))e.stopPropagation();
+ const sel=[...F.chk];
+ switch(a){
+ case'hide':hide=!hide;render();break;
+ case'theme':break;
+ case'open':F.sel=id;F.form=null;render();break;case'close':closeAll();break;
+ case'tab':F.tab=k;render();break;case'chip':F.chip=k;render();break;
+ case'mp':case'mn':toast('Demo shows October 2026. September was completed on 28 Sep.');break;
+ case'csv':toast('Bank file exported: '+S.filter(online).length+' transfers (CSV)');break;
+ case'main':if(G===0){G=1;render()}else if(G===1)modal(`<h2>Approve October payroll</h2><div class="dm">Prepared by Imran Shah (FIN). You are approving as Super Admin.</div><div class="pv"><b>${S.length} staff · ${K(sum(S,net))}</b><span class="dm">${S.filter(online).length} online · ${S.filter(x=>!online(x)).length} cash</span></div><div class="hb" style="justify-content:flex-end"><button class="btn" data-a="mx">Cancel</button><button class="btn p" data-a="apv">Approve payroll</button></div>`);else if(G<4)payAllModal(S.map(x=>x.id));else toast('Payroll report downloaded');break;
+ case'apv':G=2;closeAll();toast('Payroll approved. You can now pay staff.');break;
+ case'mx':closeAll();break;
+ case'ded':{const dd={Absence:0,Loan:0,Tax:0};S.forEach(x=>x.ded.forEach(d=>dd[d[2]==='abs'?'Absence':d[2]==='loan'?'Loan recovery':'Tax']+=d[1]));const m=$('menu'),r=t.getBoundingClientRect();m.innerHTML='<div><b>Deduction breakdown</b></div>'+Object.entries({'Absence':sum(S,x=>sum(x.ded.filter(d=>d[2]==='abs'),d=>d[1])),'Loan recovery':sum(S,x=>sum(x.ded.filter(d=>d[2]==='loan'),d=>d[1])),'Income tax':sum(S,x=>sum(x.ded.filter(d=>d[2]==='tax'),d=>d[1]))}).map(([n,v])=>`<div><span class="dm">${n}</span><b>${R(v)}</b></div>`).join('');m.style.top=r.bottom+4+'px';m.style.left=Math.max(8,Math.min(r.left,innerWidth-230))+'px';m.classList.add('on');break}
+ case'on':if(G<2){toast('Approve the payroll first.');break}if(s.st==='failed'||!s.acct){sendOnline(s);break}payAllModal([id]);break;
+ case'payOk':{if($('otp').value!=='1234'){$('oe').style.display='block';return}const ids=t.dataset.ids.split(',').map(Number);closeAll();ids.forEach(i=>sendOnline(S.find(x=>x.id===i)));toast(`Sending ${ids.length} transfers…`);break}
+ case'cash':if(G<2){toast('Approve the payroll first.');break}cashModal([id]);break;
+ case'cashOk':{const u=snap(),ids=t.dataset.ids.split(',').map(Number),by=$('hb').value,cf=$('hc').value;ids.forEach(i=>{const x=S.find(y=>y.id===i);x.st='paid';x.by=by;x.conf=cf});if(G<3)G=3;closeAll();toast(`${ids.length} cash payment${ids.length>1?'s':''} recorded`,u);chkDone();break}
+ case'hold':{const u=snap();s.st='hold';render();toast(s.n+' placed on hold',u);break}
+ case'rel':s.st='pending';render();toast(s.n+' released');break;
+ case'slip':case'pdf':toast('Payslip PDF ready for '+s.n);break;case'wa':toast('Payslip sent to '+s.n+' on WhatsApp');break;
+ case'adj':F.form='adj';render();break;case'formX':F.form=null;render();break;
+ case'adjOk':{const l=$('al').value.trim(),v=+$('aa').value;if(!l||v<=0){$('ae').style.display='block';return}const u=snap();$('at').value==='b'?s.earn.push([l,v]):s.ded.push([l,v,'oth']);F.form=null;render();toast('Added '+l,u);break}
+ case'menu':{const m=$('menu'),r=t.getBoundingClientRect();m.innerHTML=`<button data-a="open" data-id="${id}">${ic('doc')}View payslip</button><button data-a="wa" data-id="${id}">${ic('send')}WhatsApp payslip</button><button data-a="hold" data-id="${id}">${ic('pause')}Hold payment</button>`;m.style.top=Math.min(r.bottom+4,innerHeight-170)+'px';m.style.left=Math.max(8,r.right-210)+'px';m.classList.add('on');break}
+ case'fixAtt':S.forEach(x=>{if(!x.att)x.att=[22,22]});render();toast('Attendance marked present for 22 days');break;
+ case'addAcct':s.acct=(s.m==='bank'?'HBL':'Account')+' ••3571';render();toast('Bank details added for '+s.n);break;
+ case'focusCash':$('coh').focus();$('coh').select();break;
+ case'env':toast('Printing '+S.filter(x=>x.m==='cash'&&x.st!=='paid').length+' pay envelopes (demo)');break;
+ case'bOn':payAllModal(sel);break;case'bCash':cashModal(sel);break;
+ case'bHold':{const u=snap();sel.forEach(i=>{const x=S.find(y=>y.id===i);if(x.st==='pending')x.st='hold'});F.chk.clear();render();toast('Selected staff placed on hold',u);break}
+ case'bSlip':toast('Printing '+sel.length+' payslips');break;case'bWa':toast('Payslips sent to '+sel.length+' staff on WhatsApp');break;case'bClr':F.chk.clear();render();break}});
+$('q').oninput=e=>{F.q=e.target.value;render()};$('fm').onchange=e=>{F.meth=e.target.value;render()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll()});
+$('theme').onclick=()=>{const r=document.documentElement;const d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA CMS · Campuses</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f4f5fb;--card:#fff;--ink:#14162b;--mut:#6b7090;--line:#e8eaf3;--acc:#6c4cf1;--accs:#efeaff;--ok:#0f8a66;--warn:#b45309;--bad:#d9362b;--side:#14183a;--hov:#f7f7fd;--shadow:0 1px 2px rgba(20,22,43,.05),0 6px 20px rgba(20,22,43,.05);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1124;--card:#171b36;--ink:#eceefc;--mut:#9aa0c7;--line:#262b4d;--accs:#2a2458;--hov:#1c2142;--ok:#4fd1a5;--warn:#f4b25c;--bad:#ff7a70;--shadow:none}}
+:root[data-theme="dark"]{--bg:#0e1124;--card:#171b36;--ink:#eceefc;--mut:#9aa0c7;--line:#262b4d;--accs:#2a2458;--hov:#1c2142;--ok:#4fd1a5;--warn:#f4b25c;--bad:#ff7a70;--shadow:none}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+button,select,input{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.app{display:flex;min-height:100vh}
+.side{width:230px;background:var(--side);color:#c9cdf0;padding:18px 14px;flex:none;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:22px;color:#fff;font-weight:700}
+.brand i{width:34px;height:34px;border-radius:10px;background:var(--acc);display:grid;place-items:center;font-style:normal}
+.brand small{display:block;font-weight:500;font-size:11px;color:#8c91c4}
+.side a{display:block;padding:10px 12px;border-radius:10px;color:#c9cdf0;text-decoration:none;margin-bottom:2px}
+.side a.on{background:rgba(255,255,255,.1);color:#fff;font-weight:600}
+.side .grp{font-size:12px;color:#7f84b8;margin:16px 12px 6px}
+.me{margin-top:auto;padding:12px;border-top:1px solid rgba(255,255,255,.1);font-size:13px;color:#fff}
+.me small{display:block;color:#8c91c4}
+main{flex:1;min-width:0;padding:22px 28px 60px}
+@media(max-width:900px){.side{display:none}main{padding:18px 16px 60px}}
+.hd{display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap;margin-bottom:16px}
+.hd>div:first-child{flex:1;min-width:240px}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}h3{margin:0;font-size:16px}
+.sub{color:var(--mut);margin:2px 0 0;font-size:14px}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:9px 15px;font-weight:600;font-size:14px}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}
+.btn.on{background:var(--accs);border-color:var(--acc);color:var(--acc)}
+.btn.sm{padding:6px 11px;font-size:13px}.btn.sq{padding:8px 12px}.btn:disabled{opacity:.4;cursor:default}
+select,input[type=text],input[type=time],input[type=number]{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-weight:600;max-width:100%}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px;overflow-x:auto}
+.seg button{border:0;background:none;padding:7px 14px;border-radius:10px;font-weight:600;color:var(--mut);white-space:nowrap}
+.seg button.on{background:var(--accs);color:var(--acc)}
+.vb{display:flex;gap:12px;align-items:center;background:var(--accs);border:1px solid var(--acc);border-radius:14px;padding:9px 14px;margin-bottom:14px;font-size:14px;flex-wrap:wrap}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+@media(max-width:800px){.kp{grid-template-columns:1fr 1fr}}
+.kp div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.kp small{color:var(--mut);display:block;font-size:12.5px}
+.kp b{font-size:26px;letter-spacing:-.02em;display:block;line-height:1.2}
+.up{color:var(--ok);font-size:12.5px;font-weight:700}.dn{color:var(--bad);font-size:12.5px;font-weight:700}
+.ai{display:flex;gap:12px;align-items:center;background:linear-gradient(100deg,var(--accs),var(--card));border:1px solid var(--line);border-radius:14px;padding:11px 14px;margin-bottom:14px;flex-wrap:wrap}
+.ai .ic{width:34px;height:34px;border-radius:11px;background:var(--acc);color:#fff;display:grid;place-items:center;flex:none}
+.ai p{margin:0;flex:1;min-width:200px}
+.tb{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.tb input[type=text]{min-width:180px;flex:1;max-width:300px}
+.sp{flex:1}
+.dd{position:relative}
+.menu{position:absolute;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow);padding:6px;min-width:160px;display:none;z-index:8}
+.menu.on{display:block}
+.menu button{display:block;width:100%;text-align:left;border:0;background:none;padding:9px 12px;border-radius:8px;font-weight:600;font-size:14px}
+.menu button:hover{background:var(--accs)}
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.cc{position:relative;background:var(--card);border:1px solid var(--line);border-top:5px solid var(--k);border-radius:18px;padding:16px 18px;box-shadow:var(--shadow);cursor:pointer}
+.cc:hover{border-color:var(--k)}
+.cc.sel{outline:2px solid var(--acc)}
+.ch{display:flex;gap:10px;align-items:flex-start}
+.ch h4{margin:0;font-size:17px}
+.ch small{color:var(--mut)}
+.mn{margin-left:auto;display:flex;gap:4px;align-items:center}
+.mn .dd button.k{border:0;background:none;border-radius:8px;padding:4px 8px;font-size:18px;color:var(--mut)}
+.pill{display:inline-flex;gap:5px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.pill.g{color:var(--ok);background:color-mix(in srgb,var(--ok) 15%,transparent)}.pill.w{color:var(--warn);background:color-mix(in srgb,var(--warn) 16%,transparent)}.pill.b{color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}.pill.p{color:var(--acc);background:var(--accs)}.pill.m{color:var(--mut);background:var(--line)}
+.hr{display:flex;gap:8px;align-items:center;margin:10px 0;font-size:13.5px;color:var(--mut)}
+.av{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;flex:none;background:hsl(var(--hu) 50% 42%)}
+.nm{display:grid;grid-template-columns:repeat(3,1fr) auto;gap:10px;align-items:center;margin:12px 0}
+.nm b{display:block;font-size:19px;line-height:1.15}.nm small{font-size:12px;color:var(--mut)}
+.ring{position:relative;width:48px;height:48px}.ring svg{transform:rotate(-90deg)}.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:11.5px}
+.seats{font-size:12px;color:var(--mut);margin:4px 0 10px}
+.seats .pb{height:6px;margin:4px 0}
+.pb{height:7px;background:var(--line);border-radius:9px;overflow:hidden}.pb i{display:block;height:100%;border-radius:9px;background:var(--acc)}
+.seats a,.lk{color:var(--acc);font-weight:700;cursor:pointer;text-decoration:none}
+.al{display:flex;gap:8px;align-items:center;background:color-mix(in srgb,var(--warn) 13%,transparent);color:var(--warn);border-radius:10px;padding:6px 8px;font-size:12.5px;font-weight:600;margin-bottom:6px}
+.al span{flex:1}.al button{border:0;background:var(--warn);color:var(--card);border-radius:8px;padding:4px 10px;font-weight:700;font-size:12px}
+.la{font-size:12.5px;color:var(--mut);margin:8px 0}
+.qa{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.cmpn{position:absolute;top:12px;left:12px}
+input[type=checkbox]{width:17px;height:17px;accent-color:var(--acc)}
+.c{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;box-shadow:var(--shadow);margin-bottom:14px}
+table{width:100%;border-collapse:collapse}
+th{font-size:12.5px;color:var(--mut);text-align:left;padding:10px;border-bottom:1px solid var(--line)}
+td{padding:10px;border-bottom:1px solid var(--line);font-size:14.5px}
+tr.r{cursor:pointer}tr.r:hover td{background:var(--hov)}tr:last-child td{border-bottom:0}
+.wrap{overflow-x:auto}.wrap table{min-width:640px}
+.best{color:var(--ok);font-weight:800}
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.4);display:none;z-index:20}.scrim.on{display:block}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(480px,100%);background:var(--card);z-index:21;padding:calc(22px + env(safe-area-inset-top,0px)) 22px 22px;overflow:auto;transform:translateX(105%);transition:transform .25s;box-shadow:-10px 0 40px rgba(0,0,0,.2)}
+.drawer.on{transform:none}
+.x{float:right;border:0;background:var(--bg);width:34px;height:34px;border-radius:10px;font-size:18px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:center}
+.row span{color:var(--mut)}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.kv div{background:var(--bg);border-radius:12px;padding:10px 12px}
+.kv small{color:var(--mut);display:block;font-size:12px}.kv b{font-size:20px}
+.fl{display:grid;gap:12px}.fl label{display:grid;gap:5px;font-size:13px;font-weight:700;color:var(--mut)}
+.fl label.ck{display:flex;gap:8px;align-items:center;color:var(--ink);font-size:14px}
+.stp{display:flex;gap:4px;margin:12px 0 16px}.stp i{flex:1;height:5px;border-radius:4px;background:var(--line)}.stp i.on{background:var(--acc)}
+.cl{display:flex;gap:10px;align-items:center;padding:8px 0;font-size:14px;cursor:pointer}
+.cl i{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-style:normal;font-size:12px;color:#fff;flex:none}
+.cl.d i{background:var(--ok);border-color:var(--ok)}
+.msg{background:var(--bg);border-radius:12px;padding:12px;font-size:13.5px;margin:12px 0}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:11px 18px;border-radius:12px;opacity:0;transition:.25s;z-index:30;font-weight:600;max-width:90%}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+ <div class="brand"><i>📖</i><div>ILMA CMS<small>Super Admin Portal</small></div></div>
+ <div class="grp">Overview</div><div class="grp">Academics</div>
+ <div class="grp">Branch control</div><a class="on" href="#">Campuses</a>
+ <div class="grp">Admissions</div><div class="grp">People</div><div class="grp">Finance</div><div class="grp">Reports</div><div class="grp">Platform</div>
+ <a href="#" style="margin-top:14px">✨ ILMA AI</a>
+ <div class="me">Hassan Malik<small>Institution Owner</small></div>
+</aside>
+<main>
+ <div class="hd"><div><h1>Campuses</h1><p class="sub">Branch profiles, heads and operating status</p></div>
+  <select id="role" aria-label="View as"><option value="o">View as: Owner</option><option value="BR-02">View as: North Campus admin</option></select>
+  <button class="btn" id="cmp">⚖ Compare</button><button class="btn p" id="add">+ Add campus</button></div>
+ <div class="vb" id="vb" hidden></div>
+ <section class="kp" id="kp"></section>
+ <section class="ai" id="ai"><div class="ic">✨</div><p><b>ILMA AI</b> · North Campus fee collection dropped 9 points since August.</p><button class="btn p sm" id="why">See why</button><button class="btn sm" id="ds">Dismiss</button></section>
+ <div id="cp"></div>
+ <div class="tb"><input type="text" id="q" placeholder="Search campuses" aria-label="Search">
+  <select id="fs" aria-label="Status"><option value="all">All statuses</option><option>Active</option><option>Onboarding</option><option>Suspended</option><option>Archived</option></select>
+  <select id="fc" aria-label="City"><option value="all">All cities</option></select>
+  <select id="so" aria-label="Sort"><option value="a">Sort: Needs attention</option><option value="s">Sort: Students</option><option value="n">Sort: Name</option></select>
+  <span class="sp"></span><div class="seg" id="vw"><button data-vw="c" class="on">Cards</button><button data-vw="t">Table</button></div>
+  <div class="dd"><button class="btn" id="ex">⬇ Export ▾</button><div class="menu" id="em"><button data-x="CSV">CSV</button><button data-x="PDF">PDF</button></div></div></div>
+ <div id="body"></div>
+</main>
+</div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="dr" aria-label="Campus details"></aside>
+<div class="toast" id="toast" role="status"></div>
+<script>
+const $=i=>document.getElementById(i);
+const C=[
+{id:'BR-01',n:'Main Campus',city:'Lahore',addr:'12 Canal Road',head:'Farah Siddiqui',ph:'+92 300 1234567',s:'Active',stu:1240,staff:86,att:93,fee:91,seats:1500,col:'#6c4cf1',act:'Attendance marked 8:05 AM',al:[],wk:'Mon–Sat',sp:[88,89,90,91,91,91]},
+{id:'BR-02',n:'North Campus',city:'Islamabad',addr:'45 Park Avenue',head:'Saad Mahmood',ph:'+92 301 7654321',s:'Active',stu:1060,staff:64,att:91,fee:82,seats:1200,col:'#e8590c',act:'Fee reminder sent yesterday',al:[{t:'Attendance not marked in 2 sections',b:'Remind'},{t:'2 invoices overdue',b:'Review'}],wk:'Mon–Sat',sp:[91,90,88,86,84,82]},
+{id:'BR-03',n:'City Campus',city:'Karachi',addr:'8 Main Boulevard',head:'Mehwish Khan',ph:'+92 302 1112223',s:'Active',stu:820,staff:60,att:92,fee:89,seats:1000,col:'#0e9f8a',act:'Timetable published 28 Sep',al:[{t:'7 students flagged by early alerts',b:'Open'}],wk:'Mon–Fri',sp:[87,88,88,89,89,89]}];
+const SI={Active:['✓','g'],Onboarding:['🚀','p'],Suspended:['⛔','b'],Archived:['📦','m']},CK=['Profile completed','Head assigned','Classes created','Staff imported','Fee plan set'];
+const st={vw:'c',q:'',fs:'all',fc:'all',so:'a',cmp:false,cs:{},role:'o',ai:true,wz:null};
+const toast=m=>{const t=$('toast');t.textContent=m;t.className='toast on';clearTimeout(toast.x);toast.x=setTimeout(()=>t.className='toast',2800)};
+const ini=n=>n.split(' ').map(w=>w[0]).join(''),hu=s=>[...s].reduce((a,c)=>a+c.charCodeAt(0),0)*7%360,fmt=n=>n.toLocaleString();
+const health=c=>c.s!=='Active'?null:c.al.length>=2?['b','⚠','Needs attention',0]:c.al.length===1?['w','👁','Watch',1]:['g','✓','Healthy',2];
+const hp=h=>h?'<span class="pill '+h[0]+'">'+h[1]+' '+h[2]+'</span>':'';
+const sp=(d,c)=>{const mx=Math.max(...d),mn=Math.min(...d),p=d.map((v,i)=>(i*100/(d.length-1))+','+(26-(v-mn)/(mx-mn||1)*22)).join(' ');return '<svg viewBox="0 0 100 28" preserveAspectRatio="none" style="width:100%;height:36px"><polyline points="'+p+'" fill="none" stroke="'+c+'" stroke-width="2.4" vector-effect="non-scaling-stroke"/></svg>'};
+const ring=p=>'<div class="ring"><svg width="48" height="48" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" fill="none" stroke="var(--line)" stroke-width="4"/><circle cx="18" cy="18" r="15" fill="none" stroke="'+(p>=92?'#0f8a66':'#d98b06')+'" stroke-width="4" stroke-linecap="round" stroke-dasharray="'+(p/100*94.25)+' 94.25"/></svg><b>'+p+'%</b></div>';
+const vis=()=>C.filter(c=>st.role==='o'||c.id===st.role),cki=c=>c.ck?c.ck.filter(x=>x).length:0;
+function list(){
+ const rk=c=>{const h=health(c);return h?h[3]:3};
+ return vis().filter(c=>(!st.q||(c.n+c.id+c.head).toLowerCase().includes(st.q))&&(st.fs==='all'||c.s===st.fs)&&(st.fc==='all'||c.city===st.fc)).sort((a,b)=>st.so==='s'?b.stu-a.stu:st.so==='n'?a.n.localeCompare(b.n):rk(a)-rk(b)||a.n.localeCompare(b.n))}
+function kpis(){
+ const A=vis().filter(c=>c.s==='Active'),stu=A.reduce((s,c)=>s+c.stu,0),sf=A.reduce((s,c)=>s+c.staff,0),fee=stu?A.reduce((s,c)=>s+c.fee*c.stu,0)/stu:0;
+ $('kp').innerHTML=[['Campuses',vis().filter(c=>c.s!=='Archived').length,A.length+' active'],['Total students',fmt(stu),'<span class="up">↑ 7.1% vs last term</span>'],['Total staff',fmt(sf),'<span class="up">↑ 4 this term</span>'],['Fee collection',fee.toFixed(1)+'%','<span class="dn">↓ 1.6 pts vs last term</span>']].map(k=>'<div><small>'+k[0]+'</small><b>'+k[1]+'</b><small>'+k[2]+'</small></div>').join('');
+ $('ai').hidden=!st.ai||st.role!=='o'}
+function card(c){
+ const h=health(c),ob=c.s==='Onboarding',used=Math.round(c.stu/c.seats*100),on=st.cs[c.id];
+ return '<div class="cc'+(on?' sel':'')+'" data-c="'+c.id+'" style="--k:'+c.col+'" tabindex="0">'+(st.cmp?'<input type="checkbox" class="cmpn" data-cp="'+c.id+'"'+(on?' checked':'')+' aria-label="Compare '+c.n+'">':'')+
+ '<div class="ch" style="'+(st.cmp?'padding-left:26px':'')+'"><div><h4>'+c.n+'</h4><small>'+c.id+' · '+c.city+'</small></div><div class="mn"><span class="pill '+SI[c.s][1]+'">'+SI[c.s][0]+' '+c.s+'</span><div class="dd"><button class="k" data-mn="'+c.id+'" aria-label="More actions">⋯</button><div class="menu" id="m-'+c.id+'"><button data-ed="'+c.id+'">Edit</button><button data-su="'+c.id+'">'+(c.s==='Suspended'?'Reactivate':'Suspend')+'</button><button data-ar="'+c.id+'">Archive</button></div></div></div></div>'+
+ '<div class="hr"><span class="av" style="--hu:'+hu(c.head)+'">'+ini(c.head)+'</span><span>'+c.head+' · '+c.addr+'</span></div>'+
+ (ob?'<div class="pb"><i style="width:'+cki(c)/5*100+'%"></i></div><div class="la">Onboarding · '+cki(c)+' of 5 steps done'+(cki(c)<5?' · next: '+CK[c.ck.indexOf(false)]:'')+'</div>':
+ '<div class="nm"><div><b>'+fmt(c.stu)+'</b><small>students</small></div><div><b>'+c.staff+'</b><small>staff</small></div><div><b>'+c.fee+'%</b><small>fees</small></div>'+ring(c.att)+'</div>'+
+ '<div class="seats">'+fmt(c.stu)+' of '+fmt(c.seats)+' seats used'+(used>=85?' · <a data-up="1">Upgrade</a>':'')+'<div class="pb"><i style="width:'+used+'%;'+(used>=85?'background:var(--warn)':'')+'"></i></div></div>')+
+ '<div>'+hp(h)+'</div>'+c.al.map((a,i)=>'<div class="al" style="margin-top:8px"><span>⚠ '+a.t+'</span><button data-al="'+c.id+'|'+i+'">'+a.b+'</button></div>').join('')+
+ '<div class="la">'+(ob?'Not live yet':'🕘 '+c.act)+'</div><div class="qa">'+(ob?'<button class="btn p sm" data-gl="'+c.id+'"'+(cki(c)<5?' disabled':'')+'>Go live</button>':'<button class="btn p sm" data-od="'+c.id+'">Open dashboard</button><button class="btn sm" data-ms="'+c.id+'">Message head</button><button class="btn sm" data-vs="'+c.id+'">View as campus</button>')+'</div></div>'}
+function table(L){return '<div class="c wrap" style="padding:6px"><table><thead><tr><th>ID</th><th>CAMPUS</th><th>HEAD</th><th>STUDENTS</th><th>ATTENDANCE</th><th>FEES</th><th>HEALTH</th><th>STATUS</th></tr></thead><tbody>'+L.map(c=>'<tr class="r" data-c="'+c.id+'"><td>'+c.id+'</td><td><b>'+c.n+'</b><br><small style="color:var(--mut)">'+c.city+'</small></td><td>'+c.head+'</td><td>'+fmt(c.stu)+'</td><td>'+c.att+'%</td><td>'+c.fee+'%</td><td>'+hp(health(c))+'</td><td><span class="pill '+SI[c.s][1]+'">'+SI[c.s][0]+' '+c.s+'</span></td></tr>').join('')+'</tbody></table></div>'}
+function compare(){
+ const S=C.filter(c=>st.cs[c.id]);
+ if(!st.cmp)return '';
+ const sc=c=>(c.att+c.fee)/2,rk=C.filter(c=>c.s==='Active').sort((a,b)=>sc(b)-sc(a));
+ let h='<div class="c"><div class="row" style="border:0"><h3>Compare campuses</h3><span>'+(S.length<2?'Tick 2 or 3 campuses on the cards':S.length+' selected')+'</span></div>';
+ if(S.length>=2){const M=[['Students',c=>c.stu,1],['Staff',c=>c.staff,1],['Attendance',c=>c.att,1,'%'],['Fee collection',c=>c.fee,1,'%'],['Seats used',c=>Math.round(c.stu/c.seats*100),0,'%'],['Open alerts',c=>c.al.length,-1]];
+  h+='<div class="wrap"><table><thead><tr><th></th>'+S.map(c=>'<th style="color:'+c.col+'">'+c.n+'</th>').join('')+'</tr></thead><tbody>'+M.map(m=>{const v=S.map(c=>m[1](c)),b=m[2]===0?null:m[2]>0?Math.max(...v):Math.min(...v);return '<tr><td>'+m[0]+'</td>'+v.map(x=>'<td class="'+(x===b?'best':'')+'">'+(m[2]===1&&!m[3]?fmt(x):x)+(m[3]||'')+(x===b?' ★':'')+'</td>').join('')+'</tr>'}).join('')+'</tbody></table></div>'}
+ return h+'<h3 style="margin:14px 0 4px">Top campus this term</h3>'+rk.map((c,i)=>'<div class="row"><span><b style="color:var(--ink)">'+(i+1)+'. '+c.n+'</b></span><span>Score '+sc(c).toFixed(1)+'</span></div>').join('')+'</div>'}
+function render(){
+ kpis();$('cp').innerHTML=compare();$('cmp').className='btn'+(st.cmp?' on':'');$('cmp').hidden=$('add').hidden=st.role!=='o';
+ const fc=$('fc'),cv=fc.value;fc.innerHTML='<option value="all">All cities</option>'+[...new Set(C.map(c=>c.city))].map(x=>'<option'+(st.fc===x?' selected':'')+'>'+x+'</option>').join('');
+ const vb=$('vb');vb.hidden=st.role==='o';if(st.role!=='o'){const c=C.filter(x=>x.id===st.role)[0];vb.innerHTML='👁 Viewing as <b>'+c.n+' admin</b>. Only this campus is visible.<span class="sp"></span><button class="btn sm" data-ex2="1">Exit</button>'}
+ const L=list();document.querySelectorAll('#vw button').forEach(b=>b.className=b.dataset.vw===st.vw?'on':'');
+ $('body').innerHTML=L.length?(st.vw==='c'?'<div class="cg">'+L.map(card).join('')+'</div>':table(L)):'<div class="c" style="text-align:center;color:var(--mut)">No campuses match your filters.</div>'}
+const close=()=>{$('dr').className='drawer';$('scrim').className='scrim';st.wz=null};
+const open=h=>{$('dr').innerHTML='<button class="x" id="cx" aria-label="Close">×</button>'+h;$('dr').className='drawer on';$('scrim').className='scrim on'};
+const find=id=>C.filter(c=>c.id===id)[0];
+let dt='ov',dc=null;
+function detail(id,tab){
+ dc=id;dt=tab||dt;const c=find(id),T=[['ov','Overview'],['pf','Profile'],['pp','People'],['cl','Classes'],['fn','Finance'],['se','Settings'],['lg','Activity']];let b='';
+ if(dt==='ov')b=(c.s==='Onboarding'?'<h3>Onboarding checklist</h3>'+CK.map((k,i)=>'<div class="cl'+(c.ck[i]?' d':'')+'" data-ck="'+c.id+'|'+i+'"><i>'+(c.ck[i]?'✓':'')+'</i>'+k+'</div>').join('')+'<div class="pb" style="margin:10px 0"><i style="width:'+cki(c)/5*100+'%"></i></div>':'<div class="kv"><div><small>Students</small><b>'+fmt(c.stu)+'</b></div><div><small>Staff</small><b>'+c.staff+'</b></div><div><small>Attendance</small><b>'+c.att+'%</b></div><div><small>Fee collection</small><b>'+c.fee+'%</b></div></div><small style="color:var(--mut)">Fee collection, last 6 months</small>'+sp(c.sp,c.col)+(c.al.length?'<h3 style="margin-top:14px">Alerts</h3>'+c.al.map((a,i)=>'<div class="al" style="margin-top:8px"><span>⚠ '+a.t+'</span><button data-al="'+c.id+'|'+i+'">'+a.b+'</button></div>').join(''):'<div class="msg">✓ No open alerts.</div>'));
+ else if(dt==='pf')b='<div class="fl"><label>Campus name<input type="text" value="'+c.n+'"></label><label>Campus code<input type="text" value="'+c.id+'"></label><label>Address<input type="text" value="'+c.addr+', '+c.city+'"></label><label>WhatsApp number<input type="text" value="'+c.ph+'"></label></div><div class="acts"><button class="btn p" data-t="Profile saved">Save changes</button></div>';
+ else if(dt==='pp')b='<div class="row"><div><b>'+c.head+'</b><br><span>Campus head · '+c.ph+'</span></div><button class="btn sm" data-t="Choose a new head…">Change head</button></div><div class="row"><div><b>Rabia Khan</b><br><span>Admin</span></div></div><div class="row"><div><b>Imran Shah</b><br><span>Accountant</span></div></div><div class="row"><span>Staff total</span><b>'+c.staff+'</b></div>';
+ else if(dt==='cl')b=['Grade 6','Grade 7','Grade 8','Grade 9','Grade 10'].map((g,i)=>'<div class="row"><b>'+g+'</b><span>'+(2+i%2)+' sections · '+Math.round(c.stu/5)+' students</span></div>').join('')+'<div class="acts"><button class="btn" data-t="Opening classes for '+c.n+'">Open classes</button></div>';
+ else if(dt==='fn')b='<div class="kv"><div><small>Collected</small><b>'+c.fee+'%</b></div><div><small>Outstanding</small><b>PKR '+((100-c.fee)*c.stu*0.18).toFixed(0)+'K</b></div><div><small>Fee plan</small><b style="font-size:15px">Standard 2026–27</b></div><div><small>Overdue invoices</small><b>'+(c.al.some(a=>a.t.includes('invoices'))?2:0)+'</b></div></div>'+sp(c.sp,c.col);
+ else if(dt==='se')b='<div class="fl"><label>Working week<select><option'+(c.wk==='Mon–Sat'?' selected':'')+'>Mon–Sat</option><option'+(c.wk==='Mon–Fri'?' selected':'')+'>Mon–Fri</option><option>Sun–Thu with short Friday</option></select></label><label>School starts<input type="time" value="08:00"></label><label>School ends<input type="time" value="14:45"></label><label>Periods per day<input type="number" value="6"></label></div><div class="acts"><button class="btn p" data-t="Settings saved. Timetable will follow the new week.">Save settings</button></div>';
+ else b=[['Attendance marked for Grade 6-A','8:05 AM'],['Fee reminder sent to 120 parents','Yesterday'],['Admin Rabia Khan added','Mon'],['Timetable published','28 Sep'],['Head profile updated','25 Sep']].map(a=>'<div class="row">'+a[0]+'<span>'+a[1]+'</span></div>').join('');
+ open('<h3 style="font-size:22px;margin:4px 0">'+c.n+'</h3><p class="sub">'+c.id+' · '+c.city+' · <span class="pill '+SI[c.s][1]+'">'+SI[c.s][0]+' '+c.s+'</span></p><div class="seg" style="margin:14px 0">'+T.map(t=>'<button data-dt="'+t[0]+'" class="'+(dt===t[0]?'on':'')+'">'+t[1]+'</button>').join('')+'</div>'+b)}
+function wzUI(){
+ const w=st.wz,S=['Basics','Head and admins','Academic setup','Review and go live'];let b;
+ if(w.s===0)b='<label>Campus name<input type="text" data-wi="n" value="'+w.n+'" placeholder="e.g. West Campus"></label><label>City<input type="text" data-wi="city" value="'+w.city+'"></label><label>Address<input type="text" data-wi="addr" value="'+w.addr+'"></label><label>Phone<input type="text" data-wi="ph" value="'+w.ph+'"></label>';
+ else if(w.s===1)b='<label>Campus head<input type="text" data-wi="head" value="'+w.head+'" placeholder="Full name"></label><label>Invite by email<input type="text" data-wi="em" value="'+w.em+'" placeholder="head@school.edu"></label>';
+ else if(w.s===2)b='<label class="ck"><input type="radio" name="md" data-wm="empty"'+(w.mode==='empty'?' checked':'')+'> Start empty</label><label class="ck"><input type="radio" name="md" data-wm="clone"'+(w.mode==='clone'?' checked':'')+'> ✨ Clone from Main Campus (saves hours)</label>'+(w.mode==='clone'?'<label class="ck" style="margin-left:24px"><input type="checkbox" checked disabled> Classes and sections</label><label class="ck" style="margin-left:24px"><input type="checkbox" checked disabled> Timetable periods</label><label class="ck" style="margin-left:24px"><input type="checkbox" checked disabled> Fee structure</label>':'');
+ else b='<div class="msg"><b>'+(w.n||'New campus')+'</b> · '+(w.city||'City')+'<br>Head: '+(w.head||'not assigned yet')+'<br>Setup: '+(w.mode==='clone'?'cloned from Main Campus':'empty')+'</div><div class="sub">The campus will start as <b>Onboarding</b>. Finish the checklist, then go live.</div>';
+ open('<h3 style="font-size:20px;margin:4px 0">Add campus</h3><div class="sub">Step '+(w.s+1)+' of 4 · '+S[w.s]+'</div><div class="stp">'+S.map((x,i)=>'<i class="'+(i<=w.s?'on':'')+'"></i>').join('')+'</div><div class="fl">'+b+'</div><div class="acts">'+(w.s?'<button class="btn" data-wb="-1">Back</button>':'')+(w.s<3?'<button class="btn p" data-wb="1">Next</button>':'<button class="btn p" data-wf="1">Create campus</button>')+'</div>')}
+function wzFinish(){const w=st.wz,n=C.length+1,cl=w.mode==='clone';C.push({id:'BR-0'+n,n:w.n||'New Campus',city:w.city||'City',addr:w.addr||'Address to be added',head:w.head||'Not assigned',ph:w.ph,s:'Onboarding',stu:0,staff:0,att:0,fee:0,seats:500,col:['#8b46d4','#3b4cca','#c026d3'][n%3],act:'',al:[],wk:'Mon–Sat',sp:[0,0,0,0,0,0],ck:[true,!!w.head,cl,false,cl]});close();toast('Campus created. Finish the checklist to go live.');render()}
+document.addEventListener('click',e=>{
+ const g=q=>e.target.closest(q);let o;
+ if(!g('.dd'))document.querySelectorAll('.menu.on').forEach(m=>m.className='menu');
+ if(o=g('[data-mn]')){e.stopPropagation();const m=$('m-'+o.dataset.mn),on=m.className.includes('on');document.querySelectorAll('.menu.on').forEach(x=>x.className='menu');m.className=on?'menu':'menu on';return}
+ if(o=g('[data-ed]')){detail(o.dataset.ed,'pf');return}
+ if(o=g('[data-su]')){const c=find(o.dataset.su);c.s=c.s==='Suspended'?'Active':'Suspended';toast(c.n+(c.s==='Suspended'?' suspended':' reactivated'));render();return}
+ if(o=g('[data-ar]')){const c=find(o.dataset.ar);c.s='Archived';toast(c.n+' archived');render();return}
+ if(o=g('[data-al]')){const a=o.dataset.al.split('|'),c=find(a[0]),x=c.al.splice(+a[1],1)[0];toast(x.b+': done');render();if($('dr').className.includes('on'))detail(c.id);return}
+ if(o=g('[data-cp]')){const id=o.dataset.cp;if(o.checked){if(Object.keys(st.cs).length>=3){o.checked=false;toast('Compare up to 3 campuses');return}st.cs[id]=1}else delete st.cs[id];render();return}
+ if(o=g('[data-od]')){toast('Opening '+find(o.dataset.od).n+' dashboard…');return}
+ if(o=g('[data-ms]')){toast('Message to '+find(o.dataset.ms).head+' drafted');return}
+ if(o=g('[data-vs]')){st.role=o.dataset.vs;$('role').value=st.role;render();return}
+ if(g('[data-ex2]')){st.role='o';$('role').value='o';render();return}
+ if(g('[data-up]')){toast('Opening plan options…');return}
+ if(o=g('[data-gl]')){const c=find(o.dataset.gl);c.s='Active';c.stu=120;c.staff=12;c.att=90;c.fee=70;c.act='Went live today';toast(c.n+' is now live');render();return}
+ if(o=g('[data-ck]')){const a=o.dataset.ck.split('|'),c=find(a[0]);c.ck[+a[1]]=!c.ck[+a[1]];detail(c.id);render();return}
+ if(o=g('[data-dt]')){detail(dc,o.dataset.dt);return}
+ if(o=g('[data-wb]')){st.wz.s+= +o.dataset.wb;wzUI();return}
+ if(g('[data-wf]')){wzFinish();return}
+ if(o=g('[data-wm]')){st.wz.mode=o.dataset.wm;wzUI();return}
+ if(o=g('[data-vw]')){st.vw=o.dataset.vw;render();return}
+ if(o=g('[data-x]')){$('em').className='menu';toast('Preparing '+o.dataset.x+'…');return}
+ if(o=g('[data-t]')){toast(o.dataset.t);return}
+ if(o=g('[data-c]')){if(st.cmp&&e.target.type==='checkbox')return;if(o.classList.contains('cc')&&!st.cmp||o.tagName==='TR'){dt='ov';detail(o.dataset.c)}else if(st.cmp){const id=o.dataset.c;if(st.cs[id])delete st.cs[id];else if(Object.keys(st.cs).length<3)st.cs[id]=1;else toast('Compare up to 3 campuses');render()}return}
+ if(e.target.id==='scrim'||e.target.id==='cx')close()});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset.wi)st.wz[t.dataset.wi]=t.value});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')close();if(e.key==='Enter'&&e.target.dataset&&e.target.dataset.c&&e.target.classList.contains('cc')){dt='ov';detail(e.target.dataset.c)}});
+$('add').onclick=()=>{st.wz={s:0,n:'',city:'',addr:'',ph:'+92 ',head:'',em:'',mode:'empty'};wzUI()};
+$('cmp').onclick=()=>{st.cmp=!st.cmp;if(!st.cmp)st.cs={};render()};
+$('role').onchange=function(){st.role=this.value;render()};
+$('q').oninput=function(){st.q=this.value.toLowerCase();render()};
+$('fs').onchange=function(){st.fs=this.value;render()};
+$('fc').onchange=function(){st.fc=this.value;render()};
+$('so').onchange=function(){st.so=this.value;render()};
+$('ex').onclick=e=>{e.stopPropagation();$('em').className='menu on'};
+$('ds').onclick=()=>{st.ai=false;render()};
+$('why').onclick=()=>detail('BR-02','fn');
+render();
+</script>
+</body>
+</html>

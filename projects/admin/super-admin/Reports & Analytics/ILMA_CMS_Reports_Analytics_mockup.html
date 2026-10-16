@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA CMS · Reports & Analytics</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+:root{--bg:#f5f6fb;--card:#fff;--ink:#14162b;--mut:#646a8c;--line:#e8eaf3;--hov:#f7f7fd;--acc:#6c4cf1;--accs:#efeaff;--ok:#0f8a66;--oks:#e3f7ef;--warn:#a85a05;--warns:#fff3dc;--bad:#d9362b;--bads:#fdebec;--blue:#2a63d4;--blues:#e6efff;
+--shadow:0 1px 2px rgba(20,22,43,.05),0 8px 24px rgba(20,22,43,.06);--glow:radial-gradient(900px 300px at 20% -10%,rgba(108,76,241,.10),transparent),radial-gradient(700px 260px at 100% 0,rgba(255,140,120,.08),transparent)}
+:root[data-theme=dark]{--bg:#0d1022;--card:#161a35;--ink:#eceefc;--mut:#9ba1c8;--line:#262b4d;--hov:#1b2040;--accs:#2a2458;--ok:#4fd1a5;--oks:#0f3a2e;--warn:#f4b25c;--warns:#3d2e10;--bad:#ff8a80;--bads:#41191c;--blue:#8ab4ff;--blues:#1a2b52;--glow:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1022;--card:#161a35;--ink:#eceefc;--mut:#9ba1c8;--line:#262b4d;--hov:#1b2040;--accs:#2a2458;--ok:#4fd1a5;--oks:#0f3a2e;--warn:#f4b25c;--warns:#3d2e10;--bad:#ff8a80;--bads:#41191c;--blue:#8ab4ff;--blues:#1a2b52;--glow:none}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+button,select,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+[hidden]{display:none!important}
+.app{display:flex;min-height:100vh}
+.side{width:250px;flex:none;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,#1a2152,#12172f 60%);color:#c9cdf0;padding:16px 14px;display:flex;flex-direction:column;overflow:auto}
+.brand{display:flex;gap:11px;align-items:center;color:#fff;font-weight:800;padding:4px 6px 16px}
+.brand i{width:38px;height:38px;border-radius:11px;background:#0b0f26;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;font-style:normal}
+.brand small{display:block;font-weight:500;font-size:11.5px;color:#8c91c4}
+.nv{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:3px;border-radius:12px;color:#c9cdf0;font-weight:600;cursor:pointer}
+.nv:hover{background:rgba(255,255,255,.07)}.nv.on{background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 3px 0 0 var(--acc)}
+.nv b{margin-left:auto;background:#e5484d;color:#fff;font-size:11px;border-radius:99px;padding:0 7px}
+.nv .ch{margin-left:auto;font-size:11px;opacity:.7}
+.sub1{padding-left:18px;margin-bottom:6px}.sub1 .nv{font-size:13.5px;padding:7px 12px;font-weight:500}.sub1 .nv.on{box-shadow:none;background:rgba(108,76,241,.35)}
+.me{margin-top:auto;border-top:1px solid rgba(255,255,255,.1);padding:14px 4px 4px;display:flex;gap:10px;align-items:center;color:#fff;font-size:13.5px;font-weight:700}
+.me small{display:block;color:#8c91c4;font-weight:500}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800;flex:none;background:hsl(var(--h,260) 52% 46%)}
+.av.s{width:26px;height:26px;font-size:10px}
+.col{flex:1;min-width:0}
+.top{display:flex;align-items:center;gap:12px;padding:12px 28px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;flex-wrap:wrap}
+.top label{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--mut)}
+select,.in{border:1px solid var(--line);background:var(--card);border-radius:11px;padding:9px 12px;min-width:0}
+.in{width:100%}textarea.in{min-height:84px;resize:vertical}
+.sp{flex:1}
+.bell{position:relative;border:0;border-radius:14px;height:42px;width:42px;color:#fff;background:linear-gradient(135deg,#ffb020,#ff5e7a);box-shadow:0 8px 20px rgba(255,110,100,.35);font-size:18px}
+.bell b{position:absolute;top:-6px;right:-6px;background:#e5484d;color:#fff;font-size:10.5px;border-radius:99px;padding:1px 6px;border:2px solid var(--card)}
+main{padding:24px 28px 60px;background:var(--glow);min-height:calc(100vh - 66px)}
+.hd{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
+.hd>div:first-child{flex:1;min-width:240px;border-left:3px solid var(--acc);padding-left:16px}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}h2{margin:0;font-size:20px}h3{margin:0;font-size:16px}
+.sub{margin:2px 0 0;color:var(--mut)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 16px;font-weight:700;display:inline-flex;gap:8px;align-items:center;transition:transform .15s;white-space:nowrap}
+.btn:hover:not(:disabled){transform:translateY(-1px)}
+.btn.p{background:linear-gradient(135deg,#6c4cf1,#5b43d6);border-color:transparent;color:#fff;box-shadow:0 8px 20px rgba(108,76,241,.3)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.bad{color:var(--bad)}.btn.sm{padding:6px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 16px;box-shadow:var(--shadow);text-align:left;width:100%}
+.kpi b{display:block;font-size:26px;letter-spacing:-.02em}.kpi span{color:var(--mut);font-size:13px}
+button.kpi:hover{border-color:var(--acc)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.tile{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);transition:.18s;display:flex;flex-direction:column;gap:6px;min-height:168px}
+.tile:hover{transform:translateY(-3px);border-color:var(--acc);box-shadow:0 14px 34px rgba(108,76,241,.18)}
+.tile .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:hsl(var(--h) 80% 94%)}
+:root[data-theme=dark] .tile .ic{background:hsl(var(--h) 40% 22%)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .tile .ic{background:hsl(var(--h) 40% 22%)}}
+.tile h3{margin-top:6px}.tile p{margin:0;color:var(--mut);font-size:13.5px;flex:1}
+.tile .ft{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tile .n{position:absolute;top:16px;right:16px;background:#e5484d;color:#fff;font-weight:800;font-size:12px;border-radius:99px;padding:1px 9px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--hov);color:var(--mut);border:1px solid var(--line);white-space:nowrap}
+.pill.ok{background:var(--oks);color:var(--ok);border-color:transparent}.pill.warn{background:var(--warns);color:var(--warn);border-color:transparent}.pill.bad{background:var(--bads);color:var(--bad);border-color:transparent}.pill.acc{background:var(--accs);color:var(--acc);border-color:transparent}.pill.blue{background:var(--blues);color:var(--blue);border-color:transparent}
+.att{display:flex;flex-direction:column;gap:2px}
+.att button{display:flex;gap:12px;align-items:center;border:0;background:none;text-align:left;padding:10px 8px;border-radius:12px;border-bottom:1px solid var(--line)}
+.att button:hover{background:var(--hov)}.att span{flex:1}
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.45);z-index:40;animation:fade .2s}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:75vw;min-width:min(760px,100vw);background:var(--bg);z-index:41;box-shadow:-24px 0 60px rgba(10,12,30,.35);display:flex;flex-direction:column;animation:slide .25s ease;border-left:1px solid var(--line)}
+@keyframes slide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}@keyframes fade{from{opacity:0}}
+.dhd{display:flex;align-items:center;gap:12px;padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.dhd h2{flex:1;display:flex;gap:10px;align-items:center}
+.dbd{padding:20px 24px 60px;overflow:auto;flex:1}
+.tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:8px}
+.tabs button{border:0;background:none;padding:8px 14px;border-radius:10px;font-weight:700;color:var(--mut);white-space:nowrap}
+.tabs button.on{background:var(--accs);color:var(--acc)}.tabs button i{font-style:normal;opacity:.7;margin-left:4px;font-size:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 13px;font-weight:700;font-size:13px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--hov);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}tbody tr:hover td{background:var(--hov)}
+tr.grp td{background:var(--hov);font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+td.done .tt{text-decoration:line-through;color:var(--mut)}
+td small{display:block;color:var(--mut);font-size:12.5px}
+td .tt{font-weight:700}
+.cb{width:20px;height:20px;accent-color:var(--acc);cursor:pointer}
+.ra{display:flex;gap:6px;justify-content:flex-end;flex-wrap:nowrap}
+td select{padding:5px 8px;font-size:13px;border-radius:8px}
+.empty{text-align:center;color:var(--mut);padding:36px 10px}
+.fld{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--mut)}
+.fld select,.fld .in{font-weight:500;color:var(--ink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.trow{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.trow:last-child{border-bottom:0}.trow>div:first-child{flex:1}.trow small{display:block;color:var(--mut)}
+.sw{position:relative;width:42px;height:24px;flex:none;display:inline-block}.sw input{opacity:0;position:absolute;inset:0;margin:0;cursor:pointer;z-index:1}.sw i{position:absolute;inset:0;background:var(--line);border-radius:99px;transition:.2s}.sw i::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}.sw input:checked+i{background:var(--acc)}.sw input:checked+i::after{left:21px}
+.qa{display:flex;gap:8px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:12px;align-items:center}
+.qa .in{flex:1;min-width:180px}
+.prog{height:8px;background:var(--hov);border:1px solid var(--line);border-radius:99px;overflow:hidden;min-width:80px}.prog i{display:block;height:100%;background:linear-gradient(90deg,#6c4cf1,#8b6cff)}
+.bal{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.bal div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}.bal b{font-size:22px}.bal span{display:block;color:var(--mut);font-size:13px}
+.info{background:var(--blues);color:var(--blue);border-radius:12px;padding:10px 14px;font-size:13.5px;margin:0 0 12px}
+.thr{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.msg{display:flex;gap:10px}.msg .bd{background:var(--hov);border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:8px 12px}.msg .hh{font-size:12px;color:var(--mut);font-weight:700}
+.msg.me{flex-direction:row-reverse}.msg.me .bd{background:var(--accs);border-color:transparent;border-radius:14px 4px 14px 14px}
+.an{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.an.urgent{border-left-color:var(--bad);background:linear-gradient(90deg,var(--bads),var(--card) 40%)}
+.an h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.an p{margin:6px 0 10px;white-space:pre-wrap}
+.un{font-weight:800}.unread td:first-child{box-shadow:inset 3px 0 0 var(--acc)}
+dialog{border:0;border-radius:22px;padding:0;width:min(620px,94vw);background:var(--card);color:var(--ink);box-shadow:0 30px 80px rgba(10,12,30,.4)}
+dialog::backdrop{background:rgba(10,12,30,.55)}
+.mh{display:flex;align-items:center;gap:10px;padding:16px 22px;border-bottom:1px solid var(--line)}.mh h3{flex:1}.mh button{border:0;background:var(--hov);width:34px;height:34px;border-radius:10px}
+.mb{padding:18px 22px;max-height:66vh;overflow:auto}.mf{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:100;align-items:center;pointer-events:none}
+#toast div{background:#12172f;color:#fff;padding:11px 18px;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.35);font-weight:600;font-size:14px;animation:slide .2s}
+.pop{position:absolute;right:28px;top:60px;width:380px;max-width:92vw;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 60px rgba(20,22,43,.25);padding:10px;z-index:30}
+.pop h4{margin:6px 8px 8px}.pop button.ni{display:block;width:100%;text-align:left;border:0;background:none;padding:10px;border-radius:12px}.pop button.ni:hover{background:var(--hov)}.pop small{display:block;color:var(--mut)}
+@media(max-width:1100px){.drawer{width:92vw}}
+@media(max-width:900px){.app{flex-direction:column}.side{width:auto;height:auto;position:static;flex-direction:row;overflow-x:auto;padding:8px;gap:4px;align-items:center}.me,.sub1,.brand small{display:none}.brand{padding:0 8px 0 4px}.nv{width:auto;white-space:nowrap;margin:0}
+.top{padding:10px 14px}main{padding:18px 14px 60px}.drawer{width:100vw;min-width:0}.dbd{padding:14px 12px 60px}.g2,.g3{grid-template-columns:1fr}.pop{right:10px}}
+
+.scope{display:inline-flex;gap:8px;align-items:center;background:var(--accs);color:var(--acc);font-weight:800;font-size:13px;border-radius:99px;padding:5px 14px}
+.seg{display:inline-flex;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px}.seg button{border:0;background:none;padding:6px 14px;border-radius:9px;font-weight:700;color:var(--mut)}.seg button.on{background:var(--acc);color:#fff}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.k{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);text-align:left;width:100%;transition:.15s;display:block}
+.k:hover{border-color:var(--acc);transform:translateY(-2px)}.k span{color:var(--mut);font-size:13px;font-weight:600}.k b{display:block;font-size:28px;letter-spacing:-.02em;margin:2px 0}
+.k .dl{font-size:12.5px;font-weight:800}.up{color:var(--ok)}.dn{color:var(--bad)}.fl{color:var(--mut)}
+.k svg{float:right;margin-top:6px}
+.k .prog{margin-top:8px}
+.hl{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:16px}
+.hl button{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.hl button:hover{border-color:var(--acc)}.hl i{font-style:normal;font-size:22px}.hl small{display:block;color:var(--mut)}
+.g{display:grid;gap:16px;margin-bottom:16px}.g.c2{grid-template-columns:1.4fr 1fr}.g.c3{grid-template-columns:repeat(3,1fr)}.g.e2{grid-template-columns:1fr 1fr}
+.card h3{display:flex;align-items:center;gap:8px;margin-bottom:4px}.card h3 .sp{flex:1}.card .sub{margin-bottom:12px}
+.hm{width:100%;border-collapse:separate;border-spacing:0 4px;font-size:13.5px}.hm th{background:none;border:0;padding:4px 8px}
+.hm td{padding:8px 10px;border:0;background:var(--hov)}.hm td:first-child{border-radius:10px 0 0 10px;font-weight:800}.hm td:last-child{border-radius:0 10px 10px 0}
+.hm tr.clk{cursor:pointer}.hm tr.clk:hover td{outline:0;filter:brightness(.97)}
+.c-g{background:var(--oks)!important;color:var(--ok)}.c-w{background:var(--warns)!important;color:var(--warn)}.c-r{background:var(--bads)!important;color:var(--bad)}
+.hm td b{font-weight:800}.hm td small{display:block;font-weight:600;font-size:11.5px;opacity:.85}
+.leg{display:flex;gap:12px;font-size:12.5px;color:var(--mut);margin-top:8px;flex-wrap:wrap}
+.hz{display:grid;gap:4px}.hz div{border-radius:8px;padding:8px 6px;text-align:center;font-size:12.5px;font-weight:800}.hz .h{background:none;color:var(--mut);font-weight:700;padding:2px}.hz .rl{background:none;text-align:left;color:var(--ink);padding:8px 2px}
+.bars{display:flex;flex-direction:column;gap:12px}.bars .r{display:grid;grid-template-columns:110px 1fr 70px;gap:10px;align-items:center;font-size:13.5px}.bars .t{height:12px;background:var(--hov);border:1px solid var(--line);border-radius:99px;overflow:hidden;position:relative}.bars .t i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,#6c4cf1,#8b6cff)}.bars .t u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.6}
+.fn{display:flex;flex-direction:column;gap:6px}.fn div{border-radius:10px;padding:9px 14px;color:#fff;font-weight:800;display:flex;justify-content:space-between;background:linear-gradient(90deg,#6c4cf1,#8b6cff)}
+.att2{display:flex;flex-direction:column}.att2 button{display:flex;gap:10px;align-items:center;border:0;background:none;text-align:left;padding:10px 6px;border-bottom:1px solid var(--line);border-radius:10px}.att2 button:hover{background:var(--hov)}.att2 button>span:nth-child(2){flex:1}.att2 small{display:block;color:var(--mut)}
+.qa2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.qa2 button{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:14px;font-weight:800;text-align:left;display:flex;gap:10px;align-items:center}.qa2 button:hover{border-color:var(--acc);background:var(--accs)}
+.ev{display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.ev:last-child{border:0}.ev .d{width:46px;text-align:center;background:var(--accs);color:var(--acc);border-radius:12px;padding:4px;font-weight:800;line-height:1.1}.ev .d small{display:block;font-size:10.5px}
+.banner{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--blues);color:var(--blue);border-radius:14px;padding:10px 16px;margin-bottom:16px;font-weight:700}
+.lg{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin-top:6px}.lg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.ch text{font-family:inherit}
+@media(max-width:1100px){.g.c2,.g.c3,.g.e2{grid-template-columns:1fr}}
+@media(max-width:1100px){.kp{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.kp{grid-template-columns:1fr}}.hm{min-width:820px}.card>.tw{overflow:auto}
+.rc{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:14px}.rcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:var(--shadow)}.rcard:hover{border-color:var(--acc)}
+.star{border:0;background:none;font-size:22px;color:var(--line);padding:0}.star.on{color:#f5a623}
+.filt{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:16px}.filt label{display:flex;flex-direction:column;gap:3px;font-size:12px;font-weight:700;color:var(--mut)}.filt select{font-weight:600;color:var(--ink)}
+.k .dl.up{color:var(--ok)}.k .dl.dn{color:var(--bad)}.dl.up{color:var(--ok);font-weight:800;font-size:12.5px}.dl.dn{color:var(--bad);font-weight:800;font-size:12.5px}
+.hz .c-g,.hz .c-w,.hz .c-r{padding:8px 6px}
+
+body{overflow-x:hidden}.rc{grid-template-columns:repeat(auto-fill,minmax(min(290px,100%),1fr))}
+
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side" id="side"></aside>
+<div class="col">
+ <div class="top">
+  <label>View as<select id="role"><option value="super">Super Admin · all branches</option><option value="admin">Admin · single branch</option></select></label>
+  <label id="abl" hidden>Admin of<select id="abr"></select></label>
+  <div class="sp"></div>
+  <button class="btn sm" id="theme">◐ Light / Dark</button>
+  <button class="bell" id="bell" aria-label="Notifications">🔔<b>5</b></button>
+ </div>
+ <main id="main"></main>
+</div>
+</div>
+<dialog id="dlg"></dialog>
+<div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toast=m=>{const d=document.createElement('div');d.textContent=m;$('#toast').appendChild(d);setTimeout(()=>d.remove(),2600)};
+const pill=(t,k='')=>`<span class="pill ${k}">${t}</span>`;
+const f1=n=>(Math.round(n*10)/10).toFixed(1),f0=n=>Math.round(n).toLocaleString('en-US'),M=n=>'Rs '+f1(n)+'M';
+const BR=[
+ {id:'lhr',n:'Lahore Main',c:'#6c4cf1',st:1240,att:94.2,pa:93.1,col:8.4,tg:9.5,res:78,pr:76,sp:96,lv:4,tk:5,df:112,adm:18,ap:3,od:6},
+ {id:'gul',n:'Gulberg Campus',c:'#0f9d8a',st:860,att:92.0,pa:92.4,col:5.9,tg:6.2,res:74,pr:75,sp:94,lv:6,tk:3,df:64,adm:11,ap:2,od:3},
+ {id:'isb',n:'Islamabad',c:'#d98a1c',st:720,att:95.6,pa:95.0,col:5.1,tg:5.0,res:81,pr:79,sp:97,lv:2,tk:1,df:31,adm:14,ap:1,od:1},
+ {id:'khi',n:'Karachi',c:'#d9362b',st:610,att:88.3,pa:92.4,col:3.6,tg:4.8,res:69,pr:71,sp:89,lv:8,tk:9,df:141,adm:5,ap:4,od:11}];
+const RG={today:{n:'Today',d:7,f:.05},week:{n:'This week',d:14,f:.25},term:{n:'This term',d:30,f:1}};
+const S={role:'super',scope:'all',range:'week',adminBr:'lhr'};
+const sc=()=>S.role==='admin'?S.adminBr:S.scope;
+const br=id=>BR.find(b=>b.id===id);
+const sum=(k,l=BR)=>l.reduce((a,b)=>a+b[k],0);
+const wavg=(k,l=BR)=>l.reduce((a,b)=>a+b[k]*b.st,0)/sum('st',l);
+/* status rules */
+const ST={att:v=>v>=93?'g':v>=90?'w':'r',fee:v=>v>=.95?'g':v>=.85?'w':'r',res:v=>v>=75?'g':v>=70?'w':'r',sp:v=>v>=95?'g':v>=92?'w':'r',tk:v=>v<=3?'g':v<=6?'w':'r',od:v=>v<=3?'g':v<=7?'w':'r',df:v=>v<=5?'g':v<=10?'w':'r'};
+const sx={g:'● Good',w:'▲ Watch',r:'✖ Act'};
+const cell=(t,s,sub)=>`<td class="c-${s}"><b>${t}</b><small>${sx[s]}${sub?' · '+sub:''}</small></td>`;
+const dfp=b=>b.df/b.st*100;
+const score=b=>{const l=[ST.att(b.att),ST.fee(b.col/b.tg),ST.res(b.res),ST.sp(b.sp),ST.tk(b.tk),ST.od(b.od),ST.df(dfp(b))];return l.reduce((a,x)=>a+(x==='g'?2:x==='w'?1:0),0)};
+/* series */
+function series(b,N){const o=[];for(let i=0;i<N;i++){const t=i/(N-1);let v=b.pa+(b.att-b.pa)*Math.pow(t,b.id==='khi'?3:1.5)+Math.sin(i*1.7+b.st)*0.7;if(b.id==='khi'&&t>.8)v-=2.4*(t-.8)*5/1.2;o.push(Math.max(80,Math.min(99.5,v)))}o[N-1]=b.att;return o}
+const spark=(arr,c)=>{const mn=Math.min(...arr),mx=Math.max(...arr),w=70,h=26;const p=arr.map((v,i)=>[i/(arr.length-1)*w,h-(v-mn)/((mx-mn)||1)*(h-4)-2]);return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${p.map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join('')}" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round"/></svg>`};
+const sp=(base,up)=>{const a=[];for(let i=0;i<10;i++)a.push(base+(up?i*.4:-i*.2)+Math.sin(i*2)*0.6);return a};
+function lineChart(list,N){const W=680,H=250,L=40,R=120,T=14,B=28,lo=84,hi=100;const x=i=>L+i/(N-1)*(W-L-R),y=v=>T+(hi-v)/(hi-lo)*(H-T-B);
+ let s=`<svg class="ch" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Attendance trend">`;
+ for(let v=84;v<=100;v+=4)s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--mut)">${v}%</text>`;
+ s+=`<line x1="${L}" x2="${W-R}" y1="${y(93)}" y2="${y(93)}" stroke="var(--mut)" stroke-dasharray="5 4"/><text x="${L+4}" y="${y(93)-6}" font-size="11" fill="var(--mut)">Target 93%</text>`;
+ const lab=[0,Math.floor(N/2),N-1];lab.forEach((i,k)=>{s+=`<text x="${x(i)}" y="${H-8}" text-anchor="${k===2?'end':k===0?'start':'middle'}" font-size="11" fill="var(--mut)">${k===2?'Today':(N-1-i)+' days ago'}</text>`});
+ const ys=[];list.forEach(b=>{const a=series(b,N);let ly=y(a[N-1]);while(ys.some(q=>Math.abs(q-ly)<13))ly+=13;ys.push(ly);
+  s+=`<polyline fill="none" stroke="${b.c}" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" points="${a.map((v,i)=>x(i).toFixed(1)+','+y(v).toFixed(1)).join(' ')}"/><circle cx="${x(N-1)}" cy="${y(a[N-1])}" r="4" fill="${b.c}"/><text x="${W-R+8}" y="${ly+4}" font-size="12" font-weight="700" fill="${b.c}">${esc(b.n.split(' ')[0])} ${f1(a[N-1])}%</text>`});
+ return s+'</svg>'}
+/* sample rows */
+const CL=['Nursery','Prep','1-A','2-B','3-A','4-C','5-A','6-B','7-B','8-A','9-C','10-A'];
+const cls=b=>CL.map((c,i)=>{const n=26+((i*7+b.st)%12);const a=Math.max(78,Math.min(99,b.att+Math.sin(i*2.1+b.st)*5-(b.id==='khi'&&i>7?4:0)));return{c,n,a,p:Math.round(n*a/100)}});
+const NAMES=['Zain Kamran','Areeba Noor','Hamid Tariq','Eshal Zahid','Maha Imtiaz','Ahmed Raza','Sara Khan','Bilal Hussain','Hira Malik','Usman Ali','Noor Fatima','Daniyal Shah'];
+const A={toast:a=>toast(a.dataset.i),mc:()=>$('#dlg').close()};
+Object.assign(S,{tab:'overview',sec:'academics',rng:'term',cls:'All classes',fav:{'Monthly summary':1,'Defaulters list':1},grp:'All',q:''});
+BR.forEach(b=>{b.cr={lhr:92,gul:95,isb:98,khi:81}[b.id];b.ret={lhr:97.1,gul:96.4,isb:97.8,khi:94.2}[b.id];b.lat={lhr:3.4,gul:2.9,isb:2.1,khi:6.8}[b.id]});
+const RNG={term:['This term',1,30],month:['This month',.35,30],l30:['Last 30 days',.35,30],year:['This year',2.8,30]};
+const L=()=>sc()==='all'?BR:[br(sc())];const kf=()=>RNG[S.rng][1];
+const isAll=()=>sc()==='all';
+const bd=b=>`<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${b.c};margin-right:8px"></span>`;
+const dlt=(d,u='pts',inv)=>`<span class="dl ${(d>=0)!==!!inv?'up':'dn'}">${d>=0?'▲':'▼'} ${Math.abs(d).toFixed(1)} ${u}</span>`;
+const stp=(s)=>pill(sx[s],s==='g'?'ok':s==='w'?'warn':'bad');
+const tb=(h,r,e)=>`<div class="tw"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${r.length?r.join(''):`<tr><td colspan="${h.length}"><div class="empty">${e||'No data'}</div></td></tr>`}</tbody></table></div>`;
+const mm=n=>'Rs '+f1(n)+'M';
+function bars(rows,fmt){return `<div class="bars">${rows.map(r=>`<div class="r"><span>${esc(r[0])}</span><div class="t"><i style="width:${Math.min(100,r[1]/r[3]*100)}%;${r[4]?'background:'+r[4]:''}"></i>${r[2]!=null?`<u style="left:${r[2]/r[3]*100}%"></u>`:''}</div><b>${fmt(r[1])}</b></div>`).join('')}</div>`}
+const RED='linear-gradient(90deg,#d9362b,#ff7a6e)';
+function cols(data,o={}){const W=640,H=230,Lm=44,B=28,T=14,n=data.length,mx=Math.max(...data.map(d=>Math.max(d.v,d.v2||0)))*1.12,bw=(W-Lm)/n,two=data.some(d=>d.v2!=null);let s=`<svg class="ch" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="${o.label||'Chart'}">`;
+ for(let i=0;i<=4;i++){const y=T+(H-T-B)*(1-i/4);s+=`<line x1="${Lm}" x2="${W}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${Lm-6}" y="${y+4}" text-anchor="end" font-size="11" fill="var(--mut)">${(o.fmt||(v=>v))(mx*i/4)}</text>`}
+ data.forEach((d,i)=>{const x=Lm+i*bw,h1=(H-T-B)*d.v/mx,bwid=two?bw*.32:bw*.56,x1=x+bw/2-(two?bwid:bwid/2);s+=`<rect x="${x1}" y="${H-B-h1}" width="${bwid}" height="${h1}" rx="4" fill="${d.c||'#6c4cf1'}"><title>${d.l}: ${(o.fmt||(v=>v))(d.v)}</title></rect>`;
+  if(two){const h2=(H-T-B)*d.v2/mx;s+=`<rect x="${x1+bwid+2}" y="${H-B-h2}" width="${bwid}" height="${h2}" rx="4" fill="var(--line)"><title>${d.l} target: ${(o.fmt||(v=>v))(d.v2)}</title></rect>`}
+  s+=`<text x="${x+bw/2}" y="${H-8}" text-anchor="middle" font-size="11" fill="var(--mut)">${d.l}</text>`});
+ return s+'</svg>'}
+function donut(items,center){const tot=items.reduce((a,x)=>a+x.v,0),r=52,C=2*Math.PI*r;let off=0;let s=`<svg viewBox="0 0 140 140" width="150" height="150" role="img"><circle cx="70" cy="70" r="${r}" fill="none" stroke="var(--hov)" stroke-width="22"/>`;
+ items.forEach(x=>{const len=x.v/tot*C;s+=`<circle cx="70" cy="70" r="${r}" fill="none" stroke="${x.c}" stroke-width="22" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"><title>${x.l}: ${x.v}</title></circle>`;off+=len});
+ s+=`<text x="70" y="68" text-anchor="middle" font-size="${center[0].length>6?13:18}" font-weight="800" fill="var(--ink)">${center[0]}</text><text x="70" y="84" text-anchor="middle" font-size="10" fill="var(--mut)">${center[1]}</text></svg>`;
+ return `<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">${s}<div class="lg" style="flex-direction:column;gap:8px;margin:0">${items.map(x=>`<span style="font-size:13.5px;color:var(--ink)"><i style="background:${x.c}"></i>${x.l} <b>${Math.round(x.v/tot*100)}%</b></span>`).join('')}</div></div>`}
+function lg(list,labels,lo,hi,fmt,tg){const W=680,H=240,Lm=44,R=118,T=14,B=28,n=labels.length,x=i=>Lm+i/(n-1)*(W-Lm-R),y=v=>T+(hi-v)/(hi-lo)*(H-T-B);let s=`<svg class="ch" viewBox="0 0 ${W} ${H}" width="100%" role="img">`;
+ for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4;s+=`<line x1="${Lm}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${Lm-6}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--mut)">${fmt(v)}</text>`}
+ if(tg!=null)s+=`<line x1="${Lm}" x2="${W-R}" y1="${y(tg)}" y2="${y(tg)}" stroke="var(--mut)" stroke-dasharray="5 4"/><text x="${Lm+4}" y="${y(tg)-6}" font-size="11" fill="var(--mut)">Target ${fmt(tg)}</text>`;
+ labels.forEach((l,i)=>s+=`<text x="${x(i)}" y="${H-8}" text-anchor="${i===0?'start':i===n-1?'end':'middle'}" font-size="11" fill="var(--mut)">${l}</text>`);const ys=[];
+ list.forEach(b=>{let ly=y(b.a[n-1]);while(ys.some(q=>Math.abs(q-ly)<13))ly+=13;ys.push(ly);s+=`<polyline fill="none" stroke="${b.c}" stroke-width="2.6" stroke-linejoin="round" points="${b.a.map((v,i)=>x(i).toFixed(1)+','+y(v).toFixed(1)).join(' ')}"/>${b.a.map((v,i)=>`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="${b.c}"><title>${b.n} · ${labels[i]}: ${fmt(v)}</title></circle>`).join('')}<text x="${W-R+8}" y="${ly+4}" font-size="12" font-weight="700" fill="${b.c}">${esc(b.n.split(' ')[0])} ${fmt(b.a[n-1])}</text>`});return s+'</svg>'}
+const cmp=(cols_)=>isAll()?`<div class="card" style="margin-bottom:16px"><h3>Branch comparison</h3><p class="sub">Same metrics, every branch. Click a row to open that branch.</p><div class="tw" style="border:0"><table class="hm"><thead><tr><th>Branch</th>${cols_.map(c=>`<th>${c[0]}</th>`).join('')}</tr></thead><tbody>${BR.map(b=>`<tr class="clk" data-a="branch" data-i="${b.id}"><td>${bd(b)}<b>${b.n}</b></td>${cols_.map(c=>{const r=c[1](b);return r[1]?cell(r[0],r[1],r[2]):`<td><b>${r[0]}</b></td>`}).join('')}</tr>`).join('')}</tbody></table></div></div>`:'';
+const hl=(i,t,s)=>`<div class="hl" style="grid-template-columns:1fr"><button data-a="toast" data-i="Opens the detail view"><i>${i}</i><span><b>${t}</b><small>${s}</small></span></button></div>`;
+const wt=()=>sum('st',L());
+/* ---------- OVERVIEW ---------- */
+function overview(){const l=L(),f=kf();const att=wavg('att',l),pa=wavg('pa',l),fr=sum('col',l)/sum('tg',l),res=wavg('res',l),pr=wavg('pr',l),sp_=wavg('sp',l),cr=wavg('cr',l),ret=wavg('ret',l);
+ const T=[['📅','Attendance',f1(att)+'%',ST.att(att),att-pa,'pts',sp(att-2,1),'Target 93%'],['💰','Fee recovery',Math.round(fr*100)+'%',ST.fee(fr),(fr-.9)*100,'pts',sp(fr*100-6,1),'Target 95%'],['📚','Average result',f1(res)+'%',ST.res(res),res-pr,'pts',sp(res-4,1),'Target 75%'],['👥','Staff attendance',f1(sp_)+'%',ST.sp(sp_),sp_-93.4,'pts',sp(sp_-3,1),'Target 95%'],['🛠️','Complaints solved in time',f1(cr)+'%',cr>=92?'g':cr>=85?'w':'r',cr-90,'pts',sp(cr-5,1),'Target 92%'],['🎓','Student retention',f1(ret)+'%',ret>=97?'g':ret>=95?'w':'r',ret-96.4,'pts',sp(ret-1.5,1),'Target 97%']];
+ const worst=[...l].sort((a,b)=>score(a)-score(b))[0],best=[...l].sort((a,b)=>score(b)-score(a))[0];
+ const heads=isAll()?[['⚠️','Karachi needs help on 6 of 7 measures','Attendance 88.3%, fee recovery 75%, results 69%.'],['🏆','Islamabad is on target everywhere','The only branch scoring 14 out of 14.'],['💡','Fee recovery is the biggest network gap','Rs 1.5M below target this term, 80% of it in Karachi and Lahore.']]:
+  [[best.att>=93?'✅':'⚠️','Attendance is '+f1(best.att)+'% this term',best.att>=93?'Above the 93% target.':'Below the 93% target. See Attendance analytics.'],['📚','Maths is the weakest subject at '+(best.res-6)+'%','Classes 7 and 8 pull the average down.'],['💳',best.df+' families have overdue fees','About Rs '+f1(best.df*14/1000)+'M outstanding.']];
+ return `<div class="hl">${heads.map(x=>`<button data-a="tab" data-i="analytics"><i>${x[0]}</i><span><b>${x[1]}</b><small>${x[2]}</small></span></button>`).join('')}</div>
+ <div class="kp" style="grid-template-columns:repeat(3,1fr)">${T.map(t=>`<button class="k" data-a="sec" data-i="${{Attendance:'attendance','Fee recovery':'finance','Average result':'academics','Staff attendance':'staff','Complaints solved in time':'ops','Student retention':'students'}[t[1]]}"><span>${t[0]} ${t[1]}</span>${spark(t[6],'#6c4cf1')}<b>${t[2]}</b>${dlt(t[4],t[5])} <span style="font-size:12px">vs last term</span><div style="margin-top:6px">${stp(t[3])} <small style="color:var(--mut)">${t[7]}</small></div></button>`).join('')}</div>`+
+ (isAll()?`<div class="card" style="margin-bottom:16px"><h3>Branch ranking</h3><p class="sub">Overall score is out of 14. Click a branch to open its analytics.</p>${tb(['#','Branch','Students','Attendance','Fee recovery','Result','Staff','Score'],[...BR].sort((a,b)=>score(b)-score(a)).map((b,i)=>`<tr style="cursor:pointer" data-a="branch" data-i="${b.id}"><td>${i+1}</td><td>${bd(b)}<b>${b.n}</b></td><td>${f0(b.st)}</td><td>${f1(b.att)}%</td><td>${Math.round(b.col/b.tg*100)}%</td><td>${b.res}%</td><td>${b.sp}%</td><td>${stp(score(b)>=11?'g':score(b)>=7?'w':'r')} <b>${score(b)}/14</b></td></tr>`))}</div>`:'')+
+ `<div class="g e2"><div class="card"><h3>Biggest movers</h3><p class="sub">What changed most since last term.</p>${[['Attendance in Karachi','▼ 4.1 pts','bad'],['Fee recovery in Gulberg','▲ 3.2 pts','ok'],['Maths average (all classes)','▼ 2.0 pts','bad'],['Admissions this term','▲ 12%','ok'],['Complaint response time','▲ faster by 0.8h','ok']].filter((_,i)=>isAll()||i>1).map(m=>`<div class="trow"><div>${m[0]}</div>${pill(m[1],m[2])}</div>`).join('')}</div>
+ <div class="card"><h3>Suggested actions</h3><p class="sub">Based on the numbers above.</p>${(isAll()?[['Call Karachi class teachers about attendance','Open attendance analytics','attendance'],['Send fee reminders to 141 Karachi families','Open defaulters report','reports'],['Review Maths teaching in Classes 7 and 8','Open academics','academics']]:[['Contact the lowest-attendance classes','Open attendance analytics','attendance'],['Send reminders to overdue families','Open defaulters report','reports'],['Plan Maths revision for weak classes','Open academics','academics']]).map(x=>`<div class="trow"><div><b>${x[0]}</b><small>${x[1]}</small></div><button class="btn sm" data-a="${x[2]==='reports'?'tab':'sec'}" data-i="${x[2]==='reports'?'reports':x[2]}">Open</button></div>`).join('')}</div></div>`}
+/* ---------- ANALYTICS ---------- */
+const SEC=[['academics','📚 Academics'],['attendance','📅 Attendance'],['finance','💰 Finance'],['students','🎓 Students'],['staff','👥 Staff'],['ops','🛠️ Operations']];
+const TL=['T1 2025','T2 2025','T3 2025','T1 2026'];
+function analytics(){const s=S.sec,l=L(),f=kf(),n=RNG[S.rng][2];let h='';
+ h+=`<div class="tabs">${SEC.map(x=>`<button class="${s===x[0]?'on':''}" data-a="sec" data-i="${x[0]}">${x[1]}</button>`).join('')}</div>`;
+ if(s==='academics'){const res=wavg('res',l);const sub=[['English',3],['Maths',-6],['Science',1],['Urdu',5],['Islamiat',8],['Computer',4]];
+  h+=cmp([['Avg result',b=>[b.res+'%',ST.res(b.res)]],['Last term',b=>[b.pr+'%']],['Change',b=>[(b.res-b.pr>=0?'+':'')+(b.res-b.pr)+' pts']],['Pass rate',b=>[Math.round(86+b.res/10)+'%']],['Top class',b=>['9-A']],['Weakest class',b=>['7-B']]])+
+  `<div class="g c2"><div class="card"><h3>Average result by term</h3><p class="sub">Results are improving in most branches, apart from Karachi.</p>${lg(l.map(b=>({n:b.n,c:b.c,a:[b.res-6,b.res-4,b.pr,b.res]})),TL,60,85,v=>Math.round(v)+'%',75)}</div>
+  <div class="card"><h3>Subject averages</h3><p class="sub">Maths is the weakest subject.</p>${bars(sub.map(x=>[x[0],res+x[1],75,100,x[1]<-3?RED:'']),v=>Math.round(v)+'%')}</div></div>
+  <div class="g e2"><div class="card"><h3>Grade distribution</h3><p class="sub">Share of students per grade band, latest term.</p>${cols([['A+',14],['A',22],['B',27],['C',20],['D',11],['F',6]].map((x,i)=>({l:x[0],v:x[1],c:i>3?'#d9362b':'#6c4cf1'})),{fmt:v=>Math.round(v)+'%',label:'Grade distribution'})}</div>
+  <div class="card"><h3>Students at risk</h3><p class="sub">Failing two or more subjects, or attendance under 75%.</p>${tb(['Student','Class','Avg','Attendance',''],NAMES.slice(0,5).map((x,i)=>`<tr><td><b>${x}</b></td><td>${CL[(i*3+5)%CL.length]}</td><td>${pill(52-i*2+'%','bad')}</td><td>${72-i}%</td><td><button class="btn sm" data-a="toast" data-i="Parents of ${x} notified (demo)">Notify parents</button></td></tr>`))}</div></div>`}
+ if(s==='attendance'){const N=n,c=cls(l[0]);
+  h+=cmp([['Today',b=>[f1(b.att)+'%',ST.att(b.att)]],['Last week',b=>[f1(b.pa)+'%']],['Change',b=>[(b.att-b.pa>=0?'+':'')+f1(b.att-b.pa)+' pts']],['Chronic absentees',b=>[Math.round(b.st*.028)]],['Late arrivals',b=>[Math.round(b.st*.04)]]])+
+  `<div class="g c2"><div class="card"><h3>Attendance trend</h3><p class="sub">Daily attendance, last ${N} days.</p>${lineChart(l,N)}</div>
+  <div class="card"><h3>Late arrivals by weekday</h3><p class="sub">Mondays are the busiest.</p>${bars([['Mon',38],['Tue',24],['Wed',22],['Thu',27],['Fri',31]].map(x=>[x[0],x[1]*wt()/3430,null,48*wt()/3430,'']),v=>Math.round(v))}</div></div>
+  <div class="g e2"><div class="card"><h3>Class attendance this week</h3><p class="sub">${isAll()?'Lahore Main, as an example. Open a branch for its own view.':'Classes dropping before parents call.'}</p><div class="hz" style="grid-template-columns:70px repeat(5,1fr);margin-top:6px"><div class="h"></div>${['Mon','Tue','Wed','Thu','Fri'].map(d=>`<div class="h">${d}</div>`).join('')}${c.slice(0,8).map((x,i)=>`<div class="rl">${x.c}</div>`+[0,1,2,3,4].map(j=>{const v=Math.max(76,Math.min(99,x.a+Math.sin(i*3+j*1.9)*3.5));return `<div class="c-${ST.att(v)}">${Math.round(v)}%</div>`}).join('')).join('')}</div></div>
+  <div class="card"><h3>Chronic absentees</h3><p class="sub">Attendance under 75% this term.</p>${tb(['Student','Class','Attendance','Days absent'],NAMES.slice(0,6).map((x,i)=>`<tr><td><b>${x}</b></td><td>${CL[(i*2+1)%CL.length]}</td><td>${pill(74-i*2+'%','bad')}</td><td>${18+i*2}</td></tr>`))}</div></div>`}
+ if(s==='finance'){const tg=sum('tg',l)*f,col=sum('col',l)*f,out=Math.max(0,tg-col)+sum('df',l)*.014*0;const months=['Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'];const per=sum('tg',l)/12;
+  h+=cmp([['Collected',b=>[mm(b.col*f)]],['Target',b=>[mm(b.tg*f)]],['Recovery',b=>[Math.round(b.col/b.tg*100)+'%',ST.fee(b.col/b.tg)]],['Defaulters',b=>[b.df,ST.df(dfp(b)),Math.round(dfp(b))+'% of families']],['Outstanding',b=>[mm(Math.max(0,b.tg-b.col)*f)]]])+
+  `<div class="g c2"><div class="card"><h3>Collected vs due by month</h3><p class="sub">Colour bar is collected, grey is due. Recovery dips in the first month of each term.</p>${cols(months.map((m,i)=>({l:m,v:per*(.82+.16*Math.abs(Math.sin(i*.9)))*(i>8?.97:1),v2:per})),{fmt:v=>f1(v)+'M',label:'Collected vs due'})}</div>
+  <div class="card"><h3>How families pay</h3><p class="sub">Share of payments by method.</p>${donut([{l:'Bank transfer',v:41,c:'#6c4cf1'},{l:'Cash at school',v:27,c:'#0f9d8a'},{l:'Mobile wallet',v:23,c:'#d98a1c'},{l:'Cheque',v:9,c:'#8a8fb0'}],[mm(col),'collected'])}</div></div>
+  <div class="g e2"><div class="card"><h3>Overdue by age</h3><p class="sub">Outstanding fees grouped by how late they are.</p>${bars([['0 to 30 days',55],['31 to 60 days',24],['61 to 90 days',13],['Over 90 days',8]].map((x,i)=>[x[0],x[1]*sum('df',l)/100*.014,null,sum('df',l)*.014*.6,i>1?RED:'']),v=>mm(v))}</div>
+  <div class="card"><h3>Top defaulters</h3><p class="sub">Largest overdue balances.</p>${tb(['Student','Class','Overdue',''],NAMES.slice(0,5).map((x,i)=>`<tr><td><b>${x}</b></td><td>${CL[(i*3+2)%CL.length]}</td><td>Rs ${f0((18-i*2)*1000)}</td><td><button class="btn sm" data-a="toast" data-i="Reminder sent to the family of ${x} (demo)">Remind</button></td></tr>`))}</div></div>`}
+ if(s==='students'){const st=wt();h+=cmp([['Students',b=>[f0(b.st)]],['Admitted (Oct)',b=>[b.adm]],['Left (Oct)',b=>[Math.max(1,Math.round(b.st*(100-b.ret)/100/6))]],['Retention',b=>[b.ret+'%',b.ret>=97?'g':b.ret>=95?'w':'r']],['Sections',b=>[Math.round(b.st/32)]]])+
+  `<div class="g c2"><div class="card"><h3>Strength by class</h3><p class="sub">Students enrolled per class level.</p>${cols(['Nur','Prep','1','2','3','4','5','6','7','8','9','10'].map((c,i)=>({l:c,v:Math.round(st/12*(.8+.4*Math.abs(Math.sin(i*1.3)))),c:'#6c4cf1'})),{label:'Strength by class'})}</div>
+  <div class="card"><h3>Gender split</h3><p class="sub">Across the selected scope.</p>${donut([{l:'Girls',v:49,c:'#d9468f'},{l:'Boys',v:51,c:'#6c4cf1'}],[f0(st),'students'])}</div></div>
+  <div class="g e2"><div class="card"><h3>Admissions funnel</h3><p class="sub">October.</p><div class="fn">${[['Inquiries',412,100],['School visits',238,86],['Applications',131,70],['Admitted',48,56]].map(x=>`<div style="width:${x[2]}%"><span>${x[0]}</span><span>${Math.round(x[1]*st/3430)}</span></div>`).join('')}</div></div>
+  <div class="card"><h3>New vs left</h3><p class="sub">Monthly movement. Withdrawals peak after term results.</p>${cols(['May','Jun','Jul','Aug','Sep','Oct'].map((m,i)=>({l:m,v:Math.round((22+i*4)*st/3430),v2:Math.round((9+i%3*5)*st/3430)})),{label:'New vs left'})}</div></div>`}
+ if(s==='staff'){const sn_=Math.round(wt()/14);h+=cmp([['Staff',b=>[Math.round(b.st/14)]],['Present today',b=>[b.sp+'%',ST.sp(b.sp)]],['On leave',b=>[b.lv]],['Tasks overdue',b=>[b.od,ST.od(b.od)]],['Avg periods / week',b=>[27]]])+
+  `<div class="g c2"><div class="card"><h3>Staff attendance</h3><p class="sub">Present rate over the last 6 weeks.</p>${lg(l.map(b=>({n:b.n,c:b.c,a:[b.sp+1,b.sp,b.sp+.5,b.sp-1,b.sp+.5,b.sp]})),['W1','W2','W3','W4','W5','W6'],86,100,v=>Math.round(v)+'%',95)}</div>
+  <div class="card"><h3>Leave by type</h3><p class="sub">This term, ${sn_} staff.</p>${donut([{l:'Casual',v:38,c:'#6c4cf1'},{l:'Sick',v:27,c:'#d9362b'},{l:'Annual',v:22,c:'#0f9d8a'},{l:'Half-day',v:13,c:'#d98a1c'}],[Math.round(sn_*1.4),'leave days'])}</div></div>
+  <div class="g e2"><div class="card"><h3>Teaching load</h3><p class="sub">Periods per week by department.</p>${bars([['Maths',29],['Science',27],['English',26],['Urdu',24],['Computer',22]].map(x=>[x[0],x[1],30,36,x[1]>28?RED:'']),v=>v)}</div>
+  <div class="card"><h3>Task completion</h3><p class="sub">From WorkHub, this term.</p>${bars(l.map(b=>[b.n,100-b.od*3,90,100,b.od>7?RED:'']),v=>Math.round(v)+'%')}</div></div>`}
+ if(s==='ops'){h+=cmp([['Open tickets',b=>[b.tk,ST.tk(b.tk)]],['First reply (h)',b=>[b.lat,b.lat<=4?'g':b.lat<=6?'w':'r']],['Solved in time',b=>[b.cr+'%',b.cr>=92?'g':b.cr>=85?'w':'r']],['Approvals waiting',b=>[b.ap]],['Overdue tasks',b=>[b.od,ST.od(b.od)]]])+
+  `<div class="g e2"><div class="card"><h3>Tickets by category</h3><p class="sub">Fees and facilities generate the most complaints.</p>${bars([['Fees',31],['Facilities',24],['Academic',18],['Transport',15],['IT & app',12]].map(x=>[x[0],x[1]*sum('tk',l)/14*2,null,Math.max(8,sum('tk',l)*1.2),'']),v=>Math.round(v))}</div>
+  <div class="card"><h3>Approval turnaround</h3><p class="sub">Average hours to a decision.</p>${bars([['Leave',6],['Fee concession',30],['Resources',22],['Transfer',40]].map(x=>[x[0],x[1],24,48,x[1]>24?RED:'']),v=>v+'h')}</div></div>
+  <div class="g e2"><div class="card"><h3>Transport on-time</h3><p class="sub">Routes arriving before the first bell.</p>${bars([['Route 1',97],['Route 2',94],['Route 3',91],['Route 4',88],['Route 12',72]].map(x=>[x[0],x[1],90,100,x[1]<85?RED:'']),v=>v+'%')}</div>
+  <div class="card"><h3>Library and labs</h3><p class="sub">Usage this term.</p>${donut([{l:'Books issued',v:46,c:'#6c4cf1'},{l:'Lab sessions',v:34,c:'#0f9d8a'},{l:'Computer lab',v:20,c:'#d98a1c'}],[Math.round(540*wt()/3430),'uses'])}</div></div>`}
+ return h}
+/* ---------- REPORTS ---------- */
+const REP=[
+ ['Principal','Monthly summary','One-page health summary with key numbers and trends','any','📄'],['Principal','Branch comparison','Every branch side by side on all key measures','super','🏫'],['Principal','Board pack','Quarterly pack with charts for the board','super','📊'],['Principal','At-risk students','Students with low attendance or failing results','any','⚠️'],
+ ['Accounts','Fee statement','Collected, due and outstanding by class','any','💳'],['Accounts','Defaulters list','Families with overdue fees, with contact details','any','📋'],['Accounts','Collection by day','Daily cash, bank and wallet receipts','any','🗓️'],['Accounts','Concessions given','Discounts and waivers with approvals','any','🏷️'],
+ ['Academics','Result gazette','Full results for a class and term','any','🎓'],['Academics','Subject analysis','Pass rate and average by subject and teacher','any','📚'],['Academics','Attendance register','Monthly attendance by class','any','✅'],['Academics','Homework completion','Submission rates by class and subject','any','📝'],
+ ['Parents','Progress report card','Per-student card with marks and remarks','any','🧾'],['Parents','Student fee statement','Per-family statement of fees paid and due','any','💵'],
+ ['HR','Staff attendance','Present, late and absent by staff member','any','👥'],['HR','Leave summary','Leave taken and balance by staff member','any','🌴']];
+const RUNS=[{n:'Monthly summary',by:'Dr. Ayesha Malik',br:'all',at:'Today 09:12',f:'PDF'},{n:'Defaulters list',by:'Mr. Hamza Tariq',br:'khi',at:'Yesterday',f:'Excel'},{n:'Result gazette',by:'Ms. Sana Iqbal',br:'lhr',at:'12 Oct',f:'PDF'},{n:'Attendance register',by:'Ms. Sana Iqbal',br:'lhr',at:'10 Oct',f:'Excel'}];
+const SCH=[{id:1,n:'Weekly fee defaulters',rep:'Defaulters list',fr:'Every Monday 8:00 am',to:'Principal, Accounts',f:'Excel',br:'all',on:1,nx:'Mon 19 Oct'},{id:2,n:'Monthly summary to the board',rep:'Board pack',fr:'1st of every month',to:'Board members',f:'PDF',br:'all',on:1,nx:'1 Nov'},{id:3,n:'Karachi attendance alert',rep:'Attendance register',fr:'Every day 2:00 pm',to:'Karachi Admin',f:'PDF',br:'khi',on:1,nx:'Today 2:00 pm'},{id:4,n:'Lahore result sheets',rep:'Result gazette',fr:'End of term',to:'Lahore coordinators',f:'PDF',br:'lhr',on:0,nx:'20 Dec'},{id:5,n:'Gulberg monthly fee statement',rep:'Fee statement',fr:'1st of every month',to:'Gulberg Accounts',f:'Excel',br:'gul',on:1,nx:'1 Nov'}];
+const SAV=[{n:'Karachi attendance drop',sec:'attendance',br:'khi',rng:'month'},{n:'Network fee recovery',sec:'finance',br:'all',rng:'term'},{n:'Lahore Maths results',sec:'academics',br:'lhr',rng:'term'},{n:'Islamabad staff load',sec:'staff',br:'isb',rng:'term'}];
+const bn=id=>id==='all'?'All branches':br(id).n;
+const inScope=id=>S.role==='super'||id===S.adminBr;
+function reports(){const q=S.q.toLowerCase(),g=S.grp;const l=REP.filter(r=>(S.role==='super'||r[3]!=='super')&&(g==='All'||(g==='Starred'?S.fav[r[1]]:r[0]===g))&&(!q||(r[1]+r[2]).toLowerCase().includes(q)));
+ const groups=['All','Starred','Principal','Accounts','Academics','Parents','HR'];
+ return `<div class="bar" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px"><div class="chips" style="display:flex;gap:8px;flex-wrap:wrap">${groups.map(x=>`<button class="chip ${g===x?'on':''}" data-a="grp" data-i="${x}">${x==='Starred'?'⭐ ':''}${x}</button>`).join('')}</div><span class="sp" style="flex:1"></span><input class="in" id="rq" placeholder="Search reports…" value="${esc(S.q)}" style="max-width:240px"></div>
+ ${S.role==='admin'?`<div class="banner">🔒 Reports are limited to ${br(S.adminBr).n}. Cross-branch reports are available to the Super Admin.</div>`:''}
+ <div class="rc">${l.map(r=>`<div class="rcard"><div class="row" style="display:flex;gap:10px;align-items:flex-start"><span style="font-size:24px">${r[4]}</span><div style="flex:1"><b>${r[1]}</b><div class="sub" style="margin:2px 0 0">${r[2]}</div></div><button class="star ${S.fav[r[1]]?'on':''}" data-a="fav" data-i="${r[1]}" aria-label="Star">★</button></div><div style="display:flex;gap:6px;margin:10px 0;flex-wrap:wrap">${pill(r[0],'acc')}${r[3]==='super'?pill('All branches','blue'):''}${pill('PDF · Excel · CSV')}</div><div style="display:flex;gap:8px"><button class="btn sm p" data-a="run" data-i="${r[1]}">Run report</button><button class="btn sm" data-a="schedF" data-i="${r[1]}">Schedule</button></div></div>`).join('')||'<div class="card empty">No reports match.</div>'}</div>
+ <h3 style="margin:22px 0 10px">Recent runs</h3>${tb(['Report','Run by','Branch','When','Format',''],RUNS.filter(r=>inScope(r.br)||r.br==='all'&&S.role==='super').map(r=>`<tr><td><b>${r.n}</b></td><td>${r.by}</td><td>${pill(bn(r.br))}</td><td>${r.at}</td><td>${r.f}</td><td><button class="btn sm" data-a="toast" data-i="${r.n}.${r.f==='PDF'?'pdf':'xlsx'} downloaded (demo)">⬇ Download</button></td></tr>`),'No runs yet.')}`}
+function prevRows(r){const g=r[0];if(g==='Accounts')return[['Student','Class','Billed','Paid','Balance'],NAMES.slice(0,5).map((n,i)=>[n,CL[(i*3+2)%CL.length],'Rs 18,500','Rs '+f0(18500-(i%3)*6000),'Rs '+f0((i%3)*6000)])];
+ if(g==='Parents'||r[1]==='Result gazette')return[['Student','Class','Maths','English','Science','Total'],NAMES.slice(0,5).map((n,i)=>[n,CL[(i*2+4)%CL.length],70+i*3,78-i*2,74+i,Math.round(222+i*2)+'/300'])];
+ if(g==='HR')return[['Staff','Role','Present','Late','Leave'],[['Ms. Hina Raza','Teacher',19,1,2],['Mr. Omar Siddiqui','Teacher',20,0,2],['Ms. Nadia Farooq','HR officer',22,0,0],['Mr. Bilal Ahmed','IT admin',18,3,1]]];
+ return[['Class','Strength','Attendance','Avg result','Pass rate'],cls(L()[0]).slice(0,5).map((x,i)=>[x.c,x.n,f1(x.a)+'%',(70+i*2)+'%',(88+i)+'%'])]}
+Object.assign(A,{
+ run:a=>{S.rr=REP.find(r=>r[1]===a.dataset.i);const r=S.rr;const [h,rows]=prevRows(r);
+  modal('Run: '+r[1],`<div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">${S.role==='super'?`<div class="fld">Branch<select id="pb"><option value="all">All branches</option>${BR.map(b=>`<option value="${b.id}" ${sc()===b.id?'selected':''}>${b.n}</option>`).join('')}</select></div>`:`<div class="fld">Branch<input class="in" value="${br(S.adminBr).n} (locked)" disabled></div>`}<div class="fld">Class<select id="pc"><option>All classes</option>${CL.map(c=>`<option>${c}</option>`).join('')}</select></div><div class="fld">Period<select id="pr">${Object.values(RNG).map(x=>`<option>${x[0]}</option>`).join('')}</select></div><div class="fld">Format<select id="pf"><option>PDF</option><option>Excel</option><option>CSV</option></select></div></div>
+  <div class="trow"><div><b>Include school letterhead</b><small>Logo, address and signature line</small></div><label class="sw"><input type="checkbox" id="pl" checked><i></i></label></div>
+  <h4 style="margin:14px 0 8px;font-size:12px;color:var(--mut);letter-spacing:.06em">PREVIEW (first rows)</h4>${tb(h,rows.map(x=>`<tr>${x.map((c,i)=>`<td>${i?c:`<b>${c}</b>`}</td>`).join('')}</tr>`))}`,
+  `<button class="btn" data-a="schedF" data-i="${r[1]}">Schedule this</button><button class="btn" data-a="mc">Cancel</button><button class="btn p" data-a="dl">⬇ Generate and download</button>`)},
+ dl:()=>{const r=S.rr,f=$('#pf').value,b=S.role==='super'?$('#pb').value:S.adminBr;RUNS.unshift({n:r[1],by:S.role==='super'?'Dr. Ayesha Malik':'Ms. Sana Iqbal',br:b,at:'Just now',f});$('#dlg').close();toast('⬇ '+r[1].replace(/ /g,'_')+'.'+(f==='PDF'?'pdf':f==='Excel'?'xlsx':'csv')+' downloaded');render()},
+ fav:a=>{const k=a.dataset.i;S.fav[k]=S.fav[k]?0:1;render()},grp:a=>{S.grp=a.dataset.i;render()},
+ tab:a=>{S.tab=a.dataset.i;render()},sec:a=>{S.tab='analytics';S.sec=a.dataset.i;render()},
+ branch:a=>{if($('#dlg').open)$('#dlg').close();if(S.role==='super'){S.scope=a.dataset.i;render();window.scrollTo(0,0)}},
+ back:()=>{S.scope='all';render()},
+ export:()=>modal('Export this view',`<p class="sub" style="margin-bottom:12px">${SEC.find(x=>x[0]===S.sec)[1]} · ${bn(sc())} · ${RNG[S.rng][0]}</p>${['PDF with charts','Excel with data tables','CSV (raw data)','Print layout'].map((x,i)=>`<label class="trow" style="cursor:pointer"><div><b>${x}</b></div><input type="radio" name="ex" class="cb" ${i?'':'checked'}></label>`).join('')}`,`<button class="btn" data-a="mc">Cancel</button><button class="btn p" data-a="exgo">Export</button>`),
+ exgo:()=>{$('#dlg').close();toast('⬇ Export ready: '+bn(sc()).replace(/ /g,'_')+'_'+S.sec+'.pdf')},
+ saveV:()=>modal('Save this view',`<div class="fld">Name<input class="in" id="vn" placeholder="e.g. Karachi attendance this month"></div><p class="sub">Saves the section, branch and period so you can open it in one click.</p>`,`<button class="btn" data-a="mc">Cancel</button><button class="btn p" data-a="vsave">Save</button>`),
+ vsave:()=>{const n=$('#vn').value.trim();if(!n){toast('Add a name');return}SAV.unshift({n,sec:S.sec,br:sc(),rng:S.rng});$('#dlg').close();toast('✓ View saved');S.tab='sched';render()},
+ vopen:a=>{const v=SAV[+a.dataset.i];S.sec=v.sec;S.rng=v.rng;if(S.role==='super')S.scope=v.br;S.tab='analytics';render()},vdel:a=>{SAV.splice(+a.dataset.i,1);toast('Removed');render()},
+ schedF:a=>{const r=REP.find(x=>x[1]===a.dataset.i);S.sr=r;A.snew()},
+ snew:()=>{const r=S.sr||REP[0];S.sr=null;modal('Schedule a report',`<div class="fld">Name<input class="in" id="sn" value="${esc(r[1])} (scheduled)"></div><div class="g2" style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div class="fld">Report<select id="sr">${REP.filter(x=>S.role==='super'||x[3]!=='super').map(x=>`<option ${x===r?'selected':''}>${x[1]}</option>`).join('')}</select></div><div class="fld">Repeats<select id="sf"><option>Every day 8:00 am</option><option>Every Monday 8:00 am</option><option>1st of every month</option><option>End of term</option></select></div>${S.role==='super'?`<div class="fld">Branch<select id="sb"><option value="all">All branches</option>${BR.map(b=>`<option value="${b.id}">${b.n}</option>`).join('')}</select></div>`:`<div class="fld">Branch<input class="in" value="${br(S.adminBr).n} (locked)" disabled></div>`}<div class="fld">Format<select id="sx"><option>PDF</option><option>Excel</option></select></div></div><div class="fld">Send to (emails or roles)<input class="in" id="st" value="${S.role==='super'?'Principal':'Branch Admin'}"></div>`,`<button class="btn" data-a="mc">Cancel</button><button class="btn p" data-a="ssave">Create schedule</button>`)},
+ ssave:()=>{const n=$('#sn').value.trim();if(!n){toast('Add a name');return}SCH.unshift({id:Date.now(),n,rep:$('#sr').value,fr:$('#sf').value,to:$('#st').value,f:$('#sx').value,br:S.role==='super'?$('#sb').value:S.adminBr,on:1,nx:'Next run soon'});$('#dlg').close();S.tab='sched';toast('✓ Schedule created');render()},
+ son:a=>{const s=SCH.find(x=>x.id==a.dataset.i);s.on=a.checked?1:0;toast(s.on?'Schedule on':'Schedule paused')},
+ srun:a=>{const s=SCH.find(x=>x.id==a.dataset.i);RUNS.unshift({n:s.rep,by:'Scheduled',br:s.br,at:'Just now',f:s.f});toast('Sent to '+s.to)},
+ sdel:a=>{const i=SCH.findIndex(x=>x.id==a.dataset.i);SCH.splice(i,1);toast('Schedule deleted');render()}});
+function sched(){const s=SCH.filter(x=>inScope(x.br)),v=SAV.map((x,i)=>[x,i]).filter(([x])=>inScope(x.br));
+ return `<div class="bar" style="display:flex;align-items:center;margin-bottom:10px"><div style="flex:1"><h3>Scheduled reports</h3><p class="sub">Delivered automatically by email and in-app.</p></div><button class="btn p" data-a="snew">➕ New schedule</button></div>
+ ${tb(['Schedule','Report','Repeats','Send to','Branch','Next run','On',''],s.map(x=>`<tr><td><b>${esc(x.n)}</b><small>${x.f}</small></td><td>${x.rep}</td><td>${x.fr}</td><td>${esc(x.to)}</td><td>${pill(bn(x.br))}</td><td>${x.nx}</td><td><label class="sw"><input type="checkbox" ${x.on?'checked':''} data-a="son" data-i="${x.id}"><i></i></label></td><td><div class="ra"><button class="btn sm" data-a="srun" data-i="${x.id}">Run now</button><button class="btn sm bad" data-a="sdel" data-i="${x.id}">🗑</button></div></td></tr>`),'Nothing scheduled yet.')}
+ <h3 style="margin:24px 0 4px">Saved views</h3><p class="sub" style="margin-bottom:10px">Your favourite filters in one click.</p>${tb(['View','Section','Branch','Period',''],v.map(([x,i])=>`<tr><td><b>${esc(x.n)}</b></td><td>${SEC.find(y=>y[0]===x.sec)[1]}</td><td>${pill(bn(x.br))}</td><td>${RNG[x.rng][0]}</td><td><div class="ra"><button class="btn sm p" data-a="vopen" data-i="${i}">Open</button><button class="btn sm bad" data-a="vdel" data-i="${i}">🗑</button></div></td></tr>`),'No saved views. Use “Save view” in Analytics.')}
+ <h3 style="margin:24px 0 4px">Export log</h3><p class="sub" style="margin-bottom:10px">Who downloaded what, for audit.</p>${tb(['Report','By','Branch','When','Format'],RUNS.filter(r=>inScope(r.br)||(S.role==='super')).slice(0,6).map(r=>`<tr><td>${r.n}</td><td>${r.by}</td><td>${pill(bn(r.br))}</td><td>${r.at}</td><td>${r.f}</td></tr>`))}`}
+/* ---------- shell ---------- */
+function modal(t,b,f){const d=$('#dlg');d.innerHTML=`<div class="mh"><h3>${t}</h3><button data-a="mc" aria-label="Close">✕</button></div><div class="mb">${b}</div><div class="mf">${f||''}</div>`;d.style.width='min(720px,94vw)';if(!d.open)d.showModal()}
+function side(){const it=[['📊','Dashboard'],['🎓','Students'],['👥','Staff & HR'],['📚','Academics'],['💰','Finance'],['🧰','WorkHub']];
+ $('#side').innerHTML=`<div class="brand"><i>🎓</i><div>ILMA CMS<small>${S.role==='super'?'Super Admin':'Admin · '+br(S.adminBr).n}</small></div></div>`+it.map(x=>`<button class="nv" data-a="toast" data-i="${x[1]} opens in the full ILMA app">${x[0]} ${x[1]}</button>`).join('')+
+ `<button class="nv on">📈 Reports & Analytics</button><div class="sub1">${[['overview','Overview'],['analytics','Analytics'],['reports','Reports'],['sched','Scheduled & Saved']].map(x=>`<button class="nv ${S.tab===x[0]?'on':''}" data-a="tab" data-i="${x[0]}">${x[1]}</button>`).join('')}</div>${S.role==='super'?`<button class="nv" data-a="toast" data-i="Branches opens in the full ILMA app">🏫 Branches</button>`:''}<button class="nv" data-a="toast" data-i="Settings opens in the full ILMA app">⚙️ Settings</button>
+ <div class="me"><span class="av" style="--h:${S.role==='super'?290:200}">${S.role==='super'?'AM':'SI'}</span><div>${S.role==='super'?'Dr. Ayesha Malik':'Ms. Sana Iqbal'}<small>${S.role==='super'?'Super Admin · all branches':'Admin · '+br(S.adminBr).n}</small></div></div>`}
+function render(){side();$('#abl').hidden=S.role!=='admin';const id=sc(),b=isAll()?null:br(id);
+ const flt=S.tab==='overview'||S.tab==='analytics'?`<div class="filt">${S.role==='super'?`<label>Branch<select id="scope"><option value="all" ${isAll()?'selected':''}>All branches</option>${BR.map(x=>`<option value="${x.id}" ${id===x.id?'selected':''}>${x.n}</option>`).join('')}</select></label>`:''}<label>Period<select id="rng">${Object.entries(RNG).map(([k,v])=>`<option value="${k}" ${S.rng===k?'selected':''}>${v[0]}</option>`).join('')}</select></label><label>Class<select id="cl"><option>All classes</option>${CL.map(c=>`<option ${S.cls===c?'selected':''}>${c}</option>`).join('')}</select></label>${S.tab==='analytics'?`<span class="sp" style="flex:1"></span><button class="btn sm" data-a="saveV">⭐ Save view</button><button class="btn sm" data-a="schedF" data-i="Monthly summary">🗓 Schedule</button>`:'<span class="sp" style="flex:1"></span>'}<button class="btn sm p" data-a="export">⬇ Export</button></div>`:'';
+ $('#main').innerHTML=`<div class="hd"><div><h1>Reports & Analytics</h1><p class="sub"><span class="scope">${S.role==='admin'?'🔒':'👁'} Viewing: ${b?b.n:'All branches ('+BR.length+')'}</span> &nbsp;${S.cls!=='All classes'&&S.tab!=='reports'?'Class '+S.cls+' · ':''}${RNG[S.rng][0]}</p></div></div>
+ ${S.role==='super'&&b&&S.tab!=='reports'&&S.tab!=='sched'?`<div class="banner">🏫 You are looking at ${b.n} only. <button class="btn sm" data-a="back">← Back to all branches</button><span class="sp" style="flex:1"></span><span style="font-weight:600">Admins of this branch see exactly this view.</span></div>`:''}
+ <div class="tabs">${[['overview','Overview'],['analytics','Analytics'],['reports','Reports'],['sched','Scheduled & Saved']].map(x=>`<button class="${S.tab===x[0]?'on':''}" data-a="tab" data-i="${x[0]}">${x[1]}</button>`).join('')}</div>${flt}
+ ${S.tab==='overview'?overview():S.tab==='analytics'?analytics():S.tab==='reports'?reports():sched()}`}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el||['SELECT','INPUT'].includes(el.tagName))return;const f=A[el.dataset.a];if(f)f(el)});
+document.addEventListener('change',e=>{const el=e.target,i=el.id;if(i==='scope'){S.scope=el.value;render()}else if(i==='rng'){S.rng=el.value;render()}else if(i==='cl'){S.cls=el.value;render()}else if(el.dataset.a==='son')A.son(el)});
+document.addEventListener('input',e=>{if(e.target.id==='rq'){S.q=e.target.value;const p=e.target.selectionStart;render();const q=$('#rq');q.focus();q.setSelectionRange(p,p)}});
+$('#abr').innerHTML=BR.map(b=>`<option value="${b.id}">${b.n}</option>`).join('');$('#abr').onchange=e=>{S.adminBr=e.target.value;render()};
+$('#role').onchange=e=>{S.role=e.target.value;S.scope='all';render()};
+$('#theme').onclick=()=>{const d=document.documentElement;const dk=(d.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))==='dark';d.dataset.theme=dk?'light':'dark'};
+$('#bell').onclick=()=>toast('Scheduled report sent: Weekly fee defaulters');
+render();
+</script>
+</body></html>

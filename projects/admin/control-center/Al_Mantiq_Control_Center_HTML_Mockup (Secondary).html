@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Al-Mantiq Control Center — Mockup</title>
+<style>
+:root{
+  --navy:#142b4a; --navy2:#1b3d63; --blue:#3269d5; --blue-soft:#eaf1ff;
+  --bg:#f5f7fb; --surface:#fff; --text:#172337; --muted:#6f7d91;
+  --line:#e5eaf1; --green:#17865d; --green-bg:#e7f7ef;
+  --amber:#a86608; --amber-bg:#fff3d9; --red:#b93a45; --red-bg:#ffeaec;
+  --shadow:0 8px 24px rgba(24,43,71,.05); --radius:16px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--text)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100vh}
+.sidebar{background:var(--navy);color:#d8e3f2;padding:22px 14px;display:flex;flex-direction:column;gap:26px}
+.brand{display:flex;align-items:center;gap:11px;padding:0 10px}
+.brand-mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(145deg,#5c8eff,#2d5dc1);display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px;box-shadow:0 6px 18px #071a3566}
+.brand-name{font-size:15px;font-weight:750;letter-spacing:.1px;color:#fff}
+.brand-sub{font-size:10px;color:#a9bdd7;letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.workspace{margin:0 7px;padding:11px 12px;border:1px solid #ffffff20;background:#ffffff0a;border-radius:12px;color:#dce7f5;display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.workspace strong{display:block;color:white;font-size:12px;margin-bottom:2px}
+.nav-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#839ab8;padding:0 13px;margin-bottom:7px}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{border:0;background:transparent;color:#c4d2e5;text-align:left;padding:11px 13px;border-radius:10px;display:flex;align-items:center;gap:12px;transition:.15s;width:100%}
+.nav button:hover{background:#ffffff0c;color:white}
+.nav button.active{background:#2e5483;color:white;box-shadow:inset 3px 0 #77a5ff}
+.nav .ico{width:18px;text-align:center;font-size:16px;opacity:.95}
+.nav .soon{font-size:9px;letter-spacing:.5px;border:1px solid #ffffff2b;padding:2px 5px;border-radius:5px;margin-left:auto;color:#a9bdd7}
+.side-bottom{margin-top:auto;padding:14px 10px 3px;border-top:1px solid #ffffff1c;font-size:11px;color:#9fb1ca}
+.profile-mini{display:flex;align-items:center;gap:9px;margin-top:12px;color:#e8eef7;font-size:12px}
+.avatar{width:32px;height:32px;border-radius:50%;background:#dce8ff;color:#244f9e;display:grid;place-items:center;font-weight:800}
+main{min-width:0}
+.topbar{height:76px;background:#ffffffd9;backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 34px;position:sticky;top:0;z-index:5}
+.breadcrumb{font-size:12px;color:var(--muted)}
+.breadcrumb strong{color:var(--text);font-weight:650}
+.top-actions{display:flex;align-items:center;gap:12px}
+.search{position:relative}
+.search input{width:235px;padding:10px 12px 10px 35px;border:1px solid var(--line);border-radius:10px;background:#f9fbfe;outline:none}
+.search input:focus{border-color:#8aabf4;box-shadow:0 0 0 3px #3269d51a}
+.search span{position:absolute;left:12px;top:9px;color:#8190a4}
+.icon-btn{border:1px solid var(--line);background:white;border-radius:10px;width:38px;height:38px;color:#53657b;position:relative}
+.dot{position:absolute;width:6px;height:6px;border-radius:50%;background:#e15c65;top:7px;right:8px;border:1px solid white}
+.content{padding:30px 34px 40px;max-width:1600px;margin:0 auto}
+.page-head{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:25px}
+.eyebrow{font-size:10px;text-transform:uppercase;letter-spacing:1.6px;color:var(--blue);font-weight:800;margin-bottom:7px}
+h1{font-size:26px;letter-spacing:-.7px;margin:0 0 7px;font-weight:760}
+.subtitle{font-size:13px;color:var(--muted);margin:0}
+.actions{display:flex;gap:9px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:white;color:#33445b;border-radius:10px;padding:10px 14px;font-weight:650;font-size:12px;display:inline-flex;align-items:center;gap:7px;box-shadow:0 1px 1px #1a2d4410}
+.btn:hover{background:#f8faff;border-color:#cbd7e8}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:white;box-shadow:0 5px 12px #3269d526}
+.btn.primary:hover{background:#285ac0}
+.notice{display:flex;align-items:center;gap:12px;background:#eef4ff;border:1px solid #dce7ff;padding:13px 15px;border-radius:12px;color:#395578;font-size:12px;margin-bottom:21px}
+.notice .notice-icon{width:28px;height:28px;display:grid;place-items:center;border-radius:8px;background:white;color:var(--blue);font-weight:800}
+.notice strong{color:#213e68}
+.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-bottom:20px}
+.metric{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 19px;box-shadow:var(--shadow);min-width:0}
+.metric-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.metric-label{font-size:12px;color:var(--muted);font-weight:600}
+.metric-icon{width:34px;height:34px;border-radius:10px;background:#eef3fb;display:grid;place-items:center;font-size:16px}
+.metric-value{font-size:29px;font-weight:760;letter-spacing:-1px;margin-bottom:7px}
+.metric-foot{font-size:11px;color:var(--muted)}
+.up{color:var(--green);font-weight:750}
+.warn{color:var(--amber);font-weight:750}
+.panel-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(280px,.9fr);gap:18px;margin-bottom:19px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);min-width:0}
+.panel-head{display:flex;align-items:center;justify-content:space-between;padding:19px 20px 13px;gap:12px}
+.panel-title{font-size:14px;font-weight:750;margin:0 0 4px}
+.panel-sub{font-size:11px;color:var(--muted)}
+.link-btn{border:0;background:transparent;color:var(--blue);font-size:11px;font-weight:750;padding:5px}
+.chart-wrap{padding:2px 18px 17px}
+.chart{width:100%;height:180px;display:block}
+.legend{display:flex;gap:16px;color:var(--muted);font-size:10px;margin:0 4px 0}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:7px;height:7px;border-radius:50%;display:inline-block;background:var(--blue)}
+.legend span+span i{background:#8ccab2}
+.activity-list{padding:0 20px 15px}
+.activity{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid #eef1f6}
+.activity:last-child{border-bottom:0}
+.activity-icon{flex:0 0 31px;height:31px;border-radius:9px;background:#edf3ff;display:grid;place-items:center;color:#3566c1}
+.activity-body{min-width:0;flex:1}
+.activity-title{font-size:12px;font-weight:650;margin-bottom:3px}
+.activity-desc{font-size:11px;color:var(--muted)}
+.activity-time{font-size:10px;color:#94a0b1;white-space:nowrap}
+.bottom-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,.8fr);gap:18px}
+.table-toolbar{padding:0 20px 14px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.filter-select{border:1px solid var(--line);background:white;padding:8px 10px;border-radius:9px;color:#516179;font-size:11px;outline:none}
+.table-wrap{overflow:auto}
+table{border-collapse:collapse;width:100%;min-width:580px}
+th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.7px;color:#8591a2;background:#fafbfd;padding:11px 20px;font-weight:750;border-top:1px solid #eff2f6;border-bottom:1px solid #eff2f6}
+td{padding:14px 20px;border-bottom:1px solid #f0f2f6;font-size:11px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.org-cell{display:flex;align-items:center;gap:10px}
+.org-logo{width:31px;height:31px;border-radius:9px;background:#eaf0ff;color:#365eb1;display:grid;place-items:center;font-size:11px;font-weight:800}
+.org-name{font-weight:700;font-size:12px}
+.org-meta{font-size:10px;color:var(--muted);margin-top:2px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:20px;font-size:10px;font-weight:750}
+.badge:before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor}
+.badge.active{background:var(--green-bg);color:var(--green)}
+.badge.pending{background:var(--amber-bg);color:var(--amber)}
+.badge.suspended{background:var(--red-bg);color:var(--red)}
+.more{border:0;background:transparent;color:#8190a4;font-size:18px}
+.health{padding:0 20px 17px}
+.health-row{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid #eff2f6;font-size:12px}
+.health-row:last-child{border-bottom:0}
+.health-label{display:flex;align-items:center;gap:9px;color:#40516a}
+.health-dot{width:8px;height:8px;border-radius:50%;background:#2ea879;box-shadow:0 0 0 3px #e4f7ee}
+.health-dot.amber{background:#e4a12a;box-shadow:0 0 0 3px #fff3d9}
+.health-state{font-size:10px;color:var(--green);font-weight:750}
+.health-state.amber{color:var(--amber)}
+.quick-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 20px 20px}
+.quick{border:1px solid var(--line);border-radius:11px;padding:13px 12px;background:#fff;text-align:left;color:var(--text)}
+.quick:hover{border-color:#b8cdf8;background:#f9fbff}
+.quick .q-icon{display:block;color:var(--blue);font-size:17px;margin-bottom:8px}
+.quick strong{font-size:11px;display:block;margin-bottom:3px}
+.quick small{font-size:10px;color:var(--muted)}
+.footer-note{color:#9aa5b5;font-size:10px;text-align:center;padding:24px 0 0}
+.view{display:none}.view.active{display:block}
+.toast{position:fixed;right:22px;bottom:22px;background:#172f50;color:white;padding:13px 16px;border-radius:12px;box-shadow:0 12px 30px #12213c30;z-index:20;max-width:340px;display:none;font-size:12px}
+.modal-backdrop{display:none;position:fixed;inset:0;background:#13233d70;z-index:30;align-items:center;justify-content:center;padding:20px}
+.modal{background:white;border-radius:18px;padding:24px;width:min(470px,100%);box-shadow:0 20px 70px #071a3540}
+.modal h2{margin:0 0 7px;font-size:19px}
+.modal p{font-size:12px;color:var(--muted);margin:0 0 18px}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:13px}
+.field label{font-size:11px;font-weight:700;color:#46556b}
+.field input,.field select{border:1px solid var(--line);border-radius:10px;padding:11px;outline:none;background:white}
+.field input:focus,.field select:focus{border-color:#8aabf4;box-shadow:0 0 0 3px #3269d51a}
+.modal-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:18px}
+.mobile-menu{display:none}
+@media(max-width:1120px){.app{grid-template-columns:220px minmax(0,1fr)}.content{padding:25px 22px}.topbar{padding:0 22px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.panel-grid,.bottom-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{display:none}.sidebar.open{display:flex;position:fixed;inset:0 auto 0 0;width:265px;z-index:25;box-shadow:0 0 0 100vw #07182b70}.topbar{height:65px;padding:0 15px}.mobile-menu{display:inline-flex}.breadcrumb{display:none}.search input{width:min(44vw,220px)}.content{padding:22px 14px}.page-head{display:block}.actions{margin-top:17px}.metrics{gap:10px}.metric{padding:14px}.metric-value{font-size:25px}.metric-label{font-size:11px}.metric-icon{width:29px;height:29px}.notice{align-items:flex-start}.panel-head{padding:16px}.activity-list{padding:0 16px 12px}.table-toolbar{padding:0 15px 12px}.quick-actions{padding:0 15px 15px}}
+@media(max-width:420px){.metrics{grid-template-columns:1fr 1fr}.metric-value{font-size:22px}.metric-foot{font-size:10px}.search input{width:145px}.top-actions{gap:7px}.actions .btn{padding:9px 10px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark">AM</div>
+      <div><div class="brand-name">Al-Mantiq</div><div class="brand-sub">Control Center</div></div>
+    </div>
+    <div class="workspace"><div><strong>Platform Workspace</strong>Internal operations</div><span>⌄</span></div>
+    <div>
+      <div class="nav-label">Workspace</div>
+      <nav class="nav" id="nav">
+        <button class="active" data-view="overview"><span class="ico">▦</span>Overview</button>
+        <button data-view="institutes"><span class="ico">▣</span>Institutes / Customers</button>
+        <button data-view="access"><span class="ico">♙</span>Access & Invitations</button>
+        <button data-view="products"><span class="ico">◈</span>Products & Plans</button>
+        <button data-view="billing"><span class="ico">▤</span>Subscriptions & Billing</button>
+        <button data-view="analytics"><span class="ico">▥</span>Analytics</button>
+        <button data-view="support"><span class="ico">◉</span>Support</button>
+      </nav>
+    </div>
+    <div>
+      <div class="nav-label">Administration</div>
+      <nav class="nav">
+        <button data-view="team"><span class="ico">♧</span>Team & Roles</button>
+        <button data-view="integrations"><span class="ico">⌘</span>Integrations & Health</button>
+        <button data-view="audit"><span class="ico">≋</span>Audit Log</button>
+        <button data-view="vendors"><span class="ico">⇄</span>Vendor Registry <span class="soon">LATER</span></button>
+        <button data-view="settings"><span class="ico">⚙</span>Settings</button>
+      </nav>
+    </div>
+    <div class="side-bottom">
+      <div>AL-MANTIQ PLATFORM</div>
+      <div class="profile-mini"><div class="avatar">SA</div><div><strong>Super Admin</strong><div style="color:#9fb1ca;font-size:10px">Platform administrator</div></div><span style="margin-left:auto">⋯</span></div>
+    </div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="icon-btn mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb">Al-Mantiq / <strong id="crumb">Overview</strong></div>
+      </div>
+      <div class="top-actions">
+        <div class="search"><span>⌕</span><input id="globalSearch" placeholder="Search institutes, invoices…" aria-label="Search" /></div>
+        <button class="icon-btn" id="notifications" aria-label="Notifications">♧<i class="dot"></i></button>
+        <div class="avatar" title="Super Admin">SA</div>
+      </div>
+    </header>
+    <div class="content">
+      <section class="view active" id="view-overview">
+        <div class="page-head">
+          <div><div class="eyebrow">Platform overview</div><h1>Good afternoon, Admin</h1><p class="subtitle">Here’s what’s happening across your ILMA ERP operations.</p></div>
+          <div class="actions"><button class="btn" id="exportBtn">↧ Export overview</button><button class="btn primary" id="addInstitute">＋ Add institute</button></div>
+        </div>
+        <div class="notice"><div class="notice-icon">✦</div><div><strong>ILMA ERP is your active product.</strong> The platform foundation is designed for future Al-Mantiq products and multi-vendor management. Vendor tools remain inactive until you’re ready.</div></div>
+        <div class="metrics">
+          <div class="metric"><div class="metric-top"><div class="metric-label">Total institutes</div><div class="metric-icon">▣</div></div><div class="metric-value" id="metricTotal">248</div><div class="metric-foot"><span class="up">↑ 12</span> this month</div></div>
+          <div class="metric"><div class="metric-top"><div class="metric-label">Active subscriptions</div><div class="metric-icon">◈</div></div><div class="metric-value">216</div><div class="metric-foot"><span class="up">87.1%</span> of registered institutes</div></div>
+          <div class="metric"><div class="metric-top"><div class="metric-label">Pending invitations</div><div class="metric-icon">✉</div></div><div class="metric-value" id="metricPending">14</div><div class="metric-foot"><span class="warn">Needs follow-up</span> · 5 older than 3 days</div></div>
+          <div class="metric"><div class="metric-top"><div class="metric-label">Renewals this month</div><div class="metric-icon">↻</div></div><div class="metric-value">23</div><div class="metric-foot"><span class="warn">6 due in 7 days</span></div></div>
+        </div>
+        <div class="panel-grid">
+          <div class="panel">
+            <div class="panel-head"><div><div class="panel-title">Institute growth</div><div class="panel-sub">Registered institutes · last 6 months</div></div><select class="filter-select" id="chartRange"><option>Last 6 months</option><option>Last 12 months</option></select></div>
+            <div class="chart-wrap">
+              <svg class="chart" viewBox="0 0 650 190" preserveAspectRatio="none" role="img" aria-label="Illustrative institute growth chart">
+                <defs><linearGradient id="fillBlue" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#4f83ed" stop-opacity=".22"/><stop offset="100%" stop-color="#4f83ed" stop-opacity="0"/></linearGradient></defs>
+                <g stroke="#edf1f6" stroke-width="1"><line x1="40" y1="25" x2="630" y2="25"/><line x1="40" y1="65" x2="630" y2="65"/><line x1="40" y1="105" x2="630" y2="105"/><line x1="40" y1="145" x2="630" y2="145"/></g>
+                <g fill="#8b97a8" font-size="10"><text x="5" y="28">260</text><text x="5" y="68">220</text><text x="5" y="108">180</text><text x="5" y="148">140</text></g>
+                <path d="M40 143 L155 125 L270 107 L385 84 L500 58 L615 34 L615 160 L40 160 Z" fill="url(#fillBlue)"/>
+                <path d="M40 143 L155 125 L270 107 L385 84 L500 58 L615 34" fill="none" stroke="#3269d5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <g fill="#fff" stroke="#3269d5" stroke-width="2"><circle cx="40" cy="143" r="4"/><circle cx="155" cy="125" r="4"/><circle cx="270" cy="107" r="4"/><circle cx="385" cy="84" r="4"/><circle cx="500" cy="58" r="4"/><circle cx="615" cy="34" r="4"/></g>
+                <g fill="#8996a8" font-size="10" text-anchor="middle"><text x="40" y="180">May</text><text x="155" y="180">Jun</text><text x="270" y="180">Jul</text><text x="385" y="180">Aug</text><text x="500" y="180">Sep</text><text x="615" y="180">Oct</text></g>
+              </svg>
+              <div class="legend"><span><i></i>Registered institutes</span><span><i></i>Illustrative demo data</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><div class="panel-title">Recent activity</div><div class="panel-sub">Latest platform events</div></div><button class="link-btn" data-goto="audit">View audit log →</button></div>
+            <div class="activity-list" id="activityList">
+              <div class="activity"><div class="activity-icon">＋</div><div class="activity-body"><div class="activity-title">New institute registered</div><div class="activity-desc">The Learning Hub · ILMA ERP</div></div><div class="activity-time">12m</div></div>
+              <div class="activity"><div class="activity-icon">✉</div><div class="activity-body"><div class="activity-title">Invitation sent</div><div class="activity-desc">admin@brightfuture.edu</div></div><div class="activity-time">38m</div></div>
+              <div class="activity"><div class="activity-icon">↻</div><div class="activity-body"><div class="activity-title">Subscription renewed</div><div class="activity-desc">Crescent Model School</div></div><div class="activity-time">2h</div></div>
+              <div class="activity"><div class="activity-icon">♙</div><div class="activity-body"><div class="activity-title">Admin access updated</div><div class="activity-desc">Al Noor Academy · role changed</div></div><div class="activity-time">4h</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-grid">
+          <div class="panel">
+            <div class="panel-head"><div><div class="panel-title">Institutes</div><div class="panel-sub">Recently updated customer organizations</div></div><button class="link-btn" data-goto="institutes">View all →</button></div>
+            <div class="table-toolbar"><div class="search"><span>⌕</span><input id="instituteSearch" placeholder="Search institutes…" style="width:210px" /></div><select class="filter-select" id="statusFilter"><option value="all">All statuses</option><option value="Active">Active</option><option value="Pending">Pending</option><option value="Suspended">Suspended</option></select></div>
+            <div class="table-wrap"><table id="institutesTable"><thead><tr><th>Institute</th><th>Status</th><th>Plan</th><th>Updated</th><th></th></tr></thead><tbody id="instituteRows">
+              <tr data-status="Active"><td><div class="org-cell"><div class="org-logo">CM</div><div><div class="org-name">Crescent Model School</div><div class="org-meta">Lahore, Pakistan</div></div></div></td><td><span class="badge active">Active</span></td><td>Professional</td><td>Today</td><td><button class="more" aria-label="More options">⋯</button></td></tr>
+              <tr data-status="Active"><td><div class="org-cell"><div class="org-logo" style="background:#e8f7ef;color:#21835d">AN</div><div><div class="org-name">Al Noor Academy</div><div class="org-meta">Islamabad, Pakistan</div></div></div></td><td><span class="badge active">Active</span></td><td>Standard</td><td>Yesterday</td><td><button class="more" aria-label="More options">⋯</button></td></tr>
+              <tr data-status="Pending"><td><div class="org-cell"><div class="org-logo" style="background:#fff2dc;color:#a86608">BF</div><div><div class="org-name">Bright Future School</div><div class="org-meta">Faisalabad, Pakistan</div></div></div></td><td><span class="badge pending">Invitation pending</span></td><td>Standard</td><td>2 days ago</td><td><button class="more" aria-label="More options">⋯</button></td></tr>
+              <tr data-status="Suspended"><td><div class="org-cell"><div class="org-logo" style="background:#ffeaec;color:#b93a45">GH</div><div><div class="org-name">Greenfield High School</div><div class="org-meta">Multan, Pakistan</div></div></div></td><td><span class="badge suspended">Suspended</span></td><td>Basic</td><td>4 days ago</td><td><button class="more" aria-label="More options">⋯</button></td></tr>
+            </tbody></table></div>
+          </div>
+          <div class="panel">
+            <div class="panel-head"><div><div class="panel-title">Platform health</div><div class="panel-sub">Service status · demo indicators</div></div><span class="badge active">Operational</span></div>
+            <div class="health">
+              <div class="health-row"><div class="health-label"><i class="health-dot"></i>Control Center API</div><span class="health-state">Operational</span></div>
+              <div class="health-row"><div class="health-label"><i class="health-dot"></i>ILMA ERP connection</div><span class="health-state">Connected</span></div>
+              <div class="health-row"><div class="health-label"><i class="health-dot"></i>Invitation service</div><span class="health-state">Operational</span></div>
+              <div class="health-row"><div class="health-label"><i class="health-dot amber"></i>Renewal reminders</div><span class="health-state amber">Review queue</span></div>
+            </div>
+            <div class="panel-head" style="padding-top:4px"><div><div class="panel-title">Quick actions</div><div class="panel-sub">Common admin tasks</div></div></div>
+            <div class="quick-actions">
+              <button class="quick" id="quickInvite"><span class="q-icon">✉</span><strong>Invite admin</strong><small>Grant institute access</small></button>
+              <button class="quick" data-goto="billing"><span class="q-icon">↻</span><strong>Renewals</strong><small>Review upcoming dates</small></button>
+              <button class="quick" data-goto="support"><span class="q-icon">◉</span><strong>Support cases</strong><small>Review open issues</small></button>
+              <button class="quick" data-goto="settings"><span class="q-icon">⚙</span><strong>Settings</strong><small>Platform preferences</small></button>
+            </div>
+          </div>
+        </div>
+        <div class="footer-note">Al-Mantiq Control Center · Interactive concept mockup · All numbers and records shown are illustrative demo data</div>
+      </section>
+      <section class="view" id="view-institutes">
+        <div class="page-head"><div><div class="eyebrow">Customer management</div><h1>Institutes & Customers</h1><p class="subtitle">Manage organizations, product access, and institute administrators.</p></div><div class="actions"><button class="btn primary" id="addInstitute2">＋ Add institute</button></div></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">All institutes</div><div class="panel-sub">Demo records · search and filter available</div></div></div><div class="table-toolbar"><div class="search"><span>⌕</span><input id="allSearch" placeholder="Search by name or location…" style="width:250px" /></div><select class="filter-select" id="allStatus"><option value="all">All statuses</option><option>Active</option><option>Pending</option><option>Suspended</option></select></div><div class="table-wrap"><table><thead><tr><th>Institute</th><th>Status</th><th>Plan</th><th>Product</th><th>Updated</th></tr></thead><tbody id="allRows"></tbody></table></div></div>
+      </section>
+      <section class="view" id="view-access">
+        <div class="page-head"><div><div class="eyebrow">Identity & permissions</div><h1>Access & Invitations</h1><p class="subtitle">Issue secure invitations and control who can access ILMA ERP.</p></div><div class="actions"><button class="btn primary" id="inviteFromAccess">＋ Invite administrator</button></div></div>
+        <div class="metrics"><div class="metric"><div class="metric-label">Pending invitations</div><div class="metric-value" id="accessPending">14</div><div class="metric-foot">Awaiting acceptance</div></div><div class="metric"><div class="metric-label">Accepted this month</div><div class="metric-value">32</div><div class="metric-foot">Demo data</div></div><div class="metric"><div class="metric-label">Suspended accounts</div><div class="metric-value">3</div><div class="metric-foot">Review when appropriate</div></div><div class="metric"><div class="metric-label">Security events</div><div class="metric-value">2</div><div class="metric-foot">Last 7 days · demo</div></div></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Invitation queue</div><div class="panel-sub">Illustrative list; actual delivery requires backend integration.</div></div></div><div class="table-wrap"><table><thead><tr><th>Email</th><th>Institute</th><th>Role</th><th>Status</th><th>Sent</th></tr></thead><tbody id="invitationRows"><tr><td>admin@brightfuture.edu</td><td>Bright Future School</td><td>Institute Admin</td><td><span class="badge pending">Pending</span></td><td>2 days ago</td></tr><tr><td>principal@newhorizon.edu</td><td>New Horizon School</td><td>Institute Admin</td><td><span class="badge pending">Pending</span></td><td>1 day ago</td></tr><tr><td>office@cityacademy.edu</td><td>City Academy</td><td>Billing Viewer</td><td><span class="badge pending">Pending</span></td><td>Today</td></tr></tbody></table></div></div>
+      </section>
+      <section class="view" id="view-products">
+        <div class="page-head"><div><div class="eyebrow">Product catalogue</div><h1>Products & Plans</h1><p class="subtitle">A shared product structure, with ILMA ERP enabled first.</p></div><button class="btn" id="addPlanBtn">＋ Add plan</button></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Products</div><div class="panel-sub">Product registry concept</div></div></div><div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Status</th><th>Customer orgs</th><th>Plans</th></tr></thead><tbody><tr><td><div class="org-cell"><div class="org-logo">IL</div><div><div class="org-name">ILMA Education ERP</div><div class="org-meta">Owned by Al-Mantiq</div></div></div></td><td>Education</td><td><span class="badge active">Active</span></td><td>248</td><td>3</td></tr><tr><td><div class="org-cell"><div class="org-logo">+</div><div><div class="org-name">Future Al-Mantiq product</div><div class="org-meta">Placeholder only</div></div></div></td><td>To be defined</td><td><span class="badge pending">Not configured</span></td><td>—</td><td>—</td></tr></tbody></table></div></div>
+        <div class="panel" style="margin-top:18px"><div class="panel-head"><div><div class="panel-title">ILMA plans</div><div class="panel-sub">Illustrative labels only; confirm real pricing and entitlements.</div></div></div><div class="table-wrap"><table><thead><tr><th>Plan</th><th>Product</th><th>Entitlements</th><th>Status</th></tr></thead><tbody><tr><td>Basic</td><td>ILMA ERP</td><td>Core school operations</td><td><span class="badge active">Active</span></td></tr><tr><td>Standard</td><td>ILMA ERP</td><td>Core + reports</td><td><span class="badge active">Active</span></td></tr><tr><td>Professional</td><td>ILMA ERP</td><td>Expanded features</td><td><span class="badge active">Active</span></td></tr></tbody></table></div></div>
+      </section>
+      <section class="view" id="view-billing">
+        <div class="page-head"><div><div class="eyebrow">Commercial operations</div><h1>Subscriptions & Billing</h1><p class="subtitle">Review subscription states, renewal dates, invoices, and payment follow-ups.</p></div><button class="btn" id="exportBilling">↧ Export billing</button></div>
+        <div class="metrics"><div class="metric"><div class="metric-label">Active subscriptions</div><div class="metric-value">216</div><div class="metric-foot">Demo data</div></div><div class="metric"><div class="metric-label">Renewals in 7 days</div><div class="metric-value">6</div><div class="metric-foot">Follow-up recommended</div></div><div class="metric"><div class="metric-label">Past-due invoices</div><div class="metric-value">8</div><div class="metric-foot">Illustrative count</div></div><div class="metric"><div class="metric-label">Renewals this month</div><div class="metric-value">23</div><div class="metric-foot">Selected calendar month</div></div></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Renewal watchlist</div><div class="panel-sub">Demo records; invoice and subscription states must be separate in production.</div></div><select class="filter-select"><option>Next 30 days</option><option>Next 7 days</option><option>All upcoming</option></select></div><div class="table-wrap"><table><thead><tr><th>Institute</th><th>Plan</th><th>Renewal date</th><th>Subscription</th><th>Invoice</th></tr></thead><tbody><tr><td>Crescent Model School</td><td>Professional</td><td>18 Oct 2026</td><td><span class="badge active">Active</span></td><td><span class="badge pending">Due soon</span></td></tr><tr><td>Al Noor Academy</td><td>Standard</td><td>21 Oct 2026</td><td><span class="badge active">Active</span></td><td><span class="badge active">Paid</span></td></tr><tr><td>Bright Future School</td><td>Standard</td><td>25 Oct 2026</td><td><span class="badge pending">Pending</span></td><td><span class="badge pending">Awaiting</span></td></tr></tbody></table></div></div>
+      </section>
+      <section class="view" id="view-analytics">
+        <div class="page-head"><div><div class="eyebrow">Insights</div><h1>Analytics</h1><p class="subtitle">Operational metrics with definitions and time windows.</p></div><button class="btn" id="analyticsExport">↧ Export report</button></div>
+        <div class="notice"><div class="notice-icon">i</div><div>All displayed analytics are mock data. Production figures must come from defined, permission-checked source queries and show their reporting period.</div></div>
+        <div class="metrics"><div class="metric"><div class="metric-label">Institute activations</div><div class="metric-value">34</div><div class="metric-foot">Current month · demo</div></div><div class="metric"><div class="metric-label">Invitation acceptance</div><div class="metric-value">76%</div><div class="metric-foot">Last 30 days · demo</div></div><div class="metric"><div class="metric-label">Renewal completion</div><div class="metric-value">91%</div><div class="metric-foot">Previous month · demo</div></div><div class="metric"><div class="metric-label">Open support cases</div><div class="metric-value">17</div><div class="metric-foot">All priorities · demo</div></div></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">AI insight assistant</div><div class="panel-sub">Concept only · read-only suggestions, never automatic privileged actions</div></div><span class="badge pending">AI preview</span></div><div style="padding:0 20px 20px"><div class="field"><label for="aiQuestion">Ask about platform operations</label><input id="aiQuestion" placeholder="e.g. Which institutes have renewals due this week?" /></div><button class="btn primary" id="askAI">✦ Generate demo insight</button><div id="aiResult" style="display:none;margin-top:15px;padding:14px;background:#f2f6ff;border:1px solid #dce7ff;border-radius:12px;font-size:12px;color:#36516f"></div></div></div>
+      </section>
+      <section class="view" id="view-support">
+        <div class="page-head"><div><div class="eyebrow">Customer operations</div><h1>Support</h1><p class="subtitle">Track customer issues, follow-ups, ownership, and escalations.</p></div><button class="btn primary" id="newCase">＋ New support case</button></div>
+        <div class="metrics"><div class="metric"><div class="metric-label">Open cases</div><div class="metric-value">17</div><div class="metric-foot">Demo data</div></div><div class="metric"><div class="metric-label">High priority</div><div class="metric-value">3</div><div class="metric-foot">Needs triage</div></div><div class="metric"><div class="metric-label">Awaiting customer</div><div class="metric-value">5</div><div class="metric-foot">Follow-up queue</div></div><div class="metric"><div class="metric-label">Resolved this week</div><div class="metric-value">22</div><div class="metric-foot">Demo data</div></div></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Recent support cases</div><div class="panel-sub">Keep customer access and sensitive case details permission-scoped.</div></div></div><div class="table-wrap"><table><thead><tr><th>Case</th><th>Institute</th><th>Issue</th><th>Priority</th><th>Status</th></tr></thead><tbody><tr><td>SUP-1048</td><td>Crescent Model School</td><td>Renewal query</td><td><span class="badge pending">Medium</span></td><td><span class="badge active">Open</span></td></tr><tr><td>SUP-1047</td><td>Al Noor Academy</td><td>Admin invitation</td><td><span class="badge suspended">High</span></td><td><span class="badge pending">In progress</span></td></tr><tr><td>SUP-1046</td><td>Bright Future School</td><td>Report access</td><td><span class="badge pending">Medium</span></td><td><span class="badge pending">Awaiting customer</span></td></tr></tbody></table></div></div>
+      </section>
+      <section class="view" id="view-team">
+        <div class="page-head"><div><div class="eyebrow">Administration</div><h1>Team & Roles</h1><p class="subtitle">Give each staff member only the permissions needed for their job.</p></div><button class="btn primary" id="addTeam">＋ Add team member</button></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Internal team</div><div class="panel-sub">Role names are illustrative; define exact permissions before production.</div></div></div><div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr></thead><tbody><tr><td>Platform Super Admin</td><td>admin@al-mantiq.example</td><td>Platform Super Admin</td><td><span class="badge active">Active</span></td></tr><tr><td>Customer Operations</td><td>support@al-mantiq.example</td><td>Support Operator</td><td><span class="badge active">Active</span></td></tr><tr><td>Finance Operator</td><td>finance@al-mantiq.example</td><td>Finance</td><td><span class="badge active">Active</span></td></tr></tbody></table></div></div>
+      </section>
+      <section class="view" id="view-integrations">
+        <div class="page-head"><div><div class="eyebrow">Platform operations</div><h1>Integrations & Health</h1><p class="subtitle">Monitor connected services and credentials metadata.</p></div><button class="btn" id="refreshHealth">↻ Refresh status</button></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Connected services</div><div class="panel-sub">Static indicators for mockup only; no live health checks are connected.</div></div></div><div class="health"><div class="health-row"><div class="health-label"><i class="health-dot"></i>ILMA ERP application</div><span class="health-state">Connected · demo</span></div><div class="health-row"><div class="health-label"><i class="health-dot"></i>Email / invitation provider</div><span class="health-state">Operational · demo</span></div><div class="health-row"><div class="health-label"><i class="health-dot amber"></i>Billing provider</div><span class="health-state amber">Not configured</span></div><div class="health-row"><div class="health-label"><i class="health-dot amber"></i>AI provider</div><span class="health-state amber">Not configured</span></div></div></div>
+      </section>
+      <section class="view" id="view-audit">
+        <div class="page-head"><div><div class="eyebrow">Security & accountability</div><h1>Audit Log</h1><p class="subtitle">Trace important changes: who acted, what changed, when, and why.</p></div><button class="btn" id="auditExport">↧ Export log</button></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Recent events</div><div class="panel-sub">Illustrative entries; production logs should be append-only and redact secrets.</div></div></div><div class="table-wrap"><table><thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Target</th><th>Result</th></tr></thead><tbody><tr><td>Today, 14:32</td><td>Super Admin</td><td>Organization created</td><td>The Learning Hub</td><td><span class="badge active">Success</span></td></tr><tr><td>Today, 14:06</td><td>Customer Ops</td><td>Invitation sent</td><td>Bright Future School</td><td><span class="badge active">Success</span></td></tr><tr><td>Today, 12:44</td><td>Super Admin</td><td>Role changed</td><td>Al Noor Academy admin</td><td><span class="badge active">Success</span></td></tr><tr><td>Yesterday, 16:10</td><td>Finance</td><td>Invoice viewed</td><td>INV-2038</td><td><span class="badge active">Success</span></td></tr></tbody></table></div></div>
+      </section>
+      <section class="view" id="view-vendors">
+        <div class="page-head"><div><div class="eyebrow">Future capability · Phase 3</div><h1>Vendor Registry</h1><p class="subtitle">Designed for future third-party software vendors, but intentionally not active in the first release.</p></div><span class="badge pending">Not enabled</span></div>
+        <div class="notice"><div class="notice-icon">◇</div><div><strong>Vendor management is planned, not live.</strong> Before activation, define verification, contracts, product approval, API scopes, customer data boundaries, support access, and any fee/commission model.</div></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Planned vendor controls</div><div class="panel-sub">Future global registry capabilities</div></div></div><div class="health"><div class="health-row"><div class="health-label">Vendor identity & verification</div><span class="badge pending">Planned</span></div><div class="health-row"><div class="health-label">Vendor-owned product registration</div><span class="badge pending">Planned</span></div><div class="health-row"><div class="health-label">Scoped API credentials</div><span class="badge pending">Planned</span></div><div class="health-row"><div class="health-label">Vendor usage and billing overview</div><span class="badge pending">Planned</span></div><div class="health-row"><div class="health-label">Audit, support and offboarding</div><span class="badge pending">Planned</span></div></div></div>
+      </section>
+      <section class="view" id="view-settings">
+        <div class="page-head"><div><div class="eyebrow">Configuration</div><h1>Settings</h1><p class="subtitle">Platform preferences and safe defaults.</p></div><button class="btn primary" id="saveSettings">Save changes</button></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">General settings</div><div class="panel-sub">Mock controls only; changes are not persisted to a server.</div></div></div><div style="padding:0 20px 20px;max-width:650px"><div class="field"><label>Platform name</label><input value="Al-Mantiq Control Center" /></div><div class="field"><label>Default product</label><select><option>ILMA Education ERP</option></select></div><div class="field"><label>Default time zone</label><select><option>Asia/Karachi (PKT)</option><option>UTC</option></select></div><div class="field"><label>Invitation expiry</label><select><option>72 hours</option><option>24 hours</option><option>7 days</option></select></div><div class="field"><label>AI features</label><select><option>Preview only — human approval required</option><option>Disabled</option></select></div></div></div>
+      </section>
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <h2 id="modalTitle">Add institute</h2><p id="modalDesc">Create a demo institute record in this local mockup. No email or backend action will occur.</p>
+    <form id="modalForm">
+      <div class="field"><label for="fieldName">Institute name</label><input id="fieldName" required placeholder="e.g. Sunrise Academy" /></div>
+      <div class="field"><label for="fieldLocation">City / location</label><input id="fieldLocation" required placeholder="e.g. Lahore, Pakistan" /></div>
+      <div class="field"><label for="fieldEmail">Administrator email</label><input id="fieldEmail" type="email" required placeholder="admin@example.edu" /></div>
+      <div class="field"><label for="fieldPlan">Plan</label><select id="fieldPlan"><option>Standard</option><option>Basic</option><option>Professional</option></select></div>
+      <div class="modal-actions"><button type="button" class="btn" id="cancelModal">Cancel</button><button type="submit" class="btn primary">Create demo record</button></div>
+    </form>
+  </div>
+</div>
+<script>
+const navButtons = [...document.querySelectorAll('[data-view]')];
+const views = [...document.querySelectorAll('.view')];
+const crumb = document.getElementById('crumb');
+const sidebar = document.getElementById('sidebar');
+function showView(name){
+  views.forEach(v=>v.classList.toggle('active',v.id==='view-'+name));
+  navButtons.forEach(b=>b.classList.toggle('active',b.dataset.view===name));
+  const btn=navButtons.find(b=>b.dataset.view===name);
+  crumb.textContent=btn ? btn.textContent.trim().replace('LATER','').trim() : name;
+  sidebar.classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+navButtons.forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.goto)));
+document.getElementById('mobileMenu').addEventListener('click',()=>sidebar.classList.toggle('open'));
+const toast=document.getElementById('toast'); let toastTimer;
+function notify(msg){toast.textContent=msg;toast.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.style.display='none',3200)}
+document.getElementById('notifications').addEventListener('click',()=>notify('Demo notification center: 5 invitations and 6 upcoming renewals need review.'));
+document.getElementById('exportBtn').addEventListener('click',()=>downloadCSV('al-mantiq-overview.csv',[['Metric','Value'],['Total institutes',document.getElementById('metricTotal').textContent],['Active subscriptions','216'],['Pending invitations',document.getElementById('metricPending').textContent],['Renewals this month','23']]));
+['exportBilling','analyticsExport','auditExport'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('click',()=>notify('Export is a prototype action. Connect this button to an authorized server-side export in production.'))});
+document.getElementById('refreshHealth').addEventListener('click',()=>notify('Mockup only: connect this action to real service health checks.'));
+document.getElementById('saveSettings').addEventListener('click',()=>notify('Settings are not saved to a server in this static prototype.'));
+document.getElementById('addPlanBtn').addEventListener('click',()=>notify('Plan creation is a UI placeholder. Confirm pricing and entitlements before enabling it.'));
+document.getElementById('newCase').addEventListener('click',()=>notify('Support case creation is a UI placeholder.'));
+document.getElementById('addTeam').addEventListener('click',()=>notify('Team invitations should use the production role and permission workflow.'));
+document.getElementById('chartRange').addEventListener('change',e=>notify('Selected: '+e.target.value+'. Connect the chart to real, defined metrics.'));
+function downloadCSV(filename,rows){const csv=rows.map(r=>r.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url)}
+function openModal(){document.getElementById('modalBackdrop').style.display='flex';setTimeout(()=>document.getElementById('fieldName').focus(),30)}
+function closeModal(){document.getElementById('modalBackdrop').style.display='none';document.getElementById('modalForm').reset()}
+['addInstitute','addInstitute2','quickInvite','inviteFromAccess'].forEach(id=>{const el=document.getElementById(id);if(el)el.addEventListener('click',openModal)});
+document.getElementById('cancelModal').addEventListener('click',closeModal);
+document.getElementById('modalBackdrop').addEventListener('click',e=>{if(e.target.id==='modalBackdrop')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function makeRow(name,loc,status,plan,updated='Just now'){const initials=name.split(/\s+/).slice(0,2).map(s=>s[0]).join('').toUpperCase();const cls=status==='Active'?'active':status==='Pending'?'pending':'suspended';const label=status==='Pending'?'Invitation pending':status;return `<tr data-status="${status}"><td><div class="org-cell"><div class="org-logo">${escapeHtml(initials)}</div><div><div class="org-name">${escapeHtml(name)}</div><div class="org-meta">${escapeHtml(loc)}</div></div></div></td><td><span class="badge ${cls}">${label}</span></td><td>${escapeHtml(plan)}</td><td>ILMA ERP</td><td>${escapeHtml(updated)}</td></tr>`}
+document.getElementById('modalForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=document.getElementById('fieldName').value.trim(),loc=document.getElementById('fieldLocation').value.trim(),email=document.getElementById('fieldEmail').value.trim(),plan=document.getElementById('fieldPlan').value;
+  const row=makeRow(name,loc,'Pending',plan);
+  document.getElementById('instituteRows').insertAdjacentHTML('afterbegin',row.replace('Just now','Just now').replace(/<td>ILMA ERP<\/td><td>Just now<\/td>/,'<td>'+escapeHtml(plan)+'</td><td>Just now</td>'));
+  // Rebuild the main table's inserted row to match its five-column layout.
+  const first=document.getElementById('instituteRows').firstElementChild;
+  if(first){first.cells[3].textContent='Just now';}
+  document.getElementById('allRows').insertAdjacentHTML('afterbegin',makeRow(name,loc,'Pending',plan));
+  document.getElementById('invitationRows').insertAdjacentHTML('afterbegin',`<tr><td>${escapeHtml(email)}</td><td>${escapeHtml(name)}</td><td>Institute Admin</td><td><span class="badge pending">Pending</span></td><td>Just now</td></tr>`);
+  const total=document.getElementById('metricTotal');total.textContent=String(Number(total.textContent)+1);
+  const pending=document.getElementById('metricPending');pending.textContent=String(Number(pending.textContent)+1);document.getElementById('accessPending').textContent=pending.textContent;
+  closeModal();filterRows();filterAllRows();showView('institutes');notify('Demo institute added locally. Connect the API to persist records and send invitations.');
+});
+function filterRows(){const q=(document.getElementById('instituteSearch')?.value||'').toLowerCase();const s=document.getElementById('statusFilter')?.value||'all';document.querySelectorAll('#instituteRows tr').forEach(r=>{const okq=r.textContent.toLowerCase().includes(q);const oks=s==='all'||r.dataset.status===s;r.style.display=okq&&oks?'':'none'})}
+function filterAllRows(){const q=(document.getElementById('allSearch')?.value||'').toLowerCase();const s=document.getElementById('allStatus')?.value||'all';document.querySelectorAll('#allRows tr').forEach(r=>{const okq=r.textContent.toLowerCase().includes(q);const oks=s==='all'||r.dataset.status===s;r.style.display=okq&&oks?'':'none'})}
+document.getElementById('instituteSearch').addEventListener('input',filterRows);document.getElementById('statusFilter').addEventListener('change',filterRows);
+document.getElementById('allSearch').addEventListener('input',filterAllRows);document.getElementById('allStatus').addEventListener('change',filterAllRows);
+document.getElementById('askAI').addEventListener('click',()=>{const q=document.getElementById('aiQuestion').value.trim();const box=document.getElementById('aiResult');box.style.display='block';box.textContent=q?'Demo insight: this prototype has no live database or AI connection. In production, answer this question using approved metrics, your current permissions, explicit date filters, and source records.':'Enter a question first. This preview does not connect to a live AI service.'});
+document.getElementById('globalSearch').addEventListener('keydown',e=>{if(e.key==='Enter'){const q=e.target.value.trim();if(q){showView('institutes');document.getElementById('allSearch').value=q;filterAllRows();notify('Searching demo institute records for: '+q)}}});
+document.querySelectorAll('.more').forEach(b=>b.addEventListener('click',()=>notify('Row actions in production should be permission-checked and audit-logged.')));
+document.getElementById('exportBilling').addEventListener('click',()=>downloadCSV('ilma-renewal-watchlist.csv',[['Institute','Plan','Renewal date','Subscription','Invoice'],['Crescent Model School','Professional','18 Oct 2026','Active','Due soon'],['Al Noor Academy','Standard','21 Oct 2026','Active','Paid'],['Bright Future School','Standard','25 Oct 2026','Pending','Awaiting']]));
+document.getElementById('analyticsExport').addEventListener('click',()=>downloadCSV('ilma-analytics-demo.csv',[['Metric','Value'],['Institute activations','34'],['Invitation acceptance','76%'],['Renewal completion','91%'],['Open support cases','17']]));
+document.getElementById('auditExport').addEventListener('click',()=>downloadCSV('ilma-audit-demo.csv',[['Time','Actor','Action','Target','Result'],['Today 14:32','Super Admin','Organization created','The Learning Hub','Success'],['Today 14:06','Customer Ops','Invitation sent','Bright Future School','Success']]));
+// Build all institutes from current table so searches work in the full view.
+document.querySelectorAll('#instituteRows tr').forEach(r=>{
+  const name=r.querySelector('.org-name')?.textContent||'';
+  const loc=r.querySelector('.org-meta')?.textContent||'';
+  const status=r.dataset.status||'Active';
+  const plan=r.cells[2]?.textContent||'Standard';
+  document.getElementById('allRows').insertAdjacentHTML('beforeend',makeRow(name,loc,status,plan,r.cells[3]?.textContent||'Today'));
+});
+</script>
+</body>
+</html>

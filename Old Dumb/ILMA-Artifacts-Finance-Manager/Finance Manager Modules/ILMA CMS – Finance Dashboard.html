@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ILMA CMS · Finance Dashboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+<style>
+
+:root{--bg:#f5f6fb;--card:#fff;--ink:#14162b;--mut:#646a8c;--line:#e8eaf3;--hov:#f7f7fd;--acc:#6c4cf1;--accs:#efeaff;--ok:#0f8a66;--oks:#e3f7ef;--warn:#a85a05;--warns:#fff3dc;--bad:#d9362b;--bads:#fdebec;--blue:#2a63d4;--blues:#e6efff;
+--shadow:0 1px 2px rgba(20,22,43,.05),0 8px 24px rgba(20,22,43,.06);--glow:radial-gradient(900px 300px at 20% -10%,rgba(108,76,241,.10),transparent),radial-gradient(700px 260px at 100% 0,rgba(255,140,120,.08),transparent)}
+:root[data-theme=dark]{--bg:#0d1022;--card:#161a35;--ink:#eceefc;--mut:#9ba1c8;--line:#262b4d;--hov:#1b2040;--accs:#2a2458;--ok:#4fd1a5;--oks:#0f3a2e;--warn:#f4b25c;--warns:#3d2e10;--bad:#ff8a80;--bads:#41191c;--blue:#8ab4ff;--blues:#1a2b52;--glow:none}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0d1022;--card:#161a35;--ink:#eceefc;--mut:#9ba1c8;--line:#262b4d;--hov:#1b2040;--accs:#2a2458;--ok:#4fd1a5;--oks:#0f3a2e;--warn:#f4b25c;--warns:#3d2e10;--bad:#ff8a80;--bads:#41191c;--blue:#8ab4ff;--blues:#1a2b52;--glow:none}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.45}
+button,select,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+[hidden]{display:none!important}
+.app{display:flex;min-height:100vh}
+.side{width:250px;flex:none;position:sticky;top:0;height:100vh;background:linear-gradient(180deg,#1a2152,#12172f 60%);color:#c9cdf0;padding:16px 14px;display:flex;flex-direction:column;overflow:auto}
+.brand{display:flex;gap:11px;align-items:center;color:#fff;font-weight:800;padding:4px 6px 16px}
+.brand i{width:38px;height:38px;border-radius:11px;background:#0b0f26;border:1px solid rgba(255,255,255,.25);display:grid;place-items:center;font-style:normal}
+.brand small{display:block;font-weight:500;font-size:11.5px;color:#8c91c4}
+.nv{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:11px;padding:10px 12px;margin-bottom:3px;border-radius:12px;color:#c9cdf0;font-weight:600;cursor:pointer}
+.nv:hover{background:rgba(255,255,255,.07)}.nv.on{background:rgba(255,255,255,.12);color:#fff;box-shadow:inset 3px 0 0 var(--acc)}
+.nv b{margin-left:auto;background:#e5484d;color:#fff;font-size:11px;border-radius:99px;padding:0 7px}
+.nv .ch{margin-left:auto;font-size:11px;opacity:.7}
+.sub1{padding-left:18px;margin-bottom:6px}.sub1 .nv{font-size:13.5px;padding:7px 12px;font-weight:500}.sub1 .nv.on{box-shadow:none;background:rgba(108,76,241,.35)}
+.me{margin-top:auto;border-top:1px solid rgba(255,255,255,.1);padding:14px 4px 4px;display:flex;gap:10px;align-items:center;color:#fff;font-size:13.5px;font-weight:700}
+.me small{display:block;color:#8c91c4;font-weight:500}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12px;font-weight:800;flex:none;background:hsl(var(--h,260) 52% 46%)}
+.av.s{width:26px;height:26px;font-size:10px}
+.col{flex:1;min-width:0}
+.top{display:flex;align-items:center;gap:12px;padding:12px 28px;background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20;flex-wrap:wrap}
+.top label{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--mut)}
+select,.in{border:1px solid var(--line);background:var(--card);border-radius:11px;padding:9px 12px;min-width:0}
+.in{width:100%}textarea.in{min-height:84px;resize:vertical}
+.sp{flex:1}
+.bell{position:relative;border:0;border-radius:14px;height:42px;width:42px;color:#fff;background:linear-gradient(135deg,#ffb020,#ff5e7a);box-shadow:0 8px 20px rgba(255,110,100,.35);font-size:18px}
+.bell b{position:absolute;top:-6px;right:-6px;background:#e5484d;color:#fff;font-size:10.5px;border-radius:99px;padding:1px 6px;border:2px solid var(--card)}
+main{padding:24px 28px 60px;background:var(--glow);min-height:calc(100vh - 66px)}
+.hd{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;margin-bottom:18px}
+.hd>div:first-child{flex:1;min-width:240px;border-left:3px solid var(--acc);padding-left:16px}
+h1{margin:0;font-size:28px;letter-spacing:-.02em}h2{margin:0;font-size:20px}h3{margin:0;font-size:16px}
+.sub{margin:2px 0 0;color:var(--mut)}
+.btn{border:1px solid var(--line);background:var(--card);border-radius:12px;padding:10px 16px;font-weight:700;display:inline-flex;gap:8px;align-items:center;transition:transform .15s;white-space:nowrap}
+.btn:hover:not(:disabled){transform:translateY(-1px)}
+.btn.p{background:linear-gradient(135deg,#6c4cf1,#5b43d6);border-color:transparent;color:#fff;box-shadow:0 8px 20px rgba(108,76,241,.3)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.bad{color:var(--bad)}.btn.sm{padding:6px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:13px 16px;box-shadow:var(--shadow);text-align:left;width:100%}
+.kpi b{display:block;font-size:26px;letter-spacing:-.02em}.kpi span{color:var(--mut);font-size:13px}
+button.kpi:hover{border-color:var(--acc)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.tile{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:var(--shadow);transition:.18s;display:flex;flex-direction:column;gap:6px;min-height:168px}
+.tile:hover{transform:translateY(-3px);border-color:var(--acc);box-shadow:0 14px 34px rgba(108,76,241,.18)}
+.tile .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:23px;background:hsl(var(--h) 80% 94%)}
+:root[data-theme=dark] .tile .ic{background:hsl(var(--h) 40% 22%)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .tile .ic{background:hsl(var(--h) 40% 22%)}}
+.tile h3{margin-top:6px}.tile p{margin:0;color:var(--mut);font-size:13.5px;flex:1}
+.tile .ft{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.tile .n{position:absolute;top:16px;right:16px;background:#e5484d;color:#fff;font-weight:800;font-size:12px;border-radius:99px;padding:1px 9px}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px;background:var(--hov);color:var(--mut);border:1px solid var(--line);white-space:nowrap}
+.pill.ok{background:var(--oks);color:var(--ok);border-color:transparent}.pill.warn{background:var(--warns);color:var(--warn);border-color:transparent}.pill.bad{background:var(--bads);color:var(--bad);border-color:transparent}.pill.acc{background:var(--accs);color:var(--acc);border-color:transparent}.pill.blue{background:var(--blues);color:var(--blue);border-color:transparent}
+.att{display:flex;flex-direction:column;gap:2px}
+.att button{display:flex;gap:12px;align-items:center;border:0;background:none;text-align:left;padding:10px 8px;border-radius:12px;border-bottom:1px solid var(--line)}
+.att button:hover{background:var(--hov)}.att span{flex:1}
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(10,12,30,.45);z-index:40;animation:fade .2s}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:75vw;min-width:min(760px,100vw);background:var(--bg);z-index:41;box-shadow:-24px 0 60px rgba(10,12,30,.35);display:flex;flex-direction:column;animation:slide .25s ease;border-left:1px solid var(--line)}
+@keyframes slide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}@keyframes fade{from{opacity:0}}
+.dhd{display:flex;align-items:center;gap:12px;padding:14px 24px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.dhd h2{flex:1;display:flex;gap:10px;align-items:center}
+.dbd{padding:20px 24px 60px;overflow:auto;flex:1}
+.tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:8px}
+.tabs button{border:0;background:none;padding:8px 14px;border-radius:10px;font-weight:700;color:var(--mut);white-space:nowrap}
+.tabs button.on{background:var(--accs);color:var(--acc)}.tabs button i{font-style:normal;opacity:.7;margin-left:4px;font-size:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:99px;padding:6px 13px;font-weight:700;font-size:13px}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;font-size:11.5px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;padding:10px 12px;border-bottom:1px solid var(--line);background:var(--hov);white-space:nowrap}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}tbody tr:hover td{background:var(--hov)}
+tr.grp td{background:var(--hov);font-weight:800;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--mut)}
+td.done .tt{text-decoration:line-through;color:var(--mut)}
+td small{display:block;color:var(--mut);font-size:12.5px}
+td .tt{font-weight:700}
+.cb{width:20px;height:20px;accent-color:var(--acc);cursor:pointer}
+.ra{display:flex;gap:6px;justify-content:flex-end;flex-wrap:nowrap}
+td select{padding:5px 8px;font-size:13px;border-radius:8px}
+.empty{text-align:center;color:var(--mut);padding:36px 10px}
+.fld{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--mut)}
+.fld select,.fld .in{font-weight:500;color:var(--ink)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.trow{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.trow:last-child{border-bottom:0}.trow>div:first-child{flex:1}.trow small{display:block;color:var(--mut)}
+.sw{position:relative;width:42px;height:24px;flex:none;display:inline-block}.sw input{opacity:0;position:absolute;inset:0;margin:0;cursor:pointer;z-index:1}.sw i{position:absolute;inset:0;background:var(--line);border-radius:99px;transition:.2s}.sw i::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:.2s}.sw input:checked+i{background:var(--acc)}.sw input:checked+i::after{left:21px}
+.qa{display:flex;gap:8px;flex-wrap:wrap;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:12px;align-items:center}
+.qa .in{flex:1;min-width:180px}
+.prog{height:8px;background:var(--hov);border:1px solid var(--line);border-radius:99px;overflow:hidden;min-width:80px}.prog i{display:block;height:100%;background:linear-gradient(90deg,#6c4cf1,#8b6cff)}
+.bal{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.bal div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}.bal b{font-size:22px}.bal span{display:block;color:var(--mut);font-size:13px}
+.info{background:var(--blues);color:var(--blue);border-radius:12px;padding:10px 14px;font-size:13.5px;margin:0 0 12px}
+.thr{display:flex;flex-direction:column;gap:10px;margin:12px 0}
+.msg{display:flex;gap:10px}.msg .bd{background:var(--hov);border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:8px 12px}.msg .hh{font-size:12px;color:var(--mut);font-weight:700}
+.msg.me{flex-direction:row-reverse}.msg.me .bd{background:var(--accs);border-color:transparent;border-radius:14px 4px 14px 14px}
+.an{border:1px solid var(--line);border-left:4px solid var(--acc);background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.an.urgent{border-left-color:var(--bad);background:linear-gradient(90deg,var(--bads),var(--card) 40%)}
+.an h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.an p{margin:6px 0 10px;white-space:pre-wrap}
+.un{font-weight:800}.unread td:first-child{box-shadow:inset 3px 0 0 var(--acc)}
+dialog{border:0;border-radius:22px;padding:0;width:min(620px,94vw);background:var(--card);color:var(--ink);box-shadow:0 30px 80px rgba(10,12,30,.4)}
+dialog::backdrop{background:rgba(10,12,30,.55)}
+.mh{display:flex;align-items:center;gap:10px;padding:16px 22px;border-bottom:1px solid var(--line)}.mh h3{flex:1}.mh button{border:0;background:var(--hov);width:34px;height:34px;border-radius:10px}
+.mb{padding:18px 22px;max-height:66vh;overflow:auto}.mf{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;gap:8px;z-index:100;align-items:center;pointer-events:none}
+#toast div{background:#12172f;color:#fff;padding:11px 18px;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.35);font-weight:600;font-size:14px;animation:slide .2s}
+.pop{position:absolute;right:28px;top:60px;width:380px;max-width:92vw;background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 60px rgba(20,22,43,.25);padding:10px;z-index:30}
+.pop h4{margin:6px 8px 8px}.pop button.ni{display:block;width:100%;text-align:left;border:0;background:none;padding:10px;border-radius:12px}.pop button.ni:hover{background:var(--hov)}.pop small{display:block;color:var(--mut)}
+@media(max-width:1100px){.drawer{width:92vw}}
+@media(max-width:900px){.app{flex-direction:column}.side{width:auto;height:auto;position:static;flex-direction:row;overflow-x:auto;padding:8px;gap:4px;align-items:center}.me,.sub1,.brand small{display:none}.brand{padding:0 8px 0 4px}.nv{width:auto;white-space:nowrap;margin:0}
+.top{padding:10px 14px}main{padding:18px 14px 60px}.drawer{width:100vw;min-width:0}.dbd{padding:14px 12px 60px}.g2,.g3{grid-template-columns:1fr}.pop{right:10px}}
+
+.scope{display:inline-flex;gap:8px;align-items:center;background:var(--accs);color:var(--acc);font-weight:800;font-size:13px;border-radius:99px;padding:5px 14px}
+.seg{display:inline-flex;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:3px}.seg button{border:0;background:none;padding:6px 14px;border-radius:9px;font-weight:700;color:var(--mut)}.seg button.on{background:var(--acc);color:#fff}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.k{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);text-align:left;width:100%;transition:.15s;display:block}
+.k:hover{border-color:var(--acc);transform:translateY(-2px)}.k span{color:var(--mut);font-size:13px;font-weight:600}.k b{display:block;font-size:28px;letter-spacing:-.02em;margin:2px 0}
+.k .dl{font-size:12.5px;font-weight:800}.up{color:var(--ok)}.dn{color:var(--bad)}.fl{color:var(--mut)}
+.k svg{float:right;margin-top:6px}
+.k .prog{margin-top:8px}
+.hl{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-bottom:16px}
+.hl button{text-align:left;border:1px solid var(--line);background:var(--card);border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.hl button:hover{border-color:var(--acc)}.hl i{font-style:normal;font-size:22px}.hl small{display:block;color:var(--mut)}
+.g{display:grid;gap:16px;margin-bottom:16px}.g.c2{grid-template-columns:1.4fr 1fr}.g.c3{grid-template-columns:repeat(3,1fr)}.g.e2{grid-template-columns:1fr 1fr}
+.card h3{display:flex;align-items:center;gap:8px;margin-bottom:4px}.card h3 .sp{flex:1}.card .sub{margin-bottom:12px}
+.hm{width:100%;border-collapse:separate;border-spacing:0 4px;font-size:13.5px}.hm th{background:none;border:0;padding:4px 8px}
+.hm td{padding:8px 10px;border:0;background:var(--hov)}.hm td:first-child{border-radius:10px 0 0 10px;font-weight:800}.hm td:last-child{border-radius:0 10px 10px 0}
+.hm tr.clk{cursor:pointer}.hm tr.clk:hover td{outline:0;filter:brightness(.97)}
+.c-g{background:var(--oks)!important;color:var(--ok)}.c-w{background:var(--warns)!important;color:var(--warn)}.c-r{background:var(--bads)!important;color:var(--bad)}
+.hm td b{font-weight:800}.hm td small{display:block;font-weight:600;font-size:11.5px;opacity:.85}
+.leg{display:flex;gap:12px;font-size:12.5px;color:var(--mut);margin-top:8px;flex-wrap:wrap}
+.hz{display:grid;gap:4px}.hz div{border-radius:8px;padding:8px 6px;text-align:center;font-size:12.5px;font-weight:800}.hz .h{background:none;color:var(--mut);font-weight:700;padding:2px}.hz .rl{background:none;text-align:left;color:var(--ink);padding:8px 2px}
+.bars{display:flex;flex-direction:column;gap:12px}.bars .r{display:grid;grid-template-columns:110px 1fr 70px;gap:10px;align-items:center;font-size:13.5px}.bars .t{height:12px;background:var(--hov);border:1px solid var(--line);border-radius:99px;overflow:hidden;position:relative}.bars .t i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:linear-gradient(90deg,#6c4cf1,#8b6cff)}.bars .t u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);opacity:.6}
+.fn{display:flex;flex-direction:column;gap:6px}.fn div{border-radius:10px;padding:9px 14px;color:#fff;font-weight:800;display:flex;justify-content:space-between;background:linear-gradient(90deg,#6c4cf1,#8b6cff)}
+.att2{display:flex;flex-direction:column}.att2 button{display:flex;gap:10px;align-items:center;border:0;background:none;text-align:left;padding:10px 6px;border-bottom:1px solid var(--line);border-radius:10px}.att2 button:hover{background:var(--hov)}.att2 button>span:nth-child(2){flex:1}.att2 small{display:block;color:var(--mut)}
+.qa2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.qa2 button{border:1px solid var(--line);background:var(--card);border-radius:14px;padding:14px;font-weight:800;text-align:left;display:flex;gap:10px;align-items:center}.qa2 button:hover{border-color:var(--acc);background:var(--accs)}
+.ev{display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.ev:last-child{border:0}.ev .d{width:46px;text-align:center;background:var(--accs);color:var(--acc);border-radius:12px;padding:4px;font-weight:800;line-height:1.1}.ev .d small{display:block;font-size:10.5px}
+.banner{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--blues);color:var(--blue);border-radius:14px;padding:10px 16px;margin-bottom:16px;font-weight:700}
+.lg{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mut);margin-top:6px}.lg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.ch text{font-family:inherit}
+@media(max-width:1100px){.g.c2,.g.c3,.g.e2{grid-template-columns:1fr}}
+@media(max-width:1100px){.kp{grid-template-columns:repeat(2,1fr)}}@media(max-width:520px){.kp{grid-template-columns:1fr}}.hm{min-width:820px}.card>.tw{overflow:auto}
+
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+.dn{display:flex;gap:22px;align-items:center;flex-wrap:wrap}.dn .lgd{display:flex;flex-direction:column;gap:9px}.dn .lgd span{display:flex;gap:8px;align-items:center}.dn .lgd i{width:11px;height:11px;border-radius:50%}
+.stp{display:flex;gap:6px;margin:10px 0}.stp div{flex:1;text-align:center;font-size:11.5px;font-weight:800;color:var(--mut);padding-top:8px;border-top:4px solid var(--line)}.stp .d{border-color:var(--ok);color:var(--ok)}.stp .c{border-color:var(--acc);color:var(--acc)}
+.apr{display:flex;gap:12px;align-items:center;padding:11px 4px;border-bottom:1px solid var(--line);flex-wrap:wrap}.apr:last-child{border:0}.apr .m{flex:1;min-width:210px}.apr small{display:block;color:var(--mut)}
+.num{font-variant-numeric:tabular-nums}.r{text-align:right}
+.fb{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}.fb:last-child{border:0}
+.kv2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}.kv2 div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px}.kv2 b{display:block;font-size:21px}.kv2 span{color:var(--mut);font-size:12.5px}
+@media(max-width:900px){.kp{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side" id="side"></aside>
+<div class="col">
+ <div class="top">
+  <label>View as<select id="role"><option value="fm">Finance Manager · all branches</option><option value="off">Finance Officer · single branch</option></select></label>
+  <label id="abl" hidden>Officer of<select id="abr"></select></label>
+  <div class="sp"></div>
+  <button class="btn sm" id="theme">◐ Light / Dark</button>
+  <button class="bell" id="bell" aria-label="Notifications">🔔<b id="bn">4</b></button>
+ </div>
+ <main id="main"></main>
+</div>
+</div>
+<div id="dwr"></div><dialog id="dlg"></dialog><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const toast=m=>{const d=document.createElement('div');d.textContent=m;$('#toast').appendChild(d);setTimeout(()=>d.remove(),2800)};
+const pill=(t,k='')=>`<span class="pill ${k}">${t}</span>`;
+const f1=n=>(Math.round(n*10)/10).toFixed(1),f0=n=>Math.round(n).toLocaleString('en-US'),M=n=>'Rs '+f1(n)+'M',K=n=>'Rs '+f0(n),M2=n=>'Rs '+(Math.round(n*100)/100).toFixed(2)+'M';
+const BR=[
+ {id:'lhr',n:'Lahore Main',c:'#6c4cf1',st:1240,col:8.4,tg:9.5,out:1.1,df:112,ex:1.9,bud:2.3,pay:3.1,pd:.64,sf:96,loan:.42,lq:3,cash:.34,cneed:.30,bank:3.9,ur:6,fail:2,mix:[41,27,23,9]},
+ {id:'gul',n:'Gulberg Campus',c:'#0f9d8a',st:860,col:5.9,tg:6.2,out:.3,df:64,ex:1.2,bud:1.5,pay:2.2,pd:.7,sf:64,loan:.26,lq:1,cash:.21,cneed:.18,bank:2.4,ur:3,fail:0,mix:[44,22,26,8]},
+ {id:'isb',n:'Islamabad',c:'#d98a1c',st:720,col:5.1,tg:5.0,out:0,df:31,ex:1.0,bud:1.3,pay:2.0,pd:1,sf:58,loan:.18,lq:1,cash:.15,cneed:.12,bank:2.0,ur:1,fail:0,mix:[46,18,29,7]},
+ {id:'khi',n:'Karachi',c:'#d9362b',st:610,col:3.6,tg:4.8,out:1.2,df:141,ex:.95,bud:1.0,pay:1.7,pd:.35,sf:49,loan:.31,lq:2,cash:.06,cneed:.12,bank:1.1,ur:9,fail:1,mix:[30,40,16,14]}];
+const RG={today:{n:'Today',f:.05},week:{n:'This week',f:.25},term:{n:'This term',f:1}};
+const S={role:'fm',scope:'all',range:'term',offBr:'lhr',dr:null,bell:false,rem:new Set(),sel:new Set(),rec:new Set()};
+const br=id=>BR.find(b=>b.id===id),sum=(k,l=BR)=>l.reduce((a,b)=>a+b[k],0);
+const sc=()=>S.role==='off'?S.offBr:S.scope,L=()=>sc()==='all'?BR:[br(sc())],inS=id=>sc()==='all'||sc()===id;
+const LIM=()=>S.role==='fm'?50000:20000;
+const ST={fee:v=>v>=.95?'g':v>=.85?'w':'r',df:v=>v<=5?'g':v<=10?'w':'r',out:v=>v<=.3?'g':v<=.8?'w':'r',ex:v=>v<=.9?'g':v<=1?'w':'r',pay:v=>v>=.9?'g':v>=.5?'w':'r'};
+const sx={g:'● Good',w:'▲ Watch',r:'✖ Act'},cell=(t,s,sub)=>`<td class="c-${s}"><b>${t}</b><small>${sx[s]}${sub?' · '+sub:''}</small></td>`;
+const dfp=b=>b.df/b.st*100,score=b=>[ST.fee(b.col/b.tg),ST.df(dfp(b)),ST.out(b.out),ST.ex(b.ex/b.bud),ST.pay(b.pd)].reduce((a,x)=>a+(x==='g'?2:x==='w'?1:0),0);
+let DF=[['Zain Kamran','1-A','lhr',18000,44],['Areeba Noor','4-C','gul',16000,38],['Hamid Tariq','7-B','lhr',14000,62],['Eshal Zahid','10-A','khi',12000,95],['Maha Imtiaz','1-A','khi',10000,33],['Ahmed Raza','3-A','khi',9500,71],['Sara Khan','6-B','isb',9000,28],['Bilal Hussain','8-A','lhr',8500,52],['Hira Malik','2-B','gul',8000,41],['Usman Ali','9-C','khi',7500,104],['Noor Fatima','5-A','gul',7000,36],['Daniyal Shah','Prep','isb',6500,22]].map((a,i)=>({id:i,n:a[0],c:a[1],b:a[2],amt:a[3],d:a[4]}));
+let AP=[[1,'Expense','Lab chemicals and glassware','Requested by Sana (Lab in-charge)','gul',19600,1,true],[2,'Expense','Washroom plumbing repair','Requested by Rizwan (Maintenance)','lhr',11500,2,false],[3,'Loan','Staff loan · Usman Tariq','8 months · Motorbike repair','lhr',80000,4,true],[4,'Loan','Salary advance · Rabia Khalid','2 months · Rent deposit','isb',20000,1,true],[5,'Loan','Staff loan · Farah Ahmed','12 months · Home renovation','lhr',120000,5,true],[6,'Salary adjustment','Eid bonus · 9 support staff','Rs 5,000 each','khi',45000,2,true],[7,'Expense','Generator diesel','Requested by Admin Office','khi',32000,1,true],[8,'Fee concession','Hira Malik · 25% sibling concession','Term fee Rs 24,000','isb',6000,3,true]].map(a=>({id:a[0],type:a[1],t:a[2],sub:a[3],b:a[4],amt:a[5],age:a[6],rcp:a[7],st:'pending'}));
+const blocked=a=>!a.rcp?'Needs receipt':a.amt>LIM()?'Needs '+(S.role==='fm'?'Principal':'Finance Manager'):null;
+const mine=()=>AP.filter(a=>a.st==='pending'&&!a.fw&&inS(a.b));
+const bbr=id=>br(id).n;
+/* ---------- shell ---------- */
+function side(){const it=[['📊','Dashboard',1],['💳','Fees'],['💼','Payroll'],['🧾','Expenses'],['🤝','Salary & Loans'],['🏦','Accounting'],['🧰','WorkHub']],pend=mine().length;
+ $('#side').innerHTML=`<div class="brand"><i>🎓</i><div>ILMA CMS<small>${S.role==='fm'?'Finance Manager':'Finance Officer · '+br(S.offBr).n}</small></div></div>`+it.map(x=>`<button class="nv ${x[2]?'on':''}" data-a="${x[2]?'home':'toast'}" data-i="${x[1]} opens in the full ILMA app">${x[0]} ${x[1]}${x[1]==='WorkHub'&&pend?`<b>${pend}</b>`:''}</button>`).join('')+`<button class="nv" data-a="toast" data-i="Reports & Analytics opens in the full ILMA app">📈 Reports & Analytics</button><button class="nv" data-a="toast" data-i="Settings opens in the full ILMA app">⚙️ Settings</button><div class="me"><span class="av" style="--h:${S.role==='fm'?150:30}">${S.role==='fm'?'IS':'AK'}</span><div>${S.role==='fm'?'Imran Shah':'Adnan Khalid'}<small>${S.role==='fm'?'Finance Manager · all branches':'Finance Officer · '+br(S.offBr).n}</small></div></div>`}
+function head(){const id=sc(),b=id==='all'?null:br(id);
+ const sel=S.role==='fm'?`<select id="scope" aria-label="Branch"><option value="all" ${id==='all'?'selected':''}>All branches</option>${BR.map(x=>`<option value="${x.id}" ${id===x.id?'selected':''}>${x.n}</option>`).join('')}</select>`:'';
+ return `<div class="hd"><div><h1>Finance overview</h1><p class="sub"><span class="scope">${S.role==='off'?'🔒':'👁'} Viewing: ${b?b.n:'All branches ('+BR.length+')'}</span> &nbsp;Saturday 17 October 2026 · Payday 28 Oct</p></div>${sel}<div class="seg" role="group" aria-label="Range">${Object.entries(RG).map(([k,v])=>`<button class="${S.range===k?'on':''}" data-a="range" data-i="${k}">${v.n}</button>`).join('')}</div><button class="btn" data-a="toast" data-i="Finance report PDF downloaded (demo)">⬇ Export</button></div>
+ ${S.role==='fm'&&b?`<div class="banner">🏫 You are looking at ${b.n} only. <button class="btn sm" data-a="all">← Back to all branches</button><span class="sp"></span><span style="font-weight:600">Finance Officers of this branch see exactly this view.</span></div>`:''}`}
+function V(){const l=L(),f=RG[S.range].f,col=sum('col',l)*f,tg=sum('tg',l)*f,st=sum('st',l),paid=l.reduce((a,b)=>a+b.pay*b.pd,0),pay=sum('pay',l);return{l,f,col,tg,st,out:sum('out',l),df:sum('df',l),ex:sum('ex',l),bud:sum('bud',l),pay,paid,loan:sum('loan',l),lq:sum('lq',l),cash:sum('cash',l),bank:sum('bank',l),ur:l.reduce((a,b)=>a+Math.max(0,b.ur-(S.rec.has(b.id)?b.ur:0)),0),fail:sum('fail',l)}}
+function kpi(k,l,v,d,dc,extra){return `<button class="k" data-a="drill" data-i="${k}"><span>${l}</span><b>${v}</b><span class="dl ${dc}">${d}</span>${extra||''}</button>`}
+function kpis(){const v=V(),mn=mine().filter(a=>!blocked(a)).length,oth=mine().length-mn;
+ return `<div class="kp">${[kpi('fee','Fees collected',M(v.col),`${Math.round(v.col/v.tg*100)}% of ${M(v.tg)} target`,v.col/v.tg>=.9?'up':'dn',`<div class="prog"><i style="width:${Math.min(100,v.col/v.tg*100)}%"></i></div>`),
+ kpi('out','Outstanding fees',M(v.out),`${Math.round(v.out/(v.tg||1)*100)}% of target still unpaid`,v.out>.8?'dn':'fl'),
+ kpi('df','Families overdue',f0(v.df),`${f1(v.df/v.st*100)}% of ${f0(v.st)} families`,v.df/v.st*100>10?'dn':'fl'),
+ kpi('exp','Expenses this month',M(v.ex),`${Math.round(v.ex/v.bud*100)}% of ${M(v.bud)} budget`,v.ex/v.bud>1?'dn':'fl',`<div class="prog"><i style="width:${Math.min(100,v.ex/v.bud*100)}%"></i></div>`),
+ kpi('pay','Payroll paid',Math.round(v.paid/v.pay*100)+'%',`${M(v.paid)} of ${M(v.pay)} · payday in 11 days`,v.paid/v.pay>=.5?'up':'dn',`<div class="prog"><i style="width:${v.paid/v.pay*100}%"></i></div>`),
+ kpi('loans','Staff loans outstanding',M2(v.loan),`${v.lq} request${v.lq===1?'':'s'} pending`,'fl'),
+ kpi('cash','Cash and bank',M(v.cash+v.bank),`${v.ur} unreconciled entr${v.ur===1?'y':'ies'}`,v.ur>5?'dn':'fl'),
+ kpi('ap','Awaiting your approval',mn,oth?`${oth} more need ${S.role==='fm'?'the Principal':'the Finance Manager'}`:'Nothing else pending',mn?'dn':'up')].join('')}</div>`}
+function heads(){const id=sc(),l=L();let a;
+ if(id==='all'){const w=[...BR].sort((x,y)=>x.col/x.tg-y.col/y.tg)[0],t=sum('col')/sum('tg');a=[['💰',`Fee recovery is ${Math.round(t*100)}% network-wide`,`${w.n} is ${M(w.tg-w.col)} behind target.`,'fee'],['💼',`Payroll is ${Math.round(V().paid/V().pay*100)}% paid`,'Karachi still has the most to pay out.','pay'],['💵','Karachi cash may fall short for payroll',`Needs ${M2(br('khi').cneed)}, has ${M2(br('khi').cash)}.`,'cash']]}
+ else{const b=br(id);a=[[b.col>=b.tg?'✅':'💰',`Recovery is ${Math.round(b.col/b.tg*100)}% of target`,b.col<b.tg?`${M(b.tg-b.col)} still to collect.`:'Target exceeded.','fee'],['📋',`${b.df} families have overdue fees`,`${M(b.out)} outstanding.`,'df'],[b.cash>=b.cneed?'💵':'⚠️',b.cash>=b.cneed?'Cash covers this month\'s cash payouts':'Cash is short for payroll',`Needs ${M2(b.cneed)}, has ${M2(b.cash)}.`,'cash']]}
+ return `<div class="hl">${a.map(x=>`<button data-a="drill" data-i="${x[3]}"><i>${x[0]}</i><span><b>${x[1]}</b><small>${x[2]}</small></span></button>`).join('')}</div>`}
+function heat(){const rows=[...BR].sort((a,b)=>score(b)-score(a)),pst=b=>b.pd>=1?'Completed':b.pd>0?'Paying':'Approved';
+ return `<div class="card"><h3>Branch finance health</h3><p class="sub">Every branch against the same finance targets. Click a row to open that branch.</p><div class="tw" style="border:0"><table class="hm"><thead><tr><th>#</th><th>Branch</th><th>Collected</th><th>Target</th><th>Recovery</th><th>Families overdue</th><th>Outstanding</th><th>Expenses vs budget</th><th>Payroll paid</th><th>Overall</th></tr></thead><tbody>${rows.map((b,i)=>{const o=score(b),os=o>=8?'g':o>=5?'w':'r';return `<tr class="clk" data-a="${S.role==='fm'?'branch':'toast'}" data-i="${S.role==='fm'?b.id:'Branch comparison is for the Finance Manager'}"><td>${i+1}</td><td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${b.c};margin-right:8px"></span><b>${b.n}</b></td><td><b>${M(b.col)}</b></td><td><b>${M(b.tg)}</b></td>${cell(Math.round(b.col/b.tg*100)+'%',ST.fee(b.col/b.tg))}${cell(b.df,ST.df(dfp(b)),f0(dfp(b))+'% of families')}<td><b>${M(b.out)}</b></td>${cell(Math.round(b.ex/b.bud*100)+'%',ST.ex(b.ex/b.bud))}${cell(Math.round(b.pd*100)+'%',ST.pay(b.pd),pst(b))}<td class="c-${os}"><b>${o}/10</b><small>${sx[os]}</small></td></tr>`}).join('')}</tbody></table></div><div class="leg"><span>● Good = on target</span><span>▲ Watch = close to target</span><span>✖ Act = needs help</span><span>Colour is always paired with a label.</span></div></div>`}
+const CL=['Nursery','Prep','1-A','2-B','3-A','4-C','5-A','6-B','7-B','8-A','9-C','10-A'];
+const cls=b=>CL.map((c,i)=>{const n=26+((i*7+b.st)%12),rec=Math.max(.62,Math.min(1.03,b.col/b.tg+Math.sin(i*2.1+b.st)*.07-(b.id==='khi'&&i>7?.06:0))),due=n*2400;return{c,n,due,col:due*rec,rec,df:Math.round(n*Math.max(0,1-rec)*1.4)}});
+function classView(){const b=br(sc());return `<div class="card"><h3>Collection by class · ${b.n}</h3><p class="sub">Same targets, class by class. Click a row to see the families.</p><div class="tw" style="border:0"><table class="hm"><thead><tr><th>Class</th><th>Students</th><th>Due</th><th>Collected</th><th>Recovery</th><th>Families overdue</th></tr></thead><tbody>${cls(b).map(x=>`<tr class="clk" data-a="drill" data-i="df"><td>${x.c}</td><td><b>${x.n}</b></td><td><b>${K(x.due)}</b></td><td><b>${K(x.col)}</b></td>${cell(Math.round(x.rec*100)+'%',ST.fee(x.rec))}${cell(x.df,x.df<=1?'g':x.df<=3?'w':'r')}</tr>`).join('')}</tbody></table></div></div>`}
+function attention(){const id=sc(),it=[];
+ L().forEach(b=>{const tag=id==='all'?pill(b.n.split(' ')[0],'acc'):'';
+  if(ST.fee(b.col/b.tg)==='r')it.push([3,'💰',`Fee recovery ${Math.round(b.col/b.tg*100)}% is below 85%`,`${M(b.tg-b.col)} behind target`,tag,'fee',b.id]);
+  if(ST.df(dfp(b))==='r')it.push([3,'💳',`${b.df} families overdue on fees`,'Send reminders',tag,'df',b.id]);
+  if(b.cash<b.cneed)it.push([3,'💵',`Cash short for payroll by ${M2(b.cneed-b.cash)}`,'Top up the drawer or switch to online',tag,'cash',b.id]);
+  if(b.fail)it.push([2,'⚠️',`${b.fail} online salary transfer${b.fail>1?'s':''} failed`,'Retry from Payroll',tag,'pay',b.id]);
+  if(ST.ex(b.ex/b.bud)!=='g')it.push([1,'🧾',`Expenses at ${Math.round(b.ex/b.bud*100)}% of budget`,'Review spending',tag,'exp',b.id]);
+  if(b.ur-(S.rec.has(b.id)?b.ur:0)>5)it.push([1,'🏦',`${b.ur} bank entries not reconciled`,'Reconcile',tag,'cash',b.id])});
+ const m=mine().filter(a=>!blocked(a));if(m.length)it.push([2,'🧾',`${m.length} approval${m.length>1?'s':''} waiting for you`,'Review',id==='all'?'':'','ap',id]);
+ it.sort((a,b)=>b[0]-a[0]);
+ return `<div class="card"><h3>Needs attention <span class="sp"></span>${pill(it.length,it.length?'bad':'ok')}</h3><p class="sub">Most urgent first. Each row opens the fix.</p><div class="att2">${it.slice(0,7).map(x=>`<button data-a="drill" data-i="${x[5]}"><span style="font-size:20px">${x[1]}</span><span><b>${x[2]}</b><small>${x[3]}</small></span>${x[4]}<span>${pill(x[0]===3?'Urgent':x[0]===2?'Soon':'Watch',x[0]===3?'bad':x[0]===2?'warn':'blue')}</span></button>`).join('')||'<div class="empty">All clear. Nothing needs attention.</div>'}</div></div>`}
+function monthly(){const l=L(),tg=sum('tg',l),col=sum('col',l),D0=[2.1,2.2,2.1,2.05,2.05,2.15,2.1,2.05,2.15,2.1,2.15,2.05],C0=[1.78,2.02,2.06,1.9,1.88,2.08,2.0,1.86,2.04,2.02,1.9,1.86],sd=D0.reduce((a,b)=>a+b),sc_=C0.reduce((a,b)=>a+b);
+ const due=D0.map(v=>v*tg/sd),cl=C0.map(v=>v*col/sc_),mo=['Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'],W=640,H=250,Lm=46,B=28,T=12,mx=Math.ceil(Math.max(...due)*1.15*5)/5,x=i=>Lm+i*((W-Lm-8)/12),bw=(W-Lm-8)/12*.62,y=v=>T+(1-v/mx)*(H-T-B);
+ let s=`<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Collected versus due by month">`;
+ for(let i=0;i<=4;i++){const v=mx*i/4;s+=`<line x1="${Lm}" x2="${W-8}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${Lm-8}" y="${y(v)+4}" text-anchor="end" font-size="11" fill="var(--mut)">${f1(v)}M</text>`}
+ mo.forEach((m,i)=>{s+=`<rect x="${x(i)+4}" y="${y(due[i])}" width="${bw}" height="${H-B-y(due[i])}" rx="4" fill="var(--hov)" stroke="var(--line)"/><rect x="${x(i)+4}" y="${y(cl[i])}" width="${bw*.8}" height="${H-B-y(cl[i])}" rx="4" fill="${cl[i]/due[i]<.88?'#d9362b':'#6c4cf1'}"><title>${m}: ${M2(cl[i])} of ${M2(due[i])}</title></rect><text x="${x(i)+4+bw/2}" y="${H-9}" text-anchor="middle" font-size="11" fill="var(--mut)">${m}</text>`});
+ return `<div class="card"><h3>Collected vs due by month</h3><p class="sub">Colour bar is collected, grey is due. Red months recovered under 88%.</p>${s}</svg></div>`}
+function donut(){const v=V(),l=v.l,w=l.map(b=>b.col),t=w.reduce((a,b)=>a+b,0),mix=[0,1,2,3].map(i=>l.reduce((a,b,j)=>a+b.mix[i]*w[j],0)/t),nm=['Bank transfer','Cash at school','Mobile wallet','Cheque'],cl=['#6c4cf1','#3f9d8a','#d98a1c','#8a8fb8'];let off=0,R_=50,C=2*Math.PI*R_;
+ const arcs=mix.map((p,i)=>{const d=`<circle r="${R_}" cx="70" cy="70" fill="none" stroke="${cl[i]}" stroke-width="22" stroke-dasharray="${C*p/100} ${C}" stroke-dashoffset="${-C*off/100}" transform="rotate(-90 70 70)"/>`;off+=p;return d}).join('');
+ return `<div class="card"><h3>How families pay</h3><p class="sub">Share of payments by method.</p><div class="dn"><svg width="150" height="150" viewBox="0 0 140 140" role="img" aria-label="Payment methods">${arcs}<text x="70" y="68" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)">${M(v.col)}</text><text x="70" y="84" text-anchor="middle" font-size="10" fill="var(--mut)">collected</text></svg><div class="lgd">${mix.map((p,i)=>`<span><i style="background:${cl[i]}"></i>${nm[i]} <b>${Math.round(p)}%</b></span>`).join('')}</div></div></div>`}
+function bars(rows,fmt){return `<div class="bars">${rows.map(r=>`<div class="r"><span>${esc(r[0])}</span><div class="t"><i style="width:${Math.min(100,r[1]/r[3]*100)}%;${r[4]?'background:'+r[4]:''}"></i>${r[2]!=null?`<u style="left:${Math.min(100,r[2]/r[3]*100)}%"></u>`:''}</div><b>${fmt(r[1])}</b></div>`).join('')}</div>`}
+const AG=[.46,.27,.15,.12],AGN=['0 to 30 days','31 to 60 days','61 to 90 days','Over 90 days'];
+function aging(){const o=V().out;return `<div class="card"><h3>Overdue by age</h3><p class="sub">Outstanding fees grouped by how late they are.</p>${bars(AG.map((p,i)=>[AGN[i],o*p,null,Math.max(o*.5,.01),i>1?'linear-gradient(90deg,#d9362b,#ff7a6e)':'']),M2)}<p class="sub" style="margin-top:12px">Total outstanding <b>${M2(o)}</b>. Click Families overdue above to send reminders.</p></div>`}
+const dfl=()=>DF.filter(d=>inS(d.b)).sort((a,b)=>b.amt-a.amt);
+function defaulters(n){return `<div class="card"><h3>Top defaulters <span class="sp"></span><button class="btn sm" data-a="drill" data-i="df">View all</button></h3><p class="sub">Largest overdue balances.</p><div class="tw"><table><thead><tr><th>Student</th><th>Class</th><th>Overdue</th><th></th></tr></thead><tbody>${dfl().slice(0,n||5).map(d=>`<tr><td><b>${esc(d.n)}</b>${sc()==='all'?`<small>${bbr(d.b)}</small>`:''}</td><td>${d.c}</td><td class="num">${K(d.amt)}</td><td class="r"><button class="btn sm" data-a="remind" data-i="${d.id}" ${S.rem.has(d.id)?'disabled':''}>${S.rem.has(d.id)?'Reminded':'Remind'}</button></td></tr>`).join('')||'<tr><td colspan="4"><div class="empty">No defaulters</div></td></tr>'}</tbody></table></div></div>`}
+const EC=[['Salaries & loans',.0],['Utilities',.0],['Facilities',.0],['Stock & supplies',.0],['Transport',.0]],EW=[[.30,.34],[.22,.24],[.20,.18],[.15,.14],[.13,.10]];
+function expenses(){const v=V();return `<div class="card"><h3>Expenses vs budget <span class="sp"></span>${pill(Math.round(v.ex/v.bud*100)+'% used',ST.ex(v.ex/v.bud)==='g'?'ok':ST.ex(v.ex/v.bud)==='w'?'warn':'bad')}</h3><p class="sub">This month by category. The line marks the budget.</p>${bars(EC.map((c,i)=>{const sp_=v.ex*EW[i][1]/ EW.reduce((a,x)=>a+x[1],0),bg=v.bud*EW[i][0]/EW.reduce((a,x)=>a+x[0],0);return[c[0],sp_,bg,Math.max(sp_,bg)*1.15,sp_>bg?'linear-gradient(90deg,#d9362b,#ff7a6e)':'']}),M2)}<div class="row" style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">${pill(M2(v.ex)+' spent','acc')}${pill(M2(v.bud-v.ex)+' left',v.bud>v.ex?'ok':'bad')}</div></div>`}
+function payroll(){const v=V(),st=['Draft','Reviewed','Approved','Paying','Completed'],cur=v.paid/v.pay>=.999?4:3;return `<div class="card"><h3>October payroll <span class="sp"></span>${pill(st[cur],cur===4?'ok':'blue')}</h3><p class="sub">Salaries and wages for all staff. Payday 28 Oct.</p><div class="stp">${st.map((s,i)=>`<div class="${i<cur?'d':i===cur?'c':''}">${s}</div>`).join('')}</div><div class="fb"><span>Net payable</span><b>${M(v.pay)}</b></div><div class="fb"><span>Paid so far</span><b>${M(v.paid)} · ${Math.round(v.paid/v.pay*100)}%</b></div><div class="fb"><span>Still to pay</span><b>${M(v.pay-v.paid)}</b></div>${v.fail?`<div class="fb"><span>Failed online transfers</span><b style="color:var(--bad)">${v.fail}</b></div>`:''}<div class="row" style="margin-top:12px;display:flex;gap:8px"><button class="btn sm p" data-a="drill" data-i="pay">Payroll by branch</button><button class="btn sm" data-a="toast" data-i="Payroll opens in the full ILMA app">Open Payroll</button></div></div>`}
+function loansCard(){const v=V();return `<div class="card"><h3>Staff loans <span class="sp"></span>${pill(v.lq+' pending',v.lq?'warn':'ok')}</h3><p class="sub">Advances and loans paid out to staff.</p><div class="fb"><span>Outstanding balance</span><b>${M2(v.loan)}</b></div><div class="fb"><span>Recovered this month</span><b>${M2(v.loan*.08)}</b></div><div class="fb"><span>Instalments missed</span><b style="color:var(--warn)">${sc()==='all'?3:Math.max(0,Math.round(v.loan*4))}</b></div><div class="fb"><span>Resigning with a balance</span><b>${sc()==='all'||sc()==='lhr'?1:0}</b></div><div class="row" style="margin-top:12px;display:flex;gap:8px"><button class="btn sm p" data-a="drill" data-i="ap">Review requests</button><button class="btn sm" data-a="drill" data-i="loans">Loans by branch</button></div></div>`}
+function cashCard(){const v=V();return `<div class="card"><h3>Cash and bank <span class="sp"></span>${pill(v.ur+' to reconcile',v.ur>5?'bad':v.ur?'warn':'ok')}</h3><p class="sub">Where the money sits today.</p><div class="fb"><span>Cash in school drawers</span><b>${M2(v.cash)}</b></div><div class="fb"><span>Bank accounts</span><b>${M2(v.bank)}</b></div><div class="fb"><span>Needed for cash payouts</span><b>${M2(sum('cneed',v.l))}</b></div><div class="fb"><span>Cash cover</span><b>${v.cash>=sum('cneed',v.l)?pill('Covered','ok'):pill('Short '+M2(sum('cneed',v.l)-v.cash),'bad')}</b></div><div class="row" style="margin-top:12px;display:flex;gap:8px"><button class="btn sm p" data-a="drill" data-i="cash">Open accounts</button></div></div>`}
+function apprCard(){const l=mine();return `<div class="card"><h3>Approvals <span class="sp"></span>${pill(l.filter(a=>!blocked(a)).length+' for you','warn')}</h3><p class="sub">Expenses, loans, adjustments and concessions. You approve up to ${K(LIM())}.</p>${l.slice(0,5).map(apRow).join('')||'<div class="empty">🎉 You are all caught up.</div>'}${l.length>5?`<button class="btn sm" style="margin-top:8px" data-a="drill" data-i="ap">View all ${l.length}</button>`:''}</div>`}
+function apRow(a){const bl=blocked(a),ic={Expense:'🧾',Loan:'🤝','Salary adjustment':'💼','Fee concession':'🎟️'}[a.type];return `<div class="apr"><span style="font-size:22px">${ic}</span><div class="m"><b>${esc(a.t)}</b><small>${esc(a.sub)} · ${bbr(a.b)} · ${a.age} day${a.age>1?'s':''} ago</small></div><b class="num">${K(a.amt)}</b>${bl?`${pill(bl,bl==='Needs receipt'?'warn':'blue')}${bl!=='Needs receipt'?`<button class="btn sm" data-a="fwd" data-i="${a.id}">Send up</button>`:''}`:`<button class="btn sm ok" data-a="approve" data-i="${a.id}">Approve</button><button class="btn sm bad" data-a="reject" data-i="${a.id}">Reject</button>`}</div>`}
+function events(){return `<div class="card"><h3>Coming up</h3><p class="sub">Finance calendar, next 2 weeks</p>${[['20','Oct','Term 2 fee vouchers generated','All branches'],['24','Oct','Utility bills due','Lahore, Gulberg'],['28','Oct','Payday: October salaries','All staff'],['01','Nov','Building rent due','Lahore Main']].map(e=>`<div class="ev"><div class="d">${e[0]}<small>${e[1]}</small></div><div><b>${e[2]}</b><div class="sub" style="margin:0">${e[3]}</div></div></div>`).join('')}</div>`}
+function quick(){const a=[['💳','Collect a fee'],['🧾','Generate vouchers'],['➕','Record expense'],['💼','Prepare payroll'],['🏦','Reconcile bank'],['📄','Finance report']];return `<div class="card"><h3>Quick actions</h3><div class="qa2" style="margin-top:10px">${a.map(x=>`<button data-a="toast" data-i="${x[1]} opens here"><span style="font-size:20px">${x[0]}</span>${x[1]}</button>`).join('')}</div></div>`}
+function view(){return head()+heads()+kpis()+`<div class="g">${sc()==='all'?heat():classView()}</div><div class="g c2">${attention()}${apprCard()}</div><div class="g c2">${monthly()}${donut()}</div><div class="g e2">${aging()}${defaulters()}</div><div class="g c3">${expenses()}${payroll()}${loansCard()}</div><div class="g c2">${cashCard()}${events()}</div>${quick()}`}
+/* ---------- drawer ---------- */
+function drawer(){const k=S.dr;if(!k){$('#dwr').innerHTML='';return}const v=V(),T={fee:['💰','Fees collected'],out:['📉','Outstanding fees'],df:['💳','Families overdue'],exp:['🧾','Expenses'],pay:['💼','Payroll'],loans:['🤝','Staff loans'],cash:['🏦','Cash and bank'],ap:['✅','Approvals']}[k];let b='';
+ if(k==='fee')b=`<div class="kv2"><div><b>${M(v.col)}</b><span>Collected</span></div><div><b>${M(v.tg)}</b><span>Target</span></div><div><b>${Math.round(v.col/v.tg*100)}%</b><span>Recovery</span></div><div><b>${M(Math.max(0,v.tg-v.col))}</b><span>Left to collect</span></div></div><div class="tw"><table><thead><tr><th>Branch</th><th>Collected</th><th>Target</th><th>Recovery</th><th>Outstanding</th></tr></thead><tbody>${v.l.map(x=>`<tr><td><b>${x.n}</b></td><td class="num">${M(x.col*v.f)}</td><td class="num">${M(x.tg*v.f)}</td>${cell(Math.round(x.col/x.tg*100)+'%',ST.fee(x.col/x.tg))}<td class="num">${M(x.out)}</td></tr>`).join('')}</tbody></table></div>`;
+ if(k==='out')b=`<div class="kv2"><div><b>${M2(v.out)}</b><span>Outstanding</span></div><div><b>${v.df}</b><span>Families</span></div></div><div class="card" style="margin-bottom:14px">${bars(AG.map((p,i)=>[AGN[i],v.out*p,null,Math.max(v.out*.5,.01),i>1?'linear-gradient(90deg,#d9362b,#ff7a6e)':'']),M2)}</div>${defaulters(8)}`;
+ if(k==='df'){const l=dfl();b=`<div class="qa"><button class="btn p sm" data-a="remSel" ${S.sel.size?'':'disabled'}>Remind selected (${S.sel.size})</button><button class="btn sm" data-a="remAll">Remind everyone over 30 days</button></div><div class="tw"><table><thead><tr><th></th><th>Student</th><th>Class</th><th>Overdue</th><th>Days late</th><th></th></tr></thead><tbody>${l.map(d=>`<tr><td><input class="cb" type="checkbox" data-a="sel" data-i="${d.id}" aria-label="Select ${esc(d.n)}" ${S.sel.has(d.id)?'checked':''}></td><td><b>${esc(d.n)}</b>${sc()==='all'?`<small>${bbr(d.b)}</small>`:''}</td><td>${d.c}</td><td class="num">${K(d.amt)}</td><td>${pill(d.d+' d',d.d>60?'bad':d.d>30?'warn':'')}</td><td class="r"><button class="btn sm" data-a="remind" data-i="${d.id}" ${S.rem.has(d.id)?'disabled':''}>${S.rem.has(d.id)?'Reminded':'Remind'}</button></td></tr>`).join('')}</tbody></table></div>`}
+ if(k==='exp')b=expenses()+`<div class="tw" style="margin-top:14px"><table><thead><tr><th>Recent expenses</th><th>Branch</th><th>Amount</th><th>Status</th></tr></thead><tbody>${[['K-Electric bill','lhr',132000,'Paid'],['Stationery for exam week','gul',24500,'Paid'],['Bus 4 brake service','lhr',18000,'Approved'],['Generator diesel','khi',32000,'Pending'],['Plumbing repair','lhr',11500,'Pending']].filter(x=>inS(x[1])).map(x=>`<tr><td><b>${x[0]}</b></td><td>${bbr(x[1])}</td><td class="num">${K(x[2])}</td><td>${pill(x[3],x[3]==='Paid'?'ok':x[3]==='Pending'?'warn':'blue')}</td></tr>`).join('')}</tbody></table></div>`;
+ if(k==='pay')b=`<div class="kv2"><div><b>${M(v.pay)}</b><span>Net payable</span></div><div><b>${M(v.paid)}</b><span>Paid</span></div><div><b>${M(v.pay-v.paid)}</b><span>To pay</span></div></div><div class="tw"><table><thead><tr><th>Branch</th><th>Staff</th><th>Net payable</th><th>Paid</th><th>Failed</th></tr></thead><tbody>${v.l.map(x=>`<tr><td><b>${x.n}</b></td><td>${x.sf}</td><td class="num">${M(x.pay)}</td>${cell(Math.round(x.pd*100)+'%',ST.pay(x.pd))}<td>${x.fail?pill(x.fail+' failed','bad'):'—'}</td></tr>`).join('')}</tbody></table></div>`;
+ if(k==='loans')b=`<div class="tw"><table><thead><tr><th>Branch</th><th>Outstanding</th><th>Pending requests</th></tr></thead><tbody>${v.l.map(x=>`<tr><td><b>${x.n}</b></td><td class="num">${M2(x.loan)}</td><td>${x.lq?pill(x.lq+' pending','warn'):'—'}</td></tr>`).join('')}</tbody></table></div><div style="margin-top:14px"><button class="btn p" data-a="drill" data-i="ap">Review loan requests</button></div>`;
+ if(k==='cash')b=`<div class="kv2"><div><b>${M2(v.cash)}</b><span>Cash in drawers</span></div><div><b>${M2(v.bank)}</b><span>In bank</span></div><div><b>${v.ur}</b><span>To reconcile</span></div></div><div class="tw"><table><thead><tr><th>Branch</th><th>Cash</th><th>Cash needed</th><th>Bank</th><th>Reconcile</th></tr></thead><tbody>${v.l.map(x=>{const r=S.rec.has(x.id);return`<tr><td><b>${x.n}</b></td><td class="num">${M2(x.cash)}</td>${cell(M2(x.cneed),x.cash>=x.cneed?'g':'r',x.cash>=x.cneed?'covered':'short')}<td class="num">${M2(x.bank)}</td><td>${r||!x.ur?pill('Reconciled','ok'):`<button class="btn sm" data-a="recon" data-i="${x.id}">Mark ${x.ur} reconciled</button>`}</td></tr>`}).join('')}</tbody></table></div>`;
+ if(k==='ap'){const l=AP.filter(a=>inS(a.b));b=`<div class="card">${l.map(a=>a.st==='pending'&&!a.fw?apRow(a):`<div class="apr"><span style="font-size:22px">${{Expense:'🧾',Loan:'🤝','Salary adjustment':'💼','Fee concession':'🎟️'}[a.type]}</span><div class="m"><b>${esc(a.t)}</b><small>${esc(a.sub)} · ${bbr(a.b)}</small></div><b class="num">${K(a.amt)}</b>${pill(a.fw?'With '+(S.role==='fm'?'Principal':'Finance Manager'):a.st==='approved'?'Approved':'Rejected',a.st==='rejected'?'bad':a.fw?'blue':'ok')}</div>`).join('')||'<div class="empty">Nothing here.</div>'}</div>`}
+ $('#dwr').innerHTML=`<div class="scrim" data-a="close"></div><aside class="drawer" role="dialog" aria-modal="true" aria-label="${T[1]}"><div class="dhd"><h2><span>${T[0]}</span> ${T[1]} ${pill(sc()==='all'?'All branches':br(sc()).n,'acc')}</h2><button class="btn sm" data-a="toast" data-i="Exported (demo)">⬇ Export</button><button class="btn sm" data-a="close">✕ Close</button></div><div class="dbd">${b}</div></aside>`}
+function bellPop(){const el=$('#bellpop');if(el)el.remove();if(!S.bell)return;const d=document.createElement('div');d.className='pop';d.id='bellpop';d.innerHTML=`<h4>Finance notifications</h4>${[['💳','2 fee payments failed online','Easypaisa gateway timeout'],['⚠️','Salary transfer failed (Lahore)','Retry from Payroll'],['🤝','Loan request waiting 5 days','Farah Ahmed · Rs 120,000'],['🏦','Bank statement imported','14 entries to reconcile']].map(x=>`<button class="ni" data-a="toast" data-i="${x[1]}">${x[0]} <b>${x[1]}</b><small>${x[2]}</small></button>`).join('')}`;document.body.appendChild(d)}
+function render(){side();$('#main').innerHTML=view();drawer();$('#role').value=S.role;$('#abl').hidden=S.role!=='off';$('#abr').innerHTML=BR.map(b=>`<option value="${b.id}" ${S.offBr===b.id?'selected':''}>${b.n}</option>`).join('');bellPop();$('#bn').textContent=4}
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(S.bell&&!e.target.closest('.pop')&&!e.target.closest('#bell')){S.bell=false;bellPop()}if(!t)return;const a=t.dataset.a,i=t.dataset.i;
+ if(a==='toast')toast(i);
+ if(a==='home'){S.dr=null;render();scrollTo(0,0)}
+ if(a==='range'){S.range=i;render()}
+ if(a==='all'){S.scope='all';render()}
+ if(a==='branch'){S.scope=i;render();scrollTo(0,0)}
+ if(a==='drill'){S.dr=i;S.sel.clear();render()}
+ if(a==='close'){S.dr=null;render()}
+ if(a==='remind'){S.rem.add(+i);toast('Reminder sent to '+DF[+i].n+"'s family");render()}
+ if(a==='sel'){t.checked?S.sel.add(+i):S.sel.delete(+i);render()}
+ if(a==='remSel'){S.sel.forEach(x=>S.rem.add(x));toast(S.sel.size+' reminders sent');S.sel.clear();render()}
+ if(a==='remAll'){const l=dfl().filter(d=>d.d>30);l.forEach(d=>S.rem.add(d.id));toast(l.length+' reminders sent to families over 30 days late');render()}
+ if(a==='recon'){S.rec.add(i);toast(br(i).n+': bank entries reconciled');render()}
+ if(a==='approve'){const x=AP.find(y=>y.id===+i);x.st='approved';toast('Approved: '+x.t);render()}
+ if(a==='fwd'){const x=AP.find(y=>y.id===+i);x.fw=true;toast('Sent to '+(S.role==='fm'?'the Principal':'the Finance Manager')+' for approval');render()}
+ if(a==='reject'){const x=AP.find(y=>y.id===+i),d=$('#dlg');d.innerHTML=`<div class="mh"><h3>Reject: ${esc(x.t)}</h3><button data-a="dx" aria-label="Close">✕</button></div><div class="mb"><label class="fld">Reason (the requester will see this)<input class="in" id="rr" placeholder="e.g. Please attach a quotation"></label><div id="re" style="color:var(--bad);font-weight:700"></div></div><div class="mf"><button class="btn" data-a="dx">Cancel</button><button class="btn bad" data-a="rok" data-i="${x.id}">Reject</button></div>`;d.showModal()}
+ if(a==='dx')$('#dlg').close();
+ if(a==='rok'){if(($('#rr').value||'').trim().length<3){$('#re').textContent='A reason is required.';return}const x=AP.find(y=>y.id===+i);x.st='rejected';$('#dlg').close();toast('Rejected: '+x.t);render()}
+});
+document.addEventListener('change',e=>{const t=e.target;if(t.id==='scope'){S.scope=t.value;render()}if(t.id==='role'){S.role=t.value;S.dr=null;render();toast(S.role==='fm'?'Viewing as Finance Manager':'Viewing as Finance Officer of '+br(S.offBr).n+'. You approve up to '+K(LIM())+'.')}if(t.id==='abr'){S.offBr=t.value;render()}});
+$('#theme').onclick=()=>{const r=document.documentElement,d=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=d?'light':'dark'};
+$('#bell').onclick=e=>{e.stopPropagation();S.bell=!S.bell;bellPop()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.dr){S.dr=null;render()}});
+render();
+</script>
+</body>
+</html>

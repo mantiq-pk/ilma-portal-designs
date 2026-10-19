@@ -1,0 +1,615 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>ILMA Admissions Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap">
+<style>
+/* Layout: same as the existing board. Indigo sidebar, stage columns, slide-over profile. Single light look, as in the source page. */
+:root{--ink:#1B1D3A;--mut:#4A4F6E;--line:#E3E5F2;--line2:#D5D8EA;--acc:#5B4BD6;--accbg:#ECE9FC;--accfg:#4838B8;--dark:#1B1740;--bg:#F4F5FB;--col:#E9EBF5;--ok:#146B47;--okbg:#DDF3E8;--warn:#7A4B00;--warnbg:#FDECC8;--bad:#8A1C12;--badbg:#FADBD8;--chip:#EEF0F6}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:var(--bg);font-size:14px;line-height:1.45}
+button{font-family:inherit;cursor:pointer;border:0;background:none;padding:0;color:inherit;text-align:left;font-size:inherit}
+button:disabled{cursor:not-allowed}
+input,select,textarea{font:inherit;color:var(--ink)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,[role=button]:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.board::-webkit-scrollbar{height:10px}.board::-webkit-scrollbar-thumb{background:#C9CCE0;border-radius:6px}
+.shell{display:flex;flex-wrap:wrap;min-height:100vh}
+.nav{flex:0 0 232px;background:var(--dark);color:#C9C6EE;padding:22px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.nv{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;font-size:14px;font-weight:500;width:100%}
+.nv.on{font-weight:700;background:rgba(255,255,255,.12);color:#fff}
+.nv:hover{background:rgba(255,255,255,.07)}
+main{flex:999 1 560px;min-width:0;padding:28px;display:flex;flex-direction:column;gap:18px}
+.b{display:inline-flex;align-items:center;gap:8px;padding:10px 15px;border-radius:10px;background:#fff;border:1px solid var(--line2);font-size:14px;font-weight:600;white-space:nowrap}
+.b:hover{border-color:var(--acc)}
+.b.p{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
+.b.d{background:var(--dark);border-color:var(--dark);color:#fff;font-weight:700}
+.b.g{background:#146B47;border-color:#146B47;color:#fff;font-weight:700}
+.b.r{color:var(--bad);border-color:#E0A9A2;font-weight:700}
+.b.s{padding:6px 11px;font-size:13px;border-radius:8px}
+.b:disabled{opacity:.5}
+.in{border:1px solid var(--line2);border-radius:10px;padding:0 12px;height:40px;background:#fff;min-width:0;font-size:14px}
+textarea.in{height:auto;padding:10px 12px;resize:vertical}
+.chip{padding:9px 14px;border-radius:20px;font-size:13px;font-weight:700;border:1px solid var(--line2);background:#fff;color:#3E4466}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.seg{display:flex;background:#E8EAF4;border-radius:12px;padding:4px;gap:2px;flex-wrap:wrap}
+.seg button{padding:9px 16px;border-radius:9px;font-size:14px;font-weight:700;color:#3E4466}
+.seg button.on{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(30,24,90,.18)}
+.tile{background:#fff;border-radius:14px;padding:16px 18px;border:1px solid var(--line);display:block;width:100%}
+button.tile:hover{border-color:var(--acc)}
+.tile .l{font-size:13px;color:var(--mut);font-weight:600}.tile .v{font-size:26px;font-weight:800;margin-top:4px}.tile .s{font-size:12px;color:var(--mut);margin-top:2px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:14px}
+.card{display:block;width:100%;background:#fff;border-radius:14px;padding:14px;border:1.5px solid var(--line);box-shadow:0 1px 3px rgba(30,24,90,.06);transition:box-shadow .15s,transform .15s;cursor:pointer}
+.card:hover{box-shadow:0 6px 18px rgba(40,34,110,.14);transform:translateY(-1px)}
+.card.on{border-color:var(--acc)}
+.pillx{display:inline-block;font-size:12px;font-weight:700;border-radius:20px;padding:3px 10px;white-space:nowrap}
+.tg{font-size:12px;font-weight:600;border-radius:6px;padding:3px 8px;background:var(--chip);color:#3E4466;white-space:nowrap}
+.tg.acc{background:var(--accbg);color:var(--accfg)}
+.tg.cat{background:#E6F2F8;color:#1B5673}
+.pop{position:absolute;z-index:6;background:#fff;border:1px solid var(--line2);border-radius:12px;box-shadow:0 12px 30px rgba(30,24,90,.16);padding:8px;min-width:220px;display:flex;flex-direction:column;gap:2px}
+.pop .it{padding:9px 12px;border-radius:8px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:8px;width:100%}
+.pop .it:hover{background:#F4F5FB}
+.back{position:fixed;inset:0;z-index:5}
+.ov{position:fixed;inset:0;background:rgba(20,16,60,.5);z-index:40;display:flex;align-items:center;justify-content:center;padding:16px}
+.dlg{background:#fff;border-radius:18px;width:min(520px,100%);max-height:100%;overflow-y:auto;padding:24px;box-shadow:0 24px 60px rgba(20,16,60,.35)}
+.dlg.w{width:min(860px,100%)}.dlg.x{width:min(980px,100%)}
+.dlg h2{margin:0;font-size:20px;font-weight:800}
+.lab{font-size:13px;font-weight:700;margin:16px 0 6px}
+.fld{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:700;min-width:0}
+.fld .in{font-weight:500;width:100%}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 14px}
+.opt{padding:10px 16px;border-radius:10px;font-size:14px;font-weight:700;border:1.5px solid var(--line2);background:#fff}
+.opt.on{border-color:var(--acc);background:var(--accbg);color:var(--accfg)}
+.opt:disabled{opacity:.45}
+.note{border-radius:12px;padding:12px 14px;font-size:13px;font-weight:600}
+.note.w{background:var(--warnbg);color:var(--warn)}.note.e{background:var(--badbg);color:var(--bad)}.note.i{background:var(--accbg);color:var(--accfg)}.note.o{background:var(--okbg);color:#0D5538}
+table{border-collapse:collapse;width:100%}
+th{text-align:left;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.5px;padding:12px 10px;font-weight:700;white-space:nowrap}
+td{padding:10px;border-top:1px solid #EDEEF6;vertical-align:middle}
+.tw{overflow-x:auto}
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{padding:10px 12px;font-size:14px;font-weight:700;white-space:nowrap;border-bottom:3px solid transparent;color:var(--mut)}
+.tabs button.on{border-color:var(--acc);color:var(--ink)}
+.bar{height:8px;border-radius:6px;background:#E8EAF4;overflow:hidden}.bar i{display:block;height:100%;border-radius:6px}
+.cb{width:17px;height:17px;accent-color:var(--acc);cursor:pointer;flex:none}
+.sw{flex:0 0 48px;width:48px;height:28px;border-radius:16px;padding:3px;display:flex;align-items:center;justify-content:flex-start;background:#8A8FAE}
+.sw.on{justify-content:flex-end;background:#146B47}.sw i{width:22px;height:22px;border-radius:50%;background:#fff;display:block}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:60;background:var(--dark);color:#fff;border-radius:12px;padding:12px 14px 12px 18px;display:flex;align-items:center;gap:16px;font-weight:500;box-shadow:0 12px 30px rgba(20,16,60,.35);max-width:calc(100% - 32px)}
+.bulk{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:30;background:var(--dark);color:#fff;border-radius:14px;padding:10px 14px;display:flex;flex-wrap:wrap;align-items:center;gap:10px;box-shadow:0 12px 30px rgba(20,16,60,.35);max-width:calc(100% - 32px)}
+.bulk select{height:36px;border-radius:8px;border:0;padding:0 8px;background:#fff}
+.slide{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);background:#fff;z-index:21;display:flex;flex-direction:column;box-shadow:-12px 0 40px rgba(20,16,60,.2)}
+.scrim{position:fixed;inset:0;background:rgba(20,16,60,.38);z-index:20}
+dt{font-size:12px;color:var(--mut);font-weight:600}dd{margin:3px 0 0;font-size:14px;font-weight:600;overflow-wrap:anywhere}
+/* admission form preview (A4) */
+.paper{background:#fff;color:#111;width:794px;max-width:none;padding:38px 44px;font-size:12.5px;line-height:1.5;box-shadow:0 2px 14px rgba(0,0,0,.2);position:relative;overflow:hidden}
+.paper h3{margin:0;font-size:20px}
+.paper .ln{display:flex;gap:8px;align-items:flex-end;margin:7px 0}
+.paper .ln b{flex:none;font-weight:600;font-size:11.5px}
+.paper .ln span{flex:1;border-bottom:1px solid #444;min-height:17px;padding:0 4px;font-weight:700;font-size:12.5px}
+.paper .sec{font-weight:800;font-size:11px;letter-spacing:.8px;text-transform:uppercase;border-bottom:2px solid #111;margin:16px 0 6px;padding-bottom:3px}
+.paper.ur{direction:rtl;font-family:'Noto Nastaliq Urdu',serif;line-height:2}
+.paper.ur .ln b{font-size:12px}
+.wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:90px;font-weight:800;color:rgba(0,0,0,.07);transform:rotate(-28deg);pointer-events:none;letter-spacing:6px}
+.pv{background:#CFD2E3;border-radius:12px;padding:16px;overflow:auto;max-height:62vh}
+.pvi{transform-origin:top left}
+@media(max-width:760px){
+ .nav{flex:1 1 100%;flex-direction:row;overflow-x:auto;padding:10px}
+ .nav .brand{display:none}.nv{width:auto;white-space:nowrap}
+ main{padding:16px}
+ .board{flex-direction:column!important}.board>div{flex:1 1 auto!important;width:100%}
+ .g2{grid-template-columns:1fr}
+ .fl{display:none!important}.fl.open{display:flex!important}
+ .slide{width:100%}
+}
+@media(min-width:761px){.mfb{display:none!important}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<div id="root"></div>
+<script>
+'use strict';
+const $=s=>document.querySelector(s);
+const E=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const STAGES=[
+ {k:'new',l:'New',c:'#5B4BD6',fg:'#4838B8',bg:'#ECE9FC'},
+ {k:'docs',l:'Documents',c:'#2B7BD6',fg:'#1A5CA8',bg:'#E1EEFB'},
+ {k:'test',l:'Test / Interview',c:'#C27A00',fg:'#7A4B00',bg:'#FDECC8'},
+ {k:'review',l:'Under review',c:'#8A4FD0',fg:'#6B38A8',bg:'#F0E7FA'},
+ {k:'accepted',l:'Accepted',c:'#1F8F5F',fg:'#146B47',bg:'#DDF3E8'},
+ {k:'enrolled',l:'Enrolled',c:'#0F6E4A',fg:'#0D5538',bg:'#CDEEDD'},
+ {k:'wait',l:'Waitlisted',c:'#6B7092',fg:'#3E4466',bg:'#E8EAF2'},
+ {k:'rejected',l:'Rejected',c:'#C23A2E',fg:'#8A1C12',bg:'#FADBD8'}];
+const FLOW=['new','docs','test','review','accepted','enrolled'];
+const OPEN=['new','docs','test','review'];
+const AV=['#5B4BD6','#2B7BD6','#B4401F','#146B47','#8A4FD0','#A1580A'];
+const CAMPUSES=['Main','North','City','West'];
+const GRADES=['Nursery','KG','1','2','3','4','5','6','7','8','9','10'];
+const SECS=['A','B','C'];
+const REASONS=['Seats full for this grade','Documents incomplete','Did not meet assessment threshold','Outside admission criteria','Guardian withdrew'];
+const OWNERS=['SK','AR','MH'];
+const SOURCES=['Website','Walk-in','Referral','Social media'];
+const BASE_DOCS=['Birth certificate / B-Form','Previous result card','Guardian CNIC copy','Passport photos (2)'];
+const TIMES=['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM'];
+const DAYS=['Mon 19 Oct','Tue 20 Oct','Wed 21 Oct','Thu 22 Oct','Fri 23 Oct'];
+const ROOMS=["Principal's office",'Room 3','Science lab'];
+const PANEL=['Principal','Class teacher','Counsellor','Vice principal'];
+const STUDENT_IDS=['STU-1187','STU-1204','STU-0931'],STAFF_IDS=['EMP-0452','EMP-0388','EMP-0210'];
+const gl=g=>/^\d+$/.test(g)?'Grade '+g:g;
+const gnum=g=>g==='Nursery'?-1:g==='KG'?0:+g;
+const grp=g=>gnum(g)<=5?'Primary':gnum(g)<=8?'Middle':'Secondary';
+const USERS={super:{ini:'SK',name:'Sadia Khan',label:'Super Admin',campuses:CAMPUSES},admin:{ini:'AR',name:'Asma Rizvi',label:'Admin',campuses:['Main','City']}};
+/* settings data: nothing here is fixed in the screens */
+const CAP={},BASE={};
+const capA=[10,10,10,10,10,8,8,8,8,8,6,6],capB=[10,10,10,10,8,8,8,8,8,6,6,6],capC=[6,6,6,6,6,0,0,6,6,0,0,0];
+const fA=[8,8,9,9,8,8,6,7,7,6,5,5],fB=[7,8,8,8,8,8,6,5,6,6,4,5],fC=[3,2,2,3,2,0,0,4,3,0,0,0];
+GRADES.forEach((g,i)=>{CAP[g]={A:capA[i],B:capB[i],C:capC[i]};BASE[g]={A:fA[i],B:fB[i],C:fC[i]}});
+let CATS=[
+ {id:'new',name:'New admission',on:true,disc:0,docs:[],quota:{}},
+ {id:'transfer',name:'Transfer from another school',on:true,disc:0,docs:['School leaving certificate'],quota:{}},
+ {id:'sibling',name:'Sibling of current student',on:true,disc:10,docs:['Sibling student ID'],quota:{},idKind:'STU'},
+ {id:'staff',name:'Staff child',on:true,disc:50,docs:['Staff ID card'],quota:{'1':1},idKind:'EMP'},
+ {id:'scholar',name:'Scholarship or need-based',on:true,disc:40,docs:['Income proof'],quota:{'2':1}},
+ {id:'hafiz',name:'Hafiz-e-Quran',on:true,disc:25,docs:['Hifz certificate'],quota:{}},
+ {id:'special',name:'Special needs support',on:true,disc:0,docs:['Assessment report'],quota:{}}];
+const catOf=id=>CATS.find(c=>c.id===id)||CATS[0];
+const FEES={Primary:8500,Middle:10500,Secondary:12500},REGFEE=5000;
+const PERM={admin:{accept:true,reject:true,download:true,export:true,cnic:false,phone:true}};
+const can=a=>S.role==='super'?true:!!PERM.admin[a];
+const reqDocs=c=>{let l=BASE_DOCS.slice();if(c.g==='Nursery'||c.g==='KG')l=l.filter(x=>x!=='Previous result card');return l.concat(catOf(c.cat).docs)};
+const okDocs=c=>reqDocs(c).filter(d=>c.ok.indexOf(d)>=0).length;
+const mkId=(i,k)=>{const n=String(35202000000000+i*7919+k*104729).slice(1);return n.slice(0,5)+'-'+n.slice(5,12)+'-'+(i%9+1)};
+function seed(o,i){const dobY=2026-(({Nursery:3.5,KG:4.5}[o.g])||(+o.g+5.5));const y=Math.floor(dobY),m=((i*5)%12)+1,d=((i*7)%27)+1;
+ const c=Object.assign({gender:i%2?'Female':'Male',cnic:mkId(i,1),bform:mkId(i,2),addr:['House 14, Street 5, Garden Town, Lahore','Flat 7, Block C, Gulberg III, Lahore','House 221, Model Town, Lahore','Street 9, Johar Town, Lahore'][i%4],phone2:'0321 '+String(5550100+i*37).slice(0,7),medical:'',source:SOURCES[i%4],cat:'new',dob:y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0'),av:AV[i%AV.length],reason:null,ok:[],remarks:'',outcome:o.score?'Recommended':'',section:null,offer:'',nameUr:'',room:'',panel:[]},o);
+ c.ok=reqDocs(c).slice(0,Math.min(o.docs,reqDocs(c).length));
+ c.timeline=[{t:'Application received via '+c.source.toLowerCase(),d:c.applied}];
+ if(c.ok.length>=reqDocs(c).length)c.timeline.push({t:'All documents verified',d:'Verified by '+c.who});
+ if(c.slot||c.score)c.timeline.push({t:'Moved to Test / Interview',d:'By '+c.who});
+ if(c.score)c.timeline.push({t:'Assessment scored '+c.score+'/100',d:'Recorded by examiner'});
+ c.notes=c.days>5?[{by:c.who,d:'Yesterday',text:'Guardian asked for an update. Called, will follow up on WhatsApp.'}]:[];
+ if(c.slot&&!c.room){c.room=ROOMS[0];c.panel=['Principal','Class teacher']}
+ return c}
+const SEEDS=[
+ {id:'APP-2041',name:'Bilal Anwar',nameUr:'بلال انور',g:'5',campus:'North',guardian:'Tariq Anwar',phone:'0300 1234501',school:'Garden Town Grammar',docs:2,days:2,stage:'new',who:'SK',applied:'8 Oct 2026'},
+ {id:'APP-2042',name:'Mahnoor Iqbal',g:'3',campus:'Main',guardian:'Sana Iqbal',phone:'0301 2345602',school:'Little Scholars',docs:3,days:6,stage:'new',who:'AR',applied:'4 Oct 2026',cat:'transfer'},
+ {id:'APP-2043',name:'Zainab Ali',nameUr:'زینب علی',g:'1',campus:'Main',guardian:'Imran Ali',phone:'0333 3456703',school:'None (first school)',docs:1,days:1,stage:'new',who:'SK',applied:'9 Oct 2026'},
+ {id:'APP-2038',name:'Danish Raza',g:'8',campus:'City',guardian:'Nadia Raza',phone:'0302 4567804',school:'City Public School',docs:2,days:11,stage:'docs',who:'AR',applied:'28 Sep 2026',cat:'transfer'},
+ {id:'APP-2039',name:'Hira Saeed',g:'6',campus:'West',guardian:'Saeed Ahmad',phone:'0321 5678905',school:'Bright Future Academy',docs:3,days:4,stage:'docs',who:'MH',applied:'3 Oct 2026'},
+ {id:'APP-2035',name:'Omer Farooq',g:'9',campus:'North',guardian:'Farooq Hassan',phone:'0345 6789006',school:'Model High School',docs:5,days:5,stage:'test',who:'MH',applied:'25 Sep 2026',slot:'Tue 20 Oct, 10:00 AM',medical:'Asthma. Carries an inhaler.'},
+ {id:'APP-2036',name:'Hamza Qureshi',g:'6',campus:'City',guardian:'Asma Qureshi',phone:'0300 7890107',school:'Roots Primary',docs:5,days:3,stage:'test',who:'AR',applied:'29 Sep 2026',slot:'Tue 20 Oct, 11:30 AM',cat:'hafiz'},
+ {id:'APP-2031',name:'Alishba Tariq',nameUr:'علیشبہ طارق',g:'4',campus:'Main',guardian:'Tariq Mehmood',phone:'0312 8901208',school:'Allied Schools',docs:5,days:7,stage:'review',who:'SK',applied:'20 Sep 2026',score:82,cat:'sibling',sid:'STU-1204'},
+ {id:'APP-2032',name:'Rayyan Malik',g:'7',campus:'City',guardian:'Uzma Malik',phone:'0333 9012309',school:'Hamilton School',docs:5,days:2,stage:'review',who:'MH',applied:'22 Sep 2026',score:74,cat:'transfer'},
+ {id:'APP-2027',name:'Emaan Zafar',nameUr:'ایمان ظفر',g:'2',campus:'West',guardian:'Zafar Iqbal',phone:'0300 0123410',school:'Sunrise Kids',docs:5,days:2,stage:'accepted',who:'AR',applied:'15 Sep 2026',score:88,admNo:'ILM-26-2027',className:'2-A',section:'A',cat:'scholar',offer:'Offer sent',offerExp:'26 Oct 2026'},
+ {id:'APP-2021',name:'Saad Hameed',g:'10',campus:'North',guardian:'Hameed Khan',phone:'0321 1234511',school:'Quaid Public School',docs:5,days:0,stage:'enrolled',who:'SK',applied:'8 Sep 2026',score:91,admNo:'ILM-26-2021',className:'10-B',section:'B',offer:'Offer accepted'},
+ {id:'APP-2040',name:'Areeba Noor',g:'3',campus:'West',guardian:'Noor Alam',phone:'0302 2345612',school:'Little Scholars',docs:4,days:8,stage:'wait',who:'MH',applied:'30 Sep 2026',score:68},
+ {id:'APP-2044',name:'Ibrahim Siddiqui',g:'2',campus:'Main',guardian:'Rubina Siddiqui',phone:'0300 4455667',school:'Sunrise Kids',docs:5,days:3,stage:'review',who:'SK',applied:'1 Oct 2026',score:79,cat:'scholar'},
+ {id:'APP-2045',name:'Fatima Zahra',nameUr:'فاطمہ زہرا',g:'Nursery',campus:'Main',guardian:'Zahra Hussain',phone:'0333 2211445',school:'None (first school)',docs:2,days:1,stage:'new',who:'AR',applied:'10 Oct 2026',cat:'sibling',sid:'STU-1187',source:'Referral'},
+ {id:'APP-2046',name:'Ahsan Raza',g:'KG',campus:'City',guardian:'Kamran Raza',phone:'0345 9988776',school:'None (first school)',docs:3,days:6,stage:'test',who:'MH',applied:'3 Oct 2026',cat:'staff',sid:'EMP-0425'},
+ {id:'APP-2047',name:'Mariam Yousuf',g:'5',campus:'North',guardian:'Yousuf Ali',phone:'0301 6677889',school:'Garden Town Grammar',docs:3,days:4,stage:'test',who:'SK',applied:'2 Oct 2026',slot:'Wed 21 Oct, 9:30 AM',cat:'transfer'},
+ {id:'APP-2048',name:'Talha Mehmood',g:'5',campus:'Main',guardian:'Mehmood Akhtar',phone:'0312 5566778',school:'Roots Primary',docs:2,days:9,stage:'docs',who:'AR',applied:'29 Sep 2026',cat:'hafiz'},
+ {id:'APP-2049',name:'Noor-ul-Ain',g:'8',campus:'City',guardian:'Nasir Mahmood',phone:'0333 1122334',school:'City Public School',docs:4,days:2,stage:'new',who:'MH',applied:'11 Oct 2026',cat:'special',medical:'Needs reading support. Assessment report attached.'}];
+/* ---------- state and logic ---------- */
+const SH={new:'New admission',transfer:'Transfer',sibling:'Sibling',staff:'Staff child',scholar:'Scholarship',hafiz:'Hafiz-e-Quran',special:'Special needs'};
+const S={role:'super',page:'adm',view:'board',campus:'All',grades:[],section:'',cat:'',stage:'',owner:'',docsF:'',daysF:0,appliedF:'',search:'',
+ sort:{k:'',d:1},cols:{grade:1,campus:1,cat:1,stage:1,docs:1,days:1,who:1,applied:0,source:0},
+ sel:null,tab:'profile',bulk:[],pop:null,modal:null,toast:null,undo:null,mob:false,setTab:'seats',setGrade:'1',iv:'list',audQ:'',audU:'',audA:'',
+ cards:SEEDS.map(seed),nextId:2050,m:{},
+ saved:[{name:'Grade 5, North, docs missing',owner:'super',shared:true,f:{grades:['5'],campus:'North',docsF:'missing'}}],
+ audit:[{who:'SK',act:'Accepted',stu:'APP-2027 Emaan Zafar',note:'Section A, Scholarship 40%',t:'17 Oct, 4:12 PM'},{who:'AR',act:'Rejected',stu:'APP-2019 Sara Imtiaz',note:'Seats full for this grade',t:'16 Oct, 11:05 AM'},{who:'SK',act:'Export',stu:'-',note:'Class roster, Grade 10, 14 rows',t:'15 Oct, 9:40 AM'},{who:'SK',act:'Settings',stu:'-',note:'Grade 4 section B capacity 7 to 8',t:'14 Oct, 2:30 PM'}]};
+const stageOf=k=>STAGES.filter(s=>s.k===k)[0];
+const ini=n=>n.split(/[\s-]+/).map(p=>p[0]).slice(0,2).join('');
+const me=()=>USERS[S.role];
+const get=id=>S.cards.filter(c=>c.id===id)[0];
+const setv=(p,v)=>{const k=p.split('.');const l=k.pop();let o=S;k.forEach(x=>{if(o[x]==null)o[x]={};o=o[x]});o[l]=v};
+const getv=p=>p.split('.').reduce((o,x)=>o&&o[x],S);
+const digits=s=>String(s||'').replace(/\D/g,'');
+const maskC=s=>can('cnic')||!s?s:'•••••-•••••••-'+String(s).slice(-1);
+const maskP=s=>can('phone')?s:String(s).replace(/(\d{4} \d{3})\d{3}/,'$1•••');
+const today=new Date(2026,9,19);
+const ageOf=dob=>(today-new Date(dob))/864e5/365.25;
+const fmtDob=d=>{const x=new Date(d);return x.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][x.getMonth()]+' '+x.getFullYear()};
+function match(c,o){o=o||{};
+ if(me().campuses.indexOf(c.campus)<0)return false;
+ if(S.campus!=='All'&&c.campus!==S.campus)return false;
+ if(!o.noGrade){if(S.grades.length&&S.grades.indexOf(c.g)<0)return false;
+  if(S.section){if(S.section==='-'){if(c.section)return false}else if(c.section!==S.section)return false}}
+ if(S.cat&&c.cat!==S.cat)return false;
+ if(!o.noStage&&S.stage){if(S.stage==='open'){if(OPEN.indexOf(c.stage)<0)return false}else if(c.stage!==S.stage)return false}
+ if(S.owner&&c.who!==S.owner)return false;
+ const r=reqDocs(c).length,k=okDocs(c);
+ if(S.docsF==='complete'&&k<r)return false;if(S.docsF==='missing'&&k>=r)return false;
+ if(S.daysF&&!(c.days>=S.daysF&&OPEN.indexOf(c.stage)>=0))return false;
+ if(S.appliedF&&(today-new Date(c.applied))/864e5>+S.appliedF)return false;
+ const q=S.search.trim().toLowerCase();
+ if(q){const qd=digits(q);const hit=c.name.toLowerCase().indexOf(q)>=0||c.guardian.toLowerCase().indexOf(q)>=0||c.id.toLowerCase().indexOf(q)>=0||(qd.length>=3&&(digits(c.phone).indexOf(qd)>=0||digits(c.phone2).indexOf(qd)>=0||digits(c.cnic).indexOf(qd)>=0));if(!hit)return false}
+ return true}
+const shownCards=o=>S.cards.filter(c=>match(c,o));
+const secsOf=g=>SECS.filter(s=>CAP[g][s]>0);
+function seat(g,s){const cap=CAP[g][s],cs=S.cards.filter(c=>c.g===g&&c.section===s);const filled=BASE[g][s]+cs.filter(c=>c.stage==='enrolled').length,held=cs.filter(c=>c.stage==='accepted').length;return{cap:cap,filled:filled,held:held,left:cap-filled-held}}
+function gseat(g){let t={cap:0,filled:0,held:0,left:0};secsOf(g).forEach(s=>{const x=seat(g,s);t.cap+=x.cap;t.filled+=x.filled;t.held+=x.held;t.left+=x.left});return t}
+const GROUPS=[['Primary (Nursery–5)',g=>gnum(g)<=5],['Middle (6–8)',g=>gnum(g)>=6&&gnum(g)<=8],['Secondary (9–10)',g=>gnum(g)>=9]];
+const quotaUsed=(cat,g)=>S.cards.filter(c=>c.cat===cat&&c.g===g&&(c.stage==='accepted'||c.stage==='enrolled')).length;
+const waitRank=c=>{const l=S.cards.filter(x=>x.stage==='wait'&&x.g===c.g).sort((a,b)=>(b.score||0)-(a.score||0));return l.indexOf(c)+1};
+const stuck=c=>OPEN.indexOf(c.stage)>=0&&c.days>=5;
+const idBad=c=>{const k=catOf(c.cat).idKind;if(!k)return '';if(!c.sid)return 'Enter the '+(k==='STU'?'student':'staff')+' ID of the '+(k==='STU'?'sibling':'staff member')+'.';const list=k==='STU'?STUDENT_IDS:STAFF_IDS;return list.indexOf(c.sid)<0?c.sid+' was not found in the '+(k==='STU'?'Students':'Staff')+' module.':''};
+const feeFor=c=>{const base=FEES[grp(c.g)],d=catOf(c.cat).disc;return{base:base,d:d,net:Math.round(base*(1-d/100))}};
+const fileName=c=>c.id+'_'+c.name.replace(/\s+/g,'-')+'.pdf';
+function log(act,stu,note){S.audit.unshift({who:me().ini,act:act,stu:stu||'-',note:note||'',t:'Just now'})}
+let tt=null;
+function flash(msg,undo){clearTimeout(tt);S.toast={msg:msg,undo:!!undo};render();tt=setTimeout(()=>{S.toast=null;render()},undo?10000:3500)}
+function change(ids,fn,ev,msg){S.undo=JSON.parse(JSON.stringify(S.cards));S.cards=S.cards.map(c=>ids.indexOf(c.id)>=0?fn(c):c);flash(msg,true)}
+const stageChange=(st,ev)=>c=>Object.assign({},c,{stage:st,days:0,timeline:c.timeline.concat([{t:ev,d:'Just now by '+me().ini}])});
+const nextStage=c=>FLOW[Math.min(FLOW.indexOf(c.stage)+1,FLOW.length-1)];
+/* csv helpers */
+const CSVCOLS=['Student name','Date of birth','Gender','Grade','Campus','Category','Guardian name','WhatsApp','Guardian CNIC','B-Form','Address','Second phone','Previous school','Medical notes','Source'];
+function parseCsv(t){return t.trim().split(/\r?\n/).map(l=>l.split(',').map(x=>x.trim()))}
+function validRow(r,idx){const e=[];const g=r[3];if(!r[0])e.push('Student name missing');if(GRADES.indexOf(g)<0)e.push('Grade must be Nursery, KG or 1 to 10');if(CAMPUSES.indexOf(r[4])<0)e.push('Unknown campus');
+ if(!/^03\d{2} ?\d{7}$/.test(r[7]||''))e.push('WhatsApp must look like 0300 1234567');if(digits(r[8]).length!==13)e.push('CNIC needs 13 digits');if(!r[1]||isNaN(new Date(r[1])))e.push('Date of birth missing');
+ if(r[5]&&!CATS.some(c=>c.on&&c.name===r[5]||SH[c.id]===r[5]))e.push('Unknown category');return e}
+const SAMPLE_CSV=CSVCOLS.join(',')+'\nSumbul Aziz,2016-04-09,Female,4,Main,New admission,Aziz Ahmed,0300 7766551,35202-5566778-1,35202-5566779-2,"House 8 Johar Town",0321 5566123,Allied Schools,,Website\nUmair Shah,2014-11-21,Male,6,North,Transfer,Shah Nawaz,03007766,35202-9988776-3,,"Block B Model Town",,Roots Primary,,Walk-in\nHania Butt,2017-01-30,Female,4,City,Sibling,Butt Rashid,0345 1239988,35202-1122334-5,,"Street 3 Gulberg",,Little Scholars,,Referral\nKabir Mir,2013-06-14,Male,,West,New admission,Mir Zahid,0333 4455667,35202-7766554-1,,"Phase 2 DHA",,City Public School,,Website';
+/* ---------- views ---------- */
+const ICON={
+ dl:'<svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>',
+ chev:'<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+ wa:'<svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#146B47" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8.5 8.5 0 01-12.6 7.4L3 21l1.7-5.2A8.5 8.5 0 1121 12z"/></svg>',
+ plus:'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>',
+ x:'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+ search:'<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4A4F6E" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>'};
+const NAVI=[['Dashboard','<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'],['Branches','<path d="M4 21V5l8-2 8 2v16M9 9h2M13 9h2M9 13h2M13 13h2M10 21v-4h4v4"/>'],['Admissions','<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6M19 8v6M16 11h6"/>'],['Students','<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6"/><path d="M16 4.5a3.5 3.5 0 010 7M18 14c2 .6 3.5 2.4 3.5 6"/>'],['Finance','<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/>'],['Reports','<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>'],['Settings','<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/>']];
+const sbar=(on,col)=>'height:100%;border-radius:6px;width:'+Math.min(100,on)+'%;background:'+(col||(on>=85?'#C23A2E':'var(--acc)'));
+function sidebar(){return `<nav class="nav" aria-label="Main"><div class="brand" style="display:flex;align-items:center;gap:10px;padding:0 10px 18px"><div style="width:34px;height:34px;border-radius:10px;background:var(--acc);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center">I</div><div style="color:#fff;font-weight:800;font-size:18px;letter-spacing:.3px">ILMA</div></div>${NAVI.map(n=>{const on=(n[0]==='Admissions'&&S.page==='adm')||(n[0]==='Settings'&&S.page==='set');return `<button class="nv ${on?'on':''}" ${on?'aria-current="page"':''} data-a="nav" data-i="${n[0]}"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${n[1]}</svg>${n[0]}</button>`}).join('')}</nav>`}
+function dayS(c){const fin=['accepted','enrolled','rejected'].indexOf(c.stage)>=0;let bg='#EEF0F6',fg='#3E4466';if(!fin&&c.days>=10){bg='#FADBD8';fg='#8A1C12'}else if(!fin&&c.days>=5){bg='#FDECC8';fg='#7A4B00'}return `font-size:12px;font-weight:700;border-radius:6px;padding:3px 8px;white-space:nowrap;background:${bg};color:${fg}`}
+const daysT=c=>c.days===0?'Today':c.days+'d in stage';
+const stPill=c=>{const st=stageOf(c.stage);return `<span class="pillx" style="background:${st.bg};color:${st.fg}">${st.l}</span>`};
+const avS=c=>`flex:0 0 40px;width:40px;height:40px;border-radius:12px;color:#fff;font-weight:800;font-size:14px;display:flex;align-items:center;justify-content:center;background:${c.av}`;
+const dlBtn=c=>can('download')?`<button class="dlb" data-a="dl" data-i="${c.id}" title="Download admission form" aria-label="Download admission form for ${E(c.name)}" style="width:26px;height:26px;border-radius:7px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;color:var(--mut);background:#fff">${ICON.dl}</button>`:'';
+const picked=id=>S.bulk.indexOf(id)>=0;
+function card(c){const st=stageOf(c.stage),rq=reqDocs(c).length,ok=okDocs(c);
+ return `<div class="card ${S.sel===c.id?'on':''}" role="button" tabindex="0" data-a="open" data-i="${c.id}" aria-label="${E(c.name)}, ${gl(c.g)}, ${st.l}">
+<div style="display:flex;align-items:center;gap:10px"><span style="${avS(c)}">${ini(c.name)}</span><span style="display:block;flex:1;min-width:0"><span style="display:block;font-size:14px;font-weight:700">${E(c.name)}</span><span style="display:block;font-size:12px;color:var(--mut);margin-top:1px">${c.id}</span></span>
+<span style="display:flex;flex-direction:column;align-items:center;gap:6px"><input type="checkbox" class="cb" data-a="pick" data-i="${c.id}" ${picked(c.id)?'checked':''} aria-label="Select ${E(c.name)}">${dlBtn(c)}</span></div>
+<div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap"><span class="tg acc">${gl(c.g)}${c.section?'-'+c.section:''}</span><span class="tg">${c.campus}</span><span class="tg cat">${E(SH[c.cat]||catOf(c.cat).name)}</span>${c.stage==='wait'?`<span class="tg" style="background:#E8EAF2">Waitlist #${waitRank(c)}</span>`:''}</div>
+<div style="display:flex;align-items:center;gap:6px;margin-top:10px;font-size:13px;color:#3E4466">${ICON.wa}<span>${E(c.guardian)}</span></div>
+<div style="margin-top:10px"><div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mut);font-weight:600"><span>Documents</span><span>${ok}/${rq}</span></div><div style="margin-top:5px;height:5px;border-radius:4px;background:#E8EAF4;overflow:hidden"><div style="height:100%;border-radius:4px;background:${ok>=rq?'#1F8F5F':'#C27A00'};width:${Math.round(ok/rq*100)}%"></div></div></div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px"><span style="${dayS(c)}">${daysT(c)}</span><span title="Assigned to" style="width:24px;height:24px;border-radius:50%;background:var(--dark);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center">${c.who}</span></div></div>`}
+function header(){const u=me(),n=S.cards.filter(c=>u.campuses.indexOf(c.campus)>=0).length,sh=shownCards().length;
+ const title=S.role==='super'?'Admissions — All Branches':'Admissions — '+u.campuses.join(' and ');
+ return `<header style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px"><div><div style="font-size:13px;color:var(--mut);font-weight:500">${u.label} / Admissions</div><h1 style="margin:4px 0 0;font-size:28px;font-weight:800;letter-spacing:-.4px">${title}</h1><div style="margin-top:4px;font-size:14px;color:var(--mut)">2026–27 intake · ${n} applications${sh!==n?' ('+sh+' shown)':''}</div></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;position:relative;align-items:center">
+<div class="seg" role="group" aria-label="View as" style="padding:3px"><button class="${S.role==='super'?'on':''}" style="padding:7px 12px;font-size:13px" data-a="role" data-i="super">Super Admin</button><button class="${S.role==='admin'?'on':''}" style="padding:7px 12px;font-size:13px" data-a="role" data-i="admin">Admin (Main, City)</button></div>
+${can('export')?`<button class="b" data-a="pop" data-i="export" aria-haspopup="true">Export ${ICON.chev}</button>`:''}
+<button class="b" data-a="pop" data-i="import" aria-haspopup="true">Import ${ICON.chev}</button>
+<button class="b p" data-a="newapp">${ICON.plus}New Application</button>
+${S.pop==='export'?`<div class="back" data-a="pop" data-i=""></div><div class="pop" style="top:48px;right:150px"><button class="it" data-a="exp" data-i="csv">Export filtered list (CSV)</button><button class="it" data-a="exp" data-i="xlsx">Export filtered list (Excel)</button><button class="it" data-a="exp" data-i="roster">Class roster (accepted and enrolled)</button><button class="it" data-a="blank">Download blank form</button></div>`:''}
+${S.pop==='import'?`<div class="back" data-a="pop" data-i=""></div><div class="pop" style="top:48px;right:110px"><button class="it" data-a="tmpl">Download template</button><button class="it" data-a="imp">Bulk upload CSV</button></div>`:''}
+</div></header>`}
+function tiles(){const sh=shownCards(),need=sh.filter(stuck).length,iv=sh.filter(c=>c.slot).length;let left=0;GRADES.forEach(g=>{left+=gseat(g).left});
+ return `<section aria-label="Insights" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+<button class="tile" data-a="tile" data-i="need"><div class="l">Need action today</div><div class="v" style="color:#9A3412">${need}</div><div class="s">Waiting 5+ days in a stage</div></button>
+<div class="tile"><div class="l">Avg. time to decision</div><div class="v">6 days</div><div class="s" style="color:#146B47;font-weight:600">1.5 days faster than last term</div></div>
+<button class="tile" data-a="tile" data-i="iv"><div class="l">Interviews scheduled</div><div class="v">${iv}</div><div class="s">This week</div></button>
+<button class="tile" data-a="tile" data-i="seats"><div class="l">Seats left</div><div class="v">${left}</div><div class="s">Across all grades. Tap for the class view</div></button></section>`}
+function seatStrip(){return `<section aria-label="Seat capacity" style="background:#fff;border-radius:14px;border:1px solid var(--line);padding:16px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">${GROUPS.map(g=>{let cap=0,used=0,tip=[];GRADES.filter(g[1]).forEach(x=>{const t=gseat(x);cap+=t.cap;used+=t.filled+t.held;const p=t.cap?Math.round((t.filled+t.held)/t.cap*100):0;tip.push(gl(x)+': '+(t.filled+t.held)+'/'+t.cap+(p>=85?' (almost full)':''))});const pct=Math.round(used/cap*100);
+ return `<div title="${E(tip.join('\n'))}"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600"><span>${g[0]}</span><span style="color:var(--mut)">${used} / ${cap} filled</span></div><div style="margin-top:8px;height:8px;border-radius:6px;background:#E8EAF4;overflow:hidden"><div style="${sbar(pct)}"></div></div><div style="margin-top:6px;font-size:11.5px;color:var(--mut)">${GRADES.filter(g[1]).filter(x=>{const t=gseat(x);return t.cap&&(t.filled+t.held)/t.cap>=.85}).map(x=>`<span style="color:#C23A2E;font-weight:700">${gl(x)}</span>`).join(', ')||'No grade above 85%'} ${GRADES.filter(g[1]).some(x=>{const t=gseat(x);return t.cap&&(t.filled+t.held)/t.cap>=.85})?'near full':''}</div></div>`}).join('')}</section>`}
+const selS='height:40px;border:1px solid var(--line2);border-radius:10px;padding:0 10px;background:#fff;font-size:14px;font-weight:600;max-width:100%';
+const opt=(v,l,cur)=>`<option value="${E(v)}" ${String(cur)===String(v)?'selected':''}>${E(l)}</option>`;
+function activeTags(){const t=[];
+ if(S.campus!=='All')t.push(['Campus: '+S.campus,'campus','All']);
+ if(S.grades.length)t.push(['Grade: '+S.grades.map(x=>/^\d/.test(x)?x:x).join(', '),'grades','']);
+ if(S.section)t.push(['Section: '+(S.section==='-'?'Unassigned':S.section),'section','']);
+ if(S.cat)t.push(['Category: '+(SH[S.cat]||catOf(S.cat).name),'cat','']);
+ if(S.stage)t.push(['Stage: '+(S.stage==='open'?'Open applications':stageOf(S.stage).l),'stage','']);
+ if(S.owner)t.push(['Owner: '+S.owner,'owner','']);
+ if(S.docsF)t.push(['Documents: '+S.docsF,'docsF','']);
+ if(S.daysF)t.push(['In stage '+S.daysF+'+ days','daysF',0]);
+ if(S.appliedF)t.push(['Applied in last '+S.appliedF+' days','appliedF','']);
+ if(S.search.trim())t.push(['Search: '+S.search.trim(),'search','']);return t}
+function toolbar(){const secs=S.grades.length?SECS.filter(s=>S.grades.some(g=>CAP[g][s]>0)):[];
+ const tags=activeTags();
+ return `<section aria-label="Views and filters" style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
+<div class="seg" role="group" aria-label="View">${[['board','Board'],['list','List'],['class','By class'],['funnel','Funnel'],['interviews','Interviews']].map(v=>`<button class="${S.view===v[0]?'on':''}" aria-pressed="${S.view===v[0]}" data-a="view" data-i="${v[0]}">${v[1]}</button>`).join('')}</div>
+<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+<label style="display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line2);border-radius:10px;padding:0 12px;height:40px;min-width:260px">${ICON.search}<input id="q" aria-label="Search applicants" placeholder="Name, ID, phone, CNIC" data-s="search" data-rr="1" value="${E(S.search)}" style="border:0;outline:0;background:transparent;flex:1;min-width:0;font-size:14px"></label>
+<div role="group" aria-label="Campus" style="display:flex;gap:6px;flex-wrap:wrap">${['All'].concat(me().campuses).map(c=>`<button class="chip ${S.campus===c?'on':''}" aria-pressed="${S.campus===c}" data-a="campus" data-i="${c}">${c==='All'?(S.role==='super'?'All campuses':'All my campuses'):c}</button>`).join('')}</div></div></div>
+<button class="b s mfb" data-a="mob" style="align-self:flex-start">Filters${tags.length?' ('+tags.length+')':''} ${ICON.chev}</button>
+<div class="fl ${S.mob?'open':''}" style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;position:relative">
+<div style="position:relative"><button class="b" data-a="pop" data-i="grade" style="height:40px">${S.grades.length?'Grade ('+S.grades.length+')':'Grade'} ${ICON.chev}</button>${S.pop==='grade'?`<div class="back" data-a="pop" data-i=""></div><div class="pop" style="top:46px;left:0;width:300px;padding:12px"><div style="font-size:12px;font-weight:700;color:var(--mut);margin-bottom:6px">Pick one or more grades</div><div style="display:flex;flex-wrap:wrap;gap:6px">${GRADES.map(g=>`<button class="chip ${S.grades.indexOf(g)>=0?'on':''}" style="padding:7px 11px" aria-pressed="${S.grades.indexOf(g)>=0}" data-a="grade" data-i="${g}">${g}</button>`).join('')}</div><button class="b s" style="margin-top:10px" data-a="grade" data-i="">Clear grades</button></div>`:''}</div>
+${S.grades.length?`<select style="${selS}" aria-label="Section" data-s="section" data-r="1">${opt('','All sections',S.section)}${secs.map(s=>opt(s,'Section '+s,S.section)).join('')}${opt('-','Unassigned',S.section)}</select>`:''}
+<select style="${selS}" aria-label="Category" data-s="cat" data-r="1">${opt('','All categories',S.cat)}${CATS.filter(c=>c.on||S.cat===c.id).map(c=>opt(c.id,c.name,S.cat)).join('')}</select>
+<select style="${selS}" aria-label="Stage" data-s="stage" data-r="1">${opt('','All stages',S.stage)}${opt('open','Open (not decided)',S.stage)}${STAGES.map(s=>opt(s.k,s.l,S.stage)).join('')}</select>
+<div style="position:relative"><button class="b" data-a="pop" data-i="more" style="height:40px">More filters ${ICON.chev}</button>${S.pop==='more'?`<div class="back" data-a="pop" data-i=""></div><div class="pop" style="top:46px;left:0;width:280px;padding:14px;gap:10px"><label class="fld">Owner<select style="${selS}" data-s="owner" data-r="1">${opt('','Anyone',S.owner)}${OWNERS.map(o=>opt(o,o,S.owner)).join('')}</select></label><label class="fld">Documents<select style="${selS}" data-s="docsF" data-r="1">${opt('','Any',S.docsF)}${opt('complete','Complete',S.docsF)}${opt('missing','Missing some',S.docsF)}</select></label><label class="fld">Days in stage<select style="${selS}" data-s="daysF" data-r="1" data-n="1">${opt(0,'Any',S.daysF)}${opt(5,'5+ days',S.daysF)}${opt(10,'10+ days',S.daysF)}</select></label><label class="fld">Date applied<select style="${selS}" data-s="appliedF" data-r="1">${opt('','Any time',S.appliedF)}${opt(7,'Last 7 days',S.appliedF)}${opt(14,'Last 14 days',S.appliedF)}${opt(30,'Last 30 days',S.appliedF)}</select></label></div>`:''}</div>
+<div style="position:relative"><button class="b" data-a="pop" data-i="views" style="height:40px">Saved views ${ICON.chev}</button>${S.pop==='views'?`<div class="back" data-a="pop" data-i=""></div><div class="pop" style="top:46px;left:0;width:320px;padding:10px">${S.saved.filter(v=>v.owner===S.role||v.shared).map((v,i)=>`<div style="display:flex;align-items:center;gap:6px"><button class="it" data-a="applyview" data-i="${S.saved.indexOf(v)}" style="flex:1">${E(v.name)}${v.shared?' <span class="tg">Shared</span>':''}</button>${v.owner===S.role?`<button class="b s" aria-label="Delete saved view ${E(v.name)}" data-a="delview" data-i="${S.saved.indexOf(v)}">${ICON.x}</button>`:''}</div>`).join('')||'<div style="padding:8px 12px;color:var(--mut)">No saved views yet</div>'}<div style="border-top:1px solid var(--line);margin-top:6px;padding-top:10px;display:flex;flex-direction:column;gap:8px"><input id="vn" class="in" placeholder="Name for the current filters" data-s="m.vn" value="${E(S.m.vn||'')}">${S.role==='super'?`<label style="display:flex;gap:8px;align-items:center;font-size:13px;font-weight:600"><input type="checkbox" class="cb" data-a="vshare" ${S.m.vs?'checked':''}> Share with all admins</label>`:''}<button class="b s p" data-a="saveview" ${tags.length?'':'disabled'}>Save current filters</button></div></div>`:''}</div>
+</div>
+${tags.length?`<div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">${tags.map(t=>`<span style="display:inline-flex;align-items:center;gap:6px;background:var(--accbg);color:var(--accfg);border-radius:20px;padding:4px 6px 4px 12px;font-size:12.5px;font-weight:700">${E(t[0])}<button data-a="rm" data-i="${t[1]}" aria-label="Remove filter ${E(t[0])}" style="width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:var(--accfg)">${ICON.x.replace('width="16" height="16"','width="11" height="11"')}</button></span>`).join('')}<button data-a="clear" style="color:var(--accfg);font-weight:700;font-size:13px;text-decoration:underline">Clear all</button></div>`:''}</section>`}
+function classHeader(){if(!S.grades.length||S.view==='class')return '';const sh=shownCards(),sc=sh.filter(c=>c.score!=null).map(c=>c.score);let left=0,cap=0;S.grades.forEach(g=>secsOf(g).forEach(s=>{if(S.section&&S.section!=='-'&&S.section!==s)return;const x=seat(g,s);left+=x.left;cap+=x.cap}));
+ return `<section aria-label="Class summary" class="panel" style="padding:14px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px;border-left:4px solid var(--acc)"><div style="grid-column:1/-1;font-weight:800">${S.grades.map(gl).join(', ')}${S.section&&S.section!=='-'?' · Section '+S.section:''} summary</div>${[['Applicants',sh.length],['Interviews this week',sh.filter(c=>c.slot).length],['Avg. assessment',sc.length?Math.round(sc.reduce((a,b)=>a+b,0)/sc.length)+' / 100':'–'],['Seats left',left+' of '+cap],['Stuck 5+ days',sh.filter(stuck).length]].map(x=>`<div><div style="font-size:12px;color:var(--mut);font-weight:600">${x[0]}</div><div style="font-size:20px;font-weight:800">${x[1]}</div></div>`).join('')}</section>`}
+function viewBoard(){const sh=shownCards();
+ return `<section aria-label="Admissions board" class="board" style="display:flex;gap:14px;overflow-x:auto;padding-bottom:12px;align-items:flex-start">${STAGES.map(st=>{const cs=sh.filter(c=>c.stage===st.k),all=cs.length&&cs.every(c=>picked(c.id));
+ return `<div style="flex:0 0 276px;background:var(--col);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:10px"><div style="display:flex;align-items:center;gap:8px;padding:2px 4px"><span style="width:10px;height:10px;border-radius:50%;background:${st.c}"></span><h2 style="margin:0;font-size:14px;font-weight:700;flex:1">${st.l}</h2>${cs.length?`<input type="checkbox" class="cb" data-a="pickcol" data-i="${st.k}" ${all?'checked':''} title="Select all in this column" aria-label="Select all in ${st.l}">`:''}<span style="font-size:12px;font-weight:700;background:#fff;border-radius:20px;padding:2px 9px;color:#3E4466">${cs.length}</span></div>${cs.map(card).join('')}${cs.length?'':'<div style="border:1.5px dashed #B9BDD6;border-radius:12px;padding:22px 12px;text-align:center;font-size:13px;color:var(--mut)">Nothing here</div>'}</div>`}).join('')}</section>`}
+const COLS=[['grade','Grade',c=>gl(c.g)+(c.section?'-'+c.section:''),c=>gnum(c.g)],['campus','Campus',c=>c.campus,c=>c.campus],['cat','Category',c=>`<span class="tg cat">${E(SH[c.cat]||catOf(c.cat).name)}</span>`,c=>c.cat],['stage','Stage',c=>stPill(c),c=>STAGES.map(s=>s.k).indexOf(c.stage)],['docs','Docs',c=>okDocs(c)+'/'+reqDocs(c).length,c=>okDocs(c)/reqDocs(c).length],['days','In stage',c=>`<span style="${dayS(c)}">${daysT(c)}</span>`,c=>c.days],['who','Owner',c=>c.who,c=>c.who],['applied','Applied',c=>c.applied,c=>new Date(c.applied)],['source','Source',c=>c.source,c=>c.source]];
+function viewList(){let rows=shownCards();const sc=COLS.filter(c=>c[0]===S.sort.k)[0];if(sc)rows=rows.slice().sort((a,b)=>{const x=sc[3](a),y=sc[3](b);return (x>y?1:x<y?-1:0)*S.sort.d});const act=COLS.filter(c=>S.cols[c[0]]);const all=rows.length&&rows.every(c=>picked(c.id));
+ return `<section aria-label="Applications list" class="panel" style="position:relative"><div style="display:flex;justify-content:flex-end;padding:10px 12px 0"><button class="b s" data-a="pop" data-i="cols">Columns ${ICON.chev}</button>${S.pop==='cols'?`<div class="back" data-a="pop" data-i=""></div><div class="pop" style="top:46px;right:12px">${COLS.map(c=>`<label class="it"><input type="checkbox" class="cb" data-a="col" data-i="${c[0]}" ${S.cols[c[0]]?'checked':''}> ${c[1]}</label>`).join('')}</div>`:''}</div>
+<div class="tw"><table style="min-width:760px"><thead><tr><th style="width:36px"><input type="checkbox" class="cb" data-a="pickall" ${all?'checked':''} aria-label="Select all rows"></th><th>Applicant</th>${act.map(c=>`<th aria-sort="${S.sort.k===c[0]?(S.sort.d>0?'ascending':'descending'):'none'}"><button data-a="sort" data-i="${c[0]}" style="font:inherit;text-transform:inherit;letter-spacing:inherit;color:inherit;font-weight:700">${c[1]}${S.sort.k===c[0]?(S.sort.d>0?' ▲':' ▼'):''}</button></th>`).join('')}<th></th></tr></thead><tbody>${rows.map(c=>`<tr><td><input type="checkbox" class="cb" data-a="pick" data-i="${c.id}" ${picked(c.id)?'checked':''} aria-label="Select ${E(c.name)}"></td><td><button data-a="open" data-i="${c.id}" style="font-weight:700;font-size:14px;text-decoration:underline;text-decoration-color:#C9CCE0;text-underline-offset:3px">${E(c.name)}</button><div style="font-size:12px;color:var(--mut)">${c.id} · ${E(c.guardian)}</div></td>${act.map(x=>`<td>${x[2](c)}</td>`).join('')}<td class="r">${dlBtn(c)}</td></tr>`).join('')||`<tr><td colspan="${act.length+3}" style="text-align:center;color:var(--mut);padding:30px">No applications match the filters.</td></tr>`}</tbody></table></div></section>`}
+function viewClass(){const sh=shownCards({noGrade:true,noStage:true});const gs=GRADES.filter(g=>!S.grades.length||S.grades.indexOf(g)>=0);const tot={};STAGES.forEach(s=>tot[s.k]=0);
+ const rows=gs.map(g=>{const cs=sh.filter(c=>c.g===g);const t=gseat(g);cs.forEach(c=>tot[c.stage]++);const wl=S.cards.filter(c=>c.g===g&&c.stage==='wait').sort((a,b)=>(b.score||0)-(a.score||0))[0];
+ const qs=CATS.filter(c=>c.quota[g]).map(c=>`<span class="tg" style="${quotaUsed(c.id,g)>=c.quota[g]?'background:#FADBD8;color:#8A1C12':''}">${E(SH[c.id]||c.name)} ${quotaUsed(c.id,g)}/${c.quota[g]}</span>`).join(' ');
+ const pct=t.cap?Math.round((t.filled+t.held)/t.cap*100):0;
+ return `<tr><td><b>${gl(g)}</b><div style="font-size:12px;color:var(--mut)">${cs.length} applicants</div></td>${STAGES.map(s=>{const n=cs.filter(c=>c.stage===s.k).length;return `<td class="c">${n?`<button data-a="cell" data-i="${g}|${s.k}" aria-label="${n} ${s.l} in ${gl(g)}" style="font-weight:800;color:var(--accfg);text-decoration:underline;padding:2px 8px">${n}</button>`:'<span style="color:#9aa0bd">0</span>'}</td>`}).join('')}<td style="min-width:200px"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:600"><span>${t.filled} filled · ${t.held} held</span><span style="color:${t.left===0?'#C23A2E':'var(--mut)'}">${t.left} left</span></div><div style="margin-top:5px;height:6px;border-radius:5px;background:#E8EAF4;overflow:hidden"><div style="${sbar(pct)}"></div></div><div style="margin-top:5px;font-size:11.5px;color:var(--mut)">${secsOf(g).map(s=>s+' '+seat(g,s).left).join(' · ')} left</div></td><td style="min-width:150px"><div style="display:flex;gap:4px;flex-wrap:wrap">${qs||'<span style="color:#9aa0bd">–</span>'}</div></td><td style="white-space:nowrap"><button class="b s" data-a="openclass" data-i="${g}">Open class</button>${wl&&t.left>0&&can('accept')?` <button class="b s g" data-a="promote" data-i="${g}">Promote waitlist</button>`:''}</td></tr>`}).join('');
+ const tn=STAGES.reduce((a,s)=>a+tot[s.k],0);
+ return `<section aria-label="By class" class="panel"><div style="padding:16px 18px 6px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px"><h2 style="margin:0;font-size:16px;font-weight:700">Applications and seats by class</h2><span style="font-size:13px;color:var(--mut)">Counts follow the campus, category and search filters. Tap a number to see those applicants.</span></div><div class="tw"><table style="min-width:1100px"><thead><tr><th>Class</th>${STAGES.map(s=>`<th class="c">${s.l}</th>`).join('')}<th>Seats</th><th>Category quotas</th><th></th></tr></thead><tbody>${rows}<tr style="background:#F7F8FC"><td><b>Total</b><div style="font-size:12px;color:var(--mut)">${tn} applicants</div></td>${STAGES.map(s=>`<td class="c"><b>${tot[s.k]}</b></td>`).join('')}<td colspan="3" style="color:var(--mut);font-size:13px">Matches the board total of ${shownCards({noGrade:true,noStage:true}).length}${S.grades.length?' (all grades)':''}</td></tr></tbody></table></div></section>`}
+function viewFunnel(){const sh=shownCards();const cnt=k=>sh.filter(c=>c.stage===k).length;const mx=Math.max.apply(null,STAGES.map(s=>cnt(s.k)).concat([1]));
+ const reach=k=>sh.filter(c=>FLOW.indexOf(c.stage)>=FLOW.indexOf(k)).length;
+ const avgD=k=>{const l=sh.filter(c=>c.stage===k);return l.length?(l.reduce((a,c)=>a+c.days,0)/l.length).toFixed(1):'–'};
+ const cats=CATS.map(ct=>{const l=sh.filter(c=>c.cat===ct.id),a=l.filter(c=>c.stage==='accepted'||c.stage==='enrolled').length,r=l.filter(c=>c.stage==='rejected').length;return{n:ct.name,t:l.length,a:a,r:r,p:l.length?Math.round(a/l.length*100):0}}).filter(x=>x.t>0);
+ const srcs=SOURCES.map(s=>{const l=sh.filter(c=>c.source===s),a=l.filter(c=>c.stage==='accepted'||c.stage==='enrolled').length;return{n:s,t:l.length,a:a,p:l.length?Math.round(a/l.length*100):0}});
+ const tbl=(h,rows,tot)=>`<div class="tw"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((x,i)=>`<td ${i?'class="c"':''}>${x}</td>`).join('')}</tr>`).join('')}<tr style="background:#F7F8FC;font-weight:800">${tot.map((x,i)=>`<td ${i?'class="c"':''}>${x}</td>`).join('')}</tr></tbody></table></div>`;
+ return `<section aria-label="Admissions funnel" style="display:flex;flex-direction:column;gap:16px"><div class="panel" style="padding:22px;display:flex;flex-direction:column;gap:14px"><h2 style="margin:0;font-size:16px;font-weight:700">Applications by stage</h2>${STAGES.map((s,i)=>{const n=cnt(s.k);const prev=i>0&&i<6?reach(FLOW[i-1]):0,cur=i<6?reach(s.k):0;const conv=i>0&&i<6&&prev?Math.round(cur/prev*100)+'% of previous':'';
+ return `<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><div style="flex:0 0 130px;font-size:13px;font-weight:600">${s.l}</div><div style="flex:1;min-width:140px;background:#EEF0F8;border-radius:8px;height:30px;overflow:hidden"><div style="height:100%;display:flex;align-items:center;padding-left:12px;font-size:13px;font-weight:800;color:#fff;border-radius:8px;background:var(--acc);width:${Math.max(8,Math.round(n/mx*100))}%">${n}</div></div><div style="flex:0 0 190px;font-size:12px;color:var(--mut)">${conv?conv+' · ':''}avg ${avgD(s.k)} days here</div></div>`}).join('')}</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px"><div class="panel" style="padding:18px"><h2 style="margin:0 0 8px;font-size:16px;font-weight:700">By category</h2>${tbl(['Category','Applications','Accepted','Rejected','Conversion'],cats.map(x=>[E(x.n),x.t,x.a,x.r,x.p+'%']),['Total',cats.reduce((a,x)=>a+x.t,0),cats.reduce((a,x)=>a+x.a,0),cats.reduce((a,x)=>a+x.r,0),sh.length?Math.round(cats.reduce((a,x)=>a+x.a,0)/sh.length*100)+'%':'–'])}</div>
+<div class="panel" style="padding:18px"><h2 style="margin:0 0 8px;font-size:16px;font-weight:700">By source</h2>${tbl(['Source','Applications','Accepted','Conversion'],srcs.map(x=>[x.n,x.t,x.a,x.p+'%']),['Total',srcs.reduce((a,x)=>a+x.t,0),srcs.reduce((a,x)=>a+x.a,0),sh.length?Math.round(srcs.reduce((a,x)=>a+x.a,0)/sh.length*100)+'%':'–'])}</div></div></section>`}
+function viewInterviews(){const sh=shownCards().filter(c=>c.stage==='test');const sch=sh.filter(c=>c.slot),uns=sh.filter(c=>!c.slot);
+ const dayOf=c=>c.slot.split(', ')[0],timeOf=c=>c.slot.split(', ')[1];
+ const item=c=>`<div style="display:flex;flex-wrap:wrap;align-items:center;gap:14px;border:1px solid var(--line);border-radius:12px;padding:14px 16px"><div style="flex:0 0 120px"><div style="font-size:13px;color:var(--mut);font-weight:600">${dayOf(c)}</div><div style="font-size:18px;font-weight:800">${timeOf(c)}</div></div><div style="flex:1 1 200px"><div style="font-weight:700">${E(c.name)}</div><div style="font-size:13px;color:var(--mut)">${gl(c.g)} · ${c.campus} · ${E(c.room)} · ${c.panel.join(', ')}</div></div><button class="b s" data-a="open" data-i="${c.id}" data-t="test">Open profile</button></div>`;
+ const week=`<div class="tw"><div style="display:grid;grid-template-columns:repeat(5,minmax(160px,1fr));gap:10px;min-width:820px">${DAYS.map(d=>`<div style="background:#F7F8FC;border-radius:12px;padding:10px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:13px">${d}</b><button class="b s" data-a="sheet" data-i="${d}" style="padding:3px 8px">Sheet</button></div>${sch.filter(c=>dayOf(c)===d).sort((a,b)=>TIMES.indexOf(timeOf(a))-TIMES.indexOf(timeOf(b))).map(c=>`<button data-a="open" data-i="${c.id}" data-t="test" style="background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:block;width:100%"><div style="font-size:12px;font-weight:800;color:var(--accfg)">${timeOf(c)}</div><div style="font-size:13px;font-weight:700">${E(c.name)}</div><div style="font-size:11.5px;color:var(--mut)">${gl(c.g)} · ${E(c.room)}</div></button>`).join('')||'<div style="font-size:12px;color:var(--mut)">No slots</div>'}</div>`).join('')}</div></div>`;
+ return `<section aria-label="Interviews" class="panel" style="padding:22px;display:flex;flex-direction:column;gap:12px"><div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;align-items:center"><h2 style="margin:0;font-size:16px;font-weight:700">Upcoming tests and interviews</h2><div class="seg" style="padding:3px"><button class="${S.iv==='list'?'on':''}" style="padding:7px 12px;font-size:13px" data-a="iv" data-i="list">List</button><button class="${S.iv==='week'?'on':''}" style="padding:7px 12px;font-size:13px" data-a="iv" data-i="week">Week</button></div></div>${S.iv==='week'?week:sch.sort((a,b)=>DAYS.indexOf(dayOf(a))-DAYS.indexOf(dayOf(b))||TIMES.indexOf(timeOf(a))-TIMES.indexOf(timeOf(b))).map(item).join('')}${!sch.length&&S.iv==='list'?'<div style="color:var(--mut)">No tests or interviews match the current filters.</div>':''}${uns.length?`<div class="note w">${uns.length} applicant${uns.length>1?'s are':' is'} in Test / Interview without a slot: ${uns.map(c=>`<button data-a="open" data-i="${c.id}" data-t="test" style="text-decoration:underline;font-weight:800">${E(c.name)}</button>`).join(', ')}.</div>`:''}</section>`}
+/* ---------- slide-over ---------- */
+function slide(){const c=get(S.sel);if(!c)return '';const st=stageOf(c.stage),req=reqDocs(c),ok=okDocs(c);const t=S.tab;
+ const tabsL=[['profile','Profile'],['docs','Documents'],['test','Test'],['notes','Notes'],['timeline','Timeline']];
+ const dd=(l,v,full)=>`<div style="${full?'grid-column:1/-1':''}"><dt>${l}</dt><dd>${v||'<span style="color:#9aa0bd;font-weight:500">Not recorded</span>'}</dd></div>`;
+ let body='';
+ if(t==='profile'){const k=catOf(c.cat),bad=idBad(c);
+  body=`<dl style="margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 16px">
+${dd('Category',`<select style="${selS};height:34px" data-a="setcat" aria-label="Category">${CATS.filter(x=>x.on||x.id===c.cat).map(x=>opt(x.id,x.name,c.cat)).join('')}</select>`)}
+${dd('Source',E(c.source))}
+${dd('Student date of birth',c.dob?fmtDob(c.dob)+' <span style="color:var(--mut);font-weight:500">(age '+ageOf(c.dob).toFixed(1)+')</span>':'')}
+${dd('Gender',c.gender)}
+${dd('B-Form number',c.bform)}
+${dd('Applying for',gl(c.g)+', '+c.campus+' campus')}
+${dd('Guardian',E(c.guardian))}
+${dd('WhatsApp',E(maskP(c.phone)))}
+${dd('Second guardian phone',E(maskP(c.phone2)))}
+${dd('Guardian CNIC',c.cnic?E(maskC(c.cnic))+(can('cnic')?'':' <span class="tg">Hidden for your role</span>'):'')}
+${dd('Previous school',E(c.school))}
+${dd('Applied',c.applied)}
+${dd('Assigned to',`<select style="${selS};height:34px" data-a="setowner" aria-label="Owner">${OWNERS.map(o=>opt(o,o,c.who)).join('')}</select>`)}
+${c.stage==='wait'?dd('Waitlist position','#'+waitRank(c)+' in '+gl(c.g)):''}
+${dd('Home address',E(c.addr),1)}
+${dd('Medical notes',E(c.medical),1)}</dl>
+${k.idKind?`<div style="margin-top:18px;border:1px solid var(--line);border-radius:12px;padding:14px"><div style="font-size:13px;font-weight:700;margin-bottom:6px">${k.idKind==='STU'?'Sibling student ID':'Staff ID'}</div><div style="display:flex;gap:8px"><input id="sid" class="in" style="flex:1" data-s="m.sid" placeholder="${k.idKind==='STU'?'STU-0000':'EMP-0000'}" value="${E(S.m.sid!=null?S.m.sid:c.sid||'')}"><button class="b" data-a="verifyid">Verify</button></div>${bad?`<div class="note e" style="margin-top:8px">${E(bad)} Acceptance is blocked until this is fixed.</div>`:`<div class="note o" style="margin-top:8px">${E(c.sid)} found in the ${k.idKind==='STU'?'Students':'Staff'} module.</div>`}</div>`:''}
+${c.admNo?`<div class="note o" style="margin-top:18px;font-size:14px">Admission no. ${c.admNo} · Class ${c.className}${c.offer?'<br>'+c.offer+(c.offerExp&&c.stage==='accepted'?', expires '+c.offerExp:''):''}</div>`:''}
+${c.stage==='rejected'&&c.reason?`<div class="note e" style="margin-top:18px;font-size:14px">Rejected: ${E(c.reason)}</div>`:''}`}
+ if(t==='docs'){const miss=req.filter(d=>c.ok.indexOf(d)<0);
+  body=`<div style="display:flex;flex-direction:column;gap:10px"><div style="font-size:13px;color:var(--mut)">Required for ${gl(c.g)}, ${E(catOf(c.cat).name)}. ${ok} of ${req.length} verified.</div>${req.map(d=>{const v=c.ok.indexOf(d)>=0;return `<div style="display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:12px 14px"><span style="width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;background:${v?'#1F8F5F':'#B4701A'}">${v?'✓':'!'}</span><span style="flex:1;font-size:14px;font-weight:600">${E(d)}</span><span class="pillx" style="background:${v?'#DDF3E8':'#FDECC8'};color:${v?'#146B47':'#7A4B00'}">${v?'Verified':'Missing'}</span><button class="b s" data-a="doc" data-i="${E(d)}">${v?'Mark missing':'Verify'}</button></div>`}).join('')}${miss.length?`<button class="b" data-a="reqdocs" style="align-self:flex-start">${ICON.wa} Request ${miss.length} missing document${miss.length>1?'s':''} on WhatsApp</button>`:''}</div>`}
+ if(t==='test'){const f=S.m.sch||{},canSch=OPEN.indexOf(c.stage)>=0;
+  const clash=f.day&&f.time?S.cards.filter(x=>x.id!==c.id&&x.slot===f.day+', '+f.time&&x.room===f.room)[0]:null;
+  body=`<div style="display:flex;flex-direction:column;gap:14px">${c.slot?`<div style="border:1px solid var(--line);border-radius:14px;padding:18px"><div style="font-size:13px;color:var(--mut);font-weight:600">Scheduled</div><div style="font-size:18px;font-weight:800;margin-top:4px">${c.slot}</div><div style="margin-top:6px;font-size:14px;color:#3E4466">${E(c.room)} · Panel: ${c.panel.join(', ')}</div><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="b s" data-a="resch">Reschedule</button><button class="b s" data-a="remind">${ICON.wa} Send reminder to guardian</button></div></div>`:''}
+${canSch&&(!c.slot||S.m.resch)?`<div style="border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px"><div style="font-weight:800">${c.slot?'Reschedule':'Set a test or interview slot'}</div><div class="g2"><label class="fld">Day<select class="in" data-s="m.sch.day" data-r="1">${opt('','Choose a day',f.day||'')}${DAYS.map(d=>opt(d,d,f.day)).join('')}</select></label><label class="fld">Time<select class="in" data-s="m.sch.time" data-r="1">${opt('','Choose a time',f.time||'')}${TIMES.map(d=>opt(d,d,f.time)).join('')}</select></label></div><label class="fld">Room<select class="in" data-s="m.sch.room" data-r="1">${ROOMS.map(d=>opt(d,d,f.room||ROOMS[0])).join('')}</select></label><div><div style="font-size:13px;font-weight:700;margin-bottom:6px">Panel</div><div style="display:flex;gap:6px;flex-wrap:wrap">${PANEL.map(p=>`<button class="chip ${(f.panel||['Principal','Class teacher']).indexOf(p)>=0?'on':''}" data-a="panel" data-i="${p}">${p}</button>`).join('')}</div></div>${clash?`<div class="note w">Clash: ${E(clash.name)} already has ${E(f.room)} at ${f.time} on ${f.day}. Pick another time or room.</div>`:''}<button class="b d" style="align-self:flex-start" data-a="saveslot" ${clash?'disabled':''}>Save slot and notify guardian</button></div>`:''}
+${c.score!=null?`<div style="border:1px solid var(--line);border-radius:14px;padding:18px"><div style="font-size:13px;color:var(--mut);font-weight:600">Entrance assessment</div><div style="font-size:34px;font-weight:800;margin-top:4px">${c.score}<span style="font-size:16px;color:var(--mut);font-weight:600"> / 100</span></div><div style="margin-top:10px;height:8px;border-radius:6px;background:#E8EAF4;overflow:hidden"><div style="height:100%;border-radius:6px;background:#1F8F5F;width:${c.score}%"></div></div><div style="margin-top:12px;font-size:14px">Interview outcome: <strong>${E(c.outcome||'Recommended')}</strong></div>${c.remarks?`<div style="margin-top:6px;font-size:13px;color:var(--mut)">${E(c.remarks)}</div>`:''}</div>`:''}
+${c.score==null&&(c.stage==='test'||c.stage==='review')?`<div style="border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px"><div style="font-weight:800">Enter assessment result</div><div class="g2"><label class="fld">Score (0 to 100)<input id="sc" class="in" type="number" min="0" max="100" data-s="m.score" value="${E(S.m.score||'')}"></label><label class="fld">Outcome<select class="in" data-s="m.outcome" data-r="1">${['Recommended','Recommended with support','Not recommended'].map(o=>opt(o,o,S.m.outcome||'Recommended')).join('')}</select></label></div><label class="fld">Remarks<textarea id="rm" class="in" rows="2" data-s="m.remarks">${E(S.m.remarks||'')}</textarea></label>${S.m.err?`<div class="note e">${E(S.m.err)}</div>`:''}<button class="b d" style="align-self:flex-start" data-a="savescore">Save result</button></div>`:''}
+${!c.slot&&c.score==null&&!canSch?`<div style="border:1.5px dashed #B9BDD6;border-radius:14px;padding:26px 18px;text-align:center;color:var(--mut)">No test or interview was recorded for this application.</div>`:''}</div>`}
+ if(t==='notes')body=`<div style="display:flex;flex-direction:column;gap:10px">${c.notes.map(n=>`<div style="background:var(--bg);border-radius:12px;padding:12px 14px"><div style="font-size:12px;color:var(--mut);font-weight:600">${n.by} · ${n.d}</div><div style="margin-top:4px">${E(n.text)}</div></div>`).join('')}<label style="font-size:13px;font-weight:600" for="note">Add a note</label><textarea id="note" class="in" rows="3" data-s="m.note" placeholder="Write a note for the admissions team">${E(S.m.note||'')}</textarea><button class="b d" style="align-self:flex-start" data-a="addnote">Add note</button></div>`;
+ if(t==='timeline')body=`<ol style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px">${c.timeline.slice().reverse().map(e=>`<li style="display:flex;gap:12px"><span style="width:10px;height:10px;border-radius:50%;background:var(--acc);margin-top:5px;flex:0 0 10px"></span><span><span style="display:block;font-weight:600">${E(e.t)}</span><span style="display:block;font-size:12px;color:var(--mut);margin-top:2px">${E(e.d)}</span></span></li>`).join('')}</ol>`;
+ const s=c.stage,fin=['accepted','enrolled','rejected'].indexOf(s)>=0;
+ return `<div class="scrim" data-a="close"></div><aside class="slide" role="dialog" aria-modal="true" aria-label="Application details">
+<div style="padding:20px 22px 0;display:flex;align-items:flex-start;gap:14px"><span style="${avS(c)}">${ini(c.name)}</span><div style="flex:1;min-width:0"><div style="font-size:20px;font-weight:800">${E(c.name)}</div><div style="font-size:13px;color:var(--mut);margin-top:2px">${c.id} · ${gl(c.g)}${c.section?'-'+c.section:''} · ${c.campus} · ${E(SH[c.cat]||catOf(c.cat).name)}</div><span class="pillx" style="margin-top:8px;background:${st.bg};color:${st.fg}">${st.l}</span></div><button data-a="close" aria-label="Close" style="width:36px;height:36px;border-radius:10px;border:1px solid var(--line2);display:flex;align-items:center;justify-content:center">${ICON.x}</button></div>
+<div class="tabs" role="tablist" style="padding:16px 22px 0">${tabsL.map(x=>`<button role="tab" aria-selected="${t===x[0]}" class="${t===x[0]?'on':''}" data-a="tab" data-i="${x[0]}">${x[1]}</button>`).join('')}</div>
+<div style="flex:1;overflow-y:auto;padding:20px 22px">${body}</div>
+<div style="padding:14px 22px;border-top:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+${!fin&&can('reject')?`<button class="b r" data-a="openrej">Reject</button>`:''}
+${['docs','test','review'].indexOf(s)>=0&&can('reject')?`<button class="b" data-a="wait" style="font-weight:700">Waitlist</button>`:''}
+${can('download')?`<button class="b" data-a="dl" data-i="${c.id}">${ICON.dl} Download form</button>`:''}
+<button class="b" data-a="track" title="Parent tracking link">${ICON.wa} Tracking link</button>
+<span style="flex:1"></span>
+${(s==='wait'||s==='rejected')&&can('accept')?`<button class="b d" data-a="openreopen">Reopen for review</button>`:''}
+${['new','docs','test'].indexOf(s)>=0?`<button class="b d" data-a="advance">Move to ${stageOf(nextStage(c)).l}</button>`:''}
+${(s==='test'||s==='review')&&can('accept')?`<button class="b g" data-a="openacc">Accept…</button>`:''}
+${s==='accepted'?`<button class="b g" data-a="enroll">Mark as enrolled</button>`:''}</div></aside>`}
+/* ---------- admission form ---------- */
+const L={title:['Admission Application Form 2026–27','داخلہ درخواست فارم 2026–27'],sec1:['Student','طالب علم'],name:['Student name','طالب علم کا نام'],dob:['Date of birth','تاریخ پیدائش'],gender:['Gender','جنس'],bform:['B-Form number','ب فارم نمبر'],grade:['Applying for','داخلہ برائے'],cat:['Category','زمرہ'],applied:['Date applied','تاریخ درخواست'],sec2:['Guardian','سرپرست'],guardian:['Guardian name','سرپرست کا نام'],cnic:['Guardian CNIC','سرپرست کا شناختی کارڈ نمبر'],wa:['WhatsApp number','واٹس ایپ نمبر'],ph2:['Second phone','دوسرا فون نمبر'],addr:['Home address','گھر کا پتہ'],sec3:['Background','پس منظر'],prev:['Previous school','سابقہ اسکول'],med:['Medical notes','طبی معلومات'],sec4:['Documents checklist','دستاویزات کی فہرست'],ver:['Verified','تصدیق شدہ'],mis:['Missing','موجود نہیں'],sec5:['Assessment and office use','جانچ اور دفتری استعمال'],score:['Assessment score','ٹیسٹ کے نمبر'],outc:['Interview outcome','انٹرویو کا نتیجہ'],stage:['Stage','مرحلہ'],adm:['Admission number','داخلہ نمبر'],cls:['Class','جماعت'],sigP:['Parent or guardian signature','والدین یا سرپرست کے دستخط'],sigS:['Principal signature and school stamp','پرنسپل کے دستخط اور اسکول کی مہر'],photo:['Photo','تصویر'],scan:['Scan to open the profile','پروفائل کھولنے کے لیے اسکین کریں']};
+const lab=(k,l)=>l==='en'?L[k][0]:l==='ur'?L[k][1]:L[k][0]+' / '+L[k][1];
+function qrSvg(id){let h=0;for(let i=0;i<id.length;i++)h=(h*31+id.charCodeAt(i))>>>0;const n=21;let r='';const fin=(x,y)=>`<rect x="${x}" y="${y}" width="7" height="7" fill="#111"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" fill="#111"/>`;
+ for(let y=0;y<n;y++)for(let x=0;x<n;x++){if((x<8&&y<8)||(x>12&&y<8)||(x<8&&y>12))continue;h=(h*1103515245+12345)>>>0;if((h>>>16)&1)r+=`<rect x="${x}" y="${y}" width="1" height="1" fill="#111"/>`}
+ return `<svg width="84" height="84" viewBox="0 0 21 21" role="img" aria-label="QR code for ${id}" shape-rendering="crispEdges"><rect width="21" height="21" fill="#fff"/>${r}${fin(0,0)}${fin(14,0)}${fin(0,14)}</svg>`}
+function formDoc(c,o){const l=o.lang,bl=o.blank,B=bl||!c;const v=(x)=>B?'':E(x||'');const ur=l==='ur';
+ const ln=(k,val,w)=>`<div class="ln" style="${w?'flex:'+w:'flex:1'}"><b>${lab(k,l)}</b><span ${ur?'style="font-weight:600"':''}>${val||''}</span></div>`;
+ const nm=B?'':(ur&&c.nameUr?E(c.nameUr):E(c.name)+(l==='both'&&c.nameUr?' · '+E(c.nameUr):''));
+ const req=B?[]:reqDocs(c);
+ const camp=B?'______________':c.campus;
+ return `<div class="paper ${ur?'ur':''}" ${ur?'dir="rtl"':''}>${o.wm?'<div class="wm">CONFIDENTIAL</div>':''}
+<div style="display:flex;gap:16px;align-items:flex-start;border-bottom:3px solid #1B1740;padding-bottom:12px"><div style="width:54px;height:54px;border-radius:12px;background:#1B1740;color:#fff;font-weight:800;font-size:26px;display:flex;align-items:center;justify-content:center;flex:none">I</div><div style="flex:1"><div style="font-weight:800;font-size:17px;letter-spacing:.3px">ILMA Grammar School</div><div style="font-size:11.5px;color:#444">${camp} Campus · Lahore · admissions@ilma.example</div><h3 style="margin-top:6px">${lab('title',l)}</h3></div><div style="text-align:center;flex:none">${B?'<div style="width:84px;height:84px;border:1px dashed #888"></div>':qrSvg(c.id)}<div style="font-size:9px;color:#555;max-width:90px">${B?'':lab('scan','en')}</div></div><div style="width:90px;height:110px;border:1.5px dashed #555;display:flex;align-items:center;justify-content:center;font-size:11px;color:#555;flex:none;text-align:center">${lab('photo',l==='ur'?'ur':'en')}</div></div>
+<div style="display:flex;justify-content:space-between;margin-top:8px;font-size:11.5px"><span><b>Application ID:</b> ${B?'__________':c.id}</span><span><b>${lab('applied',l)}:</b> ${B?'__________':E(c.applied)}</span></div>
+<div class="sec">${lab('sec1',l)}</div>${ln('name',nm)}<div style="display:flex;gap:18px">${ln('dob',B?'':fmtDob(c.dob))}${ln('gender',v(c.gender),'.6')}</div><div style="display:flex;gap:18px">${ln('bform',v(c.bform))}${ln('grade',B?'':gl(c.g)+', '+c.campus)}</div>${ln('cat',B?'':E(catOf(c.cat).name))}
+<div class="sec">${lab('sec2',l)}</div>${ln('guardian',B?'':(ur&&c.nameUr?E(c.guardian):E(c.guardian)))}<div style="display:flex;gap:18px">${ln('cnic',B?'':E(maskC(c.cnic)))}${ln('wa',B?'':E(maskP(c.phone)))}</div>${ln('ph2',B?'':E(maskP(c.phone2)))}${ln('addr',v(c.addr))}
+<div class="sec">${lab('sec3',l)}</div>${ln('prev',v(c.school))}${ln('med',v(c.medical))}
+<div class="sec">${lab('sec4',l)}</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 22px;font-size:11.5px">${B?['Birth certificate / B-Form','Previous result card','Guardian CNIC copy','Passport photos (2)','Other (category specific)'].map(d=>`<div>☐ ${d}</div>`).join(''):req.map(d=>`<div>${c.ok.indexOf(d)>=0?'☑':'☐'} ${E(d)} <b>${c.ok.indexOf(d)>=0?lab('ver',l==='both'?'en':l):lab('mis',l==='both'?'en':l)}</b></div>`).join('')}</div>
+<div class="sec">${lab('sec5',l)}</div><div style="display:flex;gap:18px">${ln('score',B||c.score==null?'':c.score+' / 100')}${ln('outc',B?'':E(c.outcome))}</div><div style="display:flex;gap:18px">${ln('stage',B?'':stageOf(c.stage).l)}${ln('adm',B?'':E(c.admNo))}${ln('cls',B?'':E(c.className))}</div>
+<div style="display:flex;gap:40px;margin-top:46px"><div style="flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px">${lab('sigP',l)}</div><div style="flex:1;border-top:1px solid #111;padding-top:4px;font-size:11px">${lab('sigS',l)}</div></div>
+${!B&&(!can('cnic')||!can('phone'))?'<div style="margin-top:14px;font-size:10px;color:#666">Some fields are masked for the role that downloaded this copy.</div>':''}</div>`}
+const zoomF=()=>innerWidth<560?.4:innerWidth<900?.62:.74;
+/* ---------- modals ---------- */
+const dlg=(t,b,foot,w,aria)=>`<div class="ov" data-a="ovx"><div class="dlg ${w||''}" role="dialog" aria-modal="true" aria-label="${E(aria||t)}"><h2>${t}</h2>${b}<div style="margin-top:22px;display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap"><button class="b" data-a="mclose" style="font-weight:700">${foot===false?'Close':'Cancel'}</button>${foot||''}</div></div></div>`;
+const fi=(l,p,o)=>{o=o||{};return `<label class="fld" style="${o.full?'grid-column:1/-1':''}">${l}${o.req?' *':''}${o.tag==='ta'?`<textarea class="in" rows="2" id="${p}" data-s="${p}">${E(getv(p))}</textarea>`:o.sel?`<select class="in" id="${p}" data-s="${p}" data-r="1">${o.sel.map(x=>opt(x[0],x[1],getv(p))).join('')}</select>`:`<input class="in" id="${p}" ${o.t?'type="'+o.t+'"':''} data-s="${p}" placeholder="${o.ph||''}" value="${E(getv(p))}">`}</label>`};
+function modal(){const m=S.modal;if(!m)return '';
+ if(m.t==='acc'){const a=S.m.acc,c=get(a.id),sec=a.section,x=sec?seat(c.g,sec):null,full=x&&x.left<=0,k=catOf(c.cat),q=k.quota[c.g],qfull=q!=null&&quotaUsed(c.cat,c.g)>=q,bad=idBad(c),fee=feeFor(c),ann=a.plan==='Annual (5% off)',net=Math.round(fee.net*(ann?.95:1));
+  const needOv=(full||qfull),su=S.role==='super',blocked=!!bad||(needOv&&!su)||!sec||(needOv&&su&&(a.reason||'').trim().length<4);
+  return dlg('Accept '+E(c.name),`<p style="margin:6px 0 0;color:var(--mut)">Confirm placement and send the offer to ${E(c.guardian)}.</p><div class="lab">Class</div><div style="background:var(--bg);border-radius:10px;padding:11px 14px;font-weight:600">${gl(c.g)} · ${c.campus} campus · ${E(catOf(c.cat).name)}</div>
+<div class="lab">Section</div><div role="group" aria-label="Section" style="display:flex;gap:8px;flex-wrap:wrap">${secsOf(c.g).map(s=>{const y=seat(c.g,s);return `<button class="opt ${sec===s?'on':''}" aria-pressed="${sec===s}" data-a="accsec" data-i="${s}" style="${y.left<=0?'border-color:#E0A9A2':''}">Section ${s}<div style="font-size:11.5px;font-weight:600;color:${y.left<=0?'#C23A2E':'var(--mut)'}">${y.left<=0?'Full':y.left+' seats left'}</div></button>`}).join('')}</div>
+${bad?`<div class="note e" style="margin-top:12px">${E(bad)} Fix the ID in the profile before accepting.</div>`:''}
+${full?`<div class="note e" style="margin-top:12px">Section ${sec} is full (${x.filled+x.held} of ${x.cap}). ${su?'Accepting needs an override reason.':'An Admin cannot accept into a full section. Ask a Super Admin to override.'}</div>`:''}
+${qfull?`<div class="note e" style="margin-top:12px">The ${E(k.name)} quota for ${gl(c.g)} is used (${quotaUsed(c.cat,c.g)} of ${q}). ${su?'Accepting needs an override reason.':'Ask a Super Admin to override.'}</div>`:''}
+${needOv&&su?`<label class="fld" style="margin-top:12px">Override reason *<input id="ovr" class="in" data-s="m.acc.reason" value="${E(a.reason||'')}" placeholder="For example: board approved one extra seat"></label>`:''}
+<div class="lab">Fee plan</div><div style="display:flex;gap:8px;flex-wrap:wrap">${['Monthly','Termly','Annual (5% off)'].map(p=>`<button class="opt ${a.plan===p?'on':''}" aria-pressed="${a.plan===p}" data-a="accplan" data-i="${p}">${p}</button>`).join('')}</div>
+<div style="margin-top:10px;background:var(--bg);border-radius:12px;padding:12px 14px;font-size:13px;display:grid;grid-template-columns:1fr auto;gap:4px 12px"><span>Monthly fee, ${grp(c.g)}</span><b>Rs ${fee.base.toLocaleString()}</b><span>${E(k.name)} discount</span><b>${fee.d?'− '+fee.d+'%':'None'}</b>${ann?'<span>Annual plan</span><b>− 5%</b>':''}<span style="font-weight:800">Monthly fee in the offer</span><b style="font-size:15px">Rs ${net.toLocaleString()}</b><span>Registration fee (once)</span><b>Rs ${REGFEE.toLocaleString()}</b></div>
+<div class="lab">Admission number</div><div style="border:1px dashed #B9BDD6;border-radius:10px;padding:11px 14px;font-weight:700;letter-spacing:.4px">ILM-26-${c.id.slice(4)} <span style="font-weight:500;color:var(--mut)">· auto-generated</span></div>
+<div class="lab">Offer valid for</div><div style="display:flex;gap:8px">${[7,14].map(d=>`<button class="opt ${a.exp===d?'on':''}" data-a="accexp" data-i="${d}">${d} days</button>`).join('')}</div>
+<div style="margin-top:16px;display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:12px;padding:12px 14px"><span style="flex:1;font-weight:600">Send offer letter via WhatsApp</span><button role="switch" class="sw ${a.wa?'on':''}" aria-checked="${a.wa}" aria-label="Send offer via WhatsApp" data-a="accwa"><i></i></button></div>
+${a.wa?`<label style="display:flex;gap:8px;margin-top:10px;font-size:13px;font-weight:600;align-items:center"><input type="checkbox" class="cb" data-a="accform" ${a.form?'checked':''}> Attach the admission form (PDF) to the message</label>`:''}`,`<button class="b g" data-a="accok" ${blocked?'disabled':''}>${needOv&&su?'Override and accept':'Confirm and accept'}</button>`,'','Accept application')}
+ if(m.t==='rej'){const c=get(S.m.rej.id),r=S.m.rej;
+  return dlg('Reject '+E(c.name)+'?',`<p style="margin:6px 0 0;color:var(--mut)">A reason is required. It is kept in the audit trail.</p><div role="group" aria-label="Reason" style="margin-top:16px;display:flex;flex-direction:column;gap:8px">${REASONS.map(x=>`<button data-a="rejr" data-i="${E(x)}" aria-pressed="${r.reason===x}" style="padding:12px 14px;border-radius:10px;font-weight:600;border:1.5px solid ${r.reason===x?'#C23A2E':'var(--line2)'};background:${r.reason===x?'#FADBD8':'#fff'};color:${r.reason===x?'#8A1C12':'var(--ink)'}">${x}</button>`).join('')}</div>
+<label class="fld" style="margin-top:14px">Extra note (optional)<textarea id="rn" class="in" rows="2" data-s="m.rej.note">${E(r.note||'')}</textarea></label>
+<label style="display:flex;gap:8px;margin-top:12px;font-size:13px;font-weight:600;align-items:center"><input type="checkbox" class="cb" data-a="rejwa" ${r.wa?'checked':''}> Send a polite message on WhatsApp</label>${r.wa?`<div class="note i" style="margin-top:8px;font-weight:500">Assalam o Alaikum ${E(c.guardian)}. Thank you for applying for ${E(c.name)}. We are sorry that we cannot offer a place this year${r.reason?' ('+E(r.reason.toLowerCase())+')':''}. You are welcome to apply again next year.<br><span class="ur" style="direction:rtl;display:block;text-align:right;margin-top:6px;font-family:'Noto Nastaliq Urdu',serif;line-height:2">شکریہ۔ بدقسمتی سے اس سال ہم داخلہ نہیں دے سکتے۔ آپ اگلے سال دوبارہ درخواست دے سکتے ہیں۔</span></div>`:''}`,`<button class="b" data-a="rejok" ${r.reason?'':'disabled'} style="background:${r.reason?'#B02A1F':'#B9A3A0'};border-color:transparent;color:#fff;font-weight:700">Reject application</button>`,'','Reject application')}
+ if(m.t==='reopen'){const c=get(S.m.ro.id);return dlg('Reopen '+E(c.name)+'?',`<p style="margin:6px 0 0;color:var(--mut)">Reopening is logged with your name and reason.</p><label class="fld" style="margin-top:14px">Reason *<textarea id="ror" class="in" rows="3" data-s="m.ro.reason" placeholder="For example: guardian sent the missing certificate">${E(S.m.ro.reason||'')}</textarea></label>`,`<button class="b d" data-a="rook" ${(S.m.ro.reason||'').trim().length<4?'disabled':''}>Reopen for review</button>`)}
+ if(m.t==='form'){const f=S.m.form,ids=f.ids,one=ids.length===1&&!f.blank,c=f.blank?null:get(ids[0]);
+  return dlg(f.blank?'Blank admission form':ids.length>1?'Download '+ids.length+' admission forms':'Admission form',`<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:10px"><div class="seg" style="padding:3px" role="group" aria-label="Language">${[['en','English'],['ur','Urdu'],['both','Both']].map(x=>`<button class="${f.lang===x[1===0?0:0]?'':''}${f.lang===x[0]?'on':''}" style="padding:7px 12px;font-size:13px" data-a="flang" data-i="${x[0]}">${x[1]}</button>`).join('')}</div><label style="display:flex;gap:8px;font-size:13px;font-weight:600;align-items:center"><input type="checkbox" class="cb" data-a="fwm" ${f.wm?'checked':''}> Confidential watermark (internal copy)</label>${ids.length>1?`<div class="seg" style="padding:3px">${[['zip','ZIP of single PDFs'],['pdf','One merged PDF']].map(x=>`<button class="${f.fmt===x[0]?'on':''}" style="padding:7px 12px;font-size:13px" data-a="ffmt" data-i="${x[0]}">${x[1]}</button>`).join('')}</div>`:''}</div>
+${!can('cnic')||!can('phone')?`<div class="note w" style="margin-top:12px">CNIC or phone numbers are masked in this file because your role cannot see them in full.</div>`:''}
+${ids.length>1&&!f.blank?`<div style="margin-top:12px;font-size:13px;color:var(--mut)">${ids.map(i=>E(get(i).name)).slice(0,6).join(', ')}${ids.length>6?' and '+(ids.length-6)+' more':''}. Preview shows the first form.</div>`:''}
+${f.prog!=null?`<div style="margin-top:12px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:600"><span>${f.prog>=100?'Ready':ids.length>20?'Running in the background. You will be notified.':'Preparing forms'}</span><span>${Math.round(f.prog)}%</span></div><div class="bar" style="margin-top:6px"><i style="width:${f.prog}%;background:var(--acc)"></i></div></div>`:''}
+<div class="pv" style="margin-top:14px"><div style="zoom:${zoomF()}">${formDoc(f.blank?null:get(ids[0]),{lang:f.lang,wm:f.wm,blank:f.blank})}</div></div>`,`<button class="b p" data-a="fok" ${f.prog!=null&&f.prog<100?'disabled':''}>${ICON.dl} ${f.blank?'Download blank form':one?'Download '+E(fileName(c)):'Download '+ids.length+' forms'}</button>`,'x','Admission form')}
+ if(m.t==='new'){const n=S.m.nf;return dlg('New application',`<div class="g2" style="margin-top:14px">${fi('Student name','m.nf.name',{req:1})}${fi('Date of birth','m.nf.dob',{req:1,t:'date'})}${fi('Gender','m.nf.gender',{sel:[['Female','Female'],['Male','Male']]})}${fi('Applying for grade','m.nf.g',{req:1,sel:GRADES.map(g=>[g,gl(g)])})}${fi('Campus','m.nf.campus',{req:1,sel:me().campuses.map(c=>[c,c])})}${fi('Category','m.nf.cat',{req:1,sel:CATS.filter(c=>c.on).map(c=>[c.id,c.name])})}${fi('Source','m.nf.source',{sel:SOURCES.map(s=>[s,s])})}${fi('Previous school','m.nf.school')}${fi('Guardian name','m.nf.guardian',{req:1})}${fi('WhatsApp number','m.nf.phone',{req:1,ph:'0300 1234567'})}${fi('Second guardian phone','m.nf.phone2',{ph:'0321 1234567'})}${fi('Guardian CNIC','m.nf.cnic',{req:1,ph:'35202-1234567-1'})}${fi('Student B-Form number','m.nf.bform',{ph:'35202-1234567-1'})}${catOf(n.cat).idKind?fi(catOf(n.cat).idKind==='STU'?'Sibling student ID':'Staff ID','m.nf.sid',{req:1,ph:catOf(n.cat).idKind==='STU'?'STU-0000':'EMP-0000'}):''}${fi('Home address','m.nf.addr',{tag:'ta',full:1})}${fi('Medical notes','m.nf.medical',{tag:'ta',full:1})}</div>
+${(S.m.errs||[]).length?`<div class="note e" style="margin-top:14px"><b>Fix these first</b><ul style="margin:6px 0 0;padding-left:18px">${S.m.errs.map(e=>`<li>${E(e)}</li>`).join('')}</ul></div>`:''}${(S.m.warn||[]).length?`<div class="note w" style="margin-top:14px"><b>Check before saving</b><ul style="margin:6px 0 0;padding-left:18px">${S.m.warn.map(e=>`<li>${e}</li>`).join('')}</ul></div>`:''}`,`<button class="b p" data-a="savenew">${(S.m.warn||[]).length?'Save anyway':'Save application'}</button>`,'w','New application')}
+ if(m.t==='imp'){const r=S.m.res;return dlg('Bulk upload CSV',`<p style="margin:6px 0 10px;color:var(--mut)">Paste a CSV with these columns. Rows with errors are shown before anything is imported.</p><textarea id="csv" class="in" rows="6" data-s="m.csv" style="font-family:ui-monospace,monospace;font-size:12px">${E(S.m.csv)}</textarea><div style="margin-top:10px"><button class="b" data-a="chk">Check file</button></div>${r?`<div class="tw" style="margin-top:14px"><table><thead><tr><th>Row</th><th>Student</th><th>Grade</th><th>Category</th><th>Result</th></tr></thead><tbody>${r.map((x,i)=>`<tr><td>${i+2}</td><td>${E(x.r[0])}</td><td>${E(x.r[3])}</td><td>${E(x.r[5])}</td><td>${x.e.length?`<span style="color:var(--bad);font-weight:700">${E(x.e.join('. '))}</span>`:'<span style="color:var(--ok);font-weight:700">Ready</span>'}</td></tr>`).join('')}</tbody></table></div>`:''}`,r?`<button class="b p" data-a="impok" ${r.some(x=>!x.e.length)?'':'disabled'}>Import ${r.filter(x=>!x.e.length).length} valid row${r.filter(x=>!x.e.length).length===1?'':'s'}</button>`:'','w','Bulk upload CSV')}
+ if(m.t==='exp'){const e=S.m.ex,rows=exportRows(e.scope),pk=rows.slice(0,6);
+  return dlg(e.scope==='roster'?'Class roster':'Export current list',`<div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-top:10px"><div class="seg" style="padding:3px">${[['csv','CSV'],['xlsx','Excel']].map(x=>`<button class="${e.fmt===x[0]?'on':''}" style="padding:7px 12px;font-size:13px" data-a="exfmt" data-i="${x[0]}">${x[1]}</button>`).join('')}</div><span style="font-size:13px;color:var(--mut)">${rows.length} row${rows.length===1?'':'s'} · follows the filters on screen${e.scope==='roster'?', accepted and enrolled only':''}</span></div>${!can('cnic')||!can('phone')?`<div class="note w" style="margin-top:12px">CNIC or phone numbers are masked in this file because your role cannot see them in full.</div>`:''}<div class="tw" style="margin-top:12px"><table style="font-size:13px"><thead><tr><th>ID</th><th>Name</th><th>Name (Urdu)</th><th>Grade</th><th>Category</th><th>Stage</th><th>WhatsApp</th><th>CNIC</th></tr></thead><tbody>${pk.map(c=>`<tr><td>${c.id}</td><td>${E(c.name)}</td><td dir="rtl" style="font-family:'Noto Nastaliq Urdu',serif">${E(c.nameUr)}</td><td>${gl(c.g)}${c.section?'-'+c.section:''}</td><td>${E(SH[c.cat]||catOf(c.cat).name)}</td><td>${stageOf(c.stage).l}</td><td>${E(maskP(c.phone))}</td><td>${E(maskC(c.cnic))}</td></tr>`).join('')||'<tr><td colspan="8" style="text-align:center;color:var(--mut);padding:20px">Nothing to export with these filters.</td></tr>'}</tbody></table></div>${rows.length>6?`<div style="font-size:12px;color:var(--mut);margin-top:6px">Showing 6 of ${rows.length}. The file has a UTF-8 marker so Excel shows Urdu names correctly.</div>`:''}`,`<button class="b p" data-a="exok" ${rows.length?'':'disabled'}>${ICON.dl} Download ${e.fmt.toUpperCase()==='XLSX'?'Excel file':'CSV'}</button>`,'w','Export')}
+ if(m.t==='promote'){const g=S.m.pg,wl=S.cards.filter(c=>c.g===g&&c.stage==='wait').sort((a,b)=>(b.score||0)-(a.score||0));const top=wl[0];return dlg('Promote from the waitlist',`<p style="margin:8px 0 0">A seat is open in <b>${gl(g)}</b> (${gseat(g).left} left). The top ranked waitlisted applicant is:</p><div style="margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:14px"><b>${E(top.name)}</b> <span style="color:var(--mut)">· ${top.id} · score ${top.score==null?'–':top.score}</span><div style="font-size:13px;color:var(--mut);margin-top:4px">Guardian: ${E(top.guardian)}. ${wl.length-1} more on the waitlist.</div></div><div class="note i" style="margin-top:12px">Nothing changes until you confirm the placement in the next step.</div>`,`<button class="b g" data-a="promok" data-i="${top.id}">Continue to accept ${E(top.name)}</button>`)}
+ if(m.t==='bulkc'){const b=S.m.bk,n=S.bulk.length;const txt=b.k==='stage'?'Move '+n+' applicant'+(n>1?'s':'')+' to <b>'+stageOf(b.v).l+'</b>?':b.k==='owner'?'Assign <b>'+b.v+'</b> as owner of '+n+' applicant'+(n>1?'s':'')+'?':'Send a WhatsApp message to the guardians of '+n+' applicant'+(n>1?'s':'')+'?';
+  return dlg('Confirm bulk action',`<p style="margin:8px 0 0;font-size:15px">${txt}</p><div style="font-size:13px;color:var(--mut);margin-top:6px">${S.bulk.map(i=>E(get(i).name)).slice(0,8).join(', ')}${n>8?' and '+(n-8)+' more':''}</div>${b.k==='wa'?`<label class="fld" style="margin-top:12px">Message<textarea class="in" id="bwm" rows="3" data-s="m.bk.msg">${E(b.msg)}</textarea></label>`:''}<div class="note i" style="margin-top:12px">Undo will reverse the whole batch.</div>`,`<button class="b d" data-a="bkok">Confirm</button>`)}
+ if(m.t==='sheet'){const d=S.m.day,l=S.cards.filter(c=>c.slot&&c.slot.split(', ')[0]===d&&me().campuses.indexOf(c.campus)>=0).sort((a,b)=>TIMES.indexOf(a.slot.split(', ')[1])-TIMES.indexOf(b.slot.split(', ')[1]));
+  return dlg('Interview sheet · '+d,`<div class="tw" style="margin-top:10px"><table><thead><tr><th>Time</th><th>Applicant</th><th>Grade</th><th>Room</th><th>Panel</th><th>Score</th><th>Remarks</th></tr></thead><tbody>${l.map(c=>`<tr><td>${c.slot.split(', ')[1]}</td><td><b>${E(c.name)}</b><div style="font-size:12px;color:var(--mut)">${E(c.guardian)}</div></td><td>${gl(c.g)}</td><td>${E(c.room)}</td><td>${c.panel.join(', ')}</td><td>______</td><td style="min-width:120px">&nbsp;</td></tr>`).join('')||'<tr><td colspan="7" style="text-align:center;color:var(--mut);padding:20px">No slots on this day.</td></tr>'}</tbody></table></div>`,`<button class="b p" data-a="sheetok" ${l.length?'':'disabled'}>${ICON.dl} Download sheet (PDF)</button>`,'w','Interview sheet')}
+ return ''}
+function exportRows(scope){let r=shownCards();if(scope==='roster')r=r.filter(c=>c.stage==='accepted'||c.stage==='enrolled');return r}
+/* ---------- settings page ---------- */
+function settingsPage(){const su=S.role==='super',dis=su?'':'disabled';const t=S.setTab;let b='';
+ if(t==='seats'){b=`<div class="panel tw"><table style="min-width:760px"><thead><tr><th>Grade</th>${SECS.map(s=>`<th class="c">Section ${s} capacity</th>`).join('')}<th class="c">Filled</th><th class="c">Held (accepted)</th><th class="c">Left</th><th style="min-width:140px">Fill</th></tr></thead><tbody>${GRADES.map(g=>{const x=gseat(g),p=x.cap?Math.round((x.filled+x.held)/x.cap*100):0;return `<tr><td><b>${gl(g)}</b></td>${SECS.map(s=>`<td class="c"><input class="in" type="number" min="0" max="60" style="width:76px;text-align:center" aria-label="${gl(g)} section ${s} capacity" data-a="cap" data-i="${g}|${s}" value="${CAP[g][s]}" ${dis}></td>`).join('')}<td class="c">${x.filled}</td><td class="c">${x.held}</td><td class="c"><b style="color:${x.left<=0?'#C23A2E':'inherit'}">${x.left}</b></td><td><div style="height:8px;border-radius:6px;background:#E8EAF4;overflow:hidden"><div style="${sbar(p)}"></div></div></td></tr>`}).join('')}</tbody></table></div><div style="font-size:13px;color:var(--mut)">A capacity of 0 means the section does not exist for that grade. Changing a number here changes the Seats left tile and the By class view straight away.</div>`}
+ if(t==='cats'){const inUse=id=>S.cards.some(c=>c.cat===id);
+  b=`<div class="panel tw"><table style="min-width:900px"><thead><tr><th>Order</th><th>Category</th><th>Applications</th><th>Fee discount %</th><th>Extra required document</th><th>Active</th><th></th></tr></thead><tbody>${CATS.map((c,i)=>`<tr><td style="white-space:nowrap"><button class="b s" data-a="catmv" data-i="${i}|-1" ${dis} aria-label="Move ${E(c.name)} up">↑</button> <button class="b s" data-a="catmv" data-i="${i}|1" ${dis} aria-label="Move ${E(c.name)} down">↓</button></td><td><input class="in" style="width:100%;min-width:200px" data-a="catname" data-i="${i}" value="${E(c.name)}" aria-label="Category name" ${dis}></td><td class="c">${S.cards.filter(x=>x.cat===c.id).length}</td><td><input class="in" type="number" min="0" max="100" style="width:80px" data-a="catdisc" data-i="${i}" value="${c.disc}" aria-label="Discount for ${E(c.name)}" ${dis}></td><td><input class="in" style="width:100%;min-width:160px" data-a="catdoc" data-i="${i}" value="${E(c.docs[0]||'')}" placeholder="None" aria-label="Extra document" ${dis}></td><td><input type="checkbox" class="cb" data-a="caton" data-i="${i}" ${c.on?'checked':''} ${dis} aria-label="${E(c.name)} active"></td><td>${inUse(c.id)?`<span class="tg" title="A category in use cannot be deleted, only switched off">In use</span>`:`<button class="b s r" data-a="catdel" data-i="${i}" ${dis}>Delete</button>`}</td></tr>`).join('')}</tbody></table></div>
+${su?`<div style="display:flex;gap:10px;flex-wrap:wrap"><input id="nc" class="in" style="min-width:260px" placeholder="New category name" data-s="m.nc" value="${E(S.m.nc||'')}"><button class="b p" data-a="catadd">Add category</button></div>`:''}
+<div class="panel" style="padding:18px"><div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between"><h2 style="margin:0;font-size:16px;font-weight:700">Seat quotas per category</h2><label style="font-size:13px;font-weight:700">Grade <select style="${selS};margin-left:6px" data-s="setGrade" data-r="1">${GRADES.map(g=>opt(g,gl(g),S.setGrade)).join('')}</select></label></div><div class="tw"><table style="margin-top:8px"><thead><tr><th>Category</th><th class="c">Quota in ${gl(S.setGrade)}</th><th class="c">Used</th></tr></thead><tbody>${CATS.filter(c=>c.on).map(c=>`<tr><td>${E(c.name)}</td><td class="c"><input class="in" type="number" min="0" style="width:80px" placeholder="None" data-a="quota" data-i="${c.id}" value="${c.quota[S.setGrade]||''}" aria-label="${E(c.name)} quota" ${dis}></td><td class="c">${quotaUsed(c.id,S.setGrade)}</td></tr>`).join('')}</tbody></table></div><div style="font-size:13px;color:var(--mut);margin-top:8px">Leave blank for no quota. Accepting beyond a quota needs a Super Admin override and a reason.</div></div>`}
+ if(t==='perm'){const rows=[['accept','Accept applications'],['reject','Reject and waitlist applications'],['download','Download admission forms'],['export','Export lists and rosters'],['cnic','See full guardian CNIC'],['phone','See full phone numbers']];
+  b=`<div class="panel tw"><table><thead><tr><th>What the user can do</th><th class="c">Super Admin</th><th class="c">Admin</th></tr></thead><tbody>${rows.map(r=>`<tr><td><b>${r[1]}</b></td><td class="c">✓</td><td class="c"><input type="checkbox" class="cb" data-a="perm" data-i="${r[0]}" ${PERM.admin[r[0]]?'checked':''} ${dis} aria-label="Admin: ${r[1]}"></td></tr>`).join('')}<tr><td><b>Override seat limits and quotas</b></td><td class="c">✓</td><td class="c" style="color:var(--mut)">Never</td></tr><tr><td><b>Edit settings</b></td><td class="c">✓</td><td class="c" style="color:var(--mut)">View only</td></tr></tbody></table></div>
+<div class="panel" style="padding:18px;display:flex;flex-direction:column;gap:10px"><h2 style="margin:0;font-size:16px;font-weight:700">Branch lock</h2><div>An Admin sees only their own branches (here: Main and City). Campus chips, cards, exports and form downloads are limited to them. The server refuses any request for another campus, even if the web address is edited.</div><div><button class="b" data-a="testlock">Test: ask for North as Admin</button></div></div>
+<div class="note i">Masked fields never reach a file for a role that cannot see them. Children's data uses the strictest defaults.</div>`}
+ if(t==='audit'){const q=S.audQ.trim().toLowerCase();const rows=S.audit.filter(r=>(!S.audU||r.who===S.audU)&&(!S.audA||r.act===S.audA)&&(!q||(r.stu+' '+r.note).toLowerCase().indexOf(q)>=0));
+  b=`<div style="display:flex;gap:10px;flex-wrap:wrap"><input id="aq" class="in" style="min-width:240px" placeholder="Search student or note" data-s="audQ" data-rr="1" value="${E(S.audQ)}"><select style="${selS}" data-s="audU" data-r="1" aria-label="User">${opt('','All users',S.audU)}${OWNERS.map(o=>opt(o,o,S.audU)).join('')}</select><select style="${selS}" data-s="audA" data-r="1" aria-label="Action">${opt('','All actions',S.audA)}${['Accepted','Rejected','Override','Reopened','Bulk','Download','Export','Settings'].map(o=>opt(o,o,S.audA)).join('')}</select></div><div class="panel tw"><table style="min-width:640px"><thead><tr><th>When</th><th>User</th><th>Action</th><th>Student</th><th>Details</th></tr></thead><tbody>${rows.map(r=>`<tr><td style="white-space:nowrap">${r.t}</td><td>${r.who}</td><td><span class="tg acc">${r.act}</span></td><td>${E(r.stu)}</td><td>${E(r.note)}</td></tr>`).join('')||'<tr><td colspan="5" style="text-align:center;color:var(--mut);padding:24px">No entries match.</td></tr>'}</tbody></table></div>`}
+ return `<header style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px"><div><div style="font-size:13px;color:var(--mut);font-weight:500">${me().label} / Settings</div><h1 style="margin:4px 0 0;font-size:28px;font-weight:800;letter-spacing:-.4px">Admission settings</h1><div style="margin-top:4px;font-size:14px;color:var(--mut)">${su?'You can change everything on this page.':'You are signed in as Admin. These settings are view only.'}</div></div><div class="seg" role="group" aria-label="View as" style="padding:3px"><button class="${S.role==='super'?'on':''}" style="padding:7px 12px;font-size:13px" data-a="role" data-i="super">Super Admin</button><button class="${S.role==='admin'?'on':''}" style="padding:7px 12px;font-size:13px" data-a="role" data-i="admin">Admin (Main, City)</button></div></header><div class="tabs" role="tablist">${[['seats','Seat capacity'],['cats','Categories and quotas'],['perm','Permissions and privacy'],['audit','Audit log']].map(x=>`<button role="tab" aria-selected="${t===x[0]}" class="${t===x[0]?'on':''}" data-a="stab" data-i="${x[0]}">${x[1]}</button>`).join('')}</div>${b}`}
+/* ---------- shell ---------- */
+function admMain(){const v={board:viewBoard,list:viewList,class:viewClass,funnel:viewFunnel,interviews:viewInterviews}[S.view];return header()+tiles()+seatStrip()+toolbar()+classHeader()+v()}
+function bulkBar(){if(!S.bulk.length||S.modal||S.page!=='adm')return '';return `<div class="bulk" role="region" aria-label="Bulk actions"><b>${S.bulk.length} selected</b><select aria-label="Move to stage" data-a="bstage"><option value="">Move to stage…</option>${STAGES.map(s=>`<option value="${s.k}">${s.l}</option>`).join('')}</select><select aria-label="Assign owner" data-a="bowner"><option value="">Assign owner…</option>${OWNERS.map(o=>`<option>${o}</option>`).join('')}</select><button class="b s" data-a="bwa">${ICON.wa} WhatsApp</button>${can('download')?`<button class="b s" data-a="bform">${ICON.dl} Download forms</button>`:''}<button class="b s" data-a="bclear">Clear</button></div>`}
+function render(){const a=document.activeElement;let key=null,pos=null;if(a&&a!==document.body&&a.tagName!=='BUTTON'){key=a.id?'#'+a.id:a.dataset&&a.dataset.s?'[data-s="'+a.dataset.s+'"]':null;try{pos=a.selectionStart}catch(e){}}
+ const bd=$('.board'),bl=bd?bd.scrollLeft:0,sd=$('.slide>div:nth-of-type(3)'),st=sd?sd.scrollTop:0,dg=$('.dlg'),ds=dg?dg.scrollTop:0,wy=window.scrollY;
+ $('#root').innerHTML=`<div class="shell">${sidebar()}<main>${S.page==='adm'?admMain():settingsPage()}</main></div>${S.page==='adm'&&S.sel?slide():''}${modal()}${bulkBar()}${S.toast?`<div class="toast" role="status" style="${S.bulk.length&&!S.modal?'bottom:84px':''}"><span>${E(S.toast.msg)}</span>${S.toast.undo?'<button data-a="undo" style="color:#C9C2FF;font-weight:800;padding:4px 8px;border-radius:6px">Undo</button>':''}</div>`:''}`;
+ const b2=$('.board');if(b2)b2.scrollLeft=bl;const s2=$('.slide>div:nth-of-type(3)');if(s2)s2.scrollTop=st;const d2=$('.dlg');if(d2)d2.scrollTop=ds;window.scrollTo(0,wy);
+ if(key){const el=$(key);if(el){el.focus();try{if(pos!=null)el.setSelectionRange(pos,pos)}catch(e){}}}}
+/* ---------- actions ---------- */
+const A={};let prog=null;
+const stopProg=()=>{clearInterval(prog);prog=null};
+const closeM=()=>{S.modal=null;stopProg()};
+const fmtD=d=>d.getDate()+' '+['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getFullYear();
+function openAccept(id){const c=get(id),ss=secsOf(c.g),first=ss.filter(s=>seat(c.g,s).left>0)[0]||ss[0];S.m.acc={id:id,section:first,plan:'Monthly',wa:true,form:true,exp:7,reason:''};S.modal={t:'acc'};render()}
+function allowed(c){return me().campuses.indexOf(c)>=0}
+function refilter(){S.bulk=S.bulk.filter(id=>shownCards().some(c=>c.id===id))}
+Object.assign(A,{
+ nav:e=>{const i=e.dataset.i;if(i==='Admissions'){S.page='adm';render()}else if(i==='Settings'){S.page='set';S.sel=null;render()}else flash(i+' is not part of this mockup')},
+ role:e=>{S.role=e.dataset.i;S.campus='All';S.bulk=[];S.sel=null;S.pop=null;S.m={};S.toast=null;refilter();flash(S.role==='admin'?'Viewing as Admin. Only Main and City applicants are visible.':'Viewing as Super Admin. All branches are visible.')},
+ pop:e=>{const i=e.dataset.i;S.pop=(!i||S.pop===i)?null:i;render()},
+ campus:e=>{const c=e.dataset.i;if(c!=='All'&&!allowed(c)){flash('Refused: '+c+' is outside your branches');return}S.campus=c;refilter();render()},
+ grade:e=>{const g=e.dataset.i;if(!g){S.grades=[];S.section=''}else{const i=S.grades.indexOf(g);if(i>=0)S.grades.splice(i,1);else S.grades.push(g);if(!S.grades.length)S.section=''}refilter();render()},
+ view:e=>{S.view=e.dataset.i;S.pop=null;render()},
+ mob:()=>{S.mob=!S.mob;render()},
+ rm:e=>{const k=e.dataset.i;if(k==='grades'){S.grades=[];S.section=''}else if(k==='campus')S.campus='All';else if(k==='daysF')S.daysF=0;else S[k]='';refilter();render()},
+ clear:()=>{S.grades=[];S.section='';S.campus='All';S.cat='';S.stage='';S.owner='';S.docsF='';S.daysF=0;S.appliedF='';S.search='';render()},
+ tile:e=>{const i=e.dataset.i;if(i==='need'){S.stage='open';S.daysF=5;S.view='board'}else if(i==='iv')S.view='interviews';else S.view='class';render()},
+ pick:e=>{const id=e.dataset.i,i=S.bulk.indexOf(id);if(e.checked&&i<0)S.bulk.push(id);if(!e.checked&&i>=0)S.bulk.splice(i,1);render()},
+ pickcol:e=>{const ids=shownCards().filter(c=>c.stage===e.dataset.i).map(c=>c.id);S.bulk=S.bulk.filter(x=>ids.indexOf(x)<0);if(e.checked)S.bulk=S.bulk.concat(ids);render()},
+ pickall:e=>{const ids=shownCards().map(c=>c.id);S.bulk=e.checked?ids:[];render()},
+ bclear:()=>{S.bulk=[];render()},
+ open:e=>{S.sel=e.dataset.i;S.tab=e.dataset.t||'profile';S.m={};render()},
+ close:()=>{S.sel=null;S.m={};render()},
+ tab:e=>{S.tab=e.dataset.i;render()},
+ sort:e=>{const k=e.dataset.i;S.sort=S.sort.k===k?{k:k,d:-S.sort.d}:{k:k,d:1};render()},
+ col:e=>{S.cols[e.dataset.i]=e.checked?1:0;render()},
+ cell:e=>{const p=e.dataset.i.split('|');S.grades=[p[0]];S.section='';S.stage=p[1];S.view='list';render()},
+ openclass:e=>{S.grades=[e.dataset.i];S.section='';S.stage='';S.view='board';render()},
+ promote:e=>{S.m.pg=e.dataset.i;S.modal={t:'promote'};render()},
+ promok:e=>{const id=e.dataset.i;closeM();S.sel=id;openAccept(id)},
+ iv:e=>{S.iv=e.dataset.i;render()},
+ sheet:e=>{S.m.day=e.dataset.i;S.modal={t:'sheet'};render()},
+ sheetok:()=>{log('Export','-','Interview sheet '+S.m.day);closeM();flash('Interview sheet for '+S.m.day+' downloaded (simulated)')},
+ undo:()=>{if(S.undo){S.cards=S.undo;S.undo=null;S.toast=null;clearTimeout(tt);render()}},
+ mclose:()=>{closeM();render()},
+ ovx:(e,ev)=>{if(ev.target===e){closeM();render()}},
+ /* forms */
+ dl:e=>{if(!can('download'))return;S.m.form={ids:[e.dataset.i],lang:'en',wm:false,blank:false,fmt:'zip',prog:null};S.modal={t:'form'};render()},
+ blank:()=>{S.pop=null;S.m.form={ids:[],lang:'both',wm:false,blank:true,fmt:'zip',prog:null};S.modal={t:'form'};render()},
+ bform:()=>{S.m.form={ids:S.bulk.slice(),lang:'en',wm:false,blank:false,fmt:'zip',prog:null};S.modal={t:'form'};render()},
+ flang:e=>{S.m.form.lang=e.dataset.i;render()},fwm:e=>{S.m.form.wm=e.checked;render()},ffmt:e=>{S.m.form.fmt=e.dataset.i;render()},
+ fok:()=>{const f=S.m.form;if(f.blank){log('Download','-','Blank form, '+f.lang);closeM();flash('Blank admission form downloaded (simulated)');return}
+  if(f.ids.length===1){const c=get(f.ids[0]);log('Download',c.id+' '+c.name,fileName(c)+(f.wm?', confidential':''));S.cards=S.cards.map(x=>x.id===c.id?Object.assign({},x,{timeline:x.timeline.concat([{t:'Form downloaded by '+me().ini,d:'Just now'}])}):x);closeM();flash(fileName(c)+' downloaded (simulated)');return}
+  f.prog=0;render();const n=f.ids.length;prog=setInterval(()=>{if(!S.m.form||S.modal==null){stopProg();return}S.m.form.prog=Math.min(100,S.m.form.prog+(n>20?8:20));if(S.m.form.prog>=100){stopProg();log('Download','-',n+' forms, '+(f.fmt==='zip'?'ZIP':'merged PDF'));S.bulk=[];flash(n+' forms are ready ('+(f.fmt==='zip'?'ZIP of single PDFs':'one merged PDF')+', simulated)')}else render()},250)},
+ exp:e=>{const i=e.dataset.i;S.pop=null;S.m.ex={fmt:i==='xlsx'?'xlsx':'csv',scope:i==='roster'?'roster':'list'};S.modal={t:'exp'};render()},
+ blank2:()=>{},
+ exfmt:e=>{S.m.ex.fmt=e.dataset.i;render()},
+ exok:()=>{const e=S.m.ex,n=exportRows(e.scope).length;log('Export','-',(e.scope==='roster'?'Class roster, ':'Filtered list, ')+n+' rows, '+e.fmt.toUpperCase());closeM();flash(n+' rows exported as '+(e.fmt==='xlsx'?'Excel':'CSV')+' (simulated)')},
+ tmpl:()=>{S.pop=null;flash('Template downloaded. It has Category, date of birth, B-Form, CNIC, address and the other new columns.')},
+ imp:()=>{S.pop=null;S.m.csv=SAMPLE_CSV;S.m.res=null;S.modal={t:'imp'};render()},
+ chk:()=>{const rows=parseCsv(S.m.csv).slice(1).map(r=>r.map(x=>x.replace(/^"|"$/g,'')));S.m.res=rows.map((r,i)=>({r:r,e:validRow(r,i)}));render()},
+ impok:()=>{const ok=S.m.res.filter(x=>!x.e.length);ok.forEach((x,i)=>{const r=x.r,ct=CATS.filter(c=>c.name===r[5]||SH[c.id]===r[5])[0]||CATS[0];S.cards.push(seed({id:'APP-'+(S.nextId++),name:r[0],dob:r[1],gender:r[2],g:r[3],campus:r[4],cat:ct.id,guardian:r[6],phone:r[7],cnic:r[8],bform:r[9],addr:r[10],phone2:r[11],school:r[12],medical:r[13],source:r[14]||'Website',docs:0,days:0,stage:'new',who:me().ini,applied:fmtD(today)},S.cards.length))});log('Import','-',ok.length+' applications from CSV');closeM();flash(ok.length+' applications imported. '+(S.m.res.length-ok.length)+' row'+(S.m.res.length-ok.length===1?'':'s')+' skipped because of errors.')},
+ newapp:()=>{S.m.nf={name:'',dob:'',gender:'Female',g:'1',campus:me().campuses[0],cat:'new',source:'Website',school:'',guardian:'',phone:'',phone2:'',cnic:'',bform:'',addr:'',medical:'',sid:''};S.m.errs=[];S.m.warn=[];S.m.conf=false;S.modal={t:'new'};render()},
+ savenew:()=>{const n=S.m.nf,er=[];if(n.name.trim().length<3)er.push('Enter the student name.');if(!n.dob)er.push('Enter the date of birth.');if(n.guardian.trim().length<3)er.push('Enter the guardian name.');if(!/^03\d{2} ?\d{7}$/.test(n.phone.trim()))er.push('WhatsApp number must look like 0300 1234567.');if(digits(n.cnic).length!==13)er.push('Guardian CNIC needs 13 digits, like 35202-1234567-1.');if(n.phone2.trim()&&!/^03\d{2} ?\d{7}$/.test(n.phone2.trim()))er.push('Second phone must look like 0321 1234567.');if(n.bform.trim()&&digits(n.bform).length!==13)er.push('B-Form number needs 13 digits.');if(catOf(n.cat).idKind&&!n.sid.trim())er.push('Enter the '+(catOf(n.cat).idKind==='STU'?'sibling student':'staff')+' ID for this category.');
+  S.m.errs=er;if(er.length){S.m.warn=[];return render()}
+  if(!S.m.conf){const w=[];const d=S.cards.filter(c=>digits(c.phone)===digits(n.phone)||digits(c.cnic)===digits(n.cnic)||(c.name.toLowerCase()===n.name.trim().toLowerCase()&&c.dob===n.dob))[0];if(d)w.push('This looks like <b>'+E(d.name)+'</b> ('+d.id+'): the phone, CNIC or name and date of birth match. Check before saving a second copy.');const age=ageOf(n.dob),gn=gnum(n.g),lo=gn<0?3:gn===0?4:gn+5,hi=lo+1.5;if(age<lo-.8||age>hi+1)w.push('The child is '+age.toFixed(1)+' years old. The usual age for '+gl(n.g)+' is '+lo+' to '+(lo+1)+'.');if(w.length){S.m.warn=w;S.m.conf=true;return render()}}
+  const id='APP-'+(S.nextId++);const c=seed({id:id,name:n.name.trim(),g:n.g,campus:n.campus,cat:n.cat,guardian:n.guardian.trim(),phone:n.phone.trim(),phone2:n.phone2.trim(),cnic:n.cnic.trim(),bform:n.bform.trim(),addr:n.addr,medical:n.medical,school:n.school||'None (first school)',source:n.source,dob:n.dob,gender:n.gender,sid:n.sid.trim(),docs:0,days:0,stage:'new',who:me().ini,applied:fmtD(today)},S.cards.length);S.cards.push(c);log('Created',id+' '+c.name,'New application');closeM();S.sel=id;S.tab='profile';S.m={};flash(c.name+' added as '+id)},
+ /* accept */
+ openacc:()=>openAccept(S.sel),
+ accsec:e=>{S.m.acc.section=e.dataset.i;render()},accplan:e=>{S.m.acc.plan=e.dataset.i;render()},accexp:e=>{S.m.acc.exp=+e.dataset.i;render()},accwa:()=>{S.m.acc.wa=!S.m.acc.wa;render()},accform:e=>{S.m.acc.form=e.checked;render()},
+ accok:()=>{const a=S.m.acc,c=get(a.id),x=seat(c.g,a.section),k=catOf(c.cat),qf=k.quota[c.g]!=null&&quotaUsed(c.cat,c.g)>=k.quota[c.g],ov=x.left<=0||qf;const exp=new Date(today.getTime()+a.exp*864e5);
+  change([c.id],q=>Object.assign({},q,{stage:'accepted',days:0,section:a.section,admNo:'ILM-26-'+c.id.slice(4),className:c.g+'-'+a.section,offer:a.wa?'Offer sent':'Offer ready',offerExp:fmtD(exp),timeline:q.timeline.concat([{t:'Accepted into '+c.g+'-'+a.section+' ('+a.plan+')'+(a.wa?', offer sent on WhatsApp'+(a.form?' with the form':''):'')+(ov?'. Override: '+a.reason:''),d:'Just now by '+me().ini}])}),'Accepted',c.name+' accepted'+(a.wa?' · offer sent on WhatsApp':''));
+  log(ov?'Override':'Accepted',c.id+' '+c.name,'Section '+a.section+', '+a.plan+(ov?'. Reason: '+a.reason:''));closeM();render()},
+ openrej:()=>{S.m.rej={id:S.sel,reason:null,note:'',wa:true};S.modal={t:'rej'};render()},
+ rejr:e=>{S.m.rej.reason=e.dataset.i;render()},rejwa:e=>{S.m.rej.wa=e.checked;render()},
+ rejok:()=>{const r=S.m.rej,c=get(r.id);change([c.id],q=>Object.assign({},stageChange('rejected','Rejected: '+r.reason+(r.note?'. '+r.note:'')+(r.wa?'. Message sent on WhatsApp':''))(q),{reason:r.reason}),'',c.name+' rejected');log('Rejected',c.id+' '+c.name,r.reason+(r.note?'. '+r.note:''));closeM();render()},
+ wait:()=>{const c=get(S.sel);change([c.id],stageChange('wait','Added to waitlist'),'',c.name+' added to the waitlist');log('Waitlisted',c.id+' '+c.name,'');render()},
+ openreopen:()=>{S.m.ro={id:S.sel,reason:''};S.modal={t:'reopen'};render()},
+ rook:()=>{const c=get(S.m.ro.id),r=S.m.ro.reason;change([c.id],q=>Object.assign({},stageChange('review','Reopened for review. Reason: '+r)(q),{reason:null}),'',c.name+' reopened for review');log('Reopened',c.id+' '+c.name,r);closeM();render()},
+ advance:()=>{const c=get(S.sel),nx=nextStage(c);change([c.id],stageChange(nx,'Moved to '+stageOf(nx).l),'',c.name+' moved to '+stageOf(nx).l);if(nx==='test')S.tab='test';render()},
+ enroll:()=>{const c=get(S.sel);change([c.id],q=>Object.assign(stageChange('enrolled','Enrolled. Student record and parent account created')(q),{offer:'Offer accepted'}),'',c.name+' is enrolled. Student record and parent account created.');log('Enrolled',c.id+' '+c.name,'');render()},
+ /* profile edits */
+ setcat:e=>{const c=get(S.sel);c.cat=e.value;if(!catOf(c.cat).idKind)c.sid='';c.timeline.push({t:'Category set to '+catOf(c.cat).name,d:'Just now by '+me().ini});render()},
+ setowner:e=>{const c=get(S.sel);c.who=e.value;c.timeline.push({t:'Reassigned to '+e.value,d:'Just now by '+me().ini});flash('Owner changed to '+e.value);render()},
+ verifyid:()=>{const c=get(S.sel);c.sid=String(S.m.sid!=null?S.m.sid:c.sid||'').trim().toUpperCase();S.m.sid=undefined;flash(idBad(c)?idBad(c):c.sid+' verified');render()},
+ doc:e=>{const c=get(S.sel),d=e.dataset.i,i=c.ok.indexOf(d);if(i>=0)c.ok.splice(i,1);else c.ok.push(d);c.timeline.push({t:(i>=0?'Marked missing: ':'Verified: ')+d,d:'Just now by '+me().ini});render()},
+ reqdocs:()=>{const c=get(S.sel),m=reqDocs(c).filter(d=>c.ok.indexOf(d)<0);c.timeline.push({t:'WhatsApp sent asking for: '+m.join(', '),d:'Just now by '+me().ini});flash('One WhatsApp message sent to '+c.guardian+' listing '+m.length+' missing document'+(m.length>1?'s':''));render()},
+ addnote:()=>{const c=get(S.sel),t=(S.m.note||'').trim();if(!t)return;c.notes.push({by:me().ini,d:'Just now',text:t});S.m.note='';render()},
+ panel:e=>{const f=S.m.sch=S.m.sch||{};f.panel=f.panel||['Principal','Class teacher'];const p=e.dataset.i,i=f.panel.indexOf(p);if(i>=0)f.panel.splice(i,1);else f.panel.push(p);render()},
+ resch:()=>{S.m.resch=true;S.m.sch={day:'',time:'',room:ROOMS[0],panel:['Principal','Class teacher']};render()},
+ saveslot:()=>{const c=get(S.sel),f=S.m.sch||{};if(!f.day||!f.time){flash('Choose a day and a time first');return}c.slot=f.day+', '+f.time;c.room=f.room||ROOMS[0];c.panel=f.panel&&f.panel.length?f.panel:['Principal'];c.timeline.push({t:'Slot set: '+c.slot+', '+c.room,d:'Just now by '+me().ini});S.m.sch=null;S.m.resch=false;flash('Slot saved. WhatsApp reminder queued for '+c.guardian);render()},
+ remind:()=>{flash('Reminder sent to the guardian on WhatsApp')},
+ savescore:()=>{const c=get(S.sel),v=S.m.score;if(v===''||v==null||isNaN(+v)||+v<0||+v>100){S.m.err='Enter a score from 0 to 100.';return render()}c.score=Math.round(+v);c.outcome=S.m.outcome||'Recommended';c.remarks=S.m.remarks||'';c.timeline.push({t:'Assessment scored '+c.score+'/100. '+c.outcome,d:'Recorded by '+me().ini});S.m={};flash('Result saved');render()},
+ track:()=>{const c=get(S.sel);c.timeline.push({t:'Tracking link sent to guardian on WhatsApp',d:'Just now by '+me().ini});flash('Tracking link sent. It shows the stage, missing documents and next step. It never shows scores or internal notes.');render()},
+ /* bulk */
+ bstage:e=>{if(!e.value)return;S.m.bk={k:'stage',v:e.value};S.modal={t:'bulkc'};render()},
+ bowner:e=>{if(!e.value)return;S.m.bk={k:'owner',v:e.value};S.modal={t:'bulkc'};render()},
+ bwa:()=>{S.m.bk={k:'wa',msg:'Assalam o Alaikum. This is an update from ILMA admissions about your application.'};S.modal={t:'bulkc'};render()},
+ bkok:()=>{const b=S.m.bk,ids=S.bulk.slice(),n=ids.length;
+  if(b.k==='stage')change(ids,stageChange(b.v,'Moved to '+stageOf(b.v).l+' (bulk)'),'',n+' applicants moved to '+stageOf(b.v).l);
+  if(b.k==='owner')change(ids,q=>Object.assign({},q,{who:b.v,timeline:q.timeline.concat([{t:'Reassigned to '+b.v+' (bulk)',d:'Just now by '+me().ini}])}),'',n+' applicants assigned to '+b.v);
+  if(b.k==='wa')change(ids,q=>Object.assign({},q,{timeline:q.timeline.concat([{t:'WhatsApp message sent (bulk)',d:'Just now by '+me().ini}])}),'','WhatsApp message sent to '+n+' guardians');
+  log('Bulk',n+' applicants',b.k==='stage'?'Moved to '+stageOf(b.v).l:b.k==='owner'?'Owner '+b.v:'WhatsApp message');S.bulk=[];closeM();render()},
+ /* saved views */
+ vshare:e=>{S.m.vs=e.checked},
+ saveview:()=>{const n=(S.m.vn||'').trim();if(!n){flash('Name the view first');return}S.saved.push({name:n,owner:S.role,shared:!!S.m.vs&&S.role==='super',f:{grades:S.grades.slice(),section:S.section,campus:S.campus,cat:S.cat,stage:S.stage,owner:S.owner,docsF:S.docsF,daysF:S.daysF,appliedF:S.appliedF,search:S.search}});S.m.vn='';S.pop=null;flash('View saved')},
+ applyview:e=>{const v=S.saved[+e.dataset.i];A.clear();Object.assign(S,v.f,{grades:(v.f.grades||[]).slice()});if(S.campus!=='All'&&!allowed(S.campus))S.campus='All';S.pop=null;refilter();render()},
+ delview:e=>{S.saved.splice(+e.dataset.i,1);render()},
+ /* settings */
+ stab:e=>{S.setTab=e.dataset.i;render()},
+ cap:e=>{if(S.role!=='super')return;const p=e.dataset.i.split('|'),old=CAP[p[0]][p[1]];CAP[p[0]][p[1]]=Math.max(0,Math.round(+e.value||0));log('Settings','-',gl(p[0])+' section '+p[1]+' capacity '+old+' to '+CAP[p[0]][p[1]]);flash('Capacity saved. Seats left updated everywhere.');},
+ catname:e=>{const c=CATS[+e.dataset.i];if(e.value.trim().length<2){render();return}c.name=e.value.trim();log('Settings','-','Category renamed to '+c.name);flash('Category renamed')},
+ catdisc:e=>{const c=CATS[+e.dataset.i];c.disc=Math.max(0,Math.min(100,+e.value||0));log('Settings','-',c.name+' discount '+c.disc+'%');flash('Fee rule saved')},
+ catdoc:e=>{const c=CATS[+e.dataset.i];c.docs=e.value.trim()?[e.value.trim()]:[];flash('Required document saved. Checklists changed for this category.')},
+ caton:e=>{const c=CATS[+e.dataset.i];c.on=e.checked;log('Settings','-',c.name+(c.on?' switched on':' switched off'));flash(c.on?'Category is active':'Category switched off. Old records keep it.');render()},
+ catmv:e=>{const p=e.dataset.i.split('|'),i=+p[0],j=i+ +p[1];if(j<0||j>=CATS.length)return;const t=CATS[i];CATS[i]=CATS[j];CATS[j]=t;render()},
+ catdel:e=>{const c=CATS[+e.dataset.i];if(S.cards.some(x=>x.cat===c.id)){flash('A category in use cannot be deleted. Switch it off instead.');return}CATS.splice(+e.dataset.i,1);render()},
+ catadd:()=>{const n=(S.m.nc||'').trim();if(n.length<2){flash('Type a category name');return}CATS.push({id:'x'+Date.now(),name:n,on:true,disc:0,docs:[],quota:{}});S.m.nc='';log('Settings','-','Category added: '+n);render()},
+ quota:e=>{const c=catOf(e.dataset.i),v=Math.round(+e.value);if(v>0)c.quota[S.setGrade]=v;else delete c.quota[S.setGrade];log('Settings','-',c.name+' quota in '+gl(S.setGrade)+': '+(v>0?v:'none'));render()},
+ perm:e=>{PERM.admin[e.dataset.i]=e.checked;log('Settings','-','Admin permission '+e.dataset.i+' '+(e.checked?'on':'off'));flash('Permission saved. Buttons update for Admin straight away.')},
+ testlock:()=>flash('Refused (403): North is outside this Admin’s branches, even when the request is edited.')
+});
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(!el||el.tagName==='SELECT')return;if(el.tagName==='INPUT'&&el.type!=='checkbox')return;const f=A[el.dataset.a];if(f)f(el,e)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(S.modal){closeM();render()}else if(S.sel&&S.page==='adm'){S.sel=null;render()}}
+ if((e.key==='Enter'||e.key===' ')&&e.target.getAttribute&&e.target.getAttribute('role')==='button'&&e.target.dataset.a){e.preventDefault();e.target.click()}});
+document.addEventListener('input',e=>{const el=e.target,p=el.dataset&&el.dataset.s;if(!p||el.tagName==='SELECT')return;let v=el.value;setv(p,v);if(el.dataset.rr)render()});
+document.addEventListener('change',e=>{const el=e.target;if(!el.dataset)return;
+ if(el.dataset.a&&(el.tagName==='SELECT'||el.type==='number'||el.type==='text')){const f=A[el.dataset.a];if(f)f(el,e);return}
+ if(el.dataset.s&&el.tagName==='SELECT'){setv(el.dataset.s,el.dataset.n?+el.value:el.value);if(el.dataset.s==='section'||el.dataset.s==='stage'||el.dataset.s==='cat'||el.dataset.r)refilter();if(el.dataset.r)render()}});
+render();
+</script>
+
+</body></html>

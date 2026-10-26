@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ILMA - The whole school in one calm place</title>
+<meta name="description" content="ILMA is a school platform with 90 modules: admissions, attendance, exams, fees, parent communication and AI, in Urdu and English.">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=Noto+Nastaliq+Urdu:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#1c0f38;--mut:#5d5378;--line:#e6dbf6;--bg:#fbf8ff;--lil:#f3ecff;--blush:#ffe9f3;--v:#6a3df0;--v2:#b236c9;--p:#d62a85;--grad:linear-gradient(120deg,#6a3df0 0%,#b236c9 55%,#d62a85 100%);--dark:#1c0f38;--ok:#12805c;--r:18px;--disp:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;--body:Figtree,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--body);color:var(--ink);background:var(--bg);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--disp);margin:0;letter-spacing:-.025em;line-height:1.08}
+p{margin:0}a{color:inherit}button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid #ff7ac0;outline-offset:3px;border-radius:6px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.sr{position:absolute;left:-9999px}
+.skip:focus{left:12px;top:12px;background:#fff;padding:8px 14px;z-index:99}
+/* nav */
+.nav{position:sticky;top:0;z-index:30;background:#fbf8ffd9;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:70px}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--disp);font-weight:800;font-size:24px;letter-spacing:-.03em;text-decoration:none}
+.lg{width:36px;height:36px;border-radius:11px;background:var(--grad);display:grid;place-items:center;color:#fff;font-size:20px;box-shadow:0 6px 18px #b236c955}
+.links{display:flex;gap:6px;margin-left:12px}
+.links a{padding:9px 14px;border-radius:99px;text-decoration:none;font-weight:600;font-size:15px;color:#3b2d5c}
+.links a:hover{background:var(--lil)}.links a.on{background:var(--lil);color:var(--v)}
+.sp{flex:1}
+.lang{border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px;font-weight:600;font-size:14px}
+.lang:hover{border-color:#cdb7f3}
+.btn{border:0;border-radius:99px;padding:12px 22px;font-weight:700;font-size:15.5px;display:inline-flex;gap:8px;align-items:center;justify-content:center;text-decoration:none;line-height:1.2}
+.btn.p{background:var(--grad);color:#fff;box-shadow:0 8px 24px #b236c944;transition:transform .15s,box-shadow .15s}
+.btn.p:hover{transform:translateY(-1px);box-shadow:0 12px 30px #b236c966}
+.btn.g{background:#fff;border:1.5px solid var(--line);color:var(--ink)}.btn.g:hover{border-color:#bda3ee}
+.btn.w{background:#fff;color:var(--ink)}.btn.o{background:#ffffff1f;color:#fff;border:1.5px solid #ffffff55}
+.btn.s{padding:8px 16px;font-size:14px}
+.burger{display:none;border:1px solid var(--line);background:#fff;border-radius:12px;width:42px;height:42px;font-size:20px}
+/* hero */
+.hero{margin:22px auto 0;max-width:1180px;padding:0 24px}
+.hp{position:relative;overflow:hidden;border-radius:34px;background:radial-gradient(900px 500px at 85% 10%,#d62a8566,transparent 60%),radial-gradient(800px 600px at 0% 100%,#6a3df088,transparent 60%),var(--dark);color:#fff;padding:64px 56px 56px;display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+.hp::after{content:"علم";position:absolute;right:-30px;bottom:-90px;font-family:"Noto Nastaliq Urdu",serif;font-size:360px;line-height:1;color:#ffffff0d;pointer-events:none}
+.hp h1{font-size:clamp(40px,5.6vw,74px);font-weight:800}
+.hp .ur{font-family:"Noto Nastaliq Urdu",serif;line-height:1.7;font-weight:700}
+.hp .lead{font-size:19px;color:#e6dcff;max-width:30em;margin-top:22px}
+.hp .acts{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.hp .note{margin-top:22px;color:#c9b8f5;font-size:14.5px}
+.hp>*{position:relative;z-index:1}
+/* phone */
+.ph{width:min(340px,100%);margin-inline:auto;background:#120a28;border-radius:38px;padding:12px;box-shadow:0 30px 70px #0008,inset 0 0 0 2px #ffffff22;transform:rotate(2.5deg)}
+.scr{background:linear-gradient(180deg,#f7f1ff,#fff);border-radius:28px;height:480px;overflow:hidden;color:var(--ink);padding:16px 14px;position:relative}
+.scr .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.scr .top b{font-family:var(--disp);font-size:20px}.scr .clock{font-weight:700;color:var(--v);font-variant-numeric:tabular-nums}
+.who{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--mut);margin-bottom:12px}
+.av{width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;font-weight:700;font-size:12px;display:grid;place-items:center;flex:none}
+.feed{display:flex;flex-direction:column;gap:9px}
+.fi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 12px;font-size:14px;line-height:1.4;box-shadow:0 4px 14px #6a3df011;animation:in .5s cubic-bezier(.2,.9,.3,1.2)}
+.fi small{display:flex;justify-content:space-between;color:var(--mut);font-weight:600;font-size:12px;margin-bottom:2px}
+.fi small i{font-style:normal;color:var(--p)}
+@keyframes in{from{opacity:0;transform:translateY(-14px) scale(.97)}to{opacity:1;transform:none}}
+.chipf{position:absolute;left:-20px;bottom:46px;background:#fff;color:var(--ink);border-radius:16px;padding:10px 14px;font-size:13.5px;font-weight:600;box-shadow:0 14px 34px #0005;max-width:190px;transform:rotate(-3deg)}
+.chipf span{color:var(--ok)}
+/* sections */
+section.s{padding:92px 0 0}
+.h2{font-size:clamp(30px,3.8vw,48px);font-weight:700;max-width:18em}
+.sub{color:var(--mut);font-size:18px;max-width:36em;margin-top:14px}
+.hd{display:flex;gap:30px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;margin-bottom:34px}
+/* roles */
+.rl{display:grid;grid-template-columns:260px 1fr;gap:26px;margin-top:34px}
+.tabs{display:flex;flex-direction:column;gap:8px}
+.tab{text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:14px 16px}
+.tab b{display:block;font-family:var(--disp);font-size:18px}.tab span{color:var(--mut);font-size:14px}
+.tab.on{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 12px 30px #b236c944}.tab.on span{color:#f3e6ff}
+.pn{background:#fff;border:1px solid var(--line);border-radius:26px;padding:28px;min-height:360px;box-shadow:0 20px 50px #6a3df012}
+.pn h3{font-size:24px;margin-bottom:6px}.pn .ps{color:var(--mut);margin-bottom:20px}
+.kg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.kp{background:var(--lil);border-radius:16px;padding:14px}.kp small{color:var(--mut);font-size:13px;font-weight:600}.kp b{display:block;font-family:var(--disp);font-size:28px;margin-top:2px}
+.rw{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-top:1px solid var(--line);align-items:center}
+.rw span:first-child{font-weight:600}.rw .m{color:var(--mut);font-size:14px;font-weight:400;display:block}
+.pill{display:inline-block;border-radius:99px;padding:3px 11px;font-size:12.5px;font-weight:700;background:var(--lil);color:var(--v);white-space:nowrap}
+.pill.ok{background:#dff6ec;color:var(--ok)}.pill.pk{background:var(--blush);color:#b3195f}
+.bar{height:10px;border-radius:9px;background:var(--lil);overflow:hidden;min-width:120px}.bar i{display:block;height:100%;background:var(--grad);border-radius:9px}
+/* suites index */
+.ix{border-top:1px solid var(--line)}
+.ir{display:grid;grid-template-columns:44px 1.1fr 1.4fr 1fr 28px;gap:18px;align-items:center;padding:18px 6px;border-bottom:1px solid var(--line);text-decoration:none;cursor:pointer;transition:background .15s}
+.ir:hover{background:#fff}.ir:hover .ar{transform:translateX(4px)}
+.ir b{font-family:var(--disp);font-size:20px;letter-spacing:-.02em}.ir .d{color:var(--mut);font-size:15.5px}.ar{transition:transform .15s;color:var(--v);font-weight:700}
+.mono{width:44px;height:44px;border-radius:14px;color:#fff;display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:16px}
+.cnt{display:flex;gap:10px;align-items:center;font-weight:700;font-size:14px}.cnt .bar{flex:1}
+/* AI */
+.ai{background:var(--dark);color:#fff;border-radius:34px;padding:56px;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;background:radial-gradient(700px 400px at 100% 0,#d62a8555,transparent 60%),var(--dark)}
+.ai h2{font-size:clamp(28px,3.4vw,42px)}.ai p{color:#d9cbf8;margin-top:14px}
+.ai ul{list-style:none;margin:22px 0 0;padding:0;display:grid;gap:12px}
+.ai li{display:flex;gap:12px;color:#efe7ff}.ai li::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;background:var(--grad);margin-top:9px;box-shadow:0 0 0 4px #ffffff18}
+.sc{background:#fff;color:var(--ink);border-radius:22px;padding:20px}
+.sc .t{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.paper{position:relative;background:#fffdf5;border:1px solid #eadfc4;border-radius:12px;padding:14px 16px;font-family:"Segoe Script","Bradley Hand","Comic Sans MS",cursive;font-size:17px;line-height:1.7;overflow:hidden}
+.paper div{display:flex;justify-content:space-between;border-bottom:1px dashed #e5d9b4}
+.scanl{position:absolute;left:0;right:0;top:0;height:3px;background:#b236c9;box-shadow:0 0 16px 5px #d62a85aa;display:none}
+.scanl.on{display:block;animation:sl 1.3s linear forwards}
+@keyframes sl{from{top:0}to{top:100%}}
+.rd{margin-top:12px;display:grid;gap:6px;font-size:15px;min-height:0}
+.rd .r{display:grid;grid-template-columns:30px 1fr 54px 60px;gap:8px;align-items:center;padding:7px 10px;background:var(--lil);border-radius:10px;animation:in .4s both}
+.rd .r.lo{background:#fff3d9}.rd .r b{text-align:right}
+.rd .cf{font-size:12.5px;font-weight:700;color:var(--ok)}.rd .r.lo .cf{color:#9a6200}
+/* local */
+.loc{display:grid;grid-template-columns:1fr 1.15fr;gap:60px;align-items:start}
+.lst{display:grid;gap:0;border-top:1px solid var(--line)}
+.lst div{padding:18px 4px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:200px 1fr;gap:16px}
+.lst b{font-family:var(--disp);font-size:18px}.lst span{color:var(--mut)}
+/* cta */
+.cta{margin-top:92px;background:var(--grad);border-radius:34px;color:#fff;padding:56px;display:flex;gap:30px;align-items:center;justify-content:space-between;flex-wrap:wrap;position:relative;overflow:hidden}
+.cta::after{content:"";position:absolute;right:-80px;top:-120px;width:360px;height:360px;border-radius:50%;background:#ffffff1c}
+.cta h2{font-size:clamp(28px,3.6vw,46px);max-width:15em}.cta p{color:#ffeef7;margin-top:10px;max-width:30em}
+.cta>*{position:relative;z-index:1}
+/* features page */
+.pg{display:none}.pg.on{display:block}
+.pt{padding:64px 0 10px}
+.pt h1{font-size:clamp(38px,5vw,64px);font-weight:800;max-width:14em}
+.fb{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:30px 0 14px}
+.srch{flex:1;min-width:240px;position:relative}.srch input{width:100%;border:1.5px solid var(--line);border-radius:99px;padding:14px 20px 14px 48px;background:#fff}
+.srch::before{content:"⌕";position:absolute;left:19px;top:50%;transform:translateY(-52%);font-size:22px;color:var(--v)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.ch{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px;font-weight:600;font-size:14.5px}
+.ch:hover{border-color:#bda3ee}.ch.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.fs{margin-top:46px}
+.fs h2{font-size:30px;display:flex;gap:14px;align-items:center}.fs .sd{color:var(--mut);margin:8px 0 18px;max-width:42em}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.mc{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:8px;text-align:left;position:relative;transition:border-color .15s,box-shadow .15s}
+.mc:hover{border-color:#bda3ee;box-shadow:0 12px 30px #6a3df01c}
+.mc h3{font-size:19px}.mc p{color:var(--mut);font-size:15.5px;line-height:1.5}
+.mc .open{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:8px;flex:1}
+.mc .open:focus-visible{outline:3px solid #ff7ac0;outline-offset:6px;border-radius:10px}
+.pick{display:flex;gap:8px;align-items:center;font-size:14px;font-weight:600;color:var(--v);cursor:pointer;margin-top:4px}
+.pick input{accent-color:#b236c9;width:17px;height:17px}
+.mc.sel{border-color:#b236c9;background:linear-gradient(180deg,#fff,#fcefff)}
+.tray{position:fixed;left:50%;bottom:20px;transform:translate(-50%,140%);background:var(--dark);color:#fff;border-radius:99px;padding:10px 12px 10px 24px;display:flex;gap:16px;align-items:center;z-index:25;box-shadow:0 20px 50px #1c0f3866;transition:transform .35s cubic-bezier(.2,.9,.3,1.1);max-width:94vw}
+.tray.on{transform:translate(-50%,0)}
+.empty{text-align:center;padding:60px 20px;color:var(--mut)}
+/* drawer & modal */
+.scrim{position:fixed;inset:0;background:#1c0f3873;backdrop-filter:blur(3px);z-index:50;display:none;align-items:flex-start;justify-content:center;padding:6vh 16px;overflow:auto}
+.scrim.on{display:flex}
+.md{background:#fff;border-radius:26px;width:100%;max-width:600px;box-shadow:0 30px 80px #1c0f3888;margin:auto 0;animation:pop .28s cubic-bezier(.2,.9,.3,1.1)}
+@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+.mh{padding:24px 28px 0;display:flex;gap:12px;align-items:flex-start}.mh h2{font-size:28px;flex:1}
+.x{border:0;background:var(--lil);width:36px;height:36px;border-radius:50%;font-size:16px;flex:none}
+.mb{padding:18px 28px 28px}
+.steps{display:flex;gap:6px;padding:14px 28px 0}.steps i{flex:1;height:5px;border-radius:5px;background:var(--lil)}.steps i.on{background:var(--grad)}
+.fl{display:block;font-weight:700;font-size:14px;margin:16px 0 6px}
+.fi2{width:100%;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff}
+.fi2:focus{border-color:var(--v);outline:none;box-shadow:0 0 0 4px #6a3df01f}
+.fi2.bad{border-color:#d6284f;background:#fff5f7}
+.er{color:#c0213f;font-size:13.5px;font-weight:600;margin-top:5px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.day{border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:10px 4px;text-align:center;font-weight:700;line-height:1.3}.day small{display:block;color:var(--mut);font-weight:600}
+.day.on{background:var(--grad);color:#fff;border-color:transparent}.day.on small{color:#f6e9ff}
+.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.slot{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:10px 2px;font-weight:700;font-size:14.5px}
+.slot.on{background:var(--ink);color:#fff;border-color:var(--ink)}.slot:disabled{opacity:.4;cursor:not-allowed;text-decoration:line-through}
+.mf{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;flex-wrap:wrap}
+.sum{background:var(--lil);border-radius:18px;padding:16px 18px;margin-top:14px}.sum div{display:flex;justify-content:space-between;gap:16px;padding:6px 0}.sum span{color:var(--mut)}.sum b{text-align:right}
+.done{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:var(--grad);color:#fff;font-size:30px;margin-bottom:14px}
+.tip{background:var(--blush);color:#7a1245;border-radius:12px;padding:10px 14px;font-size:14px;margin-top:14px}
+.dr{position:fixed;top:0;right:0;bottom:0;width:min(460px,100%);background:#fff;z-index:60;box-shadow:-20px 0 60px #1c0f3855;transform:translateX(105%);transition:transform .3s;display:flex;flex-direction:column;overflow:auto;padding:28px}
+.dr.on{transform:none}
+.dr h2{font-size:30px;margin:10px 0 6px}.dr ul{padding-left:20px;display:grid;gap:8px;margin:14px 0 24px}
+/* contact */
+.ct{display:grid;grid-template-columns:1.2fr .8fr;gap:44px;margin-top:34px;align-items:start}
+.fc{background:#fff;border:1px solid var(--line);border-radius:26px;padding:30px;box-shadow:0 20px 50px #6a3df012}
+.ci{display:grid;gap:0;border-top:1px solid var(--line)}.ci div{padding:16px 2px;border-bottom:1px solid var(--line)}.ci small{color:var(--mut);font-weight:600;display:block}.ci b{font-family:var(--disp);font-size:20px}
+details{border-bottom:1px solid var(--line);padding:16px 2px}summary{font-weight:700;cursor:pointer;font-family:var(--disp);font-size:18px}details p{color:var(--mut);margin-top:8px}
+/* footer */
+footer{margin-top:100px;background:var(--dark);color:#cfc2ee;padding:56px 0 34px}
+footer .g{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px}footer h4{color:#fff;font-size:16px;margin-bottom:12px}
+footer a{display:block;text-decoration:none;padding:4px 0;color:#cfc2ee}footer a:hover{color:#fff}
+footer .bt{margin-top:40px;border-top:1px solid #ffffff22;padding-top:20px;font-size:14px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.fd{position:fixed;right:16px;bottom:16px;z-index:20;display:none}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;border-radius:14px;padding:12px 18px;opacity:0;pointer-events:none;transition:.25s;z-index:80;font-weight:600}
+#toast.on{opacity:1;transform:translateX(-50%)}
+@media(max-width:980px){.hp{grid-template-columns:1fr;padding:44px 28px}.ph{transform:none}.rl{grid-template-columns:1fr}.tabs{flex-direction:row;overflow:auto}.tab{min-width:190px}.ai,.loc,.ct{grid-template-columns:1fr}.ai{padding:34px 24px}.mg{grid-template-columns:repeat(2,1fr)}.ir{grid-template-columns:44px 1fr 28px}.ir .d,.ir .cnt{display:none}footer .g{grid-template-columns:1fr 1fr}.links{display:none;position:absolute;top:70px;left:0;right:0;background:#fff;flex-direction:column;padding:14px 24px;border-bottom:1px solid var(--line);margin:0}.links.on{display:flex}.burger{display:block}.nav .btn.demo{display:none}.fd{display:block}.chipf{display:none}}
+@media(max-width:620px){body{font-size:16px}.wrap,.hero{padding:0 16px}.hp{border-radius:26px;padding:34px 20px}.mg{grid-template-columns:1fr}.kg{grid-template-columns:1fr 1fr}.g2{grid-template-columns:1fr}.lst div{grid-template-columns:1fr;gap:4px}.cta{padding:34px 24px}.days{grid-template-columns:repeat(5,minmax(0,1fr))}.slots{grid-template-columns:repeat(2,1fr)}.mh,.mb,.steps{padding-left:20px;padding-right:20px}section.s{padding-top:70px}.lang{display:none}.ph{width:100%}.scr{height:440px}.pn{padding:20px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a class="skip sr" href="#main">Skip to content</a>
+<header class="nav"><div class="wrap">
+ <a class="logo" href="#/home" aria-label="ILMA home"><span class="lg">✦</span>ILMA</a>
+ <nav class="links" id="links" aria-label="Main">
+  <a href="#/home" data-p="home" data-en="Home" data-ur="ہوم">Home</a>
+  <a href="#/features" data-p="features" data-en="Features" data-ur="خصوصیات">Features</a>
+  <a href="#/contact" data-p="contact" data-en="Contact" data-ur="رابطہ">Contact</a>
+ </nav>
+ <span class="sp"></span>
+ <button class="lang" id="lang" aria-label="Switch language">اردو</button>
+ <button class="btn p demo" data-demo data-en="Book a demo" data-ur="ڈیمو بُک کریں">Book a demo</button>
+ <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">☰</button>
+</div></header>
+
+<main id="main">
+<!-- HOME -->
+<div class="pg" id="p-home">
+ <div class="hero"><div class="hp">
+  <div>
+   <h1 id="h1" data-en="The whole school, in one calm place." data-ur="پورا اسکول، ایک پرسکون جگہ پر">The whole school, in one calm place.</h1>
+   <p class="lead" id="lead" data-en="Admissions, attendance, exams, fees and parent messages run from one system. Teachers spend less time on paperwork. Parents always know what is happening." data-ur="داخلہ، حاضری، امتحانات، فیس اور والدین سے رابطہ، سب کچھ ایک ہی نظام میں۔ اساتذہ کا وقت کاغذی کارروائی میں کم لگتا ہے اور والدین ہر بات سے باخبر رہتے ہیں۔">Admissions, attendance, exams, fees and parent messages run from one system. Teachers spend less time on paperwork. Parents always know what is happening.</p>
+   <div class="acts"><button class="btn w" data-demo data-en="Book a demo" data-ur="ڈیمو بُک کریں">Book a demo</button><a class="btn o" href="#/features" data-en="See all 90 modules" data-ur="تمام 90 ماڈیولز دیکھیں">See all 90 modules</a></div>
+   <p class="note">Works in Urdu and English. Pay by Raast, JazzCash, Easypaisa or card.</p>
+  </div>
+  <div style="position:relative">
+   <div class="ph" aria-label="A parent's phone showing a school day"><div class="scr">
+    <div class="top"><b>Today</b><span class="clock" id="clock" aria-live="off">7:45</span></div>
+    <div class="who"><span class="av">AB</span>Parent of Ayesha · Class 7-B</div>
+    <div class="feed" id="feed"></div>
+   </div></div>
+   <div class="chipf"><span>✓</span> Fee receipt sent to the family on WhatsApp</div>
+  </div>
+ </div></div>
+
+ <section class="s"><div class="wrap">
+  <div class="hd"><div><h2 class="h2">One school, four different views</h2><p class="sub">Each person opens ILMA and sees only what they need to act on today.</p></div></div>
+  <div class="rl"><div class="tabs" role="tablist" id="rtabs"></div><div class="pn" id="rpanel" role="tabpanel" aria-live="polite"></div></div>
+ </div></section>
+
+ <section class="s"><div class="wrap">
+  <div class="hd"><div><h2 class="h2">90 modules in 15 suites. Start with what you need.</h2><p class="sub">Most schools begin with fees and attendance, then add exams, portals and the rest when they are ready.</p></div><a class="btn g" href="#/features">Browse all modules</a></div>
+  <div class="ix" id="ix"></div>
+ </div></section>
+
+ <section class="s"><div class="wrap"><div class="ai">
+  <div>
+   <h2>ILMA AI takes the typing off your teachers</h2>
+   <p>It works inside each module, shows where its answers come from, and never publishes anything without a person confirming it.</p>
+   <ul><li>Reads a photo of a marks sheet and fills the marks grid</li><li>Drafts quizzes and lesson plans in English and Urdu</li><li>Writes plain updates to parents from the school's own records</li><li>Flags students with falling marks, repeated absence or unpaid fees</li><li>Answers staff questions with the source shown</li></ul>
+  </div>
+  <div class="sc" aria-label="Marks sheet scanning demo">
+   <div class="t"><b>Class test · Urdu · 7-C</b><button class="btn p s" id="scanbtn">Read this sheet</button></div>
+   <div class="paper" id="paper"><div><span>1  Ahmed Bilal</span><span>17</span></div><div><span>2  Sara Iqbal</span><span>16</span></div><div><span>3  Bilal Tariq</span><span>15</span></div><div><span>4  Nida Farooq</span><span>1​4</span></div><div><span>5  Zainab Rauf</span><span>12</span></div><span class="scanl" id="scanl"></span></div>
+   <div class="rd" id="rd" aria-live="polite"></div>
+  </div>
+ </div></div></section>
+
+ <section class="s"><div class="wrap"><div class="loc">
+  <div><h2 class="h2">Made for how schools in Pakistan work</h2><p class="sub">Fees by installment, brothers and sisters on one account, parents who answer WhatsApp before email.</p><div style="margin-top:26px"><button class="btn p" data-demo>Book a demo</button></div></div>
+  <div class="lst">
+   <div><b>Urdu and English</b><span>Every screen and message in both languages, including right-to-left layouts.</span></div>
+   <div><b>Local payments</b><span>Raast, JazzCash, Easypaisa, cards, bank transfer and cash, with a receipt every time.</span></div>
+   <div><b>WhatsApp first</b><span>Fee reminders, attendance alerts and exam notices reach parents where they already are.</span></div>
+   <div><b>Family fee account</b><span>One balance and one payment for all siblings, with scholarships and discounts applied.</span></div>
+   <div><b>Board formats</b><span>Result cards and grade scales for Matric, Intermediate and Cambridge schools.</span></div>
+   <div><b>Many campuses</b><span>A head office view across branches, with each campus keeping its own records.</span></div>
+  </div>
+ </div></div>
+ <div class="wrap"><div class="cta"><div><h2>See ILMA with your own school's questions</h2><p>A 30-minute video call. We show the modules that matter to you and answer what you ask. No commitment.</p></div><button class="btn w" data-demo>Book a demo</button></div></div>
+ </section>
+</div>
+
+<!-- FEATURES -->
+<div class="pg" id="p-features">
+ <div class="wrap">
+  <div class="pt"><h1>Every part of running a school, in one system</h1><p class="sub">90 modules in 15 suites. Pick the ones you want to see and we will show them in your demo.</p></div>
+  <div class="fb"><div class="srch"><label class="sr" for="q">Search modules</label><input id="q" type="search" placeholder="Search modules, for example fees, attendance or transport" autocomplete="off"></div><span id="fcount" class="sub" style="margin:0;font-size:15px"></span></div>
+  <div class="chips" id="chips" role="group" aria-label="Filter by suite"></div>
+  <div id="fgrid"></div>
+ </div>
+ <div class="wrap"><div class="cta"><div><h2>Not sure which modules you need?</h2><p>Tell us your school's size and what is hardest today. We will suggest a starting set.</p></div><button class="btn w" data-demo>Book a demo</button></div></div>
+</div>
+
+<!-- CONTACT -->
+<div class="pg" id="p-contact">
+ <div class="wrap">
+  <div class="pt"><h1>Talk to the ILMA team</h1><p class="sub">Questions, pricing or a demo for your school. We reply within one working day.</p></div>
+  <div class="ct">
+   <form class="fc" id="cform" novalidate>
+    <div id="cf-body">
+    <div class="g2"><div><label class="fl" for="c-name" style="margin-top:0">Your name</label><input class="fi2" id="c-name" autocomplete="name"><div class="er" data-e="name"></div></div><div><label class="fl" for="c-role" style="margin-top:0">Your role</label><select class="fi2" id="c-role"><option>Owner or director</option><option>Principal</option><option>Administrator</option><option>Accountant</option><option>Teacher</option><option>Other</option></select></div></div>
+    <label class="fl" for="c-school">School name</label><input class="fi2" id="c-school" autocomplete="organization"><div class="er" data-e="school"></div>
+    <div class="g2"><div><label class="fl" for="c-phone">Mobile number</label><input class="fi2" id="c-phone" inputmode="tel" placeholder="0300 1234567" autocomplete="tel"><div class="er" data-e="phone"></div></div><div><label class="fl" for="c-email">Email</label><input class="fi2" id="c-email" type="email" autocomplete="email"><div class="er" data-e="email"></div></div></div>
+    <div class="g2"><div><label class="fl" for="c-size">Number of students</label><select class="fi2" id="c-size"><option>Under 300</option><option>300 to 800</option><option>800 to 2,000</option><option>2,000 or more</option></select></div><div><label class="fl" for="c-city">City</label><input class="fi2" id="c-city" autocomplete="address-level2"></div></div>
+    <label class="fl" for="c-msg">How can we help?</label><textarea class="fi2" id="c-msg" rows="4" placeholder="For example: we collect fees by hand and want parents to pay online"></textarea>
+    <div class="er" data-e="msg"></div>
+    <div class="mf" style="justify-content:space-between;align-items:center"><span class="sub" style="margin:0;font-size:14px">This mockup does not send anything.</span><button class="btn p" type="submit">Send message</button></div>
+    </div>
+   </form>
+   <div>
+    <div class="ci"><div><small>Call or WhatsApp</small><b>0300 0000000</b></div><div><small>Email</small><b>hello@ilma.example</b></div><div><small>Office hours</small><b>Monday to Saturday, 9 am to 6 pm</b></div><div><small>Visit</small><b>Office address to be added</b></div></div>
+    <div style="margin-top:30px"><h3 style="font-size:24px;margin-bottom:6px">Common questions</h3>
+     <details><summary>How long does it take to start?</summary><p>Most schools start with fees and attendance within two weeks. We import your student list from Excel.</p></details>
+     <details><summary>Can parents use it in Urdu?</summary><p>Yes. The parent portal, app and messages are in Urdu and English.</p></details>
+     <details><summary>Do we need new hardware?</summary><p>No. ILMA works in a browser and on phones. Fingerprint or face attendance is optional.</p></details>
+     <details><summary>What happens to our data?</summary><p>You own it. Export it any time, and every change to marks and fees is recorded.</p></details>
+    </div>
+   </div>
+  </div>
+ </div>
+</div>
+</main>
+
+<footer><div class="wrap">
+ <div class="g"><div><a class="logo" href="#/home" style="color:#fff;padding:0"><span class="lg">✦</span>ILMA</a><p style="margin-top:14px;max-width:24em">School management for Pakistan, in Urdu and English.</p></div>
+  <div><h4>Product</h4><a href="#/features">All modules</a><a href="#/features" data-s="Exams and Results">Exams and results</a><a href="#/features" data-s="Fees and Finance">Fees and finance</a><a href="#/features" data-s="Insight and AI">ILMA AI</a></div>
+  <div><h4>Company</h4><a href="#/contact">Contact</a><a href="#" data-demo>Book a demo</a><a href="#/contact">Questions</a></div>
+  <div><h4>Legal</h4><a href="#/home" data-t="Privacy policy page goes here">Privacy</a><a href="#/home" data-t="Terms page goes here">Terms</a></div></div>
+ <div class="bt"><span>© 2026 ILMA. All rights reserved.</span><span>Mockup. Sample data and placeholder contact details.</span></div>
+</div></footer>
+<div class="fd"><button class="btn p" data-demo style="box-shadow:0 14px 34px #b236c988">Book a demo</button></div>
+<div class="tray" id="tray"><span id="tcount"></span><button class="btn p s" data-demo>Book a demo with these</button><button class="x" id="tclr" aria-label="Clear selection" style="background:#ffffff22;color:#fff">✕</button></div>
+<div class="scrim" id="scrim"><div class="md" id="md" role="dialog" aria-modal="true" aria-labelledby="mt"></div></div>
+<div class="scrim" id="scrim2"><aside class="dr on" id="dr" style="transform:none;position:relative;margin-left:auto;min-height:88vh;border-radius:26px" role="dialog" aria-modal="true"></aside></div>
+<div id="toast" role="status"></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const E=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+/* ---- DATA: 65 modules in 11 suites ---- */
+const SUITES=[
+['Learning and Teaching','LT','Courses, live classes, quizzes and assignments in one place.',[
+ ['ILMA Courses','Builds and organizes every course and subject.','Syllabus and units;Outcomes;Content delivery to each class'],
+ ['ILMA Learning Hub','Cloud learning space for lessons.','Video, files, quizzes and discussion;Progress tracking;Certificates'],
+ ['ILMA Live Classes','Timetabled online classes.','Zoom, Meet, Teams or built-in video;Automatic attendance;Recordings'],
+ ['ILMA Quizzes','Quizzes and tests that mark themselves.','Reusable question banks;Per-question analytics;Scores flow to the gradebook'],
+ ['ILMA Exam Guard','Protects online test integrity.','Browser lockdown;AI proctoring;Violation log'],
+ ['ILMA Paper Scan','Marks bubble sheets from a photo or scanner.','OMR grading;Item analysis;Results sync to marks'],
+ ['ILMA Assignments','Homework from set to graded.','Due dates;Submissions;Progress by student'],
+ ['ILMA Markup','Feedback directly on student work.','Comments on the page;Rubric scoring;Faster grading'],
+ ['ILMA Timetable','Conflict-free weekly schedules.','Rooms and teachers allocated;Substitutions;Instant change alerts'],
+ ['ILMA Digital Shelf','E-books, journals and videos tied to courses.','Course-linked reading;Usage reports;Subscription tracking'],
+ ['ILMA Research Desk','Thesis and project tracking for senior classes and colleges.','Topic approval;Supervisors;Milestones to final defense']]],
+['Exams and Results','ER','Schedule, mark, publish and verify results.',[
+ ['ILMA Exams','Plans every exam without clashes.','Teachers or the exam office schedule;Room, class and invigilator checks;Roll number slips;HOD approval'],
+ ['ILMA Marks and Results','Enter, check and publish marks.','Total and passing marks per test;Excel upload, paste or scan;Absent and excused status;Draft, review, publish and history'],
+ ['ILMA Verified Results','Result cards and transcripts that can be trusted.','Digital signature and QR check;Online requests;Access control'],
+ ['ILMA Graduation','Completion and farewell events.','Eligibility checks;Certificates;Guest and seating lists']]],
+['Admissions and Students','AS','From enquiry to enrolled student record.',[
+ ['ILMA Admissions','Online application and review.','Apply online;Upload documents and track status;Merit lists;One-tap enrollment'],
+ ['ILMA Student Records','The single file for every student.','Academic, health, family and document records;Searchable;Reports'],
+ ['ILMA Attendance','Daily attendance in seconds.','Mark by class or period;Live absence alerts to parents;Trends'],
+ ['ILMA Smart Attendance','Identity-checked attendance.','Fingerprint, face or card;Syncs live;Students and staff'],
+ ['ILMA Leave','Student leave without paper.','Parent requests in the app;Teacher approval;Absences recorded'],
+ ['ILMA Careers','Placement and next-step support.','Employer listings;Student matching;Interviews and offers tracked'],
+ ['ILMA Appointments','Meetings with teachers and counsellors.','Open slots booked by parents;Reminders;No-show tracking']]],
+['Fees and Finance','FF','Fees collected on time, books always balanced.',[
+ ['ILMA Fees','Fee structures, invoices and collection.','Fee plans per class;Installments, discounts and scholarships;Online and cash payments with receipts;Defaulter follow-up'],
+ ['ILMA Ledger','Full school accounting.','Chart of accounts;Bank reconciliation;Payables and receivables;Multi-campus funds'],
+ ['ILMA Procure','Buying with control.','Budget-checked requests;Multi-level approval;Vendor and order matching'],
+ ['ILMA Expenses','Staff claims and reimbursements.','Receipt upload;Policy checks;Paid with payroll'],
+ ['ILMA Store','Online shop for the school.','Uniforms, books, tickets, certificates;Stock and accounts linked;Pay online'],
+ ['ILMA Revenue Desk','Income beyond tuition.','Quotes and contracts;Discount limits;Revenue forecast']]],
+['People and Staff','PS','Hiring, time, payroll and reviews.',[
+ ['ILMA Staff Records','Teacher and staff profiles.','Qualifications and documents;Workload balance;Substitutions'],
+ ['ILMA Hiring','Recruitment from job post to offer.','Applicant tracking;Interviews;Offer and onboarding records'],
+ ['ILMA Staff Time','Hours and shifts.','Check-in and out;Shift roster;Feeds payroll'],
+ ['ILMA Payroll','Salaries done right.','Salary rules and tax;Allowances;Payslips linked to attendance'],
+ ['ILMA Reviews','Fair staff appraisals.','Goals;Competency framework;Evidence and feedback'],
+ ['ILMA Staffing Forecast','Predicts staff shortages.','Teaching load;Substitute needs;Leave patterns;Shortage warnings by campus','soon']]],
+['Campus and Facilities','CF','Rooms, transport, hostel, canteen, library and events.',[
+ ['ILMA Rooms and Facilities','Classrooms, labs and halls.','Booking;Usage view;Clash prevention;Maintenance requests'],
+ ['ILMA Transport','School buses end to end.','Routes and stops;Vehicles and driver documents;Transport fee billing'],
+ ['ILMA Hostel','Boarding and multi-campus stay.','Room allocation;Occupancy;Fees and maintenance'],
+ ['ILMA Canteen','Menus and meal accounts.','Point of sale;Prepaid balance;Stock and dietary notes'],
+ ['ILMA Library','Physical library.','Catalogue;Barcode issue and return;Fines added to the fee account'],
+ ['ILMA Stock','Supplies and equipment.','Lab, IT and store items;Low-stock reorder;Valuation'],
+ ['ILMA Assets','Requests and life of assets.','Request with approval;Assignment;Disposal record'],
+ ['ILMA Events','Campus events from plan to report.','Registration and tickets;Room and budget linked;Attendance and feedback']]],
+['Communication and Community','CC','Notices, WhatsApp, forums, helpdesk and surveys.',[
+ ['ILMA Notices','Targeted announcements.','By class, section or group;Scheduled;Read receipts and archive'],
+ ['ILMA News','School news and stories.','One editing flow;Audience by role;Reader stats'],
+ ['ILMA Forums','Course and community discussion.','A forum per class;Study groups;Alumni mentoring'],
+ ['ILMA Polls and Surveys','Quick polls and course feedback.','Targeted audience;Live results;Evaluation reports'],
+ ['ILMA Helpdesk','Requests to IT, office and facilities.','Ticket routing;Response timers;Queue view'],
+ ['ILMA Care','Complaints handled properly.','Private intake;Routing;Resolution record'],
+ ['ILMA Mailbox','Email inside the student file.','Mail linked to students, admissions and staff;Search;History'],
+ ['ILMA WhatsApp and SMS','Messages parents read.','Fee reminders;Attendance and exam alerts;Delivery tracking']]],
+['Growth and Enrollment','GE','Enquiries, campaigns, social and email.',[
+ ['ILMA Enquiries','Every prospective family in one pipeline.','Capture from web, phone and walk-in;Follow-up tasks;Conversion view'],
+ ['ILMA Campaigns','Automated enrollment journeys.','Lead nurturing;Personalized messages;Results by campaign'],
+ ['ILMA Mail Campaigns','Bulk email to families, alumni and donors.','Audience lists;Templates;Open and enrollment tracking'],
+ ['ILMA Social','Social media for admissions.','Scheduled posts;Leads sent to Enquiries;Cost per admission']]],
+['Portals and Apps','PA','One login, one app, on any phone.',[
+ ['ILMA Parent Portal','Everything a parent needs about their child.','Results and attendance;Fee balance and payment;Messages, leave requests and exam dates'],
+ ['ILMA Student Portal','Students\' daily workspace.','Timetable and homework;Quizzes and results;Library and announcements'],
+ ['ILMA Teacher Portal','Teachers\' daily workspace.','Classes and attendance;Classwork, marks and exam scheduling;Timetable and leave'],
+ ['ILMA App','iOS and Android for everyone.','Notifications;Payments;Works on weak networks']]],
+['Insight and AI','IA','Live dashboards, reports and ILMA AI.',[
+ ['ILMA Insights','Live dashboards for each role.','Enrollment, attendance and fee collection;Exam results and staffing;Alerts across modules'],
+ ['ILMA Reports','Reports on demand or on schedule.','Academic, financial and compliance;Live data;Export to Excel and PDF'],
+ ['ILMA AI','Assistant inside every module.','Reads a marks sheet from a photo;Drafts quizzes, lesson plans and parent updates;Flags students at risk']]],
+['Platform and Connections','PC','No-code builder, e-sign, approvals and integrations.',[
+ ['ILMA Studio','Build forms, workflows and simple apps without code.','Drag and drop;Custom fields;School-specific reports'],
+ ['ILMA Sign','Legally valid digital signatures.','Admission forms and undertakings;Signing trail;Reminders'],
+ ['ILMA Docs Vault','One safe place for school files.','Search and versions;Permissions;Approval before publishing'],
+ ['ILMA Flow','Approvals for anything.','Purchases, leave, scholarships and grade changes;Escalation;Audit log'],
+ ['ILMA Connect','Plug in the tools schools already use.','Zoom, Google Meet, Microsoft Teams;BigBlueButton and Moodle;WhatsApp Business'],
+ ['ILMA ROI','Shows which tools actually work.','Usage, cost per student and results for each tool','soon'],
+ ['ILMA Vendors','One list of suppliers and contracts.','Contracts;Renewals and licences;What data each vendor can see','soon'],
+ ['ILMA Open API','One connection to the student profile.','Records, marks, attendance and fees;One secure interface']]],
+['Student Success','SS','Know who needs help and what to do.',[
+ ['ILMA Early Alert','Finds students who may struggle before they fail.','Risk score from attendance, marks, homework and activity;Reasons shown with a suggested action;Result of each action tracked'],
+ ['ILMA Wellbeing','Watches non-sensitive signs of student wellbeing.','Attendance, workload and survey trends;Patterns by class and grade;Cases passed to counsellors','soon'],
+ ['ILMA Family Insight','One view of how each family feels about the school.','Engagement score;Complaints and message reach;Payment behaviour and event attendance'],
+ ['ILMA Renewals','Shows which families may not return next year.','Likelihood of re-enrollment with reasons;Suggested action for the principal;Linked to fees and complaints']]],
+['AI and Assessment','AA','Lesson planning, marking help and safe AI use.',[
+ ['ILMA Lesson Studio','Lesson planning assistant for teachers.','Lesson plans and activities for different ability levels;Worksheets, quizzes and homework;Rubrics and catch-up work after a test'],
+ ['ILMA AI Policy','The school\'s rules for AI use.','Approved and blocked tools;Age limits and teacher permissions;Usage log and human review'],
+ ['ILMA Assessment Quality','Checks a test before students sit it.','Match with the syllabus;Difficulty, question level and bias;Which learning outcomes were achieved','soon'],
+ ['ILMA Essay Review','Marks written answers against a rubric.','Urdu and English essays and short answers;Score with reasons and learning gaps;Teacher confirms every mark','soon'],
+ ['ILMA Content Factory','Builds lessons and materials from the syllabus.','Worksheets, slides and teacher guides;Urdu and English versions;Approval before use','soon'],
+ ['ILMA AI Skills','Tracks AI literacy by grade.','Learning stages and a progress test;Teacher training needs;Reports for the principal','soon'],
+ ['ILMA Work Attribution','Shows how an assignment was produced.','Own work, AI help and copied text told apart;Sources used;A report for the teacher','soon'],
+ ['ILMA Agents','Ready-made assistants for each office.','Admissions, attendance and parent messages;Teacher planning, finance and counselling;All using school data'],
+ ['ILMA Ask','Ask the school anything in plain words.','Questions such as why Grade 8 maths dropped;Causes found;Actions suggested and assigned']]],
+['Quality and Compliance','QC','Inspection-ready evidence and protected data.',[
+ ['ILMA Accreditation','Keeps evidence ready for inspections and reviews.','Course, outcome, assessment and evidence linked;List of missing evidence;Ready-made report','soon'],
+ ['ILMA Curriculum Map','Shows gaps and overlaps in what is taught.','Outdated content;Overlapping outcomes;Skills not covered by any course','soon'],
+ ['ILMA Data Privacy','Protects student and staff data.','Consent records;Who viewed what;Retention rules and data requests']]],
+['Credentials and Growth','CG','Verified certificates, student passport and teacher growth.',[
+ ['ILMA Credentials','Verified digital certificates.','Issued with a QR check;A page where employers confirm it;Evidence attached'],
+ ['ILMA Teacher Growth','Training and skills tracking for teachers.','Skill gaps;Suggested courses and certificates;School-wide view for leaders'],
+ ['ILMA Student Passport','A lifelong record of each student.','Achievements, projects, certificates and languages;Verified entries;Follows the student to college and work'],
+ ['ILMA Skills Map','Links courses to skills employers want.','Skills per course;Gaps against jobs;Each student\'s skill profile','soon'],
+ ['ILMA Graduate Outcomes','Tracks what happens after graduation.','Jobs and further study by programme;Employer feedback','soon']]]
+];
+SUITES.unshift(SUITES.splice(SUITES.findIndex(x=>x[0]==='Insight and AI'),1)[0]);
+const HUES=['#6a3df0','#7a3de6','#8a37dc','#9a36d3','#a935c9','#b736bd','#c335ae','#cc329f','#d32d92','#d62a85','#e0337c','#5b3fd9','#7b2fd0','#a02fc0','#c92c9a'];
+const MODS=SUITES.flatMap((s,si)=>s[3].map(m=>({n:m[0],d:m[1],c:m[2].split(';'),soon:m[3]==='soon',s:s[0],si,id:m[0]})));
+const total=MODS.length; // 90
+/* ---- helpers ---- */
+let lang='en',sel=new Set();
+function toast(t){const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),2800)}
+/* ---- routing ---- */
+function route(){const h=(location.hash||'#/home').replace('#/','')||'home',p=['home','features','contact'].includes(h)?h:'home';
+ $$('.pg').forEach(x=>x.classList.toggle('on',x.id==='p-'+p));$$('.links a').forEach(a=>a.classList.toggle('on',a.dataset.p===p));
+ $('#links').classList.remove('on');$('#burger').setAttribute('aria-expanded','false');
+ document.title={home:'ILMA - The whole school in one calm place',features:'Features - ILMA',contact:'Contact - ILMA'}[p];
+ window.scrollTo(0,0);if(p==='home')startFeed();else stopFeed();if(p==='features')renderF();tray()}
+addEventListener('hashchange',route);
+/* ---- language ---- */
+function setLang(l){lang=l;$$('[data-en]').forEach(e=>{e.textContent=e.dataset[l];if(l==='ur'){e.dir='rtl';e.classList.add('ur')}else{e.removeAttribute('dir');e.classList.remove('ur')}});$('#lang').textContent=l==='ur'?'English':'اردو';document.documentElement.lang=l}
+$('#lang').onclick=()=>setLang(lang==='en'?'ur':'en');
+$('#burger').onclick=()=>{const o=$('#links').classList.toggle('on');$('#burger').setAttribute('aria-expanded',o)};
+/* ---- hero feed ---- */
+const FEED=[['7:52','Attendance','Ayesha was marked present in 7-B.'],['9:40','Results','Class test, Urdu: Ayesha scored 17 out of 20.'],['11:15','Fees','November fee of Rs 8,500 is due on the 10th. Pay with Raast or JazzCash.'],['12:30','Transport','Bus 4 has left school. About 12 minutes to the Gulberg stop.'],['14:05','Homework','Class 7-B: 2 new questions on Chapter 6, due tomorrow.'],['15:30','Notice','Parent-teacher meeting on Saturday. Book a 10-minute slot.']];
+let fi=0,ft=null;
+const fitem=f=>`<div class="fi"><small>${f[1]}<i>${f[0]}</i></small>${E(f[2])}</div>`;
+function startFeed(){stopFeed();const el=$('#feed');if(!el)return;el.innerHTML='';fi=0;
+ if(RM){el.innerHTML=FEED.slice(0,4).map(fitem).join('');$('#clock').textContent='3:30';return}
+ const step=()=>{if(fi>=FEED.length){ft=setTimeout(()=>{el.innerHTML='';fi=0;step()},3800);return}
+  el.insertAdjacentHTML('afterbegin',fitem(FEED[fi]));$('#clock').textContent=FEED[fi][0];while(el.children.length>4)el.lastChild.remove();fi++;ft=setTimeout(step,2300)};step()}
+function stopFeed(){clearTimeout(ft)}
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stopFeed();else if($('#p-home').classList.contains('on'))startFeed()});
+/* ---- roles ---- */
+const ROLES=[
+['Principal','Today\'s numbers across every class',()=>`<div class="kg"><div class="kp"><small>Present today</small><b>96%</b></div><div class="kp"><small>Fees this month</small><b>Rs 4.2M</b></div><div class="kp"><small>Waiting for you</small><b>3</b></div></div><div class="rw"><span>Mid Term schedule<span class="m">Grade 7 to 8 · sent by the exam office</span></span><span class="pill pk">Approve</span></div><div class="rw"><span>Leave: Mr. Imran, 2 days<span class="m">Substitute already suggested</span></span><span class="pill pk">Approve</span></div><div class="rw"><span>New admissions this week<span class="m">14 applications, 9 reviewed</span></span><span class="pill">Open</span></div>`],
+['Teacher','Classes, marks and the exam clash check',()=>`<div class="kg"><div class="kp"><small>Classes today</small><b>5</b></div><div class="kp"><small>Marks to enter</small><b>1 test</b></div><div class="kp"><small>Homework to mark</small><b>18</b></div></div><div class="rw"><span>Mid Term · Grade 7-C Urdu<span class="m">Marks 11 of 14 entered</span></span><div class="bar"><i style="width:79%"></i></div></div><div class="rw"><span>Unit Test 4 · 3 Nov, 9:00<span class="m">Room 12 is free, no clashes</span></span><span class="pill ok">Scheduled</span></div><div class="rw"><span>Mark attendance, 7-B<span class="m">Period 1 · 8:00</span></span><span class="pill pk">Start</span></div>`],
+['Parent','What happened to my child today',()=>`<div class="kg"><div class="kp"><small>Attendance</small><b>97%</b></div><div class="kp"><small>Last result</small><b>17/20</b></div><div class="kp"><small>Fee due</small><b>Rs 8,500</b></div></div><div class="rw"><span>Class test, Urdu<span class="m">Published today · Teacher remark added</span></span><span class="pill ok">New</span></div><div class="rw"><span>November fee<span class="m">Pay with Raast, JazzCash, Easypaisa or card</span></span><span class="pill pk">Pay now</span></div><div class="rw"><span>Request leave for Monday<span class="m">Teacher replies in the app</span></span><span class="pill">Request</span></div>`],
+['Accounts','Who has paid, who has not',()=>`<div class="kg"><div class="kp"><small>Collected</small><b>82%</b></div><div class="kp"><small>Overdue families</small><b>38</b></div><div class="kp"><small>Paid today</small><b>Rs 410K</b></div></div><div class="rw"><span>Fee collection, November<span class="m">Rs 4.2M of Rs 5.1M</span></span><div class="bar"><i style="width:82%"></i></div></div><div class="rw"><span>Send reminder to 38 families<span class="m">WhatsApp with payment link</span></span><span class="pill pk">Send</span></div><div class="rw"><span>Bank deposit reconciliation<span class="m">6 payments matched automatically</span></span><span class="pill ok">Done</span></div>`]];
+let rsel=0;
+function renderR(){$('#rtabs').innerHTML=ROLES.map((r,i)=>`<button class="tab ${i===rsel?'on':''}" role="tab" aria-selected="${i===rsel}" data-r="${i}"><b>${r[0]}</b><span>${r[1]}</span></button>`).join('');$('#rpanel').innerHTML=`<h3>${ROLES[rsel][0]}</h3><p class="ps">${ROLES[rsel][1]}. Sample data.</p>`+ROLES[rsel][2]()}
+$('#rtabs').addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(b){rsel=+b.dataset.r;renderR();$(`[data-r="${rsel}"]`).focus()}});
+/* ---- suite index ---- */
+function renderIx(){const mx=Math.max(...SUITES.map(s=>s[3].length));$('#ix').innerHTML=SUITES.map((s,i)=>`<a class="ir" href="#/features" data-s="${E(s[0])}"><span class="mono" style="background:${HUES[i]}">${s[1]}</span><b>${s[0]}</b><span class="d">${s[2]}</span><span class="cnt"><span class="bar"><i style="width:${s[3].length/mx*100}%"></i></span>${s[3].length}</span><span class="ar" aria-hidden="true">›</span></a>`).join('')}
+/* ---- AI scan demo ---- */
+$('#scanbtn').onclick=()=>{const rows=[['1','Ahmed Bilal','17','98%'],['2','Sara Iqbal','16','96%'],['3','Bilal Tariq','15','94%'],['4','Nida Farooq','14','71%'],['5','Zainab Rauf','12','97%']],rd=$('#rd'),btn=$('#scanbtn');rd.innerHTML='';btn.disabled=true;btn.textContent='Reading…';
+ $('#scanl').classList.remove('on');void $('#scanl').offsetWidth;if(!RM)$('#scanl').classList.add('on');
+ rows.forEach((r,i)=>setTimeout(()=>{rd.insertAdjacentHTML('beforeend',`<div class="r ${i===3?'lo':''}" style="animation-delay:0s"><span>${r[0]}</span><span>${r[1]}</span><b>${r[2]}</b><span class="cf">${r[3]}</span></div>`);if(i===4){rd.insertAdjacentHTML('beforeend','<div class="sub" style="font-size:14px;margin:6px 0 0">Nida Farooq is highlighted because the handwriting was unclear. The teacher checks it before anything is saved.</div>');btn.disabled=false;btn.textContent='Read again'}},RM?0:260+i*380)) };
+/* ---- features page ---- */
+let fq='',fs='All';
+function renderF(){const chips=$('#chips');chips.innerHTML=['All',...SUITES.map(s=>s[0])].map(s=>`<button class="ch ${fs===s?'on':''}" data-f="${E(s)}" aria-pressed="${fs===s}">${s}${s==='All'?'':' '+SUITES.find(x=>x[0]===s)[3].length}</button>`).join('');
+ const q=fq.trim().toLowerCase(),L=MODS.filter(m=>(fs==='All'||m.s===fs)&&(!q||(m.n+' '+m.d+' '+m.c.join(' ')+' '+m.s).toLowerCase().includes(q)));
+ $('#fcount').textContent=`${L.length} of ${total} modules`;
+ const g=$('#fgrid');if(!L.length){g.innerHTML=`<div class="empty"><h3 style="font-size:24px;color:var(--ink)">No module matches "${E(fq)}"</h3><p style="margin:8px 0 18px">Try a shorter word, or clear the filter.</p><button class="btn g" data-clear>Show all modules</button></div>`;return}
+ g.innerHTML=SUITES.map((s,si)=>{const ms=L.filter(m=>m.si===si);if(!ms.length)return'';return`<div class="fs" id="su${si}"><h2><span class="mono" style="background:${HUES[si]}">${s[1]}</span>${s[0]}</h2><p class="sd">${s[2]}</p><div class="mg">${ms.map(m=>`<div class="mc ${sel.has(m.id)?'sel':''}"><button class="open" data-m="${E(m.id)}"><h3>${m.n}${m.soon?' <span class="pill pk" style="font-size:11.5px;vertical-align:middle">Coming soon</span>':''}</h3><p>${m.d}</p></button><label class="pick"><input type="checkbox" data-pick="${E(m.id)}" ${sel.has(m.id)?'checked':''}>Show me in the demo</label></div>`).join('')}</div></div>`}).join('')}
+$('#q').addEventListener('input',e=>{fq=e.target.value;renderF()});
+function tray(){const t=$('#tray'),on=sel.size>0&&$('#p-features').classList.contains('on');t.classList.toggle('on',on);$('#tcount').textContent=`${sel.size} module${sel.size>1?'s':''} selected`}
+function openMod(id){const m=MODS.find(x=>x.id===id);openDrawer(`<div style="display:flex;justify-content:space-between;align-items:center"><span class="pill pk">${m.s}${m.soon?' · Coming soon':''}</span><button class="x" data-close aria-label="Close">✕</button></div><h2 id="mt">${m.n}</h2><p class="sub" style="margin-top:6px">${m.d}</p><h4 style="font-size:17px;margin-top:26px">What it does</h4><ul>${m.c.map(c=>`<li>${E(c)}</li>`).join('')}</ul><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:auto"><button class="btn p" data-pickd="${E(m.id)}">${sel.has(m.id)?'Remove from demo':'Show me in the demo'}</button><button class="btn g" data-close>Close</button></div>`)}
+/* ---- modal infra ---- */
+let lastF=null;
+function openModal(h){lastF=document.activeElement;$('#md').innerHTML=h;$('#scrim').classList.add('on');document.body.style.overflow='hidden';const f=$('#md').querySelector('input,select,button:not(.x)');setTimeout(()=>f&&f.focus(),30)}
+function openDrawer(h){lastF=document.activeElement;$('#dr').innerHTML=h;$('#dr').style.display='flex';$('#dr').style.flexDirection='column';$('#scrim2').classList.add('on');document.body.style.overflow='hidden';setTimeout(()=>$('#dr').querySelector('.x').focus(),30)}
+function closeAll(){$('#scrim').classList.remove('on');$('#scrim2').classList.remove('on');document.body.style.overflow='';if(lastF&&lastF.focus)lastF.focus()}
+addEventListener('keydown',e=>{if(e.key==='Escape')closeAll();if(e.key==='Tab'&&$('#scrim').classList.contains('on')){const f=[...$('#md').querySelectorAll('input,select,textarea,button:not(:disabled)')];if(!f.length)return;const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
+/* ---- demo flow ---- */
+const DAYS=[...Array(5)].map((_,i)=>{const d=new Date(2026,9,26+i);return{iso:d.toISOString().slice(0,10).replace(/^(\d{4})-(\d\d)-(\d\d)$/,(_,y,m,dd)=>`${y}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`),w:d.toLocaleDateString('en-GB',{weekday:'short'}),n:d.getDate(),m:d.toLocaleDateString('en-GB',{month:'short'}),dt:d}});
+const SLOTS=['10:00','11:30','14:00','16:00'];
+const taken=(di,si)=>(di*3+si*5)%7===0||(di===2&&si===1);
+let D={};
+function demo(){D={step:1,name:'',school:'',role:'Owner or director',phone:'',email:'',size:'300 to 800',city:'',day:null,slot:null,err:{}};demoUI()}
+const sSteps=n=>`<div class="steps" aria-hidden="true">${[1,2,3].map(i=>`<i class="${i<=n?'on':''}"></i>`).join('')}</div>`;
+function demoUI(){const d=D,e=d.err;
+ if(d.step===1)return openModal(`<div class="mh"><h2 id="mt">Book a demo</h2><button class="x" data-close aria-label="Close">✕</button></div>${sSteps(1)}<form class="mb" id="dform" novalidate><p class="sub" style="margin:0 0 4px;font-size:16px">30 minutes on video. We show the modules that matter to your school.</p>
+ <div class="g2"><div><label class="fl" for="d-name">Your name</label><input class="fi2 ${e.name?'bad':''}" id="d-name" value="${E(d.name)}" autocomplete="name">${e.name?`<div class="er">${e.name}</div>`:''}</div><div><label class="fl" for="d-role">Your role</label><select class="fi2" id="d-role">${['Owner or director','Principal','Administrator','Accountant','Teacher','Other'].map(r=>`<option ${r===d.role?'selected':''}>${r}</option>`).join('')}</select></div></div>
+ <label class="fl" for="d-school">School name</label><input class="fi2 ${e.school?'bad':''}" id="d-school" value="${E(d.school)}" autocomplete="organization">${e.school?`<div class="er">${e.school}</div>`:''}
+ <div class="g2"><div><label class="fl" for="d-phone">Mobile number</label><input class="fi2 ${e.phone?'bad':''}" id="d-phone" value="${E(d.phone)}" inputmode="tel" placeholder="0300 1234567" autocomplete="tel">${e.phone?`<div class="er">${e.phone}</div>`:''}</div><div><label class="fl" for="d-email">Email</label><input class="fi2 ${e.email?'bad':''}" id="d-email" type="email" value="${E(d.email)}" autocomplete="email">${e.email?`<div class="er">${e.email}</div>`:''}</div></div>
+ <div class="g2"><div><label class="fl" for="d-size">Number of students</label><select class="fi2" id="d-size">${['Under 300','300 to 800','800 to 2,000','2,000 or more'].map(r=>`<option ${r===d.size?'selected':''}>${r}</option>`).join('')}</select></div><div><label class="fl" for="d-city">City</label><input class="fi2" id="d-city" value="${E(d.city)}" autocomplete="address-level2"></div></div>
+ ${sel.size?`<div class="tip">You picked ${sel.size} module${sel.size>1?'s':''} to see: ${[...sel].slice(0,3).map(E).join(', ')}${sel.size>3?' and '+(sel.size-3)+' more':''}.</div>`:''}
+ <div class="mf"><button class="btn g" type="button" data-close>Cancel</button><button class="btn p" type="submit">Choose a time</button></div></form>`);
+ if(d.step===2)return openModal(`<div class="mh"><h2 id="mt">Choose a time</h2><button class="x" data-close aria-label="Close">✕</button></div>${sSteps(2)}<div class="mb"><p class="sub" style="margin:0 0 14px;font-size:16px">Pakistan time (UTC+5). Pick a day, then a slot.</p>
+ <div class="days" role="group" aria-label="Day">${DAYS.map((x,i)=>`<button class="day ${d.day===i?'on':''}" data-day="${i}" aria-pressed="${d.day===i}"><small>${x.w}</small>${x.n}<small>${x.m}</small></button>`).join('')}</div>
+ ${d.day==null?'<p class="sub" style="font-size:15px;margin-top:14px">Choose a day to see open slots.</p>':`<div class="slots" role="group" aria-label="Time">${SLOTS.map((t,i)=>`<button class="slot ${d.slot===i?'on':''}" data-slot="${i}" ${taken(d.day,i)?'disabled aria-label="'+t+' taken"':''}>${t}</button>`).join('')}</div>`}
+ ${e.slot?`<div class="er">${e.slot}</div>`:''}
+ <div class="mf"><button class="btn g" data-back>Back</button><button class="btn p" data-confirm>Confirm demo</button></div></div>`);
+ const x=DAYS[d.day];openModal(`<div class="mh"><h2 id="mt">You are booked</h2><button class="x" data-close aria-label="Close">✕</button></div>${sSteps(3)}<div class="mb"><div class="done" aria-hidden="true">✓</div><p>Thank you, ${E(d.name.split(' ')[0])}. We have sent the details to ${E(d.email)}. The video link arrives with the reminder the day before.</p>
+ <div class="sum"><div><span>When</span><b>${x.w} ${x.n} ${x.m} 2026, ${SLOTS[d.slot]}</b></div><div><span>Length</span><b>30 minutes, video call</b></div><div><span>School</span><b>${E(d.school)}</b></div><div><span>Modules to see</span><b>${sel.size?sel.size+' picked by you':'Overview of all suites'}</b></div></div>
+ <div class="tip">This is a mockup. No booking was sent.</div>
+ <div class="mf"><button class="btn g" data-ics>Add to calendar</button><button class="btn p" data-close>Done</button></div></div>`)}
+function demoNext(){const d=D,v=s=>$('#'+s).value.trim();d.name=v('d-name');d.role=$('#d-role').value;d.school=v('d-school');d.phone=v('d-phone');d.email=v('d-email');d.size=$('#d-size').value;d.city=v('d-city');
+ const e={};if(d.name.length<3)e.name='Enter your full name.';if(d.school.length<3)e.school='Enter your school name.';if(!/^(\+92|0)3\d{2}[- ]?\d{7}$/.test(d.phone))e.phone='Enter a mobile number like 0300 1234567.';if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email))e.email='Enter an email like name@school.com.';
+ d.err=e;if(Object.keys(e).length)return demoUI();d.step=2;demoUI()}
+function ics(){const x=DAYS[D.day],t=SLOTS[D.slot].replace(':',''),p=n=>String(n).padStart(2,'0'),dt=`${x.dt.getFullYear()}${p(x.dt.getMonth()+1)}${p(x.dt.getDate())}`,h=+SLOTS[D.slot].slice(0,2),mi=+SLOTS[D.slot].slice(3),em=h*60+mi+30,end=`${dt}T${p(Math.floor(em/60))}${p(em%60)}00`;
+ const c=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//ILMA//Demo//EN','BEGIN:VEVENT','UID:ilma-demo-'+Date.now()+'@ilma.example','DTSTAMP:20261023T000000Z',`DTSTART;TZID=Asia/Karachi:${dt}T${t}00`,`DTEND;TZID=Asia/Karachi:${end}`,'SUMMARY:ILMA demo','DESCRIPTION:30-minute video demo of ILMA for '+D.school,'END:VEVENT','END:VCALENDAR'].join('\r\n'),u=URL.createObjectURL(new Blob([c],{type:'text/calendar'})),a=document.createElement('a');a.href=u;a.download='ILMA-demo.ics';a.click();setTimeout(()=>URL.revokeObjectURL(u),500);toast('Calendar file downloaded')}
+/* ---- contact form ---- */
+$('#cform').addEventListener('submit',e=>{e.preventDefault();const v=s=>$('#'+s).value.trim(),er={};
+ if(v('c-name').length<3)er.name='Enter your full name.';if(v('c-school').length<3)er.school='Enter your school name.';if(!/^(\+92|0)3\d{2}[- ]?\d{7}$/.test(v('c-phone')))er.phone='Enter a mobile number like 0300 1234567.';if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v('c-email')))er.email='Enter an email like name@school.com.';if(v('c-msg').length<10)er.msg='Write a sentence about what you need.';
+ $$('#cform [data-e]').forEach(x=>x.textContent=er[x.dataset.e]||'');['name','school','phone','email'].forEach(k=>$('#c-'+k).classList.toggle('bad',!!er[k]));$('#c-msg').classList.toggle('bad',!!er.msg);
+ if(Object.keys(er).length){const f=$('#cform .bad');f&&f.focus();return}
+ $('#cf-body').innerHTML=`<div style="padding:30px 6px"><div class="done" aria-hidden="true">✓</div><h2 style="font-size:30px">Message received</h2><p class="sub">Thank you, ${E(v('c-name').split(' ')[0])}. We will reply to ${E(v('c-email'))} within one working day.</p><div class="mf" style="justify-content:flex-start"><button class="btn p" type="button" data-demo>Book a demo meanwhile</button></div></div>`});
+/* ---- global clicks ---- */
+document.addEventListener('click',e=>{const t=e.target;
+ if(t.closest('[data-demo]')){e.preventDefault();demo();return}
+ if(t.closest('[data-close]')){closeAll();return}
+ if(t.id==='scrim'||t.id==='scrim2'){closeAll();return}
+ let b;
+ if(b=t.closest('[data-day]')){D.day=+b.dataset.day;D.slot=null;D.err={};demoUI();return}
+ if(b=t.closest('[data-slot]')){D.slot=+b.dataset.slot;D.err={};demoUI();return}
+ if(t.closest('[data-back]')){D.step=1;demoUI();return}
+ if(t.closest('[data-confirm]')){if(D.day==null||D.slot==null){D.err={slot:'Choose a day and a time.'};return demoUI()}D.step=3;demoUI();return}
+ if(t.closest('[data-ics]')){ics();return}
+ if(b=t.closest('[data-m]')){openMod(b.dataset.m);return}
+ if(b=t.closest('[data-pickd]')){pick(b.dataset.pickd);closeAll();return}
+ if(b=t.closest('[data-f]')){fs=b.dataset.f;renderF();return}
+ if(t.closest('[data-clear]')){fq='';$('#q').value='';fs='All';renderF();return}
+ if(t.closest('#tclr')){sel.clear();renderF();tray();return}
+ if(b=t.closest('a[data-s]')){fs=b.dataset.s;fq='';$('#q').value=''}
+ if(b=t.closest('a[data-t]')){e.preventDefault();toast(b.dataset.t)}
+});
+document.addEventListener('submit',e=>{if(e.target.id==='dform'){e.preventDefault();demoNext()}});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset&&t.dataset.pick){pick(t.dataset.pick,true)}});
+function pick(id,fromBox){if(sel.has(id))sel.delete(id);else sel.add(id);if(!fromBox)renderF();else{const c=$(`[data-pick="${CSS.escape(id)}"]`);c&&c.closest('.mc').classList.toggle('sel',sel.has(id))}tray()}
+/* ---- init ---- */
+renderR();renderIx();route();
+</script>
+</body>
+</html>

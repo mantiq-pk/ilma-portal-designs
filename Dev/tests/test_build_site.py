@@ -165,6 +165,29 @@ class BuildSiteTests(unittest.TestCase):
 
         self.assertEqual(filters, {"all", *categories})
 
+    def test_every_publishable_all_files_artifact_is_in_a_collection(self):
+        repo_root = Path(__file__).resolve().parents[2]
+        sources = json.loads((repo_root / "Dev" / "sources.json").read_text())
+        collection_roots = [repo_root / item["path"] for item in sources["collections"]]
+        publishable_suffixes = {
+            ".html",
+            ".docx",
+            ".pdf",
+            ".png",
+            ".jpg",
+            ".jpeg",
+            ".webp",
+        }
+
+        uncovered = []
+        for artifact in (repo_root / "All Files").rglob("*"):
+            if not artifact.is_file() or artifact.suffix.lower() not in publishable_suffixes:
+                continue
+            if not any(artifact.is_relative_to(root) for root in collection_roots):
+                uncovered.append(artifact.relative_to(repo_root).as_posix())
+
+        self.assertEqual(uncovered, [])
+
     def test_build_gives_library_and_prototypes_a_light_default_without_editing_sources(self):
         source = self.collection / "Prototype.html"
         original = "<html><head><title>Prototype</title></head><body><main>Demo</main></body></html>"

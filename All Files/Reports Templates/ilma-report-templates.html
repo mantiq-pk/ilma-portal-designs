@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ILMA Report Templates</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0F1B2D;--mut:#5B6779;--ln:#E1E7EF;--pu:#5B3DF5;--put:#EEEAFE}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:#F1F3F8;color:var(--ink);font-size:14px}
+.app{display:flex;min-height:100vh}
+.side{width:250px;flex:none;background:#fff;border-right:1px solid var(--ln);padding:16px 12px;position:sticky;top:0;height:100vh;overflow:auto}
+.side h2{font-size:16px;margin:4px 8px 10px}.gp{font-size:12px;color:var(--mut);font-weight:600;padding:12px 8px 4px}
+.side button{display:block;width:100%;text-align:left;border:0;background:none;padding:9px 10px;border-radius:8px;font:500 14px Inter,sans-serif;color:var(--ink);min-height:40px;cursor:pointer}
+.side button[aria-current="true"]{background:var(--put);color:#3F25C9;font-weight:700}
+button:focus-visible{outline:3px solid #9B87FF;outline-offset:2px}
+.main{flex:1;min-width:0;padding:20px}
+.bar{max-width:920px;margin:0 auto 12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
+.bt{background:var(--pu);color:#fff;border:0;border-radius:8px;padding:10px 16px;font:600 14px Inter,sans-serif;min-height:44px;cursor:pointer}
+.chips span{display:inline-block;background:#fff;border:1px solid var(--ln);border-radius:99px;padding:5px 12px;margin-right:6px;font-size:13px}
+.paper{max-width:920px;margin:0 auto;background:#fff;border:1px solid var(--ln);border-radius:12px;padding:32px}
+.hd{display:flex;justify-content:space-between;gap:16px;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:18px;flex-wrap:wrap}
+.lg{display:flex;gap:12px;align-items:center}.lg i{width:44px;height:44px;border-radius:10px;background:var(--ink);color:#fff;display:grid;place-items:center;font-style:normal;font-weight:700}
+.lg b{font-size:18px}.lg small,.gen{color:var(--mut);font-size:12px}.gen{text-align:right}
+h1{font-size:24px;margin:0 0 2px}.ds{color:var(--mut);margin:0 0 16px}
+.mt{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px 20px;margin-bottom:16px;font-size:13px}.mt span{color:var(--mut)}
+.kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+.kp div{border:1px solid var(--ln);border-radius:10px;padding:12px}.kp small{color:var(--mut);font-size:12px}.kp b{display:block;font-size:22px;margin:2px 0}
+.ch{border:1px solid var(--ln);border-radius:10px;padding:14px;margin-bottom:18px}.ch h3{margin:0 0 10px;font-size:14px}
+.bar-r{display:grid;grid-template-columns:130px 1fr 60px;gap:10px;align-items:center;margin:6px 0;font-size:13px}
+.bar-r i{display:block;height:14px;border-radius:4px;background:var(--pu)}.bar-r span:last-child{text-align:right;font-weight:600}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}
+th{background:#F5F6FA;text-align:left;padding:9px 10px;font-weight:600;color:#34425A;border-bottom:1px solid var(--ln)}
+td{padding:9px 10px;border-bottom:1px solid var(--ln)}.r{text-align:right}.c{text-align:center}tr.t td{font-weight:700;background:#F5F6FA}
+.pl{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600}
+.g{background:#E3F5EC;color:#0A5F3A}.rd{background:#FDE8E8;color:#9B1C1C}.am{background:#FEF3C7;color:#8A3B0B}.gy{background:#EEF1F5;color:#334155}
+.nt{margin-top:14px;color:var(--mut);font-size:13px}
+.sg{display:flex;gap:30px;margin-top:44px}.sg div{flex:1;border-top:1px solid var(--ink);padding-top:6px;font-size:12px;color:var(--mut)}
+.ft{margin-top:22px;padding-top:10px;border-top:1px solid var(--ln);display:flex;justify-content:space-between;color:var(--mut);font-size:12px}
+@media(max-width:800px){.app{flex-direction:column}.side{width:100%;height:auto;position:static}.paper{padding:18px}}
+@media print{.side,.bar{display:none}body{background:#fff}.main{padding:0}.paper{border:0;max-width:none;padding:0}}
+</style></head><body>
+<div class="app"><nav class="side" id="nav" aria-label="Reports"><h2>Reports &amp; Analytics</h2></nav>
+<main class="main"><div class="bar"><div class="chips" id="fl"></div><button class="bt" onclick="print()">Print / Save PDF</button></div><article class="paper" id="pp"></article></main></div>
+<script>
+const R=[
+{g:"Principal",t:"Monthly summary",d:"School health, key measures and changes for the selected scope.",f:["October 2026","All branches"],
+k:[["Enrolment","1,248","+14 vs September"],["Avg attendance","94.2%","−0.6 pts"],["Fees collected","PKR 18.6M","91% of PKR 20.4M billed"],["Staff present","96.1%","+0.3 pts"]],
+c:{t:"Weekly attendance (%)",l:["Week 1","Week 2","Week 3","Week 4"],v:[95.1,94.8,93.6,93.4],u:"%",line:1},
+h:["Measure","September","October","Change"],r:[["Enrolment","1,234","1,248","+14"],["Avg attendance","94.8%","94.2%","−0.6 pts"],["Fees billed","PKR 20.1M","PKR 20.4M","+1.5%"],["Fees collected","PKR 17.9M","PKR 18.6M","+3.9%"],["Overdue accounts","188","171","−17"],["Homework completion","81%","84%","+3 pts"]],
+n:"Attendance has dipped for three weeks running. Check the At-risk students report."},
+{g:"Principal",t:"Branch comparison",d:"Every branch side by side on attendance, fees and results.",f:["October 2026","4 branches"],
+k:[["Branches","4","1,248 students"],["Best attendance","95.1%","Main Campus"],["Lowest fee collection","85%","City Campus"],["Highest avg result","76.1%","Girls Campus"]],
+c:{t:"Fee collection by branch (%)",l:["Main","Girls","Junior","City"],v:[93,92,88,85],u:"%"},
+h:["Branch","Students","Attendance","Fee collection","Avg result","Overdue accounts"],r:[["Main Campus","520","95.1%","93%","74.8%","52"],["Girls Campus","380","94.6%","92%","76.1%","41"],["Junior Campus","210","93.0%","88%","70.2%","38"],["City Campus","138","91.8%","85%","66.9%","40"]],
+tot:["All branches","1,248","94.2%","91%","73.6%","171"]},
+{g:"Principal",t:"At-risk students",d:"Learners who need academic or attendance support.",f:["Term 1 2026–27","All branches"],
+k:[["At-risk students","42","3.4% of enrolment"],["Attendance risk","18","below 75%"],["Academic risk","15","average below 50%"],["Both","9","call parents first"]],
+c:{t:"At-risk students by class band",l:["Class 1–5","Class 6–8","Class 9–10","Class 11–12"],v:[8,17,14,3]},
+h:["Student","Class","Attendance","Avg marks","Risk","Suggested action"],r:[["Hamza Ali","8-B","71%","48%","Both","Call parents; assign tutor"],["Minahil Fatima","7-A","69%","47%","Both","Parent meeting this week"],["Saad Raza","9-C","88%","39%","Academic","Remedial Maths"],["Areeba Noor","6-A","74%","62%","Attendance","Home visit or call"],["Bilal Ahmed","10-B","72%","64%","Attendance","Meet class teacher"],["Zainab Iqbal","5-A","91%","41%","Academic","Reading support group"]],
+n:"Showing 6 of 42, highest risk first. Thresholds are set in Settings."},
+{g:"Fees",t:"Fee statement",d:"Billed, collected and outstanding fees by class level.",f:["October 2026","All branches"],
+k:[["Billed","PKR 20.4M","1,248 students"],["Collected","PKR 18.6M","91%"],["Outstanding","PKR 1.8M","171 accounts"],["Collection rate","91%","+1 pt vs September"]],
+c:{t:"Collection rate by level (%)",l:["Early Years","Class 1–5","Class 6–8","Class 9–10","Class 11–12"],v:[95,93,90,90,87],u:"%"},
+h:["Level","Students","Billed (PKR)","Collected (PKR)","Outstanding (PKR)","Rate"],r:[["Early Years","190","2,850,000","2,720,000","130,000","95%"],["Class 1–5","410","6,150,000","5,700,000","450,000","93%"],["Class 6–8","330","5,280,000","4,760,000","520,000","90%"],["Class 9–10","200","3,600,000","3,240,000","360,000","90%"],["Class 11–12","118","2,520,000","2,180,000","340,000","87%"]],
+tot:["Total","1,248","20,400,000","18,600,000","1,800,000","91%"]},
+{g:"Fees",t:"Defaulters list",d:"Accounts that need payment follow-up, oldest first.",f:["As on 24 Oct 2026","All branches"],
+k:[["Accounts","171","13.7% of students"],["Outstanding","PKR 2.46M","all months"],["Avg days overdue","34",""],["Over 60 days","29","escalate"]],
+c:{t:"Accounts by days overdue",l:["1–30 days","31–60 days","61–90 days","90+ days"],v:[74,68,21,8]},
+h:["Adm No","Student","Class","Guardian phone","Months due","Amount due","Last payment","Follow-up"],r:[["SU-0519","Minahil Fatima","7-A","03XX-XXXXXXX","4","48,000","20 Jun","Notice sent"],["SU-1042","Hamza Ali","8-B","03XX-XXXXXXX","3","36,000","12 Jul","Promised 30 Oct"],["SU-0877","Areeba Noor","6-A","03XX-XXXXXXX","2","24,000","05 Aug","Called 22 Oct"],["SU-1310","Saad Raza","9-C","03XX-XXXXXXX","2","40,000","18 Aug","WhatsApp sent"],["SU-1188","Bilal Ahmed","10-B","03XX-XXXXXXX","2","44,000","30 Aug","No answer"],["SU-0654","Zainab Iqbal","5-A","03XX-XXXXXXX","1","10,000","15 Sep","SMS sent"]],
+n:"Showing 6 of 171. Use Send reminder to message all guardians over WhatsApp."},
+{g:"Fees",t:"Collection by day",d:"Receipts grouped by payment date and method.",f:["19–23 Oct 2026","All branches"],
+k:[["Collected this week","PKR 5.04M",""],["Daily average","PKR 1.01M",""],["Top method","Bank transfer","37% of total"],["Receipts issued","412",""]],
+c:{t:"Daily collection (PKR '000)",l:["Mon 19","Tue 20","Wed 21","Thu 22","Fri 23"],v:[970,920,950,1060,1140],u:"K",line:1},
+h:["Date","Cash","Bank transfer","JazzCash / Easypaisa","Online card","Total (PKR)"],r:[["Mon 19 Oct","420,000","310,000","180,000","60,000","970,000"],["Tue 20 Oct","385,000","275,000","215,000","45,000","920,000"],["Wed 21 Oct","350,000","340,000","190,000","70,000","950,000"],["Thu 22 Oct","300,000","410,000","260,000","90,000","1,060,000"],["Fri 23 Oct","275,000","520,000","240,000","105,000","1,140,000"]],
+tot:["Total","1,730,000","1,855,000","1,085,000","370,000","5,040,000"]},
+{g:"Fees",t:"Concessions given",d:"Discounts, waivers and their approval records.",f:["Session 2026–27","All branches"],
+k:[["Students with concession","63","5.0% of students"],["Monthly value","PKR 285,000","1.4% of billing"],["Average concession","11%",""],["Pending approval","4","needs Principal"]],
+c:{t:"Students by concession type",l:["Sibling","Merit","Need-based","Staff child"],v:[28,17,12,6]},
+h:["Adm No","Student","Class","Type","Rate","Monthly amount","Approved by","Date"],r:[["SU-0412","Maryam Khan","7-A","Sibling","10%","1,500","Principal","02 Aug"],["SU-0733","Ali Hassan","10-A","Merit","25%","5,000","Principal","14 Aug"],["SU-0981","Fatima Zahra","4-B","Need-based","50%","6,000","Owner","20 Aug"],["SU-1120","Usman Tariq","2-A","Staff child","100%","10,000","Owner","01 Sep"],["SU-1255","Ayesha Malik","9-B","Merit","15%","3,000","Principal","05 Sep"]],
+n:"Every concession needs a reason and an approver. Need-based cases keep a supporting document on file."},
+{g:"Academics",t:"Result gazette",d:"Class results and marks for the selected term.",f:["Term 1 2026–27","Class 9-A"],
+m:[["Class","9-A · 36 students"],["Pass mark","40% in every subject"],["Grades","A1 80+ · A 70+ · B 60+ · C 50+ · D 40+ · F below 40"]],
+k:[["Appeared","36",""],["Passed","34","2 failed"],["Pass rate","94.4%",""],["Highest","91.2%","Ayesha Malik"]],
+c:{t:"Grade distribution (students)",l:["A1","A","B","C","D","F"],v:[9,11,8,5,1,2]},
+h:["Pos","Roll","Name","Eng","Urdu","Math","Phy","Chem","Bio","Total /600","%","Grade","Result"],r:[["1","9A-07","Ayesha Malik","92","88","95","90","89","93","547","91.2%","A1","Pass"],["2","9A-12","Ali Hassan","85","90","92","88","84","86","525","87.5%","A1","Pass"],["3","9A-03","Zara Sheikh","88","84","79","86","82","90","509","84.8%","A1","Pass"],["4","9A-21","Bilal Raza","78","80","86","75","77","72","468","78.0%","A","Pass"],["5","9A-30","Hira Saeed","74","79","70","72","68","75","438","73.0%","A","Pass"],["—","9A-18","Saad Iqbal","55","62","38","48","50","52","305","50.8%","C","Fail"]],
+n:"Showing 6 of 36. Marks below the pass mark are shown in the result column, not hidden.",sg:["Class Teacher","Examination Controller","Principal"]},
+{g:"Academics",t:"Subject analysis",d:"Subject averages, pass rates and teaching groups.",f:["Term 1 2026–27","Class 9"],
+k:[["Subjects","6","36 students"],["Highest average","74.2%","Urdu"],["Lowest average","63.8%","Mathematics"],["Passed all subjects","34 of 36",""]],
+c:{t:"Average score by subject (%)",l:["English","Urdu","Maths","Physics","Chemistry","Biology"],v:[71.4,74.2,63.8,66.5,68.9,72.6],u:"%"},
+h:["Subject","Teacher","Appeared","Average","Pass rate","Highest","Lowest"],r:[["English","Ms. Sana Riaz","36","71.4%","100%","92","46"],["Urdu","Mr. Imran Qureshi","36","74.2%","100%","90","48"],["Mathematics","Mr. Adeel Farooq","36","63.8%","94%","95","22"],["Physics","Ms. Rabia Nasir","36","66.5%","97%","90","35"],["Chemistry","Mr. Kashif Mahmood","36","68.9%","100%","89","44"],["Biology","Ms. Hina Aslam","36","72.6%","100%","93","47"]],
+n:"Mathematics has the lowest average and two failures. Consider an extra support period."},
+{g:"Academics",t:"Attendance register",d:"Class attendance, absences and unmarked school days.",f:["19–23 Oct 2026","Class 8-B"],
+m:[["Class","8-B · 34 students"],["Class teacher","Ms. Rabia Nasir"],["Codes","P present · A absent · L leave"]],
+k:[["Class strength","34",""],["Average this week","92.4%",""],["Absent today","3","Fri 23 Oct"],["Unmarked days","0","all marked"]],
+h:["Roll","Student","Mon 19","Tue 20","Wed 21","Thu 22","Fri 23","Present","Absent","Leave","%"],r:[["01","Abdullah Khan","P","P","P","P","P","5","0","0","100%"],["02","Aiman Zahid","P","P","A","P","P","4","1","0","80%"],["03","Hamza Ali","A","A","P","A","L","1","3","1","20%"],["04","Inaya Sheikh","P","P","P","L","P","4","0","1","80%"],["05","Moiz Rehman","P","P","P","P","A","4","1","0","80%"],["06","Noor Fatima","P","P","P","P","P","5","0","0","100%"]],
+n:"Showing 6 of 34. Two or more absences in a week flag the student for the class teacher."},
+{g:"Academics",t:"Homework completion",d:"Assigned work and submission rates by subject.",f:["12–23 Oct 2026","Class 8-B"],
+k:[["Assignments set","34",""],["Completion","87%","on time or late"],["On time","73%",""],["Missing","13%","follow up"]],
+c:{t:"Completion by subject (%)",l:["English","Urdu","Maths","Science","Social St.","Computer"],v:[92,92,80,86,94,86],u:"%"},
+h:["Subject","Assignments set","On time","Late","Missing","Completion"],r:[["English","6","78%","14%","8%","92%"],["Urdu","5","82%","10%","8%","92%"],["Mathematics","9","61%","19%","20%","80%"],["Science","7","70%","16%","14%","86%"],["Social Studies","4","85%","9%","6%","94%"],["Computer","3","74%","12%","14%","86%"]],
+n:"Mathematics has the most missing work. Share the list with the subject teacher."},
+{g:"Parents",t:"Progress report card",d:"An individual learner's published marks and remarks.",f:["Term 1 2026–27","Ayesha Malik"],
+m:[["Student","Ayesha Malik"],["Class and roll no.","9-A · 9A-07"],["Term","Term 1, 2026–27"],["Guardian","[Guardian name]"]],
+k:[["Overall","91.2%","547 / 600"],["Grade","A1",""],["Position","1 of 36",""],["Attendance","96.7%","58 of 60 days"]],
+h:["Subject","Total","Obtained","%","Grade","Class average"],r:[["English","100","92","92%","A1","71.4%"],["Urdu","100","88","88%","A1","74.2%"],["Mathematics","100","95","95%","A1","63.8%"],["Physics","100","90","90%","A1","66.5%"],["Chemistry","100","89","89%","A1","68.9%"],["Biology","100","93","93%","A1","72.6%"]],
+tot:["Total","600","547","91.2%","A1","69.6%"],
+n:"Teacher's remarks: Ayesha works with steady focus and leads group tasks well. Encourage her to join the science club.",sg:["Class Teacher","Principal","Parent"]},
+{g:"Parents",t:"Student fee statement",d:"An individual learner's fee history and remaining balance.",f:["Session 2026–27","Hamza Ali"],
+m:[["Student","Hamza Ali"],["Adm No · Class","SU-1042 · 8-B"],["Monthly fee","PKR 12,000"],["Guardian","[Guardian name]"]],
+k:[["Charged","PKR 48,000","4 months"],["Paid","PKR 12,000",""],["Outstanding","PKR 36,000","3 months"],["Oldest due","01 Aug","54 days"]],
+h:["Date","Voucher / receipt","Description","Charged","Paid","Balance"],r:[["01 Jul","V-2607-1042","July tuition fee","12,000","—","12,000"],["12 Jul","R-8841","Payment, cash","—","12,000","0"],["01 Aug","V-2608-1042","August tuition fee","12,000","—","12,000"],["01 Sep","V-2609-1042","September tuition fee","12,000","—","24,000"],["01 Oct","V-2610-1042","October tuition fee","12,000","—","36,000"]],
+tot:["Total","","","48,000","12,000","36,000"],
+n:"Please quote SU-1042 as the payment reference so your payment is matched automatically."},
+{g:"Staff",t:"Staff attendance",d:"Teacher and staff presence, late arrivals and absences.",f:["1–23 Oct 2026","All branches"],
+m:[["Working days so far","17"],["Late rule","After 8:00 am"]],
+k:[["Staff","84",""],["Avg attendance","96.1%",""],["Late arrivals","37","this month"],["Absent today","3",""]],
+c:{t:"Attendance by staff member (%)",l:["Sana Riaz","Imran Qureshi","Adeel Farooq","Rabia Nasir","Kashif Mahmood","Hina Aslam"],v:[94.1,100,88.2,94.1,82.4,100],u:"%"},
+h:["Staff","Role","Present","Late","Absent","Leave","Attendance"],r:[["Ms. Sana Riaz","Teacher","16","1","0","1","94.1%"],["Mr. Imran Qureshi","Teacher","17","0","0","0","100%"],["Mr. Adeel Farooq","Teacher","15","3","1","1","88.2%"],["Ms. Rabia Nasir","Teacher","16","2","1","0","94.1%"],["Mr. Kashif Mahmood","Teacher","14","4","2","1","82.4%"],["Ms. Hina Aslam","Teacher","17","1","0","0","100%"]],
+n:"Showing 6 of 84. Present includes late arrivals."},
+{g:"Staff",t:"Leave summary",d:"Leave taken and remaining balance for each staff member.",f:["Session 2026–27","All branches"],
+m:[["Annual entitlement","Casual 10 · Sick 8 · Annual 21 days"]],
+k:[["Leave days taken","41","this month"],["Pending requests","7","needs approval"],["On leave today","4",""],["Most used","Casual","18 days"]],
+c:{t:"Leave days taken this month",l:["Casual","Sick","Annual"],v:[18,9,14]},
+h:["Staff","Casual (used / 10)","Sick (used / 8)","Annual (used / 21)","Remaining days","Pending"],r:[["Ms. Sana Riaz","3 / 10","1 / 8","5 / 21","30","0"],["Mr. Imran Qureshi","1 / 10","0 / 8","2 / 21","36","0"],["Mr. Adeel Farooq","4 / 10","2 / 8","7 / 21","26","0"],["Ms. Rabia Nasir","2 / 10","3 / 8","4 / 21","30","0"],["Mr. Kashif Mahmood","6 / 10","1 / 8","9 / 21","23","2"],["Ms. Hina Aslam","0 / 10","0 / 8","3 / 21","36","1"]],
+n:"Showing 6 of 84. Pending requests are approved from Tasks & Requests."}
+];
+const E=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const P={Pass:"g",Fail:"rd",Both:"rd",Academic:"am",Attendance:"am",P:"g",A:"rd",L:"am"};
+const NUM=/^(PKR )?[−+\-]?[\d,.]+(%| pts| \/ \d+)?$|^\d+ \/ \d+$/;
+function chart(c){let o='<div class="ch"><h3>'+E(c.t)+'</h3>';
+if(c.line){const W=560,H=150,p=30,v=c.v,mn=Math.min(...v)-2*(c.u=="%"?1:20),mx=Math.max(...v)+2*(c.u=="%"?1:20);
+const x=i=>p+i*(W-2*p)/(v.length-1),y=a=>H-26-(a-mn)/(mx-mn)*(H-56);
+o+='<svg viewBox="0 0 '+W+' '+H+'" width="100%" role="img" aria-label="'+E(c.t)+'"><polyline fill="none" stroke="#5B3DF5" stroke-width="3" points="'+v.map((a,i)=>x(i)+','+y(a)).join(' ')+'"/>'+
+v.map((a,i)=>'<circle cx="'+x(i)+'" cy="'+y(a)+'" r="4" fill="#5B3DF5"/><text x="'+x(i)+'" y="'+(y(a)-10)+'" text-anchor="middle" font-size="12" font-weight="600" fill="#0F1B2D">'+a+'</text><text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="12" fill="#5B6779">'+E(c.l[i])+'</text>').join('')+'</svg>';
+}else{const m=c.u=="%"?100:Math.max(...c.v);o+=c.v.map((a,i)=>'<div class="bar-r"><span>'+E(c.l[i])+'</span><span><i style="width:'+a/m*100+'%"></i></span><span>'+a+(c.u=="%"?"%":"")+'</span></div>').join('')}
+return o+'</div>'}
+function cell(s,j,h){const t=String(s);if(P[t]&&(t.length>1||h))return'<td class="c"><span class="pl '+P[t]+'">'+t+'</span></td>';
+return'<td class="'+(NUM.test(t)&&j>0?'r':'')+'">'+E(t)+'</td>'}
+function draw(i){const r=R[i];location.hash=i;
+document.querySelectorAll('#nav button').forEach((b,k)=>b.setAttribute('aria-current',k==i));
+document.getElementById('fl').innerHTML=r.f.map(x=>'<span>'+E(x)+'</span>').join('');
+let o='<div class="hd"><div class="lg"><i>S</i><div><b>Sunrise School</b><br><small>Institution report · '+E(r.g)+'</small></div></div><div class="gen">Generated 24 Oct 2026<br>by [User name], Institution Owner</div></div><h1>'+E(r.t)+'</h1><p class="ds">'+E(r.d)+'</p>';
+if(r.m)o+='<div class="mt">'+r.m.map(a=>'<div><span>'+E(a[0])+'</span><br><b>'+E(a[1])+'</b></div>').join('')+'</div>';
+o+='<div class="kp">'+r.k.map(a=>'<div><small>'+E(a[0])+'</small><b>'+E(a[1])+'</b><small>'+E(a[2])+'</small></div>').join('')+'</div>';
+if(r.c)o+=chart(r.c);
+o+='<div class="tw"><table><thead><tr>'+r.h.map((a,j)=>'<th'+(j>0&&NUM.test(r.r[0][j])?' class="r"':'')+'>'+E(a)+'</th>').join('')+'</tr></thead><tbody>'+r.r.map(w=>'<tr>'+w.map((a,j)=>cell(a,j,r.t=="Attendance register")).join('')+'</tr>').join('')+(r.tot?'<tr class="t">'+r.tot.map((a,j)=>'<td'+(j>0&&NUM.test(a)?' class="r"':'')+'>'+E(a)+'</td>').join('')+'</tr>':'')+'</tbody></table></div>';
+if(r.n)o+='<p class="nt">'+E(r.n)+'</p>';
+if(r.sg)o+='<div class="sg">'+r.sg.map(a=>'<div>'+E(a)+'</div>').join('')+'</div>';
+o+='<div class="ft"><span>Sunrise School · Powered by ILMA</span><span>Confidential. For school use only.</span></div>';
+document.getElementById('pp').innerHTML=o}
+let g="",nav=document.getElementById('nav');
+R.forEach((r,i)=>{if(r.g!=g){g=r.g;nav.insertAdjacentHTML('beforeend','<div class="gp">'+g+'</div>')}
+const b=document.createElement('button');b.textContent=r.t;b.onclick=()=>draw(i);nav.appendChild(b)});
+draw(+location.hash.slice(1)||0);
+</script></body></html>
